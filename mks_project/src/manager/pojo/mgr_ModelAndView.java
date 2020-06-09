@@ -16,7 +16,7 @@ public class mgr_ModelAndView {
 		this.req=req;
 		this.res=res;
 	}
-	public void setViewName(String viewName) {
+	public void setViewName(String viewName) { 
 		this.viewName =viewName;
 	}
 	public String getViewName() {
@@ -25,19 +25,21 @@ public class mgr_ModelAndView {
 	public void addObject(String name,Object obj) {	//forward할 데이터를 저장함. 
 		req.setAttribute(name, obj);
 	}
-	public void cudResult(int reuslt) {	//UPDATE / INSERT / DELETE 한후 return 받은 result값을 넣어주세요.
+	public void cudResult(int result) {	//UPDATE / INSERT / DELETE 한후 return 받은 result값을 넣어주세요. 
+										//CUD 일때는 이거만 실행하면 됩니다.
 		this.result=result;
+		System.out.println(result);
 		isForward = false;
 		if(result==1) {
-			viewName="success";
-		}else if(result==0) {
-			viewName="fail";
+			viewName="/success";	    //성공 이라는 텍스트만 들어있는 페이지 
+		}else if(result==0) { 
+			viewName="/fail";		//실패 이라는 텍스트만 들어있는 페이지
 		}
 	}
-	public void IsForward(boolean isForward) {
+	public void IsForward(boolean isForward) { // forward면 true redirect면 false
 		this.isForward=isForward;
 	}
-	public boolean getIsForward() {
+	public boolean getIsForward() { // forward인지 가져옴
 		return isForward;
 	}
 }

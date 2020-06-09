@@ -17,12 +17,8 @@ public class mgr_LoginController implements mgr_Controller {
 		mgr_ModelAndView mav = new mgr_ModelAndView();
 		if("login".equals(requestName)) { //로그인 요청을 보냇을때 처리 쿠키와 세션도 저장해 주세요 ~~
 			int result=0;//받아온값
-			mav.addObject("저장할 값이름", "");
 			
-			mav.cudResult(result);
-			
-			mav.IsForward(true);
-			mav.setViewName("/login/login");
+			mav.cudResult(1);
 			
 			
 		}
