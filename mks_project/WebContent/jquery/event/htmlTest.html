@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>hover이벤트</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style type="text/css">
+	.revers{
+		background: black;
+		color: white;
+	}
+	
+</style>
+</head>
+<body>
+<h1>apple</h1>
+<h1>hello</h1>
+<h1>안녕</h1>
+<script type="text/javascript">
+	//DOM구성이 완료 되었을때
+	$(document).ready(function(){
+		//이벤트 연결
+		$('h1').on('click',function(){
+			$(this).html(function(index,html){
+				return html+'&';
+			});
+		});
+		$('h1').on({
+			mouseenter: function(){$(this).addClass('revers');}
+			,mouseleave: function(){$(this).removeClass('revers');}
+		});
+		
+	});
+</script>
+</body>
+</html>
