@@ -35,11 +35,11 @@ public class manager extends HttpServlet {
 			mgr_Mav=controller.mgrProcess(req, res);
 			
 			if(mgr_Mav.getIsForward()) {
-				String path = contextPath+"/WEB-INF/manager/"+mgr_Mav.getViewName()+".jsp";
+				String path = "/WEB-INF/manager"+mgr_Mav.getViewName()+".jsp";
 				RequestDispatcher view = req.getRequestDispatcher(path);
 				view.forward(req, res);
 			}else if(!mgr_Mav.getIsForward()) {
-				String path = contextPath+"/manager/"+mgr_Mav.getViewName()+".jsp";
+				String path = contextPath+"/manager"+mgr_Mav.getViewName()+".jsp";
 				res.sendRedirect(path);
 			}
 			

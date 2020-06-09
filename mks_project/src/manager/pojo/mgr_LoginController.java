@@ -16,6 +16,7 @@ public class mgr_LoginController implements mgr_Controller {
 			throws IOException, ServletException {
 		mgr_ModelAndView mav = new mgr_ModelAndView();
 		if("login".equals(requestName)) { //로그인 요청을 보냇을때 처리 쿠키와 세션도 저장해 주세요 ~~
+			mav.IsForward(true);
 			mav.setViewName("/login/login");
 			
 		}
