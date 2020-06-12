@@ -20,6 +20,6 @@ public class mgr_LoginDao {
 	public void login() {
 		List<Map<String, Object>> list = null;
 		list = sqlSes.selectList("te",null);
-		logger.info(list);
+		logger.info(list); 
 	}
 }
