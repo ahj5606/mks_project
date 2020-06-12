@@ -19,5 +19,11 @@
 		$("#hp_list").bootstrapTable({ data: data });
 		$("#hp_list").bootstrapTable('hideLoading');
 	};
-	
-	
+	function test(){
+		$.ajax({
+			url:'/login/login.mgr'
+			,success:function(data){
+				alert("호출성공");
+			}
+		})
+	}
