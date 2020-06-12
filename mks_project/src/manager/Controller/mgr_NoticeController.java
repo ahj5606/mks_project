@@ -1,10 +1,12 @@
-package manager.pojo;
+package manager.Controller;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import manager.pojo.mgr_ModelAndView;
 
 public class mgr_NoticeController implements mgr_Controller {
 	String requestName= null;

@@ -1,4 +1,4 @@
-package manager.pojo;
+package manager.Controller;
 
 public class mgr_ControllerMapper {
 

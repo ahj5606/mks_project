@@ -2,9 +2,6 @@
 	StringBuilder path = new StringBuilder(request.getContextPath());
 	path.append("/");
 %>
-
-
-
 <link rel="stylesheet" href="<%=path %>css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=path %>css/bootstrap-grid.css">
 <link rel="stylesheet" href="<%=path %>css/bootstrap-reboot.css">

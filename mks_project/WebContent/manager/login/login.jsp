@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%@include file="../../common/bootStrap4UI.jsp" %>
+<%@include file="../../common/ManagerCommon.jsp" %>
 <script type="text/javascript">
 	function test(){
 		$.ajax({

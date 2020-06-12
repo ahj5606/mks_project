@@ -1,4 +1,4 @@
-package manager.pojo;
+package manager.Controller;
 
 import java.io.IOException;
 
@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+
+import manager.pojo.mgr_ModelAndView;
 
 public class mgr_WatingController implements mgr_Controller {
 	Logger logger =Logger.getLogger(mgr_WatingController.class);

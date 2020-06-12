@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import manager.Controller.mgr_Controller;
+import manager.Controller.mgr_ControllerMapper;
+
 public class manager extends HttpServlet {
 	Logger logger = Logger.getLogger(manager.class);
 	//단위테스트를 위해 GET과 POST방식으로 들어오는 것을 Service메소드로 실행할꺼임.
