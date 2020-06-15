@@ -67,7 +67,7 @@
 		          	 	 <a class="nav-link " href="#" style="font-size:large;">회원가입</a>
 		         	 </li>
 		         	 <li class="nav-item">
-		          		  <a class="nav-link" href="./main.jsp" style="font-size:large;">로그인</a>
+		          		  <a class="nav-link" href="/mks_project/client/login/main.jsp" style="font-size:large;">로그인</a>
 		          	 </li>
 		        </ul>
 			</div>
@@ -82,7 +82,7 @@
 		          	 	 <a class="nav-link " href="#" style="font-size:large;">내정보</a>
 		         	 </li>
 		         	 <li class="nav-item">
-		          		  <a class="nav-link" href="./logout.jsp" style="font-size:large;">로그아웃</a>
+		          		  <a class="nav-link" href="/mks_project/client/login/logout.jsp" style="font-size:large;">로그아웃</a>
 		          	 </li>
 		        </ul>
 			</div>
@@ -92,7 +92,7 @@
 	<!-- 상단 메뉴 -->
     <nav class="navbar navbar-expand-md navbar-light" style="background-color: #007bff;">
     <div class="container">
-		<a class="navbar-brand" href="#" style="margin-right:100px">KSM 코스모 메디컬</a>
+		<a class="navbar-brand" href="/mks_project/client/login/main.jsp" style="margin-right:100px">KSM 코스모 메디컬</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" 
 							aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -104,13 +104,13 @@
 					<a class="nav-link dropdown-toggle" style="width:150px;" href="#" id="dropdown04" data-toggle="dropdown" 
 														aria-haspopup="true" aria-expanded="false">이용안내</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
-						<a class="dropdown-item" href="../info/citeIntro.jsp">사이트 소개</a>
-						<a class="dropdown-item" href="../info/nonmemServiceIntro.jsp">비회원 서비스</a>
-						<a class="dropdown-item" href="../info/memServiceIntro.jsp">회원 서비스</a>
+						<a class="dropdown-item" href="/mks_project/client/info/citeIntro.jsp">사이트 소개</a>
+						<a class="dropdown-item" href="/mks_project/client/info/info/nonmemServiceIntro.jsp">비회원 서비스</a>
+						<a class="dropdown-item" href="/mks_project/client/info/info/memServiceIntro.jsp">회원 서비스</a>
 					</div>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="../hospital/hospitalList.jsp" style="width:150px;">제휴병원</a>
+					<a class="nav-link" href="/mks_project/client/hospital/hospitalList.jsp" style="width:150px;">제휴병원</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link " href="#" style="width:150px;">건강정보</a>
