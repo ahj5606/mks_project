@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
-<%@include file="../../common/ManagerCommon.jsp" %>
 </head>
 <body>
 	<div class="container-fluid" id="sidebar">
