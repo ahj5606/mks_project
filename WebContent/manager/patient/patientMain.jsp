@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
- <script src="jquery.twbsPagination.js" type="text/javascript"></script>
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
@@ -24,10 +23,10 @@
 			      	<table id="p_List" class="table table-sm">
 					  <thead>
 					    <tr>
-						  <th scope="col" data-field="subject">환자번호</th> 	
-						  <th scope="col" data-field="name">환자이름</th> 
-						  <th scope="col" data-field="number">주민등록번호</th>
-						  <th scope="col" data-field="number">전화번호</th>
+						  <th scope="col" data-field="MEM_MEMCODE">환자번호</th> 	
+						  <th scope="col" data-field="MEM_NAME">환자이름</th> 
+						  <th scope="col" data-field="MEM_SOCIALNUM">주민등록번호</th>
+						  <th scope="col" data-field="MEM_PHONE">전화번호</th>
 					    </tr>
 					  </thead>
 					</table>
@@ -43,5 +42,25 @@
 	        </div>
 	    </div>
 	</div>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			url:'./patientList.mgr?hp_code=280HP'
+			,dataType:'json'
+			,success:function(data){
+				alert(data);
+				var pdata = JSON.stringify(data);
+				var result = JSON.parse(pdata);
+				$("#p_List").bootstrapTable({ data: data });
+				$("#p_List").bootstrapTable('hideLoading');
+			}
+			,error:function(request,status,error){
+				 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+			
+		})
+	})
+		
+	</script>
 </body>
 </html>

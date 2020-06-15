@@ -1,5 +1,6 @@
 package manager.Dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,8 +17,10 @@ public class mgr_PatientDao {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}
-	public void patientList(Map<String, Object> pMap) {
-		
+	public List<Map<String,Object>> patientList(Map<String, Object> pMap) {
+		List<Map<String,Object>> pList = null;
+		pList=sqlSes.selectList("patientList",pMap);
+		return pList;
 	}
 
 }

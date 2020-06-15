@@ -6,7 +6,7 @@
    			FROM MKS_MEMBER mem , MKS_HISTORY his
    		WHERE mem.mem_memcode = his.mem_memcode 
    		<if test="hp_code!=null">
-	   		AND his.hp_code='280HP'
+	   		AND his.hp_code=#{hp_code}
    		</if>
 	</select>
 </mapper>

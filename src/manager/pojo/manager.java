@@ -27,7 +27,7 @@ public class manager extends HttpServlet {
 		String commands[] = imsi.split("/");
 		mgr_Controller controller = null;
 		
-		if(commands.length==2) {
+		if(commands.length==3) {
 			controller = mgr_ControllerMapper.getController(commands);
 			logger.info(controller);
 			
