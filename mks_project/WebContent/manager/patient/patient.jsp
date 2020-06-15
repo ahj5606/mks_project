@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
 </head>
-<body>
+<body>  
 	<div class="container-fluid" id="sidebar">
 	    <div class="row">
 	        <div class="col-sm-2">
