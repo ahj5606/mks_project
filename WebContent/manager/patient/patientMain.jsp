@@ -21,7 +21,7 @@
 			      	<div class="float-right">
 			      	<button type="button" class="btn btn-outline-success">환자추가</button>
 			      	</div>
-			      	<table id="hp_list" class="table table-sm">
+			      	<table id="p_List" class="table table-sm">
 					  <thead>
 					    <tr>
 						  <th scope="col" data-field="subject">환자번호</th> 	
