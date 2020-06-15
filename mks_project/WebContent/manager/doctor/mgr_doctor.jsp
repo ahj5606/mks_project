@@ -80,7 +80,7 @@
 	    <li class="page-item"><a class="page-link" href="#">1</a></li>
 	    <li class="page-item"><a class="page-link" href="#">2</a></li>
 	    
-	    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+	    
 	  </ul>
 	</div>
 <!-- 리스트 처리 끝  -->
