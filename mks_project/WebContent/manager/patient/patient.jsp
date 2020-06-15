@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
+ <script src="jquery.twbsPagination.js" type="text/javascript"></script>
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
@@ -31,9 +32,13 @@
 					  </thead>
 					</table>
 			      </div>
-			      <div class="tab-pane fade" id="list-write" role="tabpanel" aria-labelledby="list-write-list">
-			     		 글쓰기 폼
-			      </div>
+			      <!--  -->
+						<table>
+							<tr>
+								<td></td>
+							</tr>
+						</table>
+			      <!--  -->
 			     </div>
 	        </div>
 	    </div>
