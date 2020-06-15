@@ -1,0 +1,7 @@
+[
+			 { "reservedate": "2020-06-01", "dept": "안과", "pname": "김씨","number": "123", "doctor": "김의사" },
+			 { "reservedate": "2020-06-02", "dept": "내과", "pname": "박씨","number": "456", "doctor": "박의사" },
+			 { "reservedate": "2020-06-03", "dept": "외과", "pname": "이씨","number": "789", "doctor": "김의사" },
+			 { "reservedate": "2020-06-04", "dept": "정신과", "pname": "정씨","number": "1111", "doctor": "정의사" },
+			 { "reservedate": "2020-06-05", "dept": "어쩌구과", "pname": "송씨","number": "222", "doctor": "박의사" }
+]
