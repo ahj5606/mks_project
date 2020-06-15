@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('h1').css({
+			background:'orange',
+			color:'blue'
+		});
+		
+		$('h2.h2_a').css({
+			background:'green',
+			color:'yellow'
+		});
+		$('h3#h3_a').css({
+			background:'red',
+			color:'black'
+		});
+	});
+</script>
+	<h1>item - 0</h1>
+	<h1>item - 1</h1>
+	<h1>item - 2</h1>
+	<h1>item - 3</h1>
+	<h1>item - 4</h1>
+	<h2 class="h2_a">h2 -class</h2>
+	<h2 class="h2_a">h2 -class</h2>
+	<h2 class="h2_a">h2 -class</h2>
+	<h2>h2 no class</h2>
+	<h2>h2 no class</h2>
+	<h3 id="h3_a"> h3-id</h3>
+	<h3> h3 no id</h3>
+</body>
+</html>

@@ -11,3 +11,4 @@
 <script src="<%=path %>js/bootstrap.min.js"></script>
 <script src="<%=path %>js/dist/bootstrap-table.min.js"></script>
 <script src="<%=path %>js/manager.js"></script>
+<script src="<%=path %>js/reserve.js"></script>

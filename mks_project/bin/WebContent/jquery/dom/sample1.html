@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ready demo</title>
+  <style>
+  p {
+    color: pink;
+  }
+  div {
+    color: blue;
+  }
+  div#div_a > h1{
+  	color: red;
+  }
+  div#div_a{
+  	color :green;
+  }
+  
+  </style>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script><!-- jqurey -> $ 를 사용하기위해 api import -->
+  <script>
+ 
+  $(function() {
+    $( "p" ).text( "The DOM is now loaded and can be manipulated." );
+  });
+  $(function() {
+   // $( "div" ).text( "The DOM is now loaded and can be manipulated." );
+  });
+ 
+  </script>
+ 
+</head>
+<body>
+ 
+<div>Not loaded yet.</div>
+<p>Not loaded yet.</p>
+ <div id ="div_a">
+ 	<h1>안녕</h1>
+ 	<h2>안녕2</h2>
+ </div>
+ 
+</body>
+</html>

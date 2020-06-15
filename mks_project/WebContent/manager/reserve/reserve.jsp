@@ -11,30 +11,12 @@
 		hDept = "원무과";
 	}
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>병원관리</title>
-<style type="text/css">
-#sidebar {
-	margin-top: 100px;
-	margin-left: 30px;
-}
-.my-custom-scrollbar {
-position: relative;
-height: 200px;
-overflow: auto;
-}
-.table-wrapper-scroll-y {
-display: block;
-}
-</style>
+<script type="text/javascript">
+window.onload = function () {
+	kCalendar('kCalendar');
+};
+</script>
 
-<%@ include file="../common/bootStrap4UI.jsp"%>
-</head>
-<body>
-	<%@ include file="./manager_navbar.jsp"%>
 	<!-- 리스트 처리 시작  -->
 
 	<div class="container-fluid" id="sidebar">
@@ -56,14 +38,19 @@ display: block;
 				<div class="row">
 					
 				<div class="col-md-2">
-						<%@ include file="./cal2st.jsp"%>
+				<div id="kCalendar"></div>
+					<%-- <%@ include file="./cal2st.jsp"%> --%>
 						<br>
 						 <div class="col-xs-1">
-	   						   <input type="date" class="form-control" placeholder="date input">
+						 		<label>시작날짜</label>
+	   						   <input type="date" id="startDate" class="form-control" placeholder="date input">
+						 		<label>종료날짜</label>
+	   						   <input type="date" id="endDate" class="form-control" placeholder="date input">
       					</div>
       					<br>
       					<div class="col-xs-1">
-	   					<input type="search" class="form-control" placeholder="search input">
+	   					<input type="search" id="docSearch" class="form-control" placeholder="담당의 검색">
+	   					<input type="search" id="patiSearch" class="form-control" placeholder="환자검색">
       					</div>
       					<br>
       					<button onClick="find()">검색</button>
@@ -87,8 +74,8 @@ display: block;
 										</tr>
 									</thead>
 								</table>
-								<button onClick="reserve()">json으로 데이터</button>
 							</div>
+								<button onClick="reserve()">json으로 데이터</button>
 							</div>
 							<div class="tab-pane fade" id="list-write" role="tabpanel"
 								aria-labelledby="list-write-list">글쓰기 폼</div>
@@ -99,7 +86,3 @@ display: block;
 	</div>
 
 	<!-- 리스트 처리 끝  -->
-
-
-</body>
-</html>
