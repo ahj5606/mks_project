@@ -9,4 +9,9 @@
 	   		AND his.hp_code=#{hp_code}
    		</if>
 	</select>
+	<select id="noticeSEL" parameterType="map" resultType="map">
+		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name
+		 FROM mks_board b, mks_online o
+		 WHERE b.mks_id = o.mks_id
+	</select>
 </mapper>
