@@ -6,7 +6,7 @@ public class PageBar {
    //페이지당 레코드 수
    private int numPerPage;
    //블럭당 디폴트 페이지 수 - 여기서는 일단 2개로 정함.
-   private int pagePerBlock=2;
+   private int pagePerBlock=5;
    //총페이지 수
    private int totalPage;
    //총블럭 수
