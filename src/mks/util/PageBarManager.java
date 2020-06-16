@@ -34,7 +34,7 @@ public class PageBarManager {
    //setter메소드 선언
    public void setPageBar() {
       StringBuilder pageLink = new StringBuilder();
-      pageLink.append("<div>");
+      pageLink.append("<div class='text-center'>");
       //전체 레코드 수가 0보다 클때 처리하기			내 페이지에는 링크를 걸지 않는다.
       if(totalRecord>0) {	
          //nowBlock이 0보다 클때 처리
@@ -53,7 +53,7 @@ public class PageBarManager {
             //그렇지 않을 때를 나누어 처리해야 함.
             else {
             	String href = pagePath+"&nowPage="+((nowBlock*pagePerBlock)+i);
-            	pageLink.append("<a href='"+pagePath+"&nowPage="+((nowBlock*pagePerBlock)+i)+"'><button  type='button' class='page-number btn btn-outline-success'>"+((nowBlock*pagePerBlock)+i+1)+"</button></a>&nbsp;");
+            	pageLink.append("<a href='"+pagePath+"&nowPage="+((nowBlock*pagePerBlock)+i)+"'><button  type='button' class='page-number btn btn-outline-success'>"+((nowBlock*pagePerBlock)+i+1)+"</button></a>");
                
             }
             //모든 경우에 pagePerBlock만큼 반복되지 않으므로 break처리해야 함.
