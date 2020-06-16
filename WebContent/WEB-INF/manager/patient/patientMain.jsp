@@ -10,7 +10,12 @@
 	if(pList==null){
 		pList = new ArrayList();
 	}
-	
+	int tot=pList.size();
+	int numPerPage =3;
+	int nowPage =0;
+	if(request.getParameter("nowPage")!=null){
+		nowPage =Integer.parseInt(request.getParameter("nowPage"));
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -44,22 +49,28 @@
 					    <tbody>
 <%
 	for(int i=0;i<pList.size();i++){
-
+		if(i<numPerPage*(nowPage+1) && i>numPerPage*nowPage){
 %>
 	<tr>
-					<td><%=pList.get(i).get("MEM_MEMCODE") %></td>
-					<td><%=pList.get(i).get("MEM_NAME") %></td>
-					<td><%=pList.get(i).get("MEM_SOCIALNUM") %></td>
-					<td><%=pList.get(i).get("MEM_PHONE") %></td>
+					<td><%=pList.get(i).get("MEM_MEMCODE")%></td>
+					<td><%=pList.get(i).get("MEM_NAME")%></td>
+					<td><%=pList.get(i).get("MEM_SOCIALNUM")%></td>
+					<td><%=pList.get(i).get("MEM_PHONE")%></td>
 	</tr>
 <%
+	}
 	}
 %>
 				    </tbody>
 					</table>
 			      </div>
 			      <!--  -->
-			      
+ <%
+ 		String pagePath ="/manager/patient/patientList.mgr?hp_code="+hp_code;
+ 		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
+ 		String pagination = pb.getPageBar();
+ 		out.print(pagination);
+ %>   
 			      <!--  -->
 			     </div>
 	        </div>
