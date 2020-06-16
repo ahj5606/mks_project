@@ -16,5 +16,10 @@ public class mgr_PatientLogic {
 		pList=mgr_pDao.patientList(pMap);
 		return pList;
 	}
+	public List<Map<String, Object>> patientSEL(Map<String, Object> pMap) {
+		List<Map<String,Object>> pList=null;
+		pList=mgr_pDao.patientSEL(pMap);
+		return pList;
+	}
 
 }

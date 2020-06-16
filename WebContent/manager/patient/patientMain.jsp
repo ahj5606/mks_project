@@ -9,14 +9,35 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
+<script type="text/javascript">
+	function p_search() {
+		var p_name = $("#p_name").val();
+		var p_social =$("#p_social").val();
+		$("#remo" ).remove();
+	  $.ajax({
+			 url: './patientSEL.mgr?hp_code=<%=hp_code%>&mem_name='+p_name+"&mem_socialnum="+p_social
+			,dataType:'json'
+			,success:function(data){
+				$("#p_list").bootstrapTable({ data: data });
+				$("#p_list").bootstrapTable('hideLoading');
+				page();
+			}
+			,error:function(request,status,error){
+				 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+			
+		}) 
+	}
+
+</script>
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
 	    <div class="row">
 	        <div class="col-sm-2">
-	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="환자이름" aria-label="patientName" aria-describedby="basic-addon1">
-	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="주민번호" aria-label="patientName" aria-describedby="basic-addon1">
-	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;">환자 검색</button>
+	        	 <input id="p_name" type="text" class="form-control" style="margin-top: 30px;" placeholder="환자이름" aria-label="patientName" aria-describedby="basic-addon1">
+	        	 <input id="p_social" type="text" class="form-control" style="margin-top: 30px;" placeholder="주민번호" aria-label="patientName" aria-describedby="basic-addon1">
+	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onClick="p_search()">환자 검색</button>
 	        </div>
 	        <div class="col-sm-8" id="main">
 	        	 <div class="tab-content" id="nav-tabContent">
@@ -24,7 +45,7 @@
 			      	<div class="float-right">
 			      	<button type="button" class="btn btn-outline-success">환자추가</button>
 			      	</div>
-			      	<table class="tbl paginated" id="tbl">
+			      	<table class="tbl paginated  table-hover" id="p_list">
 					  <thead>
 					    <tr>
 						  <th scope="col" data-field="MEM_MEMCODE">환자번호</th> 	
@@ -48,9 +69,8 @@
 			url:'./patientList.mgr?hp_code='+'<%=hp_code%>'
 			,dataType:'json'
 			,success:function(data){
-				$("#tbl").bootstrapTable({ data: data });
-				$("#tbl").bootstrapTable('hideLoading');
-				
+				$("#p_list").bootstrapTable({ data: data });
+				$("#p_list").bootstrapTable('hideLoading');
 				page();
 			}
 			,error:function(request,status,error){
@@ -64,7 +84,7 @@
 			  $('tbody tr:odd td', $table).removeClass('even').removeClass('listtd').addClass('odd');
 			  $('tbody tr:even td', $table).removeClass('odd').removeClass('listtd').addClass('even');
 			 };
-			 $('#tbl').each(function() {
+			 $('#p_list').each(function() {
 			  var pagesu = 10;  //페이지 번호 갯수
 			  var currentPage = 0;
 			  var numPerPage = 10;  //목록의 수
@@ -111,13 +131,13 @@
 			    endp = numPages;
 			   }
 			   // [처음]
-			   $('<button  type="button" class="page-number btn btn-outline-primary">처음</button>').bind('click', {newPage: page},function(event) {
+			   $('<button  type="button" class="page-number btn btn-outline-success">처음</button>').bind('click', {newPage: page},function(event) {
 			          currentPage = 0;   
 			          $table.trigger('repaginate');  
 			          $($(".page-number")[2]).addClass('active').siblings().removeClass('active');
 			      }).appendTo($pager).addClass('clickable');
 			    // [이전]
-			      $('<button type="button" class="page-number btn btn-outline-primary">이전</button>').bind('click', {newPage: page},function(event) {
+			      $('<button type="button" class="page-number btn btn-outline-success">이전</button>').bind('click', {newPage: page},function(event) {
 			          if(currentPage == 0) return; 
 			          currentPage = currentPage-1;
 			    $table.trigger('repaginate'); 
@@ -125,21 +145,21 @@
 			   }).appendTo($pager).addClass('clickable');
 			    // [1,2,3,4,5,6,7,8]
 			   for (var page = nowp ; page < endp; page++) {
-			    $('<button type="button" class="page-number btn btn-outline-primary"></button>').text(page + 1).bind('click', {newPage: page}, function(event) {
+			    $('<button type="button" class="page-number btn btn-outline-success"></button>').text(page + 1).bind('click', {newPage: page}, function(event) {
 			     currentPage = event.data['newPage'];
 			     $table.trigger('repaginate');
 			     $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
 			     }).appendTo($pager).addClass('clickable');
 			   } 
 			    // [다음]
-			      $('<button type="button" class="page-number btn btn-outline-primary">다음</button>').bind('click', {newPage: page},function(event) {
+			      $('<button type="button" class="page-number btn btn-outline-success">다음</button>').bind('click', {newPage: page},function(event) {
 			    if(currentPage == numPages-1) return;
 			        currentPage = currentPage+1;
 			    $table.trigger('repaginate'); 
 			     $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
 			   }).appendTo($pager).addClass('clickable');
 			    // [끝]
-			   $('<button type="button" class="page-number btn btn-outline-primary">Primary</button>').bind('click', {newPage: page},function(event) {
+			   $('<button type="button" class="page-number btn btn-outline-success">마지막</button>').bind('click', {newPage: page},function(event) {
 			           currentPage = numPages-1;
 			           $table.trigger('repaginate');
 			           $($(".page-number")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
@@ -152,7 +172,7 @@
 			   $pager.appendTo($table);
 			   $table.trigger('repaginate');
 			 });
-	}
+	} 
 	</script>
 </body>
 </html>

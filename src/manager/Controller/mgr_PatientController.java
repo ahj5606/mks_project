@@ -28,17 +28,40 @@ public class mgr_PatientController implements mgr_Controller {
 		if("patientList".equals(requestName)) {
 			String hp_code = req.getParameter("hp_code");
 			logger.info("hp_code :"+hp_code);
+			
 			Map<String,Object> pMap = new HashMap();
 			pMap.put("hp_code", hp_code);
 			List<Map<String,Object>> pList= null;
 			pList=mgr_pLogic.patientList(pMap);
+			
+			
+			
 			mav.addObject("pList", pList);
 			mav.IsForward(true);
 			mav.setViewName("/patient/patient");
-		}else if("patientSEL".equals(requestName)) {
+		}else if("patientSEL".equals(requestName)) {	
+			String hp_code = req.getParameter("hp_code");
+			String mem_name = req.getParameter("mem_name");
+			String mem_socialnum = req.getParameter("mem_socialnum");
+			List<Map<String,Object>> pList = null;
+			Map<String, Object> pMap = new HashMap();
+			if("".equals(req.getParameter("mem_name"))) {
+				mem_name=null;
+			}
+			if("".equals(req.getParameter("mem_socialnum"))) {
+				mem_socialnum=null;
+			}
+				pMap.put("hp_code", hp_code);
+				pMap.put("mem_name", mem_name);
+				pMap.put("mem_socialnum", mem_socialnum);
+				pList = mgr_pLogic.patientSEL(pMap);
+				
 			
 			
 			
+			mav.addObject("pList", pList);
+			mav.IsForward(true);
+			mav.setViewName("/patient/patient");			
 		}else if("patientDetail".equals(requestName)) {
 			
 			
