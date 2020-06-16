@@ -38,7 +38,8 @@ public class mgr_PatientController implements mgr_Controller {
 			
 			mav.addObject("pList", pList);
 			mav.IsForward(true);
-			mav.setViewName("/patient/patient");
+			logger.info(pList);
+			mav.setViewName("/patient/mgr_patient");
 		}else if("patientSEL".equals(requestName)) {	
 			String hp_code = req.getParameter("hp_code");
 			String mem_name = req.getParameter("mem_name");
