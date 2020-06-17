@@ -3,6 +3,17 @@
 <%
 	String mem_code = request.getParameter("mem_code");
 
+	String DOC_NAME = request.getParameter("DOC_NAME");
+	String DEPT_NAME = request.getParameter("DEPT_NAME");
+	String DEPT_CODE = request.getParameter("DEPT_CODE");
+	String DOC_CODE = request.getParameter("DOC_CODE");
+	if(DOC_NAME==null || DEPT_NAME==null || DEPT_CODE==null || DOC_CODE==null){
+		DOC_NAME="";
+		DEPT_NAME ="";
+		DEPT_CODE ="";
+		DOC_CODE  ="";
+	}
+
 %>
 <!DOCTYPE html>
 <html>
@@ -30,6 +41,18 @@
 <h2>환자추가</h2>
 </div>
 <div style="margin-top:30px;margin-bottom:10px;margin-right:10px; margin-left:30px;width:1200px;">
+	<div class="row" style="margin-bottom:30px;">
+		<div class="col-md-9">
+		    <label>진료환자검색</label>
+		    <div class="input-group mb-9">
+			  <input type="text" class="form-control" placeholder="이름"  aria-describedby="basic-addon2">
+			  <input type="text" class="form-control" placeholder="주민번호"  aria-describedby="basic-addon2">
+			  <div class="input-group-append">
+			    <button class="btn btn-outline-primary" type="button">검색</button>
+			  </div>
+			</div>
+	    </div>
+	   </div>
 	<form id="notice_write_form">
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-4">
@@ -48,7 +71,7 @@
 	    </div>
 		<div class="col-md-6">
 		    <label>전화번호</label>
-		    <input id="notice_writer" type="text" class="form-control" placeholder="전화번호">
+		    <input id="notice_writer" type="text" class="form-control" placeholder="전화번호" >
 	   </div>
 	 </div>
 	  <div class="row" style="margin-bottom:30px;">
@@ -60,8 +83,8 @@
 	 
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-12">
-		    <label>진료내역</label>
-		    <input id="notice_title" type="text" class="form-control" placeholder="진료내역 입력" style="height:200px;">
+		    <label>접수내역</label>
+		    <input id="notice_title" type="text" class="form-control" placeholder="접수내역 입력" style="height:200px;">
 	    </div>
 	 </div>
 	 

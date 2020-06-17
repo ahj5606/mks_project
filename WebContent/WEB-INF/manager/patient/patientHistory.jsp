@@ -68,6 +68,7 @@
 		<div class="col-md-12">
 		    <label>지난진료내역</label>
 		    	<div class="float-right">
+			      		<button type="button" class="btn btn-outline-success" onClick="pai_add()">진료내역추가</button>
 			      	</div>
 		    <table class="table table-hover" id="p_list" data-page-size="10">
 		    		<thead class="thead-dark">

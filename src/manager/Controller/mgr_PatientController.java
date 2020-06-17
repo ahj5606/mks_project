@@ -77,20 +77,28 @@ public class mgr_PatientController implements mgr_Controller {
 			mav.setViewName("/patient/mgr_patientDetail");
 			
 		}else if("patientINS".equals(requestName)) {
-			//
 			
 			
 			
 		}else if("patientUPD".equals(requestName)) {
 			
 			
-			
-			
-			
 		}else if("patientDEL".equals(requestName)) {
 			
 			
+		}else if("patientDoctor".equals(requestName)) {
+			String hp_code ="280HP";			
+			String dept_code ="58";
+			List<Map<String,Object>> pList = null;
+			Map<String, Object> pMap = new HashMap();
+			pMap.put("hp_code", hp_code);
+			pMap.put("dept_code", dept_code);
+			pList = mgr_pLogic.patientDoctor(pMap);
 			
+			
+			mav.addObject("pList", pList);
+			mav.IsForward(true);
+			mav.setViewName("/patient/mgr_patientDoctor");
 			
 			
 		}
