@@ -113,7 +113,7 @@
 		}
 	
 		function pai_add(){
-				location.href="/manager/patient/patientDoctor.mgr";
+				location.href="/manager/paitient/mgr_patientWrite.jsp";
 		}
 </script>
 </body>

@@ -34,16 +34,19 @@ public class mgr_PatientController implements mgr_Controller {
 			List<Map<String,Object>> pList= null;
 			pList=mgr_pLogic.patientList(pMap);
 			
-			
-			
 			mav.addObject("pList", pList);
 			mav.IsForward(true);
 			logger.info(pList);
 			mav.setViewName("/patient/mgr_patient");
 		}else if("patientSEL".equals(requestName)) {	
-			String hp_code = req.getParameter("hp_code");
+			String hp_code ="280HP";
+			
+			
 			String mem_name = req.getParameter("mem_name");
 			String mem_socialnum = req.getParameter("mem_socialnum");
+			
+			
+			
 			List<Map<String,Object>> pList = null;
 			Map<String, Object> pMap = new HashMap();
 			if("".equals(req.getParameter("mem_name"))) {
@@ -62,7 +65,11 @@ public class mgr_PatientController implements mgr_Controller {
 			
 			mav.addObject("pList", pList);
 			mav.IsForward(true);
-			mav.setViewName("/patient/mgr_patient");			
+			if(req.getParameter("isJSON")!=null) {
+				mav.setViewName("/patient/patient");
+			}else {
+				mav.setViewName("/patient/mgr_patient");	
+			}
 		}else if("patientDetail".equals(requestName)) {
 			String mem_code = req.getParameter("mem_code");
 			String hp_code = req.getParameter("hp_code");
@@ -94,11 +101,9 @@ public class mgr_PatientController implements mgr_Controller {
 			pMap.put("hp_code", hp_code);
 			pMap.put("dept_code", dept_code);
 			pList = mgr_pLogic.patientDoctor(pMap);
-			
-			
 			mav.addObject("pList", pList);
 			mav.IsForward(true);
-			mav.setViewName("/patient/mgr_patientDoctor");
+			mav.setViewName("/patient/patient");
 			
 			
 		}

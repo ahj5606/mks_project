@@ -43,14 +43,92 @@
 <div style="margin-top:30px;margin-bottom:10px;margin-right:10px; margin-left:30px;width:1200px;">
 	<div class="row" style="margin-bottom:30px;">
 		<div class="col-md-9">
-		    <label>진료환자검색</label>
-		    <div class="input-group mb-9">
-			  <input type="text" class="form-control" placeholder="이름"  aria-describedby="basic-addon2">
-			  <input type="text" class="form-control" placeholder="주민번호"  aria-describedby="basic-addon2">
-			  <div class="input-group-append">
-			    <button class="btn btn-outline-primary" type="button">검색</button>
-			  </div>
-			</div>
+
+			
+			
+			
+			
+			
+			<!--  -->
+			<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#patientSearch">
+					환자 검색
+				</button>
+				<div class="modal fade" id="patientSearch" tabindex="-1" role="dialog" aria-hidden="true">
+				  <div class="modal-dialog modal-lg" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="Search">환자 검색</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				      <div>
+				      <div class='text-center'>
+							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="p_search()">기록 환자 검색</button>
+					 </div>
+					 <br>
+				      <table class="table table-hover" id="p_list" data-page-size="10" data-search="true">
+						<thead>
+						 	<tr>
+							  <th scope="col" data-field="MEM_MEMCODE">환자번호</th> 	
+							  <th scope="col" data-field="MEM_NAME">환자이름</th> 
+							  <th scope="col" data-field="MEM_SOCIALNUM">주민등록번호</th>
+							  <th scope="col" data-field="MEM_PHONE">전화번호</th>
+				  			</tr>
+						</thead>
+					 </table>
+				      </div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>			
+			<!--  -->
+			<!-- 담당자 검색 -->
+			<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#doctorSearch">
+					담당자 검색
+				</button>
+				<div class="modal fade" id="doctorSearch" tabindex="-1" role="dialog" aria-hidden="true">
+				  <div class="modal-dialog modal-lg" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="Search">담당자 검색</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				      <div>
+				      <div class='text-center'>
+							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="d_search()">담당자 검색</button>
+					</div>
+					<br>
+				      <table class="table table-hover" id="d_list" data-page-size="10" data-search="true">
+						<thead>
+						 	<tr>
+					 			 <th scope="col" data-field="DOC_NAME">담당자 이름</th> 	
+								 <th scope="col" data-field="DEPT_NAME">부서 이름</th> 
+								 <th scope="col" data-field="DEPT_CODE" data-visible="false">부서 코드</th>
+								 <th scope="col" data-field="DOC_CODE" data-visible="false">담당자 코드</th>
+				  			</tr>
+						</thead>
+					 </table>
+				      </div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>	
+
+
+			<!-- 담당자 검색 -->
+			
+			
 	    </div>
 	   </div>
 	<form id="notice_write_form">
@@ -122,5 +200,43 @@
 	 </div>
 	  </div>
 </div>
+<script type="text/javascript">
+	function p_search(){
+		$.ajax({
+			url:'/manager/patient/patientSEL.mgr?mem_name=&mem_socialnum=&isJSON=true'
+			,dataType:'json'
+			,success:function(data){
+				$("#p_list").bootstrapTable({ data: data });
+				$("#p_list").bootstrapTable('hideLoading');
+				
+			}
+		})
+		
+	/* $table.bootstrapTable('refreshOptions', {
+        showColumns: true,
+        search: true,
+        showRefresh: true,
+        url: 'json/data1.json'
+      }) */
+	}
+	function d_search(){
+		$.ajax({
+			url:'/manager/patient/patientDoctor.mgr'
+			,dataType:'json'
+			,success:function(data){
+				$("#d_list").bootstrapTable({ data: data });
+				$("#d_list").bootstrapTable('hideLoading');
+				
+			}
+			
+		})
+		
+	}
+	
+
+
+
+
+</script>
 </body>
 </html>

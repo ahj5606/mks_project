@@ -65,7 +65,6 @@
      SELECT DOC_CODE,DOC_NAME,DEPT_NAME,DEPT_CODE 
          FROM MKS_DOCTOR 
          WHERE HP_CODE=#{hp_code}
-        
 	</select>
 	
 </mapper>

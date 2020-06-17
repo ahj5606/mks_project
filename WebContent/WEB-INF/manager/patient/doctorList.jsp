@@ -59,7 +59,6 @@
 					var DEPT_CODE = d.DEPT_CODE;
 					var DOC_CODE = d.DOC_CODE;
 					alert(DOC_NAME);
-					location.href="/manager/patient/mgr_patientNewPatient.jsp?DOC_NAME="+DOC_NAME+"&DEPT_NAME="+DEPT_NAME+"&DEPT_CODE="+DEPT_CODE+"&DOC_CODE="+DOC_CODE;
 					
 			     }
 			});		
