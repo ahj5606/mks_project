@@ -44,9 +44,8 @@
 						<label>종료날짜</label>
 							<input type="date" id="endDate" class="form-control"
 							placeholder="date input">
-						<button onclick="selectSDate()">체크</button>
+						<button class="btn" onclick="selectSDate()"value="sdate">시작날짜 체크</button>
 					<br>
-					
 						<input type="search" id="docSearch" class="form-control"
 							placeholder="담당의 검색">
 						<input type="search" id="patiSearch" class="form-control"
@@ -54,7 +53,7 @@
 					</div>
 					<br>
 					<div class="col text-center">
-						<button onClick="find()">검색</button>
+						<button onClick="resSearch()">검색</button>
 					</div>
 				</div>
 				<div class="span5">

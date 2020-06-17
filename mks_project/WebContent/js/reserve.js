@@ -97,9 +97,19 @@
 	kCalendar.innerHTML = calendar;
 	} 
 	function selectSDate(data) {
-		  var sdate = document.getElementById('startDate');
-		  alert("시작날짜"+sdate.toString);
+		  var sdate = document.getElementById('startDate').value;
+		  var edate = document.getElementById('endDate').value;
+		  alert("시작날짜"+sdate);
+		  alert("종료날짜"+edate);
 		}
+	function resSearch(data) {
+	    var sdate = document.getElementById('startDate').value;
+	    var edate = document.getElementById('endDate').value;
+		var dSearch = document.getElementById('docSearch').value;
+		var pSearch = document.getElementById('patiSearch').value;
+		alert("시작날짜:"+sdate+" | 종료날짜:"+edate);
+		alert("의사 "+dSearch+" | 환자 "+pSearch);
+	}
 	function openPop(date){
 	 		alert(date);
 	 		alert(date);
