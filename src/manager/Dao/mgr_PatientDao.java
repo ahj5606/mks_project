@@ -27,5 +27,10 @@ public class mgr_PatientDao {
 		pList=sqlSes.selectList("patientSEL",pMap);
 		return pList;
 	}
+	public List<Map<String, Object>> patientDetail(Map<String, Object> pMap) {
+		List<Map<String,Object>> pList = null;
+		pList=sqlSes.selectList("patientDetail",pMap);
+		return pList;
+	}
 
 }

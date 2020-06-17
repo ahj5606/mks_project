@@ -28,7 +28,22 @@
    		GROUP BY mem.mem_memcode
    		ORDER BY mem.mem_memcode
 	</select>
-	
+
+	<select id="patientDetail" parameterType="map" resultType="map">
+      SELECT mem.mem_name mem_name , mem.mem_memcode mem_memcode, mem.mem_socialnum
+		 mem_socialnum,mem.mem_phone mem_phone , his.his_date his_date , HIS.HIS_CONTENT his_content , mem.mem_address mem_address
+		 , HIS.DOC_NAME doc_name ,HIS.DEPT_NAME dept_name
+		FROM MKS_MEMBER mem , MKS_HISTORY his
+		WHERE mem.mem_memcode = his.mem_memcode 
+		<if test="hp_code!=null">
+			AND his.hp_code=#{hp_code}
+		 </if>
+		 <if test="mem_code!=null">
+			 AND mem.mem_memcode=#{mem_code}
+		 </if>
+		 ORDER BY mem.mem_memcode
+	</select>
+
 	<select id="noticeSEL" parameterType="map" resultType="map">
 		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name
 		 FROM mks_board b, mks_online o
