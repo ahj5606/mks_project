@@ -24,9 +24,6 @@
 	.container{
 		padding:5px;
 	}
-	input.form-control.mr-2{
-		width:610px;
-	}
 	h5.card-header a, h6.card-header, .card-body{
 		color:#353535;
 	}
@@ -44,6 +41,37 @@
 	function sample7(){
 		document.getElementById("sample1").value = "검색완료";
 	}
+	function res_pageGet(num){
+		$.ajax({
+			url:"/mks_project/client/login/jsonMyReservList.jsp?num="+num
+			,success:function(data){
+				var imsi = data.trim();
+				alert(imsi);
+				var res = JSON.parse(imsi);
+				var inner = "";
+				for(var i=0; i<res.length; i++){
+					inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].GAW+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].DATE+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].TIME+"</td></tr>";
+				}
+				$("#t_my_resevation").html(inner);
+			}
+		});
+	}
+	<%@ include file="/common/pagination.js"%>
+	function search_h_name(){
+		alert("입력한 병원이름: "+$("#h_name").val());
+	}
+	function login(){
+		alert("로그인 버튼!");
+		/* 
+		$("#f_login").attr("method","post");
+		$("#f_login").attr("action","");//로그인 url ****
+		$("#f_login").submit();
+		*/
+		location.href='/mks_project/client/login/loginpro.jsp'
+	}
 </script>
 </head>
 <body>
@@ -51,88 +79,93 @@
 	<jsp:include page="./menu.jsp"/>
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
-	  	<div class="row" style="height:650px;">
+	  	<div class="row pt-4">
 	  		<!-- 지도 검색 -->
 	  		<div class="col-md">
-				<div class="container" style="height:650px;padding-top:20px;">
-					<div class="row mb-0">
+				<div class="row mb-0">
+					<div class="col-md">
 						<label style="font-size:x-large;font-color:#4C4C4C;">병원 검색</label>
 					</div>
-					<hr>
-					<!-- 진료과 -->
-					<div class="row mb-2 mt-4">
-						<div class="col-md">
-							<select class="form-control">
-								<option>진료과</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-							</select>
-						</div>
+				</div>
+				<hr>
+				<!-- 진료과 -->
+				<div class="row mb-2 mt-4">
+					<div class="col-md">
+						<select class="form-control" id="s_gwa">
+							<option value="진료과">진료과</option>
+							<option value="내과">내과</option>
+							<option value="외과">외과</option>
+							<option value="소아과">소아과</option>
+							<option value="이비인후과">이비인후과</option>
+						</select>
 					</div>
-					<!-- 병원이름 -->
-					<div class="row mb-2">
-						<div class="col-md pr-0">
-							   	<input class="form-control mr-2" type="search" placeholder="Ex) 가산독산병원" aria-label="Search">
-						</div>
-						<div class="col-md-2 pl-0">
-							<button class="btn btn-dark btn-block" type="submit" style="width:110px">이름검색</button>
-						</div>
+				</div>
+				<!-- 병원이름 -->
+				<div class="row mb-2 pr-1">
+					<div class="col-md mr-2 pr-1">
+						<div class="input-group">
+      						<input type="text" class="form-control" id="h_name" name="h_name" type="search" placeholder="Ex) 가산독산병원">
+      						<div class="input-group-prepend">
+      							<button class="btn btn-dark btn-block" onClick="search_h_name()">이름검색</button>
+      						</div>
+   						</div>
 					</div>
-					<!-- 주소 -->
-					<div class="row mb-4">
-						<div class="col-md pr-0">
-								<input readonly class="form-control mr-2" id="searchAddr" type="search" placeholder="주소찾기 버튼을 눌러주세요." aria-label="Search">
-						</div>
-						<div class="col-md-2 pl-0">
-							<button class="btn btn-dark btn-block" type="submit" style="width:110px" onClick="addrSearch()">주소검색</button>
-						</div>
+				</div>
+				<!-- 주소 -->
+				<div class="row mb-4 pr-1">
+					<div class="col-md mr-2 pr-1">
+						<div class="input-group">
+      						<input class="form-control " id="h_addr" type="search" 
+															placeholder="주소찾기 버튼을 눌러주세요." aria-label="Search">
+      						<div class="input-group-prepend">
+      							<button class="btn btn-dark btn-block" onClick="search_addr()">주소검색</button>
+      						</div>
+   						</div>
 					</div>
-					<!-- 지도화면 -->
-					<div class="row mb-2">
-						<div class="col-md">
-							<div id="map" style="width:100%;height:330px;"></div>
-						</div>
+				</div>
+				<!-- 지도화면 -->
+				<div class="row mb-2">
+					<div class="col-md">
+						<div id="map" style="width:100%;height:330px;"></div>
 					</div>
 				</div>
 	  		</div>
 	  		<!-- 사이드 -->
-	   		<div class="col-md-4" style="padding-top:20px;">
+	   		<div class="col-md-4">
 	   			<% if(mem_name==null){// 로그인 전이니? **** %>
 	   			<!-- 로그인 폼1 -->
 			   	<div class="container" style="background-color:#EAEAEA;">
-			   		<form class="form-signin mt-2" action="./loginpro.jsp">
-			   			<div class="row mb-2">
-			   				<div class="col-md">
-			   					<button class="btn btn-md bg-lignt">회원가입</button>
-			   				</div>
-			   				<div class="col-md">
-			   					<button class="btn btn-md btn-dark btn-block">병원</button>
-			   				</div>
-			   			</div>
-			   			<div class="row mb-2">
-			   				<div class="col-md">
-				   				<input type="text" class="form-control" placeholder="아이디" aria-label="Id">
-			   				</div>
-			   			</div>
-		      			<div class="row mb-2">
-		      				<div class="col-md">
-		      					<input type="password" class="form-control" placeholder="비밀번호" aria-label="Password">
-		      				</div>
-		      			</div>
-		      			<div class="row mb-3">
-		      				<div class="col-md">
-		      					<button class="btn btn-md btn-dark btn-block" type="submit">로그인</button>
-		      				</div>
-		      			</div>
-		    		</form>
+					<div class="row mt-2 mb-2">
+						<div class="col-md">
+							<button class="btn btn-md bg-lignt" onClick="location.href='/mks_project/client/login/createAccount.jsp'">회원가입</button>
+						</div>
+						<div class="col-md">
+							<button class="btn btn-md btn-dark btn-block">병원</button>
+						</div>
+					</div>
+					<form id="f_login"><!-- 로그인 폼전송 -->
+						<div class="row mb-2">
+							<div class="col-md">
+								<input type="text" class="form-control" id="mem_id" name="mem_id" placeholder="아이디" aria-label="Id">
+							</div>
+						</div>
+					    <div class="row mb-2">
+					    	<div class="col-md">
+					    		<input type="password" class="form-control" id="mem_pw" name="mem_pw" placeholder="비밀번호" aria-label="Password">
+					    	</div>
+					    </div>
+				    </form>
+				    <div class="row mb-3">
+				    	<div class="col-md">
+				    		<button class="btn btn-md btn-dark btn-block" onClick="login()">로그인</button>
+				    	</div>
+				    </div>
 			   	</div>
 			   	<!-- 옆 상단 배너 -->
 			   	<div class="container" style="background-color:#EAEAEA;">
 			   		<div class="card">
   						<h5 class="card-header">
-   							<a href="#">About Kosmo</a>
+   							<a href="../info/citeIntro.jsp">About Kosmo</a>
   						</h5>
   						<div class="card-body">
 							<p class="card-text">코스모 메디컬 사이트 방문을 환영합니다.<br>첫방문이신가요?</p>
@@ -160,7 +193,7 @@
 	  							<div class="card-body pt-1" style="background-color:#FAED7D;height:110px;">
 									<div class="row">
 										<div class="col-md py-1 px-3" style="height:100px;">
-											<table>
+											<table id="t_my_resevation">
 												<tr>
 													<th style="padding:2px;">진료과목</th>
 													<td style="padding:2px;">내과</td>
@@ -180,7 +213,7 @@
 											</table>
 										</div>
 										<div class="col-md-5 py-1 px-3" style="height:100px;">
-											<div class="text-center bg-light">
+											<div class="text-center bg-light" id="qr_img">
  												<img src="./qrCode.jpg" class="rounded" alt="qr코드 이미지">
 											</div>
 										</div>
@@ -190,16 +223,16 @@
 							<!-- 페이지네이션 -->
 							<ul class="pagination justify-content-center" style="height:5px;">
 								<li class="page-item mx-1">
-									<a class="page-link p-1 px-2 my-1" href="#" aria-label="Previous">
+									<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Previous">
 										<span aria-hidden="true">&laquo;</span>
 										<span class="sr-only">Previous</span>
 									</a>
 								</li>
-								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#">1</a></li>
-								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#">2</a></li>
-								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#">3</a></li>
+								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)">1</a></li>
+								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)">2</a></li>
+								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)">3</a></li>
 								<li class="page-item mr-1">
-									<a class="page-link p-1 px-2 my-1" href="#" aria-label="Next">
+									<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Next">
 										<span aria-hidden="true">&raquo;</span>
 										<span class="sr-only">Next</span>
 									</a>
@@ -250,6 +283,14 @@
 	   		</div>
 	  	</div>
 	</div>
+	<!-- 돔 구성 완료되었을 떄 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#s_gwa").change(function(){
+				alert(this.value);
+			});
+		});
+	</script>
 	<!-- 지도 API -->
 	<script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -267,14 +308,14 @@
         position: new daum.maps.LatLng(50.537187, 127.005476),
         map: map
     });
-    function addrSearch() {
+    function search_addr() {
         new daum.Postcode({
             oncomplete: function(data) {
                 var addr = data.sigungu; // 최종 주소 변수
                 var addr1 = data.sido; // 최종 주소 변수
                 var addr2 = data.bname; // 최종 주소 변수
                 // 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("searchAddr").value = addr+" "+addr1+" "+addr2;
+                document.getElementById("h_addr").value = addr+" "+addr1+" "+addr2;
                 // 주소로 상세 정보를 검색
                 geocoder.addressSearch(data.address, function(results, status) {
                     // 정상적으로 검색이 완료됐으면
@@ -294,6 +335,7 @@
     }
     mapContainer.style.display = "block";
     map.relayout();
+    setTimeout(function(){ map.relayout();}, 0);
 	</script>
 </body>
 </html>

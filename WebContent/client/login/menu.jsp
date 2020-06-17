@@ -64,7 +64,7 @@
 	    	<div class="collapse navbar-collapse" id="navbarsExample04" >
 		       	<ul class="navbar-nav ml-auto"><!-- ml-auto: 왼쪽에 마진이 자동으로 생김 -->
 		        	 <li class="nav-item">
-		          	 	 <a class="nav-link " href="#" style="font-size:large;">회원가입</a>
+		          	 	 <a class="nav-link " href="/mks_project/client/login/createAccount.jsp" style="font-size:large;">회원가입</a>
 		         	 </li>
 		         	 <li class="nav-item">
 		          		  <a class="nav-link" href="/mks_project/client/login/main.jsp" style="font-size:large;">로그인</a>
@@ -105,8 +105,10 @@
 														aria-haspopup="true" aria-expanded="false">이용안내</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
 						<a class="dropdown-item" href="/mks_project/client/info/citeIntro.jsp">사이트 소개</a>
-						<a class="dropdown-item" href="/mks_project/client/info/info/nonmemServiceIntro.jsp">비회원 서비스</a>
-						<a class="dropdown-item" href="/mks_project/client/info/info/memServiceIntro.jsp">회원 서비스</a>
+
+						<a class="dropdown-item" href="/mks_project/client/info/nonmemServiceIntro.jsp">비회원 서비스</a>
+						<a class="dropdown-item" href="/mks_project/client/info/memServiceIntro.jsp">회원 서비스</a>
+
 					</div>
 				</li>
 				<li class="nav-item">
