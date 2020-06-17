@@ -108,7 +108,7 @@
         <!-- end of Topbar -->
         </nav>
         <!--====================================== 여기에 코드를 메인 코드를 넣어야 함  -->
-        <%@include file="./patientDetail.jsp" %>
+        <%@include file="./patientWrite.jsp" %>
         <!--======================================  -->
         <!-- end of Main Content -->
         </div>

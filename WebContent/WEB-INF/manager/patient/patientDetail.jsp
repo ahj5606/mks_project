@@ -68,7 +68,7 @@
 		<div class="col-md-12">
 		    <label>지난진료내역</label>
 		    <table class="table table-hover" id="p_list" data-page-size="10">
-		    		<thead>
+		    		<thead class="thead-dark">
 					    <tr>
 						  <th scope="col" data-field="MEM_MEMCODE">환자번호</th> 	
 						  <th scope="col" data-field="HIS_CONTENT">내용</th> 	
@@ -97,8 +97,60 @@
 	 
 	<div class="row">
 	  <div class="col-md-12" style="text-align:right;">
-		  <button type="submit" class="btn btn-default btn-light btn-outline-secondary" onclick="javascript:notice_save()">회원삭제</button>
-		  <button type="submit" class="btn btn-default btn-light btn-outline-secondary" onclick="javascript:notice_save()">수정</button>
+	  		<!-- 삭제 모달  -->
+				<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#DeleteModal">
+					 삭제
+				</button>
+				
+				<!-- Modal -->
+				<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">확인</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				       			 삭제하시겠습니까?
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-primary">삭제</button>
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+	  		<!-- 삭제 모달  -->
+	  		<!-- 수정 모달  -->
+	  		<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#UpdateModal">
+					 수정
+				</button>
+				
+				<!-- Modal -->
+				<div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="exampleModalLabel">확인</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				       			 수정 하시겠습니까?
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-primary">수정</button>
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+	  		
+	  		<!--  수정 모달 -->
 		  <button type="button" class="btn btn-default btn-light btn-outline-secondary" onClick="javascript:back()">취소</button>
 	 </div>
 	  </div>

@@ -6,6 +6,7 @@
     pageEncoding="UTF-8"%>
 <%
 	String hp_code = "280HP";//실제론쿠키로 가져올 값임.
+	//모든 hp_code는 서블릿에서 세션값으로 가져올것
 	List<Map<String, Object>> pList = (List<Map<String, Object>>)request.getAttribute("pList");
 	if(pList==null){
 		pList = new ArrayList();
