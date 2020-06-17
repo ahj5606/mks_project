@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.managerMapper">
+
 	<select id="patientList" parameterType="map" resultType="map">
         SELECT MIN(mem.mem_name) mem_name , mem.mem_memcode mem_memcode, MIN(mem.mem_socialnum) mem_socialnum,MIN(mem.mem_phone) mem_phone
                FROM MKS_MEMBER mem , MKS_HISTORY his
@@ -27,9 +28,21 @@
    		GROUP BY mem.mem_memcode
    		ORDER BY mem.mem_memcode
 	</select>
+	
 	<select id="noticeSEL" parameterType="map" resultType="map">
 		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name
 		 FROM mks_board b, mks_online o
 		 WHERE b.mks_id = o.mks_id
+		 <if test="board_no!=null">
+		 	AND b.board_no=#{board_no}
+		 </if>
 	</select>
+	
+	<update id="noticeUPD" parameterType="map">
+	
+	</update>
+	
+	<delete id="noticeDEL" parameterType="map">
+	
+	</delete>
 </mapper>

@@ -18,7 +18,7 @@
 		<ul class="navbar_nav bg-gradient-primary sidebar sidebar-dark accordion" style="list-style:none;padding-left:0px;">
 		
 		<!-- 통합정보예약시스템 -->
-			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="s_sidebar.jsp">
 				<div class="sidebar-brand-icon icon-hospital">
 					<i class="fas fa-hospital"></i>
 				</div>
@@ -31,7 +31,7 @@
 		
 		<!-- 메뉴들 시작  -->
 		<li class="nav-item">
-			<a class="nav-link" href="sidebar.jsp">
+			<a class="nav-link" href="/manager/notice/noticeSEL.mgr">
 				<i class="fas fa-clipboard-list"></i>
 				<span>공지사항</span>
 			</a>

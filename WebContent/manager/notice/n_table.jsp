@@ -65,7 +65,7 @@
 		<table id="notice_board" class="table table-striped table-bordered" >
 			<thead>
 			<tr style="text-align:center;">
-				<th data-field="BOARD_NO">번호</th>
+				<th data-field="BOARD_NO" >번호</th> 
 				<th data-field="BOARD_TITLE">제목</th>
 				<th data-field="DEPT_NAME">작성자</th>
 			</tr>

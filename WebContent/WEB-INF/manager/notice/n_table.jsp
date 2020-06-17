@@ -71,7 +71,7 @@
 		<table id="notice_board" class="table table-striped table-bordered" >
 			<thead>
 			<tr style="text-align:center;">
-				<th data-field="BOARD_NO">번호</th>
+				<th data-field="BOARD_NO" >번호</th>
 				<th data-field="BOARD_TITLE">제목</th>
 				<th data-field="DEPT_NAME">작성자</th>
 			</tr>
@@ -154,8 +154,12 @@
 			$("#notice_board").bootstrapTable({
 				onDblClickRow:function(row, $element, field)
 			     { 
-					select_no = JSON.stringify(row.BOARD_NO);
-					alert(JSON.stringify(row.BOARD_NO)); }
+					var imsi = JSON.stringify(row.BOARD_NO)
+					select_no = JSON.parse(imsi);
+					
+					alert(select_no); 
+					
+			     }
 			});		
 			$("#notice_board").bootstrapTable('hideLoading');
 

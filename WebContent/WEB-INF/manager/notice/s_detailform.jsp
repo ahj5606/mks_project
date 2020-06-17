@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <head>
 <title>병원관리시스템</title>
-<%@include file="../../common/ManagerCommon.jsp" %>
+<%@include file="/common/ManagerCommon.jsp" %>
 </head>
 
 <body id="page-top">
@@ -18,7 +18,7 @@
 		<ul class="navbar_nav bg-gradient-primary sidebar sidebar-dark accordion" style="list-style:none;padding-left:0px;">
 		
 		<!-- 통합정보예약시스템 -->
-			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="s_sidebar.jsp">
+			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
 				<div class="sidebar-brand-icon icon-hospital">
 					<i class="fas fa-hospital"></i>
 				</div>
@@ -31,7 +31,7 @@
 		
 		<!-- 메뉴들 시작  -->
 		<li class="nav-item">
-			<a class="nav-link" href="/manager/notice/noticeSEL.mgr">
+			<a class="nav-link" href="sidebar.jsp">
 				<i class="fas fa-clipboard-list"></i>
 				<span>공지사항</span>
 			</a>
@@ -87,8 +87,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 		<!--==============================================================  -->
-		<%-- <%@include file="./s_table.jsp" %> --%>
-		<%-- <%@include file="./notice_writeform.jsp" %> --%>
+		<%@include file="./n_detailform.jsp" %>
 		<!--==============================================================  -->
         </div>
         <!-- /.container-fluid -->

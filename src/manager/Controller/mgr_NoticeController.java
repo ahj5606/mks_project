@@ -57,6 +57,13 @@ public class mgr_NoticeController implements mgr_Controller {
 			
 			
 			
+		}else if("noticeDEL".equals(requestName)) {
+			//삭제확인을 눌럿을 때
+			
+			
+			
+			
+			
 		}
 		return mav;
 	}
