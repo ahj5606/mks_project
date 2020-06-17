@@ -76,7 +76,7 @@
 		calendar += ' <span><a href="#" class="btn-next" onclick="kCalendar(\'' + id + '\', \'' + nextDate + '\')">></a></span>';
 		calendar += ' </div>';
 		calendar += ' <table border="0" cellspacing="0" cellpadding="0">';
-		calendar += ' <caption>' + currentYear + '년 ' + currentMonth + '월 달력</caption>';
+		//calendar += ' <caption>' + currentYear + '년 ' + currentMonth + '월 달력</caption>';
 		calendar += ' <thead>';
 		calendar += ' <tr>';
 		calendar += '   <th class="sun" scope="row">일</th>';
@@ -149,10 +149,8 @@
 	kCalendar.innerHTML = calendar;
 	} 
 	
-	function openPop(date){
-	 		alert(date);
-	 		alert(date);
-	 	
+	function openPop(data){
+	 		alert("data:"+data);
 		}
 	
 	window.onload = function () {

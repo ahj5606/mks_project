@@ -94,34 +94,12 @@
 			}
 		calendar += ' </tr>';
 	} 
-	/* for(var i = 0; i < week; i++) {
-
-		calendar += ' <tr>';
-
-		for(var j = 0; j < 7; j++, dateNum++) {
-
-		if( dateNum < 1 || dateNum > currentLastDate ) {
-
-		calendar += ' <td class="' + dateString[j] + '"> </td>';
-
-		continue;
-
-		}
-
-		calendar += ' <td class="' + dateString[j] + '">' + dateNum + '</td>';
-		
-		}
-
-		calendar += ' </tr>';
-
-		}
-	
-	calendar += ' </tbody>';
-	calendar += ' </table>';
-	*/
 	kCalendar.innerHTML = calendar;
 	} 
-	
+	function selectSDate(data) {
+		  var sdate = document.getElementById('startDate');
+		  alert("시작날짜"+sdate.toString);
+		}
 	function openPop(date){
 	 		alert(date);
 	 		alert(date);
@@ -150,7 +128,7 @@
 	};
 	function reserve(){
 		// 테이블 표현할 데이터 표현
-		 var data = [
+		 var mydata = [
 			 { "reservedate": "2020-06-01", "dept": "안과", "pname": "김씨","number": "123", "doctor": "김의사" },
 			 { "reservedate": "2020-06-02", "dept": "내과", "pname": "박씨","number": "456", "doctor": "박의사" },
 			 { "reservedate": "2020-06-02", "dept": "내과", "pname": "박씨","number": "456", "doctor": "박의사" },
@@ -162,7 +140,7 @@
 			 { "reservedate": "2020-06-04", "dept": "정신과", "pname": "정씨","number": "1111", "doctor": "정의사" },
 			 { "reservedate": "2020-06-05", "dept": "어쩌구과", "pname": "송씨","number": "222", "doctor": "박의사" }
 			 ];
-		$("#res_list").bootstrapTable({ data: data });
+		$("#res_list").bootstrapTable({ data: mydata });
 		$("#res_list").bootstrapTable('hideLoading');
 	};
 
