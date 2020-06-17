@@ -21,7 +21,7 @@
 	}
 
 	var currentYear = date.getFullYear();
-	//년도를 구함 수정
+	//년도를 구함 수정 1
 	var currentMonth = date.getMonth() + 1;
 	//연을 구함. 월은 0부터 시작하므로 +1, 12월은 11을 출력
 	var currentDate = date.getDate();
