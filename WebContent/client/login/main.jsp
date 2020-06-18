@@ -33,13 +33,19 @@
 		/* padding:2px; ===> 왜 안먹지...?*/
 	}
 	a.page-link{
-		height:28px;
 		color:#4C4C4C;
 	}
 </style>
 <script type="text/javascript">
 	function sample7(){
 		document.getElementById("sample1").value = "검색완료";
+	}
+	function popup_reservation(hos){
+		// *** 예약화면 호출  *** 지금은 '병원 버튼'에 상수로 박아져 있지만, 
+		//1) 마커 속 예약버튼 눌렀을 때 함수 호출한다...  2)파라미터(hp_name)에 병원이름 박아야함!
+		var hp_name = hos;
+		alert("popup_reservation 호출!");
+		cmm_window_popup('/mks_project/client/reservation/reservationList.jsp?hp_name='+hp_name,'1200','800','병원 대기&예약 화면');
 	}
 	function res_pageGet(num){
 		$.ajax({
@@ -59,7 +65,6 @@
 			}
 		});
 	}
-	<%@ include file="/common/pagination.js"%>
 	function search_h_name(){
 		alert("입력한 병원이름: "+$("#h_name").val());
 	}
@@ -140,7 +145,7 @@
 							<button class="btn btn-md bg-lignt" onClick="location.href='/mks_project/client/login/createAccount.jsp'">회원가입</button>
 						</div>
 						<div class="col-md">
-							<button class="btn btn-md btn-dark btn-block">병원</button>
+							<button class="btn btn-md btn-dark btn-block" onClick="popup_reservation('가산독산병원')">병원</button>
 						</div>
 					</div>
 					<form id="f_login"><!-- 로그인 폼전송 -->
@@ -185,7 +190,7 @@
 			   			</div>
 				   	</div>
 				   	<!-- 예약정보 -->
-				   	<div class="row mb-3">
+				   	<div class="row mb-1">
 				   		<div class="col-md">
 				   			<!-- 정보 -->
 					   		<div class="card">
@@ -193,6 +198,9 @@
 	  							<div class="card-body pt-1" style="background-color:#FAED7D;height:110px;">
 									<div class="row">
 										<div class="col-md py-1 px-3" style="height:100px;">
+											<!-- 
+												** 돔구성이 완료되었을 때  html()로 테이블 tbody를 완성해준다.
+											 -->
 											<table id="t_my_resevation">
 												<tr>
 													<th style="padding:2px;">진료과목</th>
@@ -221,9 +229,9 @@
 	  							</div>
 							</div>
 							<!-- 페이지네이션 -->
-							<ul class="pagination justify-content-center" style="height:5px;">
-								<li class="page-item mx-1">
-									<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Previous">
+							<ul class="pagination pagination-small justify-content-center mb-0">
+								<li class="page-item">
+									<a class="page-link py-1 px-2 my-1 mr-1" href="#" onClick="pageMove(this)" aria-label="Previous">
 										<span aria-hidden="true">&laquo;</span>
 										<span class="sr-only">Previous</span>
 									</a>
@@ -283,11 +291,23 @@
 	   		</div>
 	  	</div>
 	</div>
+	<!-- footer -->
+	<jsp:include page="./footer.jsp"/>
 	<!-- 돔 구성 완료되었을 떄 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#s_gwa").change(function(){
 				alert(this.value);
+			});
+			$.ajax({// **** 예약 목록1개 가져오는 아작스
+				/* 
+				1) #t_my_resevation 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
+					<tr>
+						<th style="padding:2px;">진료과목</th>
+						<td style="padding:2px;">내과</td>
+					</tr>
+				2) #qr_img의 자식태그 img에 qr코드를 넣어준다. 
+				*/
 			});
 		});
 	</script>

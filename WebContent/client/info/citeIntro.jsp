@@ -25,7 +25,7 @@
 				</div>
 				<hr>
 				<!-- 메뉴 버튼 -->
-				<div class="row ml-2">
+				<div class="row mb-0 mt-4 ml-2">
 					<button class="btn btn-md" 
 							style="font-size:large;color:#F6F6F6;background-color:#007bff;" 
 									onClick="location.href='./citeIntro.jsp'">사이트소개</button>
@@ -42,5 +42,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- footer -->
+	<jsp:include page="../login/footer.jsp"/>
 </body>
 </html>
