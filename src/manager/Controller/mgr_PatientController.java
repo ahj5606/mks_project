@@ -34,16 +34,19 @@ public class mgr_PatientController implements mgr_Controller {
 			List<Map<String,Object>> pList= null;
 			pList=mgr_pLogic.patientList(pMap);
 			
-			
-			
 			mav.addObject("pList", pList);
 			mav.IsForward(true);
 			logger.info(pList);
 			mav.setViewName("/patient/mgr_patient");
 		}else if("patientSEL".equals(requestName)) {	
-			String hp_code = req.getParameter("hp_code");
+			String hp_code ="280HP";
+			
+			
 			String mem_name = req.getParameter("mem_name");
 			String mem_socialnum = req.getParameter("mem_socialnum");
+			
+			
+			
 			List<Map<String,Object>> pList = null;
 			Map<String, Object> pMap = new HashMap<>();
 			if("".equals(req.getParameter("mem_name"))) {
@@ -62,7 +65,11 @@ public class mgr_PatientController implements mgr_Controller {
 			
 			mav.addObject("pList", pList);
 			mav.IsForward(true);
-			mav.setViewName("/patient/mgr_patient");			
+			if(req.getParameter("isJSON")!=null) {
+				mav.setViewName("/patient/patient");
+			}else {
+				mav.setViewName("/patient/mgr_patient");	
+			}
 		}else if("patientDetail".equals(requestName)) {
 			String mem_code = req.getParameter("mem_code");
 			String hp_code = req.getParameter("hp_code");
@@ -77,22 +84,56 @@ public class mgr_PatientController implements mgr_Controller {
 			mav.setViewName("/patient/mgr_patientDetail");
 			
 		}else if("patientINS".equals(requestName)) {
-			//
 			
 			
 			
 		}else if("patientUPD".equals(requestName)) {
 			
 			
-			
-			
-			
 		}else if("patientDEL".equals(requestName)) {
 			
 			
+		}else if("patientDoctor".equals(requestName)) {
+			String hp_code ="280HP";			
+			String dept_code ="58";
+			List<Map<String,Object>> pList = null;
+			Map<String, Object> pMap = new HashMap();
+			pMap.put("hp_code", hp_code);
+			pMap.put("dept_code", dept_code);
+			pList = mgr_pLogic.patientDoctor(pMap);
+			mav.addObject("pList", pList);
+			mav.IsForward(true);
+			mav.setViewName("/patient/patient");
 			
 			
-			
+		}else if("patientHISINS".equals(requestName)) {
+			String hp_code ="280HP";
+			String doc_name = req.getParameter("doc_name");
+			String mem_code = req.getParameter("mem_code");
+			String dept_name = req.getParameter("dept_name");
+			String dept_code = req.getParameter("dept_code");
+			String doc_code = req.getParameter("doc_code");
+			String his_content = req.getParameter("modal_content");
+			String his_date = req.getParameter("his_date");
+			Map<String, Object> pMap = new HashMap();
+			pMap.put("hp_code", hp_code);
+			pMap.put("doc_name", doc_name);
+			pMap.put("mem_code", mem_code);
+			pMap.put("dept_name", dept_name);
+			pMap.put("dept_code", dept_code);
+			pMap.put("doc_code", doc_code);
+			pMap.put("his_content", his_content);
+			pMap.put("his_date", his_date);
+			int result=-1;
+			result = mgr_pLogic.patientHISINS(pMap);
+			mav.IsForward(false);
+			String path = null;
+			if(result==1) {
+				path = "/patient/patientDetail.mgr?hp_code="+hp_code+"&mem_code="+mem_code+"&";
+			}else {
+				path = "/patient/patientList.mgr?";
+			}
+			mav.setViewName(path);
 		}
 		
 		

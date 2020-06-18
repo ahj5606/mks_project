@@ -7,6 +7,10 @@
 <%
 	String hp_code = "280HP";//실제론쿠키로 가져올 값임.
 	//모든 hp_code는 서블릿에서 세션값으로 가져올것
+	String dept_code ="58";
+	
+	
+	
 	List<Map<String, Object>> pList = (List<Map<String, Object>>)request.getAttribute("pList");
 	if(pList==null){
 		pList = new ArrayList();
@@ -44,7 +48,7 @@
 	        	 <div class="tab-content" id="nav-tabContent">
 			      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
 			      	<div class="float-right">
-			      	<button type="button" class="btn btn-outline-success" onClick="p_add()">환자추가</button>
+			      		<button type="button" class="btn btn-outline-success" onClick="pai_add()">환자추가</button>
 			      	</div>
 			      	<table class="table table-hover" id="p_list" data-page-size="10">
 					  <thead>
@@ -108,8 +112,8 @@
 			location.href="./patientSEL.mgr?hp_code=<%=hp_code%>&mem_name="+p_name+"&mem_socialnum="+p_social
 		}
 	
-		function p_add(){
-			location.href="/manager/patient/mgr_patientDetail.jsp"
+		function pai_add(){
+				location.href="/manager/patient/mgr_patientWrite.jsp";
 		}
 </script>
 </body>

@@ -61,10 +61,40 @@
 	
 	</delete>
 	
+<<<<<<< HEAD
 	<select id="doctorSEL" parameterType="map" resultType="map">
 		
 	
 	</select>
 	
+=======
+	<select id="patientDoctor" parameterType="map" resultType="map">
+     SELECT DOC_CODE,DOC_NAME,DEPT_NAME,DEPT_CODE,HP_NAME
+         FROM MKS_DOCTOR 
+         WHERE HP_CODE=#{hp_code}
+	</select>
+	
+	<select id="getMemCode" parameterType="map" resultType="int">
+          SELECT  mem_memcode+1
+        		 FROM mks_member where rownum=1 
+        	 ORDER BY mem_memcode DESC
+	</select>
+	
+	<delete id="patientDEL" parameterType="map">
+		DELETE FROM mks_history
+		WHERE hp_code = #{hp_code}
+		AND mem_memcode=#{mem_code}
+	</delete>
+	
+	<insert id="patientINS" parameterType="map">
+		INSERT INTO MKS_MEMBER(MEM_MEMCODE,MEM_NAME,MEM_SOCIALNUM,MEM_PHONE,MEM_ADDRESS,MEM_ONLINE)
+		VALUES(#{mem_code},#{mem_name},#{mem_socialnum},#{mem_phone},#{mem_address},0)
+	</insert>
+	
+	<insert id="patientHIS" parameterType="map">
+		INSERT INTO MKS_HISTORY(HIS_DATE,HIS_CONTENT,MEM_MEMCODE,DOC_CODE,DOC_NAME,HP_CODE,DEPT_NAME,DEPT_CODE,HP_NAME)
+		VALUES(#{his_date},#{his_content},#{mem_code},#{doc_code},#{doc_name},#{hp_code},#{dept_name},#{dept_code},#{hp_name})		
+	</insert>	
+>>>>>>> branch 'manager' of https://github.com/ahj5606/mks_project.git
 	
 </mapper>
