@@ -30,19 +30,19 @@
 </div>
 	<div class="container">
   	
-     		<div class="form-group" style="margin-top: 30px">
-	      	  <label>의사코드</label>
-	      	  <input type="text" class="form-control" id="doc_code" name="doc_code" style="width: 245px">
-	    	</div>
-		    <div class="form-group">
-		      <label>전공</label>
-		      <input type="text" class="form-control" id="doc_state" name="doc_state" style="width: 245px">
-		    </div>
-		    <div class="form-group">
-		      <label>이름</label>
-		      <input type="text" class="form-control" id="doc_name" name="doc_name" style="width: 245px">
-		    </div>
-		    <div>
+	     		<div class="form-group" style="margin-top: 30px">
+		      	  <label>의사코드</label>
+		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" style="width: 245px">
+		    	</div>
+			    <div class="form-group">
+			      <label>부서</label>
+			      <input type="text" class="form-control" id="dept_name" name="dept_name" style="width: 245px">
+			    </div>
+			    <div class="form-group">
+			      <label>이름</label>
+			      <input type="text" class="form-control" id="doc_name" name="doc_name" style="width: 245px">
+			    </div>
+			    <div>
 			    <div class="form-group">
 			      <label>직급</label>
 			      <input type="text" class="form-control" id="doc_position" name="doc_position" style="width: 245px">
@@ -51,13 +51,17 @@
 			      <label>학력</label>
 			      <input type="text" class="form-control" id="doc_education" name="doc_education" style="width: 245px">
 			    </div>
-			    <div class="form-group">
+		    	<div class="form-group">
 			      <label>전화</label>
 			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" style="width: 245px">
 			    </div>
 			    <div class="form-group">
+			      <label>휴무일</label>
+			      <input type="text" class="form-control" id="doc_offday" name="doc_offDay" style="width: 245px">
+			    </div>
+			    <div class="form-group">
 			      <label>상태</label>
-			      <input type="text" class="form-control" id="doc_offday" name="offDay" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_state" name="doc_state" style="width: 245px">
 			    </div>
 		    </div>
 		    <!--버튼시작  -->

@@ -60,4 +60,11 @@
 	<delete id="noticeDEL" parameterType="map">
 	
 	</delete>
+	
+	<select id="doctorSEL" parameterType="map" resultType="map">
+		
+	
+	</select>
+	
+	
 </mapper>

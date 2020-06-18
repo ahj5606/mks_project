@@ -110,7 +110,7 @@
         <!-- end of Topbar -->
         </nav>
         <!--====================================== 여기에 코드를 메인 코드를 넣어야 함  -->
-        <%@include file="./doctorMain2.jsp" %>
+        <%@include file="./doctorList.jsp" %>
         <!--======================================  -->
         <!-- end of Main Content -->
         </div>
