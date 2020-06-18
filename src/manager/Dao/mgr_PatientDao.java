@@ -37,5 +37,11 @@ public class mgr_PatientDao {
 		pList=sqlSes.selectList("patientDoctor",pMap);
 		return pList;
 	}
+	public int patientHISINS(Map<String, Object> pMap) {
+		int result =-1;
+		result=sqlSes.insert("patientHIS",pMap);
+		sqlSes.commit();
+		return result;
+	}
 
 }

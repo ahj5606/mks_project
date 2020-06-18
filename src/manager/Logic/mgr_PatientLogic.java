@@ -31,5 +31,11 @@ public class mgr_PatientLogic {
 		pList=mgr_pDao.patientDoctor(pMap);
 		return pList;
 	}
+	public int patientHISINS(Map<String, Object> pMap) {
+		int result =-1;
+		result = mgr_pDao.patientHISINS(pMap);
+		
+		return result;
+	}
 
 }
