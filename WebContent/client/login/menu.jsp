@@ -105,8 +105,10 @@
 														aria-haspopup="true" aria-expanded="false">이용안내</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
 						<a class="dropdown-item" href="/mks_project/client/info/citeIntro.jsp">사이트 소개</a>
+
 						<a class="dropdown-item" href="/mks_project/client/info/nonmemServiceIntro.jsp">비회원 서비스</a>
 						<a class="dropdown-item" href="/mks_project/client/info/memServiceIntro.jsp">회원 서비스</a>
+
 					</div>
 				</li>
 				<li class="nav-item">
