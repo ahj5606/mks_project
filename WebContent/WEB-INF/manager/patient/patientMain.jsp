@@ -94,7 +94,7 @@
 		$("#p_list").bootstrapTable({
 			onDblClickRow:function(row, $element, field)
 		     { 
-				select_no = JSON.stringify(row.MEM_MEMCODE);
+				alert("");
 				var jo = JSON.stringify(row);
 				var d = JSON.parse(jo);
 				var mem_code = d.MEM_MEMCODE;
@@ -102,7 +102,7 @@
 				location.href="/manager/patient/patientDetail.mgr?hp_code=<%=hp_code%>&mem_code="+mem_code;
 				
 		     }
-		});		
+		});
 		$("#p_list").bootstrapTable('hideLoading');
 		
 	})
