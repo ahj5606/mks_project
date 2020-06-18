@@ -13,7 +13,7 @@ Map<String,Object> map = null;
 
 int fNum = 0;
 int eNum = 0;
-int recodeNum = 4;
+int recodeNum = 5;
 
 fNum = (num-1)*recodeNum+1;
 eNum = num*recodeNum;

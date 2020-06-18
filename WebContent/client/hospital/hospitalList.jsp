@@ -18,7 +18,6 @@
 		/* padding:2px; ===> 왜 안먹지...?*/
 	}
 	a.page-link{
-		height:28px;
 		color:#4C4C4C;
 	}
 </style>
@@ -41,7 +40,6 @@
 			}
 		});
 	}
-	<%@ include file="/common/pagination.js"%>
 	function search_h_name(){
 		alert("입력한 병원이름: "+$("#h_name").val());
 	}
@@ -52,7 +50,7 @@
 	<jsp:include page="../login/menu.jsp"/>
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
-	  	<div class="row pt-4" style="height:650px;">
+	  	<div class="row pt-4">
 	  		<div class="col-md">
 				<div class="row mb-0">
 					<div class="col-md">
@@ -89,9 +87,12 @@
 					</div>
 				</div> 
 				<!-- 테이블 -->
-				<div class="row mb-0" style="height:400px;">
+				<div class="row mb-0" >
 					<div class="col-md">
 						<div class="table-responsive-md">
+							<!-- 
+								** 돔구성이 완료되었을 때  html()로 테이블 tbody를 완성해준다.
+							-->
 							<table class="table table-hover">
 								<thead class="thead-light">
 									<tr>
@@ -108,17 +109,41 @@
 										<td>9:00 ~ 18:00</td>
 										<td>내과, 외과, 정형외과, 소아과</td>
 									</tr>
+									<tr>
+										<th scope="row">가산독산병원</th>
+										<td>서울 금천구 독산동</td>
+										<td>9:00 ~ 18:00</td>
+										<td>내과, 외과, 정형외과, 소아과</td>
+									</tr>
+									<tr>
+										<th scope="row">가산독산병원</th>
+										<td>서울 금천구 독산동</td>
+										<td>9:00 ~ 18:00</td>
+										<td>내과, 외과, 정형외과, 소아과</td>
+									</tr>
+									<tr>
+										<th scope="row">가산독산병원</th>
+										<td>서울 금천구 독산동</td>
+										<td>9:00 ~ 18:00</td>
+										<td>내과, 외과, 정형외과, 소아과</td>
+									</tr>
+									<tr>
+										<th scope="row">가산독산병원</th>
+										<td>서울 금천구 독산동</td>
+										<td>9:00 ~ 18:00</td>
+										<td>내과, 외과, 정형외과, 소아과</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
 				<!-- 페이지네이션 -->
-				<div class="row mb-4" style="height:50px;">
+				<div class="row mb-4">
 					<div class="col-md">
-						<ul class="pagination justify-content-center" style="height:5px;">
-							<li class="page-item mx-1">
-								<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Previous">
+						<ul class="pagination pagination-small justify-content-center mb-0">
+							<li class="page-item">
+								<a class="page-link py-1 px-2 my-1 mr-1" href="#" onClick="pageMove(this)" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 									<span class="sr-only">Previous</span>
 								</a>
@@ -138,5 +163,23 @@
 			</div>
 		</div>
 	</div>
+	<!-- footer -->
+	<jsp:include page="../login/footer.jsp"/>
+	<!-- 돔 구성이 완료되었을 때 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.ajax({// **** 테이블 목록 가져오는 아작스
+				/* 
+				#t_hospitalList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
+				<tr>
+					<th scope="row">가산독산병원</th>
+					<td>서울 금천구 독산동</td>
+					<td>9:00 ~ 18:00</td>
+					<td>내과, 외과, 정형외과, 소아과</td>
+				</tr>
+				*/
+			});
+		});
+	</script>
 </body>
 </html>

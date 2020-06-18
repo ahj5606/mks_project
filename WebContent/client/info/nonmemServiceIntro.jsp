@@ -42,5 +42,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- footer -->
+	<jsp:include page="../login/footer.jsp"/>
 </body>
 </html>
