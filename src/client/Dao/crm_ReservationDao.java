@@ -18,7 +18,7 @@ public class crm_ReservationDao {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}
-	
+	//
 	public List<Map<String, Object>> reservationList(Map<String, Object> pMap) {
 		logger.info("[crm_ReservationDao] reservationList 호출성공");
 		List<Map<String, Object>> reservationList = null;
