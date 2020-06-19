@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.clientMapper">
+<!-- crm_HospitalDao 부분 -->
 	<select id="hospitalList" parameterType="map" resultType="map">
-		SELECT
-		    hp_name
-		  FROM mks_hospital
-		  WHERE 1 = 1
-		  <if test="hp_open != null">
-			  AND hp_open = #{hp_open}
-		  </if>
-		  <if test="hp_close !=  null">
-		  	AND hp_close = #{hp_close}	
-		  </if>
+         SELECT
+            hp_name
+          FROM mks_hospital
+          WHERE 1 = 1
+          AND 
+          <if test="hp_open != null">
+              AND hp_open = #{hp_open}
+          </if>
+          <if test="hp_close !=  null">
+              AND hp_close = #{hp_close}    
+          </if> 
 	</select>
-	
+<!-- crm_ReservationDao 부분 -->	
 	<select id="reservationList" parameterType="map" resultType="map">
 	
+	</select>
+	<select id="docSel" parameterType="map" resultType="map">
+		SELECT 
+		    doc_name, dept_name, doc_position, doc_education
+		  FROM mks_doctor
+		  WHERE hp_code = #{hp_code}
+	</select>
+	
+<!-- crm_HealthDao 부분 -->
+<!-- crm_LoginDao 부분 -->
+	
+<!-- crm_MypageDao 부분 -->	
+	<select id="proc_mem_Add" parameterType="map" statementType="CALLABLE">
+		{call proc_mem_Add (
+			#{u_id, mode=IN, jdbcType=VARCHAR}
+			,#{u_pw, mode=IN, jdbcType=VARCHAR}
+			,#{msg, mode=OUT, jdbcType=VARCHAR}
+			,#{u_soc, mode=IN, jdbcType=VARCHAR}
+			,#{u_addr, mode=IN, jdbcType=VARCHAR}
+			,#{u_phone, mode=IN, jdbcType=VARCHAR}
+			,#{u_name, mode=IN, jdbcType=VARCHAR}
+		)}
 	</select>
 </mapper>

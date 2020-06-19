@@ -1,5 +1,6 @@
 package client.Dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import org.apache.log4j.Logger;
 import mks.util.MyBatisConnction;
 
 public class crm_MypageDao {
-	Logger logger = Logger.getLogger(crm_MypageDao.class);
+	static Logger logger = Logger.getLogger(crm_MypageDao.class);
 	SqlSessionFactory sqlMapper = null;
 	SqlSession sqlSes = null;
 	
@@ -47,12 +48,27 @@ public class crm_MypageDao {
 		return result;
 	}
 	
-	public int createAccount(Map<String, Object> pMap) {
-		logger.info("[crm_MypageDao] createAccount 호출성공");
-		int result = 0;
-		result = sqlSes.delete("createAccount", pMap);
-		logger.info("result: " + result);
+	public String proc_mem_Add(Map<String, Object> pMap) {
+		logger.info("[crm_MypageDao] proc_mem_Add 호출성공");
+		String result = "";
+		sqlSes.selectOne("proc_mem_Add", pMap);
+		result = pMap.get("msg").toString();
 		sqlSes.commit(true);
 		return result;
 	}
+	
+	public static void main(String[] args) {
+		crm_MypageDao my = new crm_MypageDao();
+		String result = "";
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap.put("u_id","test4");
+		pMap.put("u_pw","123");
+		pMap.put("u_soc","910685-1129562");
+		pMap.put("u_addr","부산광역시");
+		pMap.put("u_phone","010-1111-1114");
+		pMap.put("u_name","회원4");
+		result = my.proc_mem_Add(pMap);
+		logger.info("result: "+result);
+	}
+    
 }
