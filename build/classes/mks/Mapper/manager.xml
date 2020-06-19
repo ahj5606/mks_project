@@ -61,13 +61,30 @@
 	
 	</delete>
 	
-<<<<<<< HEAD
-	<select id="doctorSEL" parameterType="map" resultType="map">
+
+	<select id="doctorList" parameterType="map" resultType="map">
 		
-	
 	</select>
 	
-=======
+	<select id="doctorSEL" parameterType="map" resultType="map">
+		
+	</select>
+	
+	<insert id="doctorINS" parameterType="map">
+		
+	</insert>
+	
+	<update id="doctorUPD" parameterType="map">
+	
+	</update>
+	
+	<delete id="doctorDEL">
+		DELETE FROM mks_doctor WHERE doc_name=#{doc_name}
+	</delete>
+	
+	
+	
+
 	<select id="patientDoctor" parameterType="map" resultType="map">
      SELECT DOC_CODE,DOC_NAME,DEPT_NAME,DEPT_CODE,HP_NAME
          FROM MKS_DOCTOR 
@@ -95,6 +112,6 @@
 		INSERT INTO MKS_HISTORY(HIS_DATE,HIS_CONTENT,MEM_MEMCODE,DOC_CODE,DOC_NAME,HP_CODE,DEPT_NAME,DEPT_CODE,HP_NAME)
 		VALUES(#{his_date},#{his_content},#{mem_code},#{doc_code},#{doc_name},#{hp_code},#{dept_name},#{dept_code},#{hp_name})		
 	</insert>	
->>>>>>> branch 'manager' of https://github.com/ahj5606/mks_project.git
+
 	
 </mapper>

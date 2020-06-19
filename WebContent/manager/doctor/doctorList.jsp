@@ -102,5 +102,10 @@
 	<div>
 	  
 	</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		doc_list();
+	});
+</script>	
 </body>
 </html>
