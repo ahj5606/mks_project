@@ -26,22 +26,28 @@
 		$.ajax({
 			url:"/mks_project/client/hospital/jsonHospitalList.jsp?num="+num
 			,success:function(data){
-				var imsi = data.trim();
-				alert(imsi);
-				var res = JSON.parse(imsi);
-				var inner = "";
-				for(var i=0; i<res.length; i++){
-					inner += "<tr><th scope='row'>"+res[i].HP_NAME+"</th>";
-					inner += "<td>"+res[i].HP_ADDR+"</td>";
-					inner += "<td>"+res[i].HP_TIME+"</td>";
-					inner += "<td>"+res[i].HP_GAW+"</td></tr>";
-				}
-				$("#t_hospitalList").html(inner);
+				alert(data.trim());
+            	var res = data.trim();
+            	var imsi2 = JSON.parse(res);
+				$("#t_hospitalList").bootstrapTable({data:imsi2});
+				$("div.fixed-table-loading").remove();
 			}
 		});
 	}
 	function search_h_name(){
 		alert("입력한 병원이름: "+$("#h_name").val());
+		/* 
+		$.ajax({
+			url:"/mks_project/client/hospital/jsonHospitalList.jsp?hp_name="+$("#h_name").val()
+			,success:function(data){
+				alert(data.trim());
+            	var res = data.trim();
+            	var imsi2 = JSON.parse(res);
+				$("#t_hospitalList").bootstrapTable({data:imsi2});
+				$("div.fixed-table-loading").remove();
+			}
+		}); 
+		*/
 	}
 </script>
 </head>
@@ -90,50 +96,15 @@
 				<div class="row mb-0" >
 					<div class="col-md">
 						<div class="table-responsive-md">
-							<!-- 
-								** 돔구성이 완료되었을 때  html()로 테이블 tbody를 완성해준다.
-							-->
-							<table class="table table-hover">
+							<table class="table" id="t_hospitalList">
 								<thead class="thead-light">
 									<tr>
-										<th scope="col">병원이름</th>
-										<th scope="col">주소</th>
-										<th scope="col">운영시간</th>
-										<th scope="col">진료과목</th>
+										<th data-field="HP_NAME">병원이름</th>
+										<th data-field="HP_ADDR">주소</th>
+										<th data-field="HP_TIME">운영시간</th>
+										<th data-field="HP_GAW">진료과목</th>
 									</tr>
 								</thead>
-								<tbody id="t_hospitalList">
-									<tr>
-										<th scope="row">가산독산병원</th>
-										<td>서울 금천구 독산동</td>
-										<td>9:00 ~ 18:00</td>
-										<td>내과, 외과, 정형외과, 소아과</td>
-									</tr>
-									<tr>
-										<th scope="row">가산독산병원</th>
-										<td>서울 금천구 독산동</td>
-										<td>9:00 ~ 18:00</td>
-										<td>내과, 외과, 정형외과, 소아과</td>
-									</tr>
-									<tr>
-										<th scope="row">가산독산병원</th>
-										<td>서울 금천구 독산동</td>
-										<td>9:00 ~ 18:00</td>
-										<td>내과, 외과, 정형외과, 소아과</td>
-									</tr>
-									<tr>
-										<th scope="row">가산독산병원</th>
-										<td>서울 금천구 독산동</td>
-										<td>9:00 ~ 18:00</td>
-										<td>내과, 외과, 정형외과, 소아과</td>
-									</tr>
-									<tr>
-										<th scope="row">가산독산병원</th>
-										<td>서울 금천구 독산동</td>
-										<td>9:00 ~ 18:00</td>
-										<td>내과, 외과, 정형외과, 소아과</td>
-									</tr>
-								</tbody>
 							</table>
 						</div>
 					</div>
@@ -168,16 +139,14 @@
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$.ajax({// **** 테이블 목록 가져오는 아작스
-				/* 
-				#t_hospitalList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
-				<tr>
-					<th scope="row">가산독산병원</th>
-					<td>서울 금천구 독산동</td>
-					<td>9:00 ~ 18:00</td>
-					<td>내과, 외과, 정형외과, 소아과</td>
-				</tr>
-				*/
+			$.ajax({
+				url:"/mks_project/client/hospital/jsonHospitalList.jsp?num="+1
+				,success:function(data){
+	            	var res = data.trim();
+	            	var imsi2 = JSON.parse(res);
+					$("#t_hospitalList").bootstrapTable({data:imsi2});
+					$("div.fixed-table-loading").remove();
+				}
 			});
 		});
 	</script>
