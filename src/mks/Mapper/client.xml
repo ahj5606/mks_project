@@ -41,4 +41,15 @@
 			,#{u_name, mode=IN, jdbcType=VARCHAR}
 		)}
 	</select>
+	
+		<select id="login" parameterType="map" resultType="map">
+0SELECT hp_name, hp_lat, hp_lng, hp_phone
+ FROM mks_hospital
+where hp_lng is not null and hp_lat  is not null
+<if test="hp_name!=null">
+and hp_name = #{hp_name}
+11
+</if>
+	</select>
+	
 </mapper>

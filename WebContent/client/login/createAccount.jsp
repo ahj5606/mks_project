@@ -21,18 +21,28 @@
 	} 
 </style>
 <script type="text/javascript">
-	function addrSearch() {
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	        	var zip = data.zonecode;
-	            var addr = data.sigungu; // 최종 주소 변수
-	            var addr1 = data.sido; // 최종 주소 변수
-	            var addr2 = data.bname; // 최종 주소 변수
-	            document.getElementById("i_addr").value = addr+" "+addr1+" "+addr2;
-	            document.getElementById("i_zipcode").value = zip;
-	        }
-	    }).open();
-	}
+function addrSearch() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('i_zipcode').value = data.zonecode;
+            document.getElementById("i_addr").value = addr;
+
+        }
+    }).open();
+}
 	function acc_check(){
 		alert("회원가입버튼 호출");
 	}
@@ -85,7 +95,7 @@
   							</div>
   							<!-- 우편번호 -->
   							<div class="form-group row">
-    							<label for="i_zipcode" style="width:80px;">우편번호</label>
+    							<label id="i_zipcode1" style="width:80px;">우편번호</label>
     							<div class="col-md">
 	    							<div class="input-group">
 	      								<input type="text" readonly class="form-control" id="i_zipcode">
@@ -97,11 +107,12 @@
   							</div>
   							<!-- 주소 -->
   							<div class="form-group row" >
-    							<label for="i_addr" style="width:80px;">주소</label>
+    							<label for="i_addr123" style="width:80px;">주소</label>
     							<div class="col-md">
      					 			<input type="text" readonly class="form-control" id="i_addr">
     							</div>
   							</div>
+
   							<!-- 상세주소 -->
   							<div class="form-group row">
     							<label for="i_addr2" style="width:80px;">상세주소</label>
