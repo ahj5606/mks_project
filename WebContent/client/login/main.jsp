@@ -346,6 +346,7 @@
 								if(parameter!=null){ %>-->
 								var imsi = jsonDoc[i].HP_NAME;
 							   content += '<a href="javascript:popup_reservation('+"'"+imsi+"'"+')">';																	
+
 							   content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
 							   <!--<%}%>-->
 							   //content += '<a href="../reservation/reservationList.jsp?jsonDoc[i].HP_NAME"><img src=./bookbutton.png width=20 height=20/></a><br>';

@@ -23,30 +23,18 @@
 </style>
 <script type="text/javascript">
 	function res_pageGet(num){
-		$.ajax({
-			url:"/mks_project/client/hospital/jsonHospitalList.jsp?num="+num
-			,success:function(data){
-				alert(data.trim());
-            	var res = data.trim();
-            	var imsi2 = JSON.parse(res);
-				$("#t_hospitalList").bootstrapTable({data:imsi2});
-				$("div.fixed-table-loading").remove();
-			}
+		$('#t_hospitalList').bootstrapTable('refreshOptions', {
+	           url: "/mks_project/client/hospital/jsonHospitalList.jsp?num="+num
 		});
+		$("div.fixed-table-loading").remove();
 	}
 	function search_h_name(){
-		alert("입력한 병원이름: "+$("#h_name").val());
 		/* 
-		$.ajax({
-			url:"/mks_project/client/hospital/jsonHospitalList.jsp?hp_name="+$("#h_name").val()
-			,success:function(data){
-				alert(data.trim());
-            	var res = data.trim();
-            	var imsi2 = JSON.parse(res);
-				$("#t_hospitalList").bootstrapTable({data:imsi2});
-				$("div.fixed-table-loading").remove();
-			}
-		}); 
+		alert("입력한 병원이름: "+$("#h_name").val());
+		$('#t_hospitalList').bootstrapTable('refreshOptions', {
+	           url: "/mks_project/client/hospital/jsonHospitalList.jsp?hp_name="+$("#h_name").val()
+		});
+		$("div.fixed-table-loading").remove(); 
 		*/
 	}
 </script>
@@ -96,7 +84,7 @@
 				<div class="row mb-0" >
 					<div class="col-md">
 						<div class="table-responsive-md">
-							<table class="table" id="t_hospitalList">
+							<table class="table" id="t_hospitalList" data-toggle="table">
 								<thead class="thead-light">
 									<tr>
 										<th data-field="HP_NAME">병원이름</th>
@@ -139,15 +127,10 @@
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$.ajax({
-				url:"/mks_project/client/hospital/jsonHospitalList.jsp?num="+1
-				,success:function(data){
-	            	var res = data.trim();
-	            	var imsi2 = JSON.parse(res);
-					$("#t_hospitalList").bootstrapTable({data:imsi2});
-					$("div.fixed-table-loading").remove();
-				}
+			$('#t_hospitalList').bootstrapTable('refreshOptions', {
+		           url: "/mks_project/client/hospital/jsonHospitalList.jsp?num="+1
 			});
+			$("div.fixed-table-loading").remove();
 		});
 	</script>
 </body>

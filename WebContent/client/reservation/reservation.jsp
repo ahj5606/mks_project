@@ -81,26 +81,26 @@
 	  		<div class="col-md">
 	  			<!-- 검색 -->
 				<div class="row">
-					<div class="col-md pr-0">
+					<!-- <div class="col-md pr-0">
 						<select class="form-control" id="s_month">
 							<option value="">6월</option>
 							<option value="">7월</option>
 							<option value="">8월</option>
 						</select>
-					</div>
+					</div> -->
 					<div class="col-md">
 						<select class="form-control" id="s_doc">
-							<option value="">담당의사</option>
-							<option value="">고길동</option>
-							<option value="">김유신</option>
-							<option value="">강감찬</option>
+							<option value="담당의사">담당의사</option>
+							<option value="고길동">고길동</option>
+							<option value="김유신">김유신</option>
+							<option value="강감찬">강감찬</option>
 						</select>
 					</div>
 				</div>
 	  			<!-- 날짜테이블 -->
 				<div class="row pt-2">
 					<div class="col-md">
-						<div class="container" style="background-color:#000000; height:400px;"></div>
+						<div id='calendar'></div>
 					</div>
 				</div>
 	  			<!-- 예약확인 -->
@@ -139,7 +139,7 @@
 	  			<!-- 예약시간 테이블 -->
 				<div class="row">
 					<div class="col-md">
-						<div class="table-responsive-md">
+						<div class="table-responsive-md" style="overflow-y: scroll;height:510px;">
 							<table class="table table-hover" id="t_reservationlList" style="text-align:center;">
 								<thead class="thead-light">
 									<tr>
@@ -171,13 +171,28 @@
 									<tr>
 										<td scope="row">1:30</td>
 									</tr>
+									<tr>
+										<td scope="row">1:30</td>
+									</tr>
+									<tr>
+										<td scope="row">1:30</td>
+									</tr>
+									<tr>
+										<td scope="row">1:30</td>
+									</tr>
+									<tr>
+										<td scope="row">1:30</td>
+									</tr>
+									<tr>
+										<td scope="row">1:30</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>	
 					</div>
 				</div>
 				<!-- 안내문구 -->
-				<div class="row pt-2" style="height:250px;background-color:#000000">
+				<div class="row pt-2 mt-4" style="height:250px;background-color:#000000">
 					<div class="col-md">
 					</div>
 				</div>
@@ -210,15 +225,18 @@
 				*/
 			<%}%>
 		});
-		$(document).ready(function(){
-			$("#s_doc").change(function(){
-				alert(this.value);
-			});
+		$("#s_doc").change(function(){
+			alert(this.value);
 		});
-		$(document).ready(function(){
-			$("#s_month").change(function(){
-				alert(this.value);
+		$("#s_month").change(function(){
+			alert(this.value);
+		});
+		document.addEventListener('DOMContentLoaded', function() {
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				plugins: [ 'dayGrid' ]
 			});
+			calendar.render();
 		});
 	</script>
 </body>
