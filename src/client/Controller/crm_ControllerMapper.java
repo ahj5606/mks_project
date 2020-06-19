@@ -1,18 +1,23 @@
 package client.Controller;
 
-
+import org.apache.log4j.Logger;
 
 public class crm_ControllerMapper {
+	
+	static Logger logger = Logger.getLogger(crm_ControllerMapper.class);
+	
 	public static crm_Controller getController(String[] commands) {
 		String work = commands[0];
 		String requestName = commands[1];
+		logger.info("requestName: "+requestName);
+		logger.info("work: "+work);
 		crm_Controller controller  =null;
 		if("login".equals(work)) {
 			controller = new crm_LoginController(requestName);
 		}else if("hospital".equals(work)) {
+			logger.info("hospital1");
 			controller = new crm_HospitalController(requestName);
-		}else if("info".equals(work)) {
-			controller = new crm_InfoController(requestName);
+			logger.info("hospital2");
 		}else if("mypage".equals(work)) {
 			controller = new crm_MypageController(requestName);
 		}else if("reservation".equals(work)) {

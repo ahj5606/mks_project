@@ -16,31 +16,33 @@
 	<jsp:include page="../login/menu.jsp"/>
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
-	  	<div class="row" style="height:650px;">
+	  	<div class="row pt-4">
 	  		<div class="col-md">
-				<div class="container" style="height:650px;padding-top:20px;">
-					<div class="row mb-0">
+				<div class="row mb-0">
+					<div class="col-md">
 						<label style="font-size:x-large;font-color:#4C4C4C;">이용안내</label>
 					</div>
-					<hr>
-					<!-- 메뉴 버튼 -->
-					<div class="row mb-0 mt-4 ml-2">
-						<button class="btn btn-md" 
-								style="font-size:large;color:#353535;background-color:#EAEAEA;" 
-										onClick="location.href='./citeIntro.jsp'">사이트소개</button>
-						<button class="btn btn-md" 
-								style="font-size:large;color:#F6F6F6;background-color:#007bff;" 
-										onClick="location.href='./nonmemServiceIntro.jsp'">비회원 서비스</button>
-						<button class="btn btn-md" 
-								style="font-size:large;color:#353535;background-color:#EAEAEA;" 
-										onClick="location.href='./memServiceIntro.jsp'">회원 서비스</button>
-					</div>
-					<!-- 내용 -->
-					<div class="row mx-2 my-0" style="background-color:#E4F7BA;height:450px;">비회원 서비스는...
-					</div>
+				</div>
+				<hr>
+				<!-- 메뉴 버튼 -->
+				<div class="row mb-0 mt-4 ml-2">
+					<button class="btn btn-md" 
+							style="font-size:large;color:#353535;background-color:#EAEAEA;" 
+									onClick="location.href='./citeIntro.jsp'">사이트소개</button>
+					<button class="btn btn-md" 
+							style="font-size:large;color:#F6F6F6;background-color:#007bff;" 
+									onClick="location.href='./nonmemServiceIntro.jsp'">비회원 서비스</button>
+					<button class="btn btn-md" 
+							style="font-size:large;color:#353535;background-color:#EAEAEA;" 
+									onClick="location.href='./memServiceIntro.jsp'">회원 서비스</button>
+				</div>
+				<!-- 내용 -->
+				<div class="row mx-2 my-0" style="background-color:#E4F7BA;height:450px;">비회원 서비스는...
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- footer -->
+	<jsp:include page="../login/footer.jsp"/>
 </body>
 </html>
