@@ -238,7 +238,6 @@
 			});
 			calendar.render();
 		});
-		
 	</script>
 </body>
 </html>
