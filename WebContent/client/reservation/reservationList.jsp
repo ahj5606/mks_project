@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String hp_name = null;// 팝업창 열릴 때 파라미터로 넘어온 **** 병원이름 
-	if( request.getParameter("hp_name")!=null){
-		hp_name =  request.getParameter("hp_name");
-	}
-	
-	String mem_name = null;// 세션에 저장되어있는 **** 회원이름
-	if(session.getAttribute("mem_name")!=null){
-		mem_name = (String)session.getAttribute("mem_name");
-	};
-	
+   String hp_name = null;// 팝업창 열릴 때 파라미터로 넘어온 **** 병원이름 
+   if( request.getParameter("hp_name")!=null){
+      hp_name =  request.getParameter("hp_name");
+   }
+   
+   String mem_name = null;// 세션에 저장되어있는 **** 회원이름
+   if(session.getAttribute("mem_name")!=null){
+      mem_name = (String)session.getAttribute("mem_name");
+   };
+   
 %>
 <!DOCTYPE html>
 <html>
@@ -21,31 +21,24 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>예약목록 화면</title>
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
 <%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
+
 	.container{
 		padding:5px;
 	}
-	.navbar .navbar-nav .nav-link {
-	  color: #F6F6F6;
-	  border-radius: .25rem;
-	  margin: 0 0.25em;
-	  font-family: 'Do Hyeon', sans-serif;
-	  font-size: x-large;
+	a.navbar-brand{/*네비바 글자 가운데 정렬*/
+		margin: auto;
 	}
-	.navbar .navbar-nav .nav-link:not(.disabled):hover,
-	.navbar .navbar-nav .nav-link:not(.disabled):focus {
-	  color: #FFFFFF;
+	.navbar .navbar-brand {
+	  	color: #F6F6F6;
+	  	font-family: 'Do Hyeon', sans-serif;
+	 	font-size: xx-large;
 	}
-	.navbar .navbar-nav .nav-item.active .nav-link,
-	.navbar .navbar-nav .nav-item.active .nav-link:hover,
-	.navbar .navbar-nav .nav-item.active .nav-link:focus,
-	.navbar .navbar-nav .nav-item.show .nav-link,
-	.navbar .navbar-nav .nav-item.show .nav-link:hover,
-	.navbar .navbar-nav .nav-item.show .nav-link:focus {
-	  color: #FFFFFF;
+	.navbar .navbar-brand:hover,
+	.navbar .navbar-brand:focus {
+	 	color: #FFFFFF;
+	 	font-family: 'Do Hyeon', sans-serif;
 	}
 	footer {
 		left: 0;
@@ -56,86 +49,105 @@
 		font-family:'Do Hyeon';
 		margin-top:30px;
 	}
+	#board_1 > a, #board_2 > a, #doc_1 > a, #doc_2 > a,#doc_3 > a{
+		color:#4C4C4C;
+	}
 </style>
 <script type="text/javascript">
 	function res_pageGet(num){
 		$.ajax({
-			url:"/mks_project/client/login/jsonMyReservList.jsp?num="+num
+			url:"/mks_project/client/login/jsonReservList.jsp?num="+num
 			,success:function(data){
-				var imsi = data.trim();
-				alert(imsi);
-				var res = JSON.parse(imsi);
-				var inner = "";
-				for(var i=0; i<res.length; i++){
-					inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].GAW+"</td></tr>";
-				    inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC+"</td></tr>";
-				    inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].DATE+"</td></tr>";
-				    inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].TIME+"</td></tr>";
-				}
-				$("#t_my_resevation").html(inner);
+				/* 
+				#t_reservationlList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
+				**** 일반내과(전체)와 같은 경우는.... 음... 부서코드를 박아야되나...?
+				<tr>
+					<th scope="row">일반내과1</th>
+					<td id="doc_2"><a href="javascript:doc_detail($('#doc_2'))">고길동2</a><input type="hidden" value="122"></td>
+					<td></td>
+					<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_2'))">예약</button></td>
+				</tr>
+				*/
 			}
 		});
 	}
-	function search_h_name(){
-		alert("입력한 병원이름: "+$("#h_name").val());
+	function search_doc_name(){
+		alert("입력한 의사이름: "+$("#doc_name").val());
 	}
 	function popup_board(){
-		alert("공지사항 검색");
+		alert("공지사항목록 팝업!");
+		cmm_window_popup('/mks_project/client/reservation/boardList.jsp?hp_name='+<%=hp_name%>,'1200','800','공지사항');
 	}
 	function board_detail(b_choice){
 		//*** input 태그 안에 공지사항 b_no(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
 		var b_no = $(b_choice).children("input").val();
-		alert(b_no);
-		cmm_window_popup('/mks_project/client/reservation/boardList.jsp?b_no='+b_no,'1200','800','공지사항');
+		alert("공지사항번호: "+b_no+" ==> 모달띄워야함!!");
 	}
 	function waiting(){
 		alert("대기버튼!");
 	}
-	function doc_detail(doc_choice){//의사상세정보
-		//*** input 태그 안에 공지사항 doc_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
+	function doc_detail(doc_choice){//의사상세정보 
+		//*** input 태그 안에 doc_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
 		var doc_code = $(doc_choice).children("input").val();
-		alert("정보를 원하는 의사: "+doc_code);
-		cmm_window_popup('/mks_project/client/reservation/docterDetail.jsp?doc_code='+doc_code,'500','500','의사상세정보');
+		alert("의사 코드: "+doc_code);
+		/* 
+		$.ajax({
+			url:"/mks_project/client/login/jsonReservation.jsp?doc_code="+doc_code
+			,success:function(data){
+				//모달창에 정보 뿌리기
+				$('#modal_doc').modal('show')
+			}
+		}); 
+		*/
+		$('#modal_doc').modal('show')
 	}
-	function reservation_detail(doc_choice){//예약하러 가기!!
-		//*** input 태그 안에 공지사항 doc_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
+	//예약버튼을 눌렀을 때 *******************************************************************************
+	function reservation_detail(doc_choice){//상세예약하는 화면 열기!
+		//*** input 태그 안에  doc_code & dept_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
 		var doc_code = $(doc_choice).children("input").val();
-		alert("예약하기 원하는 의사: "+doc_code);
-		location.href= '/mks_project/client/reservation/reservation.jsp?doc_code='+doc_code;
+		var doc_name = $(doc_choice).children("a").text();
+		alert("예약하기 원하는 의사이름: "+doc_name);
+		if(doc_name.length==0){//만약 의사이름이 없다면 == 일반내과 전체
+			alert("전체");
+			cmm_window_popup('/mks_project/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','920','병원 대기&예약 화면');
+			/* ****과 코드를 넘겨서 상세예약화면에서 dept_code로 
+					1)해당 과의 전체 의사 목록 뽑아서 카테고리완성, dept_name 전달   2)과전체 의사의 예약가능 날짜 List로 전달
+			*/
+		}else{
+			alert("의사 코드: "+doc_code);
+			cmm_window_popup('/mks_project/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','920','병원 대기&예약 화면');
+			/* ****의사 코드를 넘겨서 상세예약화면에서 doc_code로		
+					1)해당 의사의 dept_code를 뽑아서 의사 카테고리완성, dept_name 전달   2)해당의사의 예약가능날짜  List로 전달
+			}); 
+			*/
+		}
 	}
 </script>
 </head>
 <body>
 	<!-- 네이게이션 -->
 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#007bff;">
-	    <button class="navbar-toggler" aria-controls="popup_title" aria-expanded="false">
-	    	<span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse justify-content-md-center" id="popup_title">
-	    	<ul class="navbar-nav">
-	   			<li class="nav-item active">
-	    			<a class="nav-link" href="#"><%if(hp_name!=null){ out.print(hp_name); }%></a>
-	    		</li>
-	    	</ul>
-	    </div>
+	    <a class="navbar-brand" href="#"><%=hp_name%></a>
     </nav>
-	
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
-	  	<!-- 상단 -->
+	  	<!-- 상단1 -->
 	  	<div class="row mb-3 mt-2">
-	  		<!-- 우측 -->
 	  		<div class="col-md">
-	  			<!-- ~님 -->
 				<div class="row mb-0">
 					<div class="col-md">
 						<label style="font-size:x-large;font-color:#4C4C4C;">[<%=mem_name%>] 님 예약 화면</label>
 					</div>
 				</div>
-				<!-- 검색 -->
-				<div class="row pt-4">
-					<!-- 진료과  -->
-					<div class="col-md pr-0">
+			</div>
+		</div>
+		<!-- 상단2 -->
+	  	<div class="row mb-3 mt-2">
+	  		<!-- 검색 -->
+	  		<div class="col-md pr-1">
+	  			<!-- 진료과 -->
+				<div class="row">
+					<div class="col-md">
 						<select class="form-control" id="s_gwa">
 							<option value="진료과">진료과</option>
 							<option value="내과">내과</option>
@@ -144,23 +156,24 @@
 							<option value="이비인후과">이비인후과</option>
 						</select>
 					</div>
-					<!-- 이름 -->
+				</div>
+	  			<!-- 의사이름 -->
+				<div class="row pt-2">
 					<div class="col-md">
 						<div class="input-group">
-      						<input type="text" class="form-control" id="h_name" name="h_name" type="search" placeholder="Ex) 가산독산병원">
-      						<div class="input-group-prepend">
-      							<button class="btn btn-dark btn-block" onClick="search_h_name()">이름검색</button>
-      						</div>
-   						</div>
+		      				<input type="text" class="form-control" id="doc_name" name="doc_name" type="search" placeholder="Ex) 고길동">
+		      				<div class="input-group-prepend">
+		      					<button class="btn btn-dark btn-block" onClick="search_doc_name()">이름검색</button>
+		      				</div>
+		   				</div>
 					</div>
-					
 				</div>
 			</div>
-			<!-- 좌측: 공지사항 -->
-	  		<div class="col-md pt-4">
+			<!-- 공지사항 -->
+	  		<div class="col-8">
 				<div class="row">
 					<div class="col-md">
-						<button class="btn btn-dark w-50" onClick="popup_board()">공지사항</button>
+						<button class="btn btn-dark btn-block bg-light btn-outline-light" onClick="popup_board()">공지사항</button>
 					</div>
 				</div>
 				<div class="row">
@@ -168,7 +181,7 @@
 						<div class="border mb-0">
 							<ul id="board_list" style="margin-bottom:0;">
 								<!-- 
-									** 돔구성이 완료되었을 때 html()로 li를 2개 넣어 준다!
+									** 돔구성이 완료되었을 때 li를 2개 넣어 준다!
 									1) 공지사항 목록 2개 가져오면서 b_no을 input의 value 값으로 박아놓고 hidden으로 숨긴다...
 									2) 클릭하면 "공지사항상세화면 주소?b_no=3"으로 요청을 보낸다...
 								 -->
@@ -187,9 +200,9 @@
 				<div class="row mb-0">
 					<div class="col-md">
 						<div class="table-responsive-md">
-							<table class="table table-hover" style="text-align:center;">
+							<table class="table table-hover" id="t_reservationlList" style="text-align:center;">
 								<!-- 
-									** 돔구성이 완료되었을 때  html()로 테이블 tbody를 완성해준다.
+									** 돔구성이 완료되었을 때  tbody를 완성해준다.
 									1) 의사 목록 가져오면서 doc_code을 input의 value 값으로 박아놓고 hidden으로 숨긴다...
 									2) 의사를 클릭하면 "의사 상세화면 주소?doc_code=3222"으로 요청을 보낸다...
 									3) 예약버튼을 클릭하면 "예약 상세화면 주소?doc_code=3222"으로 요청...
@@ -202,30 +215,30 @@
 										<th scope="col">대기 및 예약</th>
 									</tr>
 								</thead>
-								<tbody id="t_reservationlList">
+								<tbody>
 									<tr>
 										<th scope="row">원무과</th>
 										<td></td>
 										<td>15분</td>
-										<td><button class="btn btn-dark w-50" onClick="waiting()">대기</button></td>
+										<td><button class="btn btn-dark btn-small" onClick="waiting()">대기</button></td>
 									</tr>
 									<tr>
-										<th scope="row">일반내과(전체)</th>
-										<td id="doc_1"><a href="javascript:doc_detail($('#doc_1'))"></a><input type="hidden" value="일반내과전체"></td>
+										<th scope="row">일반내과</th>
+										<td id="doc_1"><a href="javascript:doc_detail($('#doc_1'))"></a><input type="hidden" value="55555"></td>
 										<td></td>
-										<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_1'))">예약</button></td>
+										<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_1'))">예약</button></td>
 									</tr>
 									<tr>
-										<th scope="row">일반내과1</th>
+										<th scope="row">일반내과</th>
 										<td id="doc_2"><a href="javascript:doc_detail($('#doc_2'))">고길동2</a><input type="hidden" value="122"></td>
 										<td></td>
-										<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_2'))">예약</button></td>
+										<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_2'))">예약</button></td>
 									</tr>
 									<tr>
-										<th scope="row">일반내과2</th>
+										<th scope="row">일반내과</th>
 										<td id="doc_3"><a href="javascript:doc_detail($('#doc_3'))">고길동3</a><input type="hidden" value="131"></td>
 										<td></td>
-										<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_3'))">예약</button></td>
+										<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_3'))">예약</button></td>
 									</tr>
 								</tbody>
 							</table>
@@ -255,15 +268,49 @@
 					</div>
 				</div><!-- 페이지네이션 끝 -->
 	  		</div>
-	  		
 	  	</div>
 	</div>
-	
 	<!-- footer -->
 	<!-- <footer>
 		<div class="row bg-light pt-3">
 		</div>
 	</footer> -->
+	
+	<!-- Modal -->
+	<div class="modal fade" id="modal_doc" tabindex="-1" role="dialog" aria-hidden="true">
+  		<div class="modal-dialog" role="document">
+   			<div class="modal-content">
+   				<!-- head -->
+     	 		<div class="modal-header">
+        			<h5 class="modal-title">의사 상세 정보</h5>
+        			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          				<span aria-hidden="true">&times;</span>
+        			</button>
+      			</div>
+      			<!-- body -->
+      			<div class="modal-body">
+       				<table class="table table-hover" style="text-align:center;">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">이름</th>
+								<th scope="col">진료과목</th>
+								<th scope="col">전공</th>
+								<th scope="col">직급</th>
+							</tr>
+						</thead>
+						<tbody id="doc_detail">
+							<!-- 의사이름 눌렀을 떄, doc_code가 넘어가서 select한 값을  뿌려준다...-->
+						</tbody>
+					</table>
+     			</div>
+     			<!-- footer -->
+     			<div class="modal-footer">
+        			<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        			<button type="button" class="btn btn-primary">저장</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
 	
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
@@ -286,6 +333,11 @@
 					<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_2'))">예약</button></td>
 				</tr>
 				*/
+			});
+		});
+		$(document).ready(function(){
+			$("#s_gwa").change(function(){
+				alert(this.value);
 			});
 		});
 	</script>
