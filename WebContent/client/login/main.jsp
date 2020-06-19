@@ -45,14 +45,13 @@
 		//1) 마커 속 예약버튼 눌렀을 때 함수 호출한다...  2)파라미터(hp_name)에 병원이름 박아야함!
 		var hp_name = hos;
 		alert("popup_reservation 호출!");
-		cmm_window_popup('/mks_project/client/reservation/reservationList.jsp?hp_name='+hp_name,'1200','800','병원 대기&예약 화면');
+		cmm_window_popup('/mks_project/client/reservation/reservationList.jsp?hp_name='+hp_name,'1200','700','병원 대기&예약 화면');
 	}
 	function res_pageGet(num){
 		$.ajax({
 			url:"/mks_project/client/login/jsonMyReservList.jsp?num="+num
 			,success:function(data){
 				var imsi = data.trim();
-				alert(imsi);
 				var res = JSON.parse(imsi);
 				var inner = "";
 				for(var i=0; i<res.length; i++){
@@ -198,32 +197,21 @@
 	  							<div class="card-body pt-1" style="background-color:#FAED7D;height:110px;">
 									<div class="row">
 										<div class="col-md py-1 px-3" style="height:100px;">
-											<!-- 
-												** 돔구성이 완료되었을 때  html()로 테이블 tbody를 완성해준다.
-											 -->
-											<table id="t_my_resevation">
+											<table>
 												<tr>
-													<th style="padding:2px;">진료과목</th>
-													<td style="padding:2px;">내과</td>
-												</tr>
-												<tr>
-													<th style="padding:2px;">담당의사</th>
-													<td style="padding:2px;">고길동</td>
-												</tr>
-												<tr>
-													<th style="padding:2px;">예약날짜</th>
-													<td style="padding:2px;">2020/06/14</td>
-												</tr>
-												<tr>
-													<th style="padding:2px;">예약시간</th>
-													<td style="padding:2px;">13:30</td>
+													<td style="padding-right:50px;">
+														<table id="t_my_resevation">
+														</table>
+													</td>
+													<td>
+														<table id="qr_img">
+															<tr>
+																<td><img src="./qrCode.jpg" class="rounded" alt="qr코드 이미지"></td>
+															</tr>
+														</table>
+													</td>
 												</tr>
 											</table>
-										</div>
-										<div class="col-md-5 py-1 px-3" style="height:100px;">
-											<div class="text-center bg-light" id="qr_img">
- 												<img src="./qrCode.jpg" class="rounded" alt="qr코드 이미지">
-											</div>
 										</div>
 									</div>
 	  							</div>
@@ -295,19 +283,26 @@
 	<jsp:include page="./footer.jsp"/>
 	<!-- 돔 구성 완료되었을 떄 -->
 	<script type="text/javascript">
+		<%if(mem_name!=null){%>
+			$.ajax({
+				url:"/mks_project/client/login/jsonMyReservList.jsp?num="+1
+				,success:function(data){
+					var imsi = data.trim();
+					var res = JSON.parse(imsi);
+					var inner = "";
+					for(var i=0; i<res.length; i++){
+						inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].GAW+"</td></tr>";
+					    inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC+"</td></tr>";
+					    inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].DATE+"</td></tr>";
+					    inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].TIME+"</td></tr>";
+					}
+					$("#t_my_resevation").html(inner);
+				}
+			});
+		<%}%>
 		$(document).ready(function(){
 			$("#s_gwa").change(function(){
 				alert(this.value);
-			});
-			$.ajax({// **** 예약 목록1개 가져오는 아작스
-				/* 
-				1) #t_my_resevation 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
-					<tr>
-						<th style="padding:2px;">진료과목</th>
-						<td style="padding:2px;">내과</td>
-					</tr>
-				2) #qr_img의 자식태그 img에 qr코드를 넣어준다. 
-				*/
 			});
 		});
 	</script>
