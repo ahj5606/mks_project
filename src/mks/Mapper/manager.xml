@@ -102,12 +102,16 @@
 	
 	<insert id="patientINS" parameterType="map">
 		INSERT INTO MKS_MEMBER(MEM_MEMCODE,MEM_NAME,MEM_SOCIALNUM,MEM_PHONE,MEM_ADDRESS,MEM_ONLINE)
-		VALUES(#{mem_code},#{mem_name},#{mem_socialnum},#{mem_phone},#{mem_address},0)
+		VALUES(#{mem_code},#{mem_name},#{mem_social},#{mem_phone},#{mem_address},0)
 	</insert>
 	
 	<insert id="patientHIS" parameterType="map">
 		INSERT INTO MKS_HISTORY(HIS_DATE,HIS_CONTENT,MEM_MEMCODE,DOC_CODE,DOC_NAME,HP_CODE,DEPT_NAME,DEPT_CODE,HP_NAME)
 		VALUES(#{his_date},#{his_content},#{mem_code},#{doc_code},#{doc_name},#{hp_code},#{dept_name},#{dept_code},#{hp_name})		
 	</insert>	
-	
+	<update id="patientUPD" parameterType="map">
+		UPDATE MKS_MEMBER 
+		SET MEM_NAME=#{mem_name} ,  mem_phone=#{mem_phone} ,mem_address=#{mem_address} 
+		WHERE mem_memcode=#{mem_code}
+	</update>
 </mapper>

@@ -37,5 +37,30 @@ public class mgr_PatientLogic {
 		
 		return result;
 	}
+	public int patientDEL(Map<String, Object> pMap) {
+		int result =-1;
+		result = mgr_pDao.patientDEL(pMap);
+		return result;
+	}
+	public int patientUPD(Map<String, Object> pMap) {
+		int result =-1;
+		result = mgr_pDao.patientUPD(pMap);
+		return result;
+	}
+	public int patientINS(Map<String, Object> pMap) {
+		int result =-1;
+		int mem_code =-1;
+		mem_code = mgr_pDao.getMemNo(pMap);
+		if(mem_code>0) {
+			pMap.put("mem_code", mem_code);
+			int mem_ins = mgr_pDao.patientINS(pMap);
+			if(mem_ins==1) {
+				result=mgr_pDao.patientHISINS(pMap);
+			}
+		}
+		
+		return result;
+		
+	}
 
 }
