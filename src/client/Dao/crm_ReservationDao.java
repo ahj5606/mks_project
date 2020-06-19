@@ -1,5 +1,6 @@
 package client.Dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,10 +46,13 @@ public class crm_ReservationDao {
 		return watiCheck;
 	}
 	
-//	public List<Map<String, Object>> docSel(Map<String, Object> pMap) {
-//		logger.info("[crm_ReservationDao] docSel 호출성공");
-//		return null;
-//	}
+	public List<Map<String, Object>> docSel(Map<String, Object> pMap) {
+		logger.info("[crm_ReservationDao] docSel 호출성공");
+		List<Map<String, Object>> docSel = null;
+//		pMap.put("hp_code", "647HP");
+		docSel = sqlSes.selectList("docSel", pMap);
+		return docSel;
+	}
 	
 	public List<Map<String, Object>> calender(Map<String, Object> pMap) {
 		logger.info("[crm_ReservationDao] calender 호출성공");
@@ -72,4 +76,11 @@ public class crm_ReservationDao {
 		sqlSes.commit(true);
 		return result;
 	}
+	
+//	public static void main(String[] args) {
+//		crm_ReservationDao res = new crm_ReservationDao();
+//		Map<String, Object> pMap = new HashMap<String, Object>();
+//		res.docSel(pMap);
+//		System.out.println(pMap);
+//	}
 }
