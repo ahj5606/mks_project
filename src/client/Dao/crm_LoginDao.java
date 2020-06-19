@@ -1,10 +1,13 @@
 package client.Dao;
 
+import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.log4j.Logger;
 
 import mks.util.MyBatisConnction;
@@ -14,10 +17,22 @@ public class crm_LoginDao {
 	SqlSessionFactory sqlMapper = null;
 	SqlSession sqlSes = null;
 	
-	public crm_LoginDao() {
+	public String crm_LoginDao(Map<String, Object> pMap) {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
-	}
+			String s_name = null;
+			try {
+				//Reader reader = Resources.getResourceAsReader(resource); 
+				//sqlMapper = new SqlSessionFactoryBuilder().build(reader);
+				SqlSession sqlSes = sqlMapper.openSession();
+				s_name = sqlSes.selectOne("login",pMap);
+				logger.info("s_name"+s_name);
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+			return s_name;
+		}
+	
 	
 	public List<Map<String, Object>> login(Map<String, Object> pMap) {
 		logger.info("[crm_LoignDao] login호출 성공");
