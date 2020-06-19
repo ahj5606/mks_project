@@ -58,7 +58,7 @@
 <script type="text/javascript">
 	function res_pageGet(num){
 		$.ajax({
-			url:"/mks_project/client/login/jsonReservList.jsp?num="+num
+			url:"/client/login/jsonReservList.jsp?num="+num
 			,success:function(data){
 				/* 
 				#t_reservationlList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
@@ -78,7 +78,7 @@
 	}
 	function popup_board(){
 		alert("공지사항목록 팝업!");
-		cmm_window_popup('/mks_project/client/reservation/boardList.jsp?hp_name='+<%=hp_name%>,'1200','800','공지사항');
+		cmm_window_popup('/client/reservation/boardList.jsp?hp_name='+<%=hp_name%>,'1200','800','공지사항');
 	}
 	function board_detail(b_choice){
 		//*** input 태그 안에 공지사항 b_no(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
@@ -94,7 +94,7 @@
 		alert("의사 코드: "+doc_code);
 		/* 
 		$.ajax({
-			url:"/mks_project/client/login/jsonReservation.jsp?doc_code="+doc_code
+			url:"/client/login/jsonReservation.jsp?doc_code="+doc_code
 			,success:function(data){
 				//모달창에 정보 뿌리기
 				$('#modal_doc').modal('show')
@@ -111,13 +111,13 @@
 		alert("예약하기 원하는 의사이름: "+doc_name);
 		if(doc_name.length==0){//만약 의사이름이 없다면 == 일반내과 전체
 			alert("전체");
-			cmm_window_popup('/mks_project/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','1000','병원 대기&예약 화면');
+			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','1000','병원 대기&예약 화면');
 			/* ****과 코드를 넘겨서 상세예약화면에서 dept_code로 
 					1)해당 과의 전체 의사 목록 뽑아서 카테고리완성, dept_name 전달   2)과전체 의사의 예약가능 날짜 List로 전달
 			*/
 		}else{
 			alert("의사 코드: "+doc_code);
-			cmm_window_popup('/mks_project/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','1000','병원 대기&예약 화면');
+			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','1000','병원 대기&예약 화면');
 			/* ****의사 코드를 넘겨서 상세예약화면에서 doc_code로		
 					1)해당 의사의 dept_code를 뽑아서 의사 카테고리완성, dept_name 전달   2)해당의사의 예약가능날짜  List로 전달
 			}); 

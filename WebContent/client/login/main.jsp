@@ -45,11 +45,11 @@
 		//1) 마커 속 예약버튼 눌렀을 때 함수 호출한다...  2)파라미터(hp_name)에 병원이름 박아야함!
 		var hp_name = hos;
 		alert("popup_reservation 호출!");
-		cmm_window_popup('/mks_project/client/reservation/reservationList.jsp?hp_name='+hp_name,'1200','700','병원 대기&예약 화면');
+		cmm_window_popup('/client/reservation/reservationList.jsp?hp_name='+hp_name,'1200','700','병원 대기&예약 화면');
 	}
 	function res_pageGet(num){
 		$.ajax({
-			url:"/mks_project/client/login/jsonMyReservList.jsp?num="+num
+			url:"/client/login/jsonMyReservList.jsp?num="+num
 			,success:function(data){
 				var imsi = data.trim();
 				var res = JSON.parse(imsi);
@@ -64,9 +64,7 @@
 			}
 		});
 	}
-	function search_h_name(){
-		alert("입력한 병원이름: "+$("#h_name").val());
-	}
+
 	function login(){
 		alert("로그인 버튼!");
 		/* 
@@ -74,7 +72,7 @@
 		$("#f_login").attr("action","");//로그인 url ****
 		$("#f_login").submit();
 		*/
-		location.href='/mks_project/client/login/loginpro.jsp'
+		location.href='/client/login/loginpro.jsp'
 	}
 </script>
 </head>
@@ -141,7 +139,7 @@
 			   	<div class="container" style="background-color:#EAEAEA;">
 					<div class="row mt-2 mb-2">
 						<div class="col-md">
-							<button class="btn btn-md bg-lignt" onClick="location.href='/mks_project/client/login/createAccount.jsp'">회원가입</button>
+							<button class="btn btn-md bg-lignt" onClick="location.href='/client/login/createAccount.jsp'">회원가입</button>
 						</div>
 						<div class="col-md">
 							<button class="btn btn-md btn-dark btn-block" onClick="popup_reservation('가산독산병원')">병원</button>
@@ -217,6 +215,7 @@
 									</div>
 	  							</div>
 							</div>
+
 							<!-- 페이지네이션 -->
 							<ul class="pagination pagination-small justify-content-center mb-0">
 								<li class="page-item">
@@ -286,7 +285,7 @@
 	<script type="text/javascript">
 		<%if(mem_name!=null){%>
 			$.ajax({
-				url:"/mks_project/client/login/jsonMyReservList.jsp?num="+1
+				url:"/client/login/jsonMyReservList.jsp?num="+1
 				,success:function(data){
 					var imsi = data.trim();
 					var res = JSON.parse(imsi);
@@ -321,7 +320,7 @@
 			var marker;//5개가 출력(json으로 스캔-jsonMapList.jsp)
 			var i;//마커 생성시 부여한 인덱스값 0~4   
 			$.ajax({
-				url: '/hospital/hospitalList.client'
+				url: '/login/hospitalList.crm'
 			   ,dataType: 'json'
 			   ,success:function(data){
 				   var result = JSON.stringify(data);//직관적인 정보로 변환(구조체-덩어리)-알아봄.
@@ -345,9 +344,8 @@
 							   content += '<b>대기인원 : </b>';
 							   <!--<%
 								if(parameter!=null){ %>-->
-							   content += '<a href="../reservation/reservationList.jsp?hp_name='+jsonDoc[i].HP_NAME+'">';
-									
-								
+								var imsi = jsonDoc[i].HP_NAME;
+							   content += '<a href="javascript:popup_reservation('+imsi+')">';																	
 							   content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
 							   <!--<%}%>-->
 							   //content += '<a href="../reservation/reservationList.jsp?jsonDoc[i].HP_NAME"><img src=./bookbutton.png width=20 height=20/></a><br>';
@@ -366,7 +364,6 @@
 			});////////////////////end of ajax
 			 map.relayout();
 			});
-	 <!----------------------------------------지도 우편검색------------------------------------->
 		function search_addr() {
 	        new daum.Postcode({
 	            oncomplete: function(data) {
@@ -386,11 +383,11 @@
 	            }
 	        }).open();        
 	    };
-		 <!-----------------------------------------지도 병원검색-------------------------------------->    
+ 
 		function search_h_name(){
 			alert("입력한 병원이름: "+$("#h_name").val());
 			$.ajax({
-				url:'/hospital/hospitalList.client?hp_name='+$("#h_name").val()
+				url:'/login/hospitalList.crm?hp_name='+$("#h_name").val()
 			   ,dataType: 'json'
 			   ,success:function(data){
 				   var result = JSON.stringify(data);

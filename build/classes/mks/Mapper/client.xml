@@ -2,19 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.clientMapper">
 	<select id="hospitalList" parameterType="map" resultType="map">
-		SELECT
-		    hp_name
-		  FROM mks_hospital
-		  WHERE 1 = 1
-		  <if test="hp_open != null">
-			  AND hp_open = #{hp_open}
-		  </if>
-		  <if test="hp_close !=  null">
-		  	AND hp_close = #{hp_close}	
-		  </if>
-	</select>
-	
-	<select id="reservationList" parameterType="map" resultType="map">
-	
+			  SELECT hp_name, hp_lat, hp_lng, hp_phone
+ FROM mks_hospital
+where hp_lng is not null and hp_lat  is not null
+<if test="hp_name!=null">
+and hp_name = #{hp_name}
+</if>
 	</select>
 </mapper>
