@@ -11,10 +11,11 @@ public class crm_HospitalLogic {
 	Logger logger = Logger.getLogger(crm_HospitalLogic.class);
 	crm_HospitalDao crm_hpDao = new crm_HospitalDao();
 	
-	public List<Map<String,Object>> hospialList(Map<String, Object> pMap) {
+	public List<Map<String,Object>> hospitalList(Map<String, Object> pMap) {
 		logger.info("병원리스트");
 		List<Map<String,Object>> hpList=null;
-		hpList=crm_hpDao.hospialList(pMap);
+		hpList=crm_hpDao.hospitalList(pMap);
+		logger.info(hpList.size());
 		return hpList;
 	}
 	/*public static void main(String[] args) {

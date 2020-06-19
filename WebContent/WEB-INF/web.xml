@@ -8,7 +8,7 @@
 	
 	<servlet>
 		<servlet-name>clientServlet</servlet-name>
-		<servlet-class>client.pojo.Client</servlet-class>
+		<servlet-class>client.pojo.client</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>clientServlet</servlet-name>

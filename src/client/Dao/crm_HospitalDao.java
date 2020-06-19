@@ -19,11 +19,11 @@ public class crm_HospitalDao {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}
-	public List<Map<String, Object>> hospialList(Map<String, Object> pMap) {
+	public List<Map<String, Object>> hospitalList(Map<String, Object> pMap) {
 		List<Map<String, Object>> hpList = null;
-		logger.info("sqlMapper: "+sqlMapper);
-		logger.info("sqlSes: "+sqlSes);
-		hpList =sqlSes.selectList("hospialList", pMap);
+		//logger.info("sqlMapper: "+sqlMapper);
+		//logger.info("sqlSes: "+sqlSes);
+		hpList =sqlSes.selectList("hospitalList", pMap);
 		logger.info("사이즈:  "+hpList.size());
 		return hpList;
 	}
