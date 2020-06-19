@@ -12,9 +12,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
   <title>병원관리시스템</title>
   <!-- Custom fonts for this template-->
-	<%@include file="/common/ManagerCommon.jsp" %>
+	<%@include file="../../common/ManagerCommon.jsp" %>
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <!-- Custom styles for this template-->
 
@@ -108,7 +110,7 @@
         <!-- end of Topbar -->
         </nav>
         <!--====================================== 여기에 코드를 메인 코드를 넣어야 함  -->
-        <%@include file="./patientWrite.jsp" %>
+        <%@include file="./doctorList.jsp" %>
         <!--======================================  -->
         <!-- end of Main Content -->
         </div>
