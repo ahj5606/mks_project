@@ -21,8 +21,6 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>예약목록 화면</title>
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
 <%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
 
@@ -175,7 +173,7 @@
 	  		<div class="col-8">
 				<div class="row">
 					<div class="col-md">
-						<button class="btn btn-dark btn-block bg-success" onClick="popup_board()">공지사항</button>
+						<button class="btn btn-dark btn-block bg-light btn-outline-light" onClick="popup_board()">공지사항</button>
 					</div>
 				</div>
 				<div class="row">
