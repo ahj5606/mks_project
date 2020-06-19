@@ -16,6 +16,7 @@ public class mgr_NoticeLogic {
 		List<Map<String, Object>> nList = new ArrayList<>();
 		nList = mnd.noticeSEL(nMap);
 		logger.info("mgr_NoticLogic=>noticeSEL=>nList=>"+nList);
+
 		return nList;
 	}
 }

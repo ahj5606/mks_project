@@ -20,6 +20,10 @@
 <script type="text/javascript">
 	var select_val = null;
 	var select_no = null;
+	var select_title = null;
+	var select_content = null;
+	var select_id = null;
+	
 	function writeform(){
 		//alert("글쓰기 버튼 호출 성공");
 		location.href="./s_writeform.jsp?dept=<%=h_dept%>"
@@ -71,9 +75,11 @@
 		<table id="notice_board" class="table table-striped table-bordered" >
 			<thead>
 			<tr style="text-align:center;">
-				<th data-field="BOARD_NO" >번호</th>
+				<th data-field="BOARD_NO">번호</th>
 				<th data-field="BOARD_TITLE">제목</th>
 				<th data-field="DEPT_NAME">작성자</th>
+				<th data-field="BOARD_CONTENT" data-visible="false">내용</th>
+				<th data-field="MKS_ID" data-visible="false">아이디</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -84,6 +90,8 @@
 					<td><%=nList.get(i).get("BOARD_NO") %></td>
 					<td><%=nList.get(i).get("BOARD_TITLE") %></td>
 					<td><%=nList.get(i).get("DEPT_NAME") %></td>
+					<td><%=nList.get(i).get("BOARD_CONTENT") %></td>
+					<td><%=nList.get(i).get("MKS_ID") %></td>
 				</tr>
 			<%
 				}
@@ -156,9 +164,18 @@
 			     { 
 					var imsi = JSON.stringify(row.BOARD_NO)
 					select_no = JSON.parse(imsi);
+					var imsi = JSON.stringify(row.BOARD_TITLE)
+					select_title = JSON.parse(imsi);
+					var imsi = JSON.stringify(row.BOARD_CONTENT)
+					select_content = JSON.parse(imsi);
+					var imsi = JSON.stringify(row.MKS_ID)
+					select_id = JSON.parse(imsi);
 					
 					alert(select_no); 
+					alert(select_title); 
+					alert(select_content); 
 					
+					location.href="./noticeDetail.mgr?no="+select_no+"&title="+select_title+"&content="+select_content+"&writer=<%=h_dept%>&mks_id="+select_id;
 			     }
 			});		
 			$("#notice_board").bootstrapTable('hideLoading');

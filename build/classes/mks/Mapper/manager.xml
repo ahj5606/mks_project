@@ -45,7 +45,7 @@
 	</select>
 
 	<select id="noticeSEL" parameterType="map" resultType="map">
-		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name
+		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
 		 FROM mks_board b, mks_online o
 		 WHERE b.mks_id = o.mks_id
 		 <if test="board_no!=null">
@@ -53,11 +53,26 @@
 		 </if>
 	</select>
 	
-	<update id="noticeUPD" parameterType="map">
+	<select id="getBoardNO">
+        SELECT NVL((
+                     SELECT /*+index_desc(mks_board XPK게시판)*/ board_no
+                          FROM mks_board
+                       WHERE rownum = 1
+                 ),0)+1 board_no
+           FROM dual
+	</select>
 	
+	<update id="noticeUPD" parameterType="map">
+		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}
+		 WHERE board_no=#{board_no}
 	</update>
 	
 	<delete id="noticeDEL" parameterType="map">
 	
 	</delete>
+	<insert id="noticeINS" parameterType="map">
+		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title, board_file, mks_id)
+ 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), #{board_title}, #{board_file}, #{mks_id});
+	</insert>
+	
 </mapper>

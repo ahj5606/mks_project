@@ -1,7 +1,9 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String dept = request.getParameter("dept");
+	List<Map<String,Object>> nList = (List<Map<String,Object>>)request.getAttribute("nList");
 %>
 <!DOCTYPE html>
 <html>
@@ -25,6 +27,7 @@
 	}
 	function notice_update(){
 		alert("수정 확인 버튼 호출 성공");
+		
 	}
 	function notice_delete(){
 		alert("삭제 확인 버튼 호출 성공");
@@ -40,17 +43,18 @@
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-8">
 		    <label>제목</label>
-		    <input id="notice_title" type="text" class="form-control" placeholder="제목">
+		    <input id="notice_title" name="title" type="text" class="form-control" placeholder="제목" value="<%=nList.get(0).get("BOARD_TITLE") %>">
 	    </div>
 		<div class="col-md-4">
 		    <label>작성자</label>
-		    <input id="notice_writer" type="text" class="form-control" value="<%=dept %>" readonly>
+		    <input id="notice_writer" name="writer" type="text" class="form-control" value="<%=nList.get(0).get("DEPT_NAME") %>" readonly>
+		    <input data-visible="false" id="mks_id" name="mks_id" type="text" class="form-control" value="<%=nList.get(0).get("MKS_ID") %>" readonly>
 	   </div>
 	 </div>
 	  <div  class="row" style="margin-bottom:30px;">
 	  <div class="col-md-12">
 		<label>내용</label>
-	    <input id="notice_content" type="text" class="form-control" placeholder="     내용을 입력해주세요." style="height:500px;">
+	    <input id="notice_content" name="content" type="text" class="form-control" value="<%=nList.get(0).get("BOARD_CONTENT") %>" placeholder="     내용을 입력해주세요." style="height:500px;">
 	    </div>
 	</div>
 	<div class="row">
@@ -100,13 +104,6 @@
 			  </div>
 			</div>
 			<!-- 삭제모달창 끝  -->
-			
-	
-	
-	
-	
-	
-	
 	
 	
 	
