@@ -193,41 +193,51 @@
 				   	<div class="row mb-1">
 				   		<div class="col-md">
 				   			<!-- 정보 -->
-					   		<div class="card">
-	  							<h6 class="card-header" style="height:35px;background-color:#007bff;color:#FFFFFF;">예약정보</h6>
-	  							<div class="card-body pt-1" style="background-color:#FAED7D;height:110px;">
-									<div class="row">
-										<div class="col-md py-1 px-3" style="height:100px;">
-											<!-- 
-												** 돔구성이 완료되었을 때  html()로 테이블 tbody를 완성해준다.
-											 -->
-											<table id="t_my_resevation">
-												<tr>
-													<th style="padding:2px;">진료과목</th>
-													<td style="padding:2px;">내과</td>
-												</tr>
-												<tr>
-													<th style="padding:2px;">담당의사</th>
-													<td style="padding:2px;">고길동</td>
-												</tr>
-												<tr>
-													<th style="padding:2px;">예약날짜</th>
-													<td style="padding:2px;">2020/06/14</td>
-												</tr>
-												<tr>
-													<th style="padding:2px;">예약시간</th>
-													<td style="padding:2px;">13:30</td>
-												</tr>
-											</table>
-										</div>
-										<div class="col-md-5 py-1 px-3" style="height:100px;">
-											<div class="text-center bg-light" id="qr_img">
- 												<img src="./qrCode.jpg" class="rounded" alt="qr코드 이미지">
-											</div>
-										</div>
-									</div>
-	  							</div>
-							</div>
+					   		<!-- 정보 -->
+                        <div class="card">
+                          <h6 class="card-header" style="height:35px;background-color:#007bff;color:#FFFFFF;">예약정보</h6>
+                          <div class="card-body pt-1" style="background-color:#FAED7D;height:110px;">
+                           <div class="row">
+                              <div class="col-md py-1 px-3" style="height:100px;">
+                                 <!-- 
+                                    ** 돔구성이 완료되었을 때  html()로 테이블 tbody를 완성해준다.
+                                  -->
+                                 <table>
+                                    <tr>
+                                       <td style="padding-right:50px;">
+                                          <table id="t_my_resevation">
+                                             <tr>
+                                                <th style="padding:2px;">진료과목</th>
+                                                <td style="padding:2px;">내과</td>
+                                             </tr>
+                                             <tr>
+                                                <th style="padding:2px;">담당의사</th>
+                                                <td style="padding:2px;">고길동</td>
+                                             </tr>
+                                             <tr>
+                                                <th style="padding:2px;">예약날짜</th>
+                                                <td style="padding:2px;">2020/06/14</td>
+                                             </tr>
+                                             <tr>
+                                                <th style="padding:2px;">예약시간</th>
+                                                <td style="padding:2px;">13:30</td>
+                                             </tr>
+                                          </table>
+                                       </td>
+                                       <td>
+                                          <table id="qr_img">
+                                             <tr>
+                                                <td><img src="./qrCode.jpg" class="rounded" alt="qr코드 이미지"></td>
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                          </div>
+                     </div>
+											
 							<!-- 페이지네이션 -->
 							<ul class="pagination pagination-small justify-content-center mb-0">
 								<li class="page-item">
@@ -313,49 +323,105 @@
 	</script>
 	<!-- 지도 API -->
 	<script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-            level: 5 // 지도의 확대 레벨
-        };
-    var element_wrap = document.getElementById('wrap');
-    //지도를 미리 생성
-    var map = new daum.maps.Map(mapContainer, mapOption);
-    //주소-좌표 변환 객체를 생성
-    var geocoder = new daum.maps.services.Geocoder();
-    //마커를 미리 생성
-    var marker = new daum.maps.Marker({
-        position: new daum.maps.LatLng(50.537187, 127.005476),
-        map: map
-    });
-    function search_addr() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var addr = data.sigungu; // 최종 주소 변수
-                var addr1 = data.sido; // 최종 주소 변수
-                var addr2 = data.bname; // 최종 주소 변수
-                // 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("h_addr").value = addr+" "+addr1+" "+addr2;
-                // 주소로 상세 정보를 검색
-                geocoder.addressSearch(data.address, function(results, status) {
-                    // 정상적으로 검색이 완료됐으면
-                    if (status === daum.maps.services.Status.OK) {
-                        var result = results[0]; //첫번째 결과의 값을 활용
-                        // 해당 주소에 대한 좌표를 받아서
-                        var coords = new daum.maps.LatLng(result.y, result.x);
-                        // 지도를 보여준다.
-                        // 지도 중심을 변경한다.
-                        map.setCenter(coords);
-                        // 마커를 결과값으로 받은 위치로 옮긴다.
-                        marker.setPosition(coords)
-                    }
-                });
-            }
-        }).open();
-    }
-    mapContainer.style.display = "block";
-    map.relayout();
-    setTimeout(function(){ map.relayout();}, 0);
+	var geocoder = new daum.maps.services.Geocoder();
+	var map = new daum.maps.Map(document.getElementById('map'),{
+		 zoom: 14
+	    ,center: new daum.maps.LatLng(37.478513,126.877800)
+	    ,mapTypeId: daum.maps.MapTypeId.ROADMAP
+	});
+	var infowindow = new daum.maps.InfoWindow();//말풍선을 클릭했을 때 열리는 창
+	 $(document).ready(function(){
+		////////////end of map
+			var marker;//5개가 출력(json으로 스캔-jsonMapList.jsp)
+			var i;//마커 생성시 부여한 인덱스값 0~4   
+			$.ajax({
+				url: '/hospital/hospitalList.client'
+			   ,dataType: 'json'
+			   ,success:function(data){
+				   var result = JSON.stringify(data);//직관적인 정보로 변환(구조체-덩어리)-알아봄.
+				   //$("#d_map").text(result);
+				   var jsonDoc = JSON.parse(result);//배열로 전환-다시 객체화처리됨.(배열)
+				   for(var i=0;i<jsonDoc.length;i++){
+					   //alert(jsonDoc[1].HP_NAME);//배열.속성이름으로 꺼낸다.
+					   marker = new daum.maps.Marker({
+						  id: i
+						 ,position: new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1)
+					     ,map: map//지도는 하나
+					     ,title: jsonDoc[i].HP_NAME// 마커가 5개이므로 식당이름 5개 분류
+					   });////////////////end of marker
+
+					   daum.maps.event.addListener(marker, 'click',(function(marker,i){
+						 return function(){
+							   var content = '<b>병원이름 : '+jsonDoc[i].HP_NAME+'</b>';
+							   content += '<br>';
+							   content += '<b>전화번호 :<br>  '+jsonDoc[i].HP_PHONE+'</b>';
+							   content += '<br>';
+							   content += '<b>대기인원 : </b>';
+							   <!--<%
+								if(parameter!=null){ %>-->
+							   content += '<a href="../reservation/reservationList.jsp?hp_name='+jsonDoc[i].HP_NAME+'">';
+									
+								
+							   content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
+							   <!--<%}%>-->
+							   //content += '<a href="../reservation/reservationList.jsp?jsonDoc[i].HP_NAME"><img src=./bookbutton.png width=20 height=20/></a><br>';
+							   content += '<br>';
+							   content += '<br>';
+							   infowindow.setContent(content);
+								
+							   infowindow.open(map,marker);
+							   map.setCenter(this.getPosition());
+							   
+						   }//end of 반환함수
+					   })(marker,i));////////////end of addLitener
+					   //마커를 생성했을때 click이벤트 처리하기
+				   }///////////////end of for
+			   }///////////////////end of success
+			});////////////////////end of ajax
+			 map.relayout();
+			});
+	 <!----------------------------------------지도 우편검색------------------------------------->
+		function search_addr() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                var addr = data.sigungu; 
+	                var addr1 = data.sido; 
+	                var addr2 = data.bname;
+	                document.getElementById("h_addr").value = addr+" "+addr1+" "+addr2;
+	                // 주소로 상세 정보를 검색
+	                geocoder.addressSearch(data.address, function(results, status) {
+	                    if (status === daum.maps.services.Status.OK) {
+	                        var result = results[0]; //첫번째 결과의 값을 활용
+	                        var coords = new daum.maps.LatLng(result.y, result.x);
+	                        map.setCenter(coords);
+	                        map.setLevel(4);          
+	                    }
+	                });
+	            }
+	        }).open();        
+	    };
+		 <!-----------------------------------------지도 병원검색-------------------------------------->    
+		function search_h_name(){
+			alert("입력한 병원이름: "+$("#h_name").val());
+			$.ajax({
+				url:'/hospital/hospitalList.client?hp_name='+$("#h_name").val()
+			   ,dataType: 'json'
+			   ,success:function(data){
+				   var result = JSON.stringify(data);
+				   var jsonDoc = JSON.parse(result);
+				   for(var i=0;i<jsonDoc.length;i++){
+					 //  var imsi = $("#h_name").val()+"";       
+					   var imsi2 = jsonDoc[i].HP_NAME+"";
+					 //  if(imsi== imsi2){
+						   var coords3 = new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1);
+						   map.setCenter(coords3);
+						   map.setLevel(4); 
+					  // }			
+				   }
+			   }
+			});
+		}
+
 	</script>
 </body>
 </html>

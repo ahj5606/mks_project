@@ -27,20 +27,24 @@ public class Client extends HttpServlet {
 			crm_Controller controller = null;
 			
 			if(commands.length==2) {
+				logger.info("commands.length");
 				controller = crm_ControllerMapper.getController(commands);
 				logger.info(controller);
 				
 			}
 			
 			if(controller!=null) {
+				logger.info("controller!=null");
 				crm_ModelAndView crm_Mav= null;
 				crm_Mav=controller.process(req, res);
 				
 				if(crm_Mav.getIsForward()) {
-					String path = "/WEB-INF/Client"+crm_Mav.getViewName()+".jsp";
+					logger.info("foward");
+					String path = "/Client"+crm_Mav.getViewName()+".jsp";
 					RequestDispatcher view = req.getRequestDispatcher(path);
 					view.forward(req, res);
 				}else if(!crm_Mav.getIsForward()) {
+					logger.info("redirect");
 					String path = contextPath+"/Client"+crm_Mav.getViewName()+".jsp";
 					res.sendRedirect(path);
 				}			
