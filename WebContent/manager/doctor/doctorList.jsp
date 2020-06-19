@@ -58,7 +58,9 @@
 			      	<table id="doc_list" class="table table-sm">
 					  <thead>
 					    <tr>
+						  <th scope="col" data-field="DEPT_NAME">부서</th>
 						  <th scope="col" data-field="DOC_CODE">의사코드</th>
+						  <th scope="col" data-field="HP_CODE">의사코드</th>
 						  <th scope="col" data-field="DOC_STATE">전공</th> 	
 						  <th scope="col" data-field="DOC_NAME">이름</th> 
 						  <th scope="col" data-field="DOC_POSITION">직급</th> 
@@ -73,7 +75,9 @@
 		
 %>
 					  	<tr>
+					  	  <td><%=docList.get(i).get("DEPT_NAME") %></td>
 					  	  <td><%=docList.get(i).get("DOC_CODE") %></td>
+					  	  <td><%=docList.get(i).get("HP_CODE") %></td>
 					  	  <td><%=docList.get(i).get("DOC_STATE") %></td>
 					  	  <td><%=docList.get(i).get("DOC_NAME") %></td>
 					  	  <td><%=docList.get(i).get("DOC_POSITION") %></td>

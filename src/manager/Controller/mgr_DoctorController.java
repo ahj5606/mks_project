@@ -25,6 +25,7 @@ public class mgr_DoctorController implements mgr_Controller {
 		mgr_ModelAndView mav = new mgr_ModelAndView();
 		String path = "";
 		if("doctorSEL".equals(requestName)) {
+			String doc_code = req.getParameter("doc_code");
 			String hp_code = req.getParameter("hp_code");
 			String doc_name = req.getParameter("doc_name");
 			String dept_name = req.getParameter("dept_name");
@@ -36,6 +37,12 @@ public class mgr_DoctorController implements mgr_Controller {
 			
 			List<Map<String,Object>> dList = null;
 			Map<String, Object> pMap = new HashMap<>();
+			if("".equals(req.getParameter("doc_code"))) {
+				doc_code=null;
+			}
+			if("".equals(req.getParameter("hp_code"))) {
+				hp_code=null;
+			}
 			if("".equals(req.getParameter("doc_name"))) {
 				doc_name=null;
 			}
@@ -54,6 +61,7 @@ public class mgr_DoctorController implements mgr_Controller {
 			if("".equals(req.getParameter("doc_state"))) {
 				doc_state=null;
 			}	
+				pMap.put("doc_code", doc_code);
 				pMap.put("hp_code", hp_code);
 				pMap.put("doc_name", doc_name);
 				pMap.put("dept_name", dept_name);
@@ -84,6 +92,7 @@ public class mgr_DoctorController implements mgr_Controller {
 			path = "forward:/doctor/doctorList.jsp";
 		}
 		else if("doctorDetail".equals(requestName)) {
+			String doc_code = req.getParameter("doc_code");
 			String hp_code = req.getParameter("hp_code");
 			String doc_name = req.getParameter("doc_name");
 			String dept_name = req.getParameter("dept_name");
@@ -95,6 +104,7 @@ public class mgr_DoctorController implements mgr_Controller {
 			//멤버 테이블에서 조회
 			List<Map<String,Object>> dList = null;
 			Map<String, Object> pMap = new HashMap<>();
+			pMap.put("doc_code", doc_code);
 			pMap.put("hp_code", hp_code);
 			pMap.put("doc_name", doc_name);
 			pMap.put("dept_name", dept_name);

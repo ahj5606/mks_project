@@ -35,6 +35,10 @@
 		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" style="width: 245px">
 		    	</div>
 			    <div class="form-group">
+			      <label>병원코드</label>
+			      <input type="text" class="form-control" id="hp_code" name="hp_code" style="width: 245px">
+			    </div>
+			    <div class="form-group">
 			      <label>부서</label>
 			      <input type="text" class="form-control" id="dept_name" name="dept_name" style="width: 245px">
 			    </div>
@@ -50,7 +54,7 @@
 			    
 			   	<div>
 		    	<div class="form-group">
-			      <label>학력</label>
+			      <label>전공</label>
 			      <input type="text" class="form-control" id="doc_education" name="doc_education" style="width: 245px">
 			    </div>
 		    	<div class="form-group">
