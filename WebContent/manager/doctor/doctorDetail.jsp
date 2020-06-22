@@ -29,11 +29,15 @@
 <h2>의사추가</h2>
 </div>
 	<div class="container">
-  	
+  				<div>
 	     		<div class="form-group" style="margin-top: 30px">
 		      	  <label>의사코드</label>
 		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" style="width: 245px">
 		    	</div>
+			    <div class="form-group">
+			      <label>병원코드</label>
+			      <input type="text" class="form-control" id="hp_code" name="hp_code" style="width: 245px">
+			    </div>
 			    <div class="form-group">
 			      <label>부서</label>
 			      <input type="text" class="form-control" id="dept_name" name="dept_name" style="width: 245px">
@@ -42,13 +46,15 @@
 			      <label>이름</label>
 			      <input type="text" class="form-control" id="doc_name" name="doc_name" style="width: 245px">
 			    </div>
-			    <div>
 			    <div class="form-group">
 			      <label>직급</label>
 			      <input type="text" class="form-control" id="doc_position" name="doc_position" style="width: 245px">
 			    </div>
+			    </div>
+			    
+			   	<div>
 		    	<div class="form-group">
-			      <label>학력</label>
+			      <label>전공</label>
 			      <input type="text" class="form-control" id="doc_education" name="doc_education" style="width: 245px">
 			    </div>
 		    	<div class="form-group">
@@ -63,7 +69,8 @@
 			      <label>상태</label>
 			      <input type="text" class="form-control" id="doc_state" name="doc_state" style="width: 245px">
 			    </div>
-		    </div>
+		    	</div>
+		    <div>
 		    <!--버튼시작  -->
 		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
 					저장
@@ -138,6 +145,7 @@
 				</div>
 		    <button type="button" class="btn btn-primary" onclick="docClose()">닫기</button>
 		    <!--버튼 끝 -->
+		    </div>
 	</div>
 </body>
 </html>

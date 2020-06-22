@@ -19,37 +19,72 @@ public class mgr_DoctorDao {
 	}
 	public List<Map<String,Object>> doctorList(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList = null;
-		dList=sqlSes.selectList("doctorList",pMap);
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			dList=sqlSes.selectList("doctorList",pMap);
+		} catch (Exception e) {
+			
+		}
 		return dList;
 	}
 	public List<Map<String, Object>> doctorSEL(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList = null;
-		dList=sqlSes.selectList("doctorSEL",pMap);
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			dList=sqlSes.selectList("doctorSEL",pMap);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return dList;
 	}
 	public List<Map<String, Object>> doctorDEPT(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList = null;
-		dList=sqlSes.selectList("doctorDEPT",pMap);
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			dList=sqlSes.selectList("doctorDEPT",pMap);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return dList;
 	}
 	public List<Map<String, Object>> doctorDetail(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList = null;
-		dList=sqlSes.selectList("doctorDetail",pMap);//sql
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			dList=sqlSes.selectList("doctorDetail",pMap);//sql
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return dList;
 	}
 	public List<Map<String, Object>> doctorINS(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList = null;
-		dList=sqlSes.selectList("doctorINS",pMap);//sql
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			dList=sqlSes.selectList("doctorINS",pMap);//sql
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return dList;
 	}
 	public List<Map<String, Object>> doctorUPD(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList = null;
-		dList=sqlSes.selectList("doctorUPD",pMap);//sql
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			dList=sqlSes.selectList("doctorUPD",pMap);//sql
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return dList;
 	}
 	public List<Map<String, Object>> doctorDEL(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList = null;
-		dList=sqlSes.selectList("doctorDEL",pMap);//sql
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			dList=sqlSes.selectList("doctorDEL",pMap);//sql
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return dList;
 	}
 }

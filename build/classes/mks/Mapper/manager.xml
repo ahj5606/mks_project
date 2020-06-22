@@ -61,11 +61,83 @@
 	
 	</delete>
 	
+
 	<select id="doctorSEL" parameterType="map" resultType="map">
+
+	</select>
+	<select id="doctorList" parameterType="map" resultType="map">
+
 		
-	
 	</select>
 	
+
+
+	<select id="doctorSEL" parameterType="map" resultType="map">
+		
+	</select>
+	
+	<insert id="doctorINS" parameterType="map">
+		INSERT INTO mks_doctor(doc_code,hp_code,dept_name,doc_name,doc_position
+							,doc_education,doc_phone,doc_offday,doc_state
+								) 
+                     VALUES(
+                              #{doc_code}
+                             ,#{hp_code}
+                             ,#{dept_name}
+                             ,#{doc_name}
+                             ,#{doc_position}                                                    
+                             ,#{doc_education}                                                    
+                             ,#{doc_phone}
+                             ,#{doc_offday}
+                             ,#{doc_state}
+                            )
+	</insert>
+	
+	<update id="doctorUPD" parameterType="map">
+		UPDATE mks_doctor
+		       set
+		<if test="doc_code!=null">
+		       doc_code = #{doc_code}
+		</if>       
+		<if test="hp_code!=null">		       
+		      ,hp_code = #{hp_code}
+		</if>      
+		<if test="dept_name!=null">		       
+		      ,dept_name = #{dept_name}
+		</if>      
+		<if test="doc_name!=null">		       
+		      ,doc_name = #{doc_name}
+		</if>		      
+		<if test="doc_position!=null">		       
+		      ,doc_position = #{doc_position}
+		</if>   
+		<if test="doc_education!=null">		       
+		      ,doc_education = #{doc_education}
+		</if>   
+		<if test="doc_phone!=null">		       
+		      ,doc_phone = #{doc_phone}
+		</if>   
+		<if test="doc_offday!=null">		       
+		      ,doc_offday = #{doc_offday}
+		</if>   
+		<if test="doc_phone!=null">		       
+		      ,doc_state = #{doc_state}
+		</if>   
+		<where>
+			<if test="doc_code!=null">
+		 		and doc_code = #{doc_code}	
+			</if>
+		</where>  
+	</update>
+	
+	<delete id="doctorDEL">
+		DELETE FROM mks_doctor WHERE doc_name=#{doc_name}
+	</delete>
+	
+	
+	
+
+
 	<select id="patientDoctor" parameterType="map" resultType="map">
      SELECT DOC_CODE,DOC_NAME,DEPT_NAME,DEPT_CODE,HP_NAME
          FROM MKS_DOCTOR 
@@ -93,5 +165,6 @@
 		INSERT INTO MKS_HISTORY(HIS_DATE,HIS_CONTENT,MEM_MEMCODE,DOC_CODE,DOC_NAME,HP_CODE,DEPT_NAME,DEPT_CODE,HP_NAME)
 		VALUES(#{his_date},#{his_content},#{mem_code},#{doc_code},#{doc_name},#{hp_code},#{dept_name},#{dept_code},#{hp_name})		
 	</insert>	
+
 	
 </mapper>
