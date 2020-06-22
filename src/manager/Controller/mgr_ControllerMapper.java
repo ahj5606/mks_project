@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 public class mgr_ControllerMapper {
 	public static mgr_Controller getController(String[] commands) {
-		Logger logger = Logger.getLogger(mgr_Controller.class);
+		Logger logger = Logger.getLogger(mgr_ControllerMapper.class);
 		String work = commands[1];
 		String requestName = commands[2];
 		for(String str:commands) {

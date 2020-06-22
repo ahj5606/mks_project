@@ -46,7 +46,7 @@
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-4">
 		    <label>환자번호</label>
-		    <input id="mem_code" type="text" class="form-control"  value="<%=pList.get(0).get("MEM_MEMCODE")%>">
+		    <input id="mem_code" type="text" class="form-control"  value="<%=pList.get(0).get("MEM_MEMCODE")%>" readonly>
 	    </div>
 		<div class="col-md-8">
 		    <label>환자이름</label>
@@ -56,7 +56,7 @@
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-6">
 		    <label>주민번호</label>
-		    <input id="mem_social" type="text" class="form-control" value="<%=pList.get(0).get("MEM_SOCIALNUM")%>">
+		    <input id="mem_social" type="text" class="form-control" value="<%=pList.get(0).get("MEM_SOCIALNUM")%>" readonly>
 	    </div>
 		<div class="col-md-6">
 		    <label>전화번호</label>
@@ -117,7 +117,7 @@
 							<input id="modal_date" name="his_date" type="text" class="form-control" value="<%=today %>" readonly>
 						 </div>
 						<div class="col-md-2">
-							<input id="modal_hp_name" name="his_date" type="text" class="form-control"  readonly>
+							<input id="modal_hp_name" name="his_date" type="text" class="form-control" placeholder="병원 이름"   readonly>
 						 </div>
 					</div>
 					<div class="row" style="margin-bottom:30px; margin-top: 30px;">
@@ -156,6 +156,7 @@
 								 <th scope="col" data-field="DEPT_NAME">부서 이름</th> 
 								 <th scope="col" data-field="DEPT_CODE">부서 코드</th>
 								 <th scope="col" data-field="DOC_CODE">담당자 코드</th>
+								 <th scope="col" data-field="HP_NAME">병원 이름</th>
 				  			</tr>
 						</thead>
 					 </table>
@@ -220,7 +221,7 @@
 				       			 삭제하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary">삭제</button>
+				        <button type="button" class="btn btn-primary" onClick="his_delete()">삭제</button>
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				      </div>
 				    </div>
@@ -247,7 +248,7 @@
 				       			 수정 하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary">수정</button>
+				        <button type="button" class="btn btn-primary" onClick="mem_update()">수정</button>
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				      </div>
 				    </div>
@@ -266,17 +267,18 @@
 			onDblClickRow:function(row, $element, field)
 		     { 
 				
-				alert("호출성공");
 				var jo = JSON.stringify(row);
 				var d = JSON.parse(jo);
 				var DOC_NAME = d.DOC_NAME;
 				var DEPT_NAME = d.DEPT_NAME;
 				var DEPT_CODE = d.DEPT_CODE;
 				var DOC_CODE = d.DOC_CODE;
+				var HP_NAME = d.HP_NAME;
 				$("#modal_docname").val(DOC_NAME);
 				$("#modal_deptname").val(DEPT_NAME);
 				$("#modal_deptcode").val(DEPT_CODE);
 				$("#modal_doccode").val(DOC_CODE);
+				$("#modal_hp_name").val(HP_NAME);
 				$("#doctorSearch").modal('hide');
 		     }
 		})
@@ -296,13 +298,39 @@
 		var  mem_code =$("#mem_code").val();
 		var  modal_content= $("#modal_content").val();
 		var his_date = $("#modal_date").val();
-		var param ="mem_code="+mem_code+"&doc_name="+doc_name+"&dept_name="+dept_name+"&dept_code="+dept_code+"&doc_code="+doc_code+"&modal_content="+modal_content+"&his_date="+his_date;
+		var hp_name =$("#modal_hp_name").val();
+		var param ="mem_code="+mem_code+"&doc_name="+doc_name+"&dept_name="+dept_name+"&dept_code="+dept_code+"&doc_code="+doc_code+"&modal_content="+modal_content+"&his_date="+his_date+"&hp_name="+hp_name;
 		location.href="/manager/patient/patientHISINS.mgr?"+param;
 	}
 	function back(){
 		location.href="/manager/patient/patientList.mgr";
 		
 	}
+	function his_delete(){
+		var  mem_code =$("#mem_code").val();
+		location.href="/manager/patient/patientDEL.mgr?mem_code="+mem_code;
+	}
+	function mem_update(){
+		var mem_code =$("#mem_code").val();
+		var mem_name =$("#mem_name").val();
+		var mem_phone =$("#mem_phone").val();
+		var mem_address =$("#mem_address").val();
+		var param ="mem_code="+mem_code+"&mem_name="+mem_name+"&mem_phone="+mem_phone+"&mem_address="+mem_address;
+		$.ajax({
+			url:"/manager/patient/patientUPD.mgr?"+param
+			,success:function(data){
+				if(data.trim()=="성공"){
+					alert("정보수정에 성공했습니다.");
+					location.href="/manager/patient/patientDetail.mgr?mem_code="+mem_code
+				}else{
+					alert("정보수정에 실패했습니다.");
+					$("#UpdateModal").modal('hide');
+				}
+			}
+			
+		})
+	}
+	
 </script>
 </body>
 </html>

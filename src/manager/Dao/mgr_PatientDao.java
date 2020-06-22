@@ -43,5 +43,27 @@ public class mgr_PatientDao {
 		sqlSes.commit();
 		return result;
 	}
+	public int patientDEL(Map<String, Object> pMap) {
+		int result =-1;
+		result=sqlSes.insert("patientDEL",pMap);
+		sqlSes.commit();
+		return result;
+	}
+	public int patientUPD(Map<String, Object> pMap) {
+		int result =-1;
+		result=sqlSes.insert("patientUPD",pMap);
+		sqlSes.commit();
+		return result;
+	}
+	public int getMemNo(Map<String, Object> pMap) {
+		int mem_code=-1;
+		mem_code=sqlSes.selectOne("getMemCode");
+		return mem_code;
+	}
+	public int patientINS(Map<String, Object> pMap) {
+		int result =-1;
+		result=sqlSes.insert("patientINS",pMap);
+		return result;
+	}
 
 }
