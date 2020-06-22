@@ -117,7 +117,7 @@
 				<div class="row mb-4 pr-1">
 					<div class="col-md mr-2 pr-1">
 						<div class="input-group">
-      						<input class="form-control " id="h_addr" type="search" 
+      						<input readonly class="form-control " id="h_addr" type="search" 
 															placeholder="주소찾기 버튼을 눌러주세요." aria-label="Search">
       						<div class="input-group-prepend">
       							<button class="btn btn-dark btn-block" onClick="search_addr()">주소검색</button>

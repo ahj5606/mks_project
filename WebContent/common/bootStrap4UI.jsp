@@ -19,3 +19,4 @@
 <link href='<%=path.toString()%>fullcalendar/daygrid/main.css' rel='stylesheet' />
 <script src='<%=path.toString()%>fullcalendar/core/main.js'></script>
 <script src='<%=path.toString()%>fullcalendar/daygrid/main.js'></script>
+<script src='<%=path.toString()%>fullcalendar/interaction/main.js'></script>
