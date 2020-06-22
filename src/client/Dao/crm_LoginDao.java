@@ -1,6 +1,8 @@
 package client.Dao;
 
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,34 +15,51 @@ import org.apache.log4j.Logger;
 import mks.util.MyBatisConnction;
 
 public class crm_LoginDao {
-	Logger logger = Logger.getLogger(crm_LoginDao.class);
+	static Logger logger = Logger.getLogger(crm_LoginDao.class);
 	SqlSessionFactory sqlMapper = null;
 	SqlSession sqlSes = null;
 	
-	public String crm_LoginDao(Map<String, Object> pMap) {
+	public crm_LoginDao() {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
-			String s_name = null;
-			try {
-				//Reader reader = Resources.getResourceAsReader(resource); 
-				//sqlMapper = new SqlSessionFactoryBuilder().build(reader);
-				SqlSession sqlSes = sqlMapper.openSession();
-				s_name = sqlSes.selectOne("login",pMap);
-				logger.info("s_name"+s_name);
-			} catch (Exception e) {
-				System.out.println(e.toString());
-			}
-			return s_name;
-		}
+	}
 	
+//	public String proc_mem_login(Map<String, Object> pMap) {
+//		logger.info("[crm_LoignDao] proc_mem_login호출 성공");
+//		String result = "";
+//		sqlSes.selectOne("proc_mem_login", pMap);
+//		result = pMap.get("msg").toString();
+//		logger.info("result: " + result);
+//		result = pMap.get("msg_id").toString();
+//		logger.info("result: " + result);
+//		sqlSes.commit();
+//		return result;
+//	}
 	
-	public List<Map<String, Object>> login(Map<String, Object> pMap) {
-		logger.info("[crm_LoignDao] login호출 성공");
-		List<Map<String, Object>> login = null;
-//		pMap.put("hp_open", "09:00");
-//		pMap.put("hp_close", "18:00");
-		login = sqlSes.selectList("login", pMap);
-		logger.info("login: " + login.size()); //널포인트 인셉션 터지는 위치.
+	public List<Map<String, Object>> proc_mem_login(Map<String, Object> pMap) {
+		logger.info("[crm_LoignDao] proc_mem_login호출 성공");
+		List<Map<String, Object>> login = new ArrayList<>();
+		String name = "";
+		String id = "";
+		sqlSes.selectList("proc_mem_login", pMap);
+		name = pMap.get("msg").toString();
+		logger.info("name: " + name);
+		id = pMap.get("msg_id").toString();
+		logger.info("id: " + id);
+		login.add(pMap);
+		logger.info(login.size());
+		sqlSes.commit();
 		return login;
 	}
+	
+//	public static void main(String[] args) {
+//		crm_LoginDao logDao = new crm_LoginDao();
+//		List<Map<String, Object>> login = null;
+//		Map<String, Object> pMap = new HashMap<String, Object>();
+//		pMap.put("u_id", "test");
+//		pMap.put("u_pw", "123");
+//		login = logDao.proc_mem_login(pMap);
+//		logger.info("result: " + login);
+//	}
+	
 }

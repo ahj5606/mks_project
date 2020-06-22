@@ -52,6 +52,7 @@ public class crm_MypageDao {
 		logger.info("[crm_MypageDao] proc_mem_Add 호출성공");
 		String result = "";
 		sqlSes.selectOne("proc_mem_Add", pMap);
+		logger.info("pMap: "+pMap);
 		result = pMap.get("msg").toString();
 		sqlSes.commit(true);
 		return result;
@@ -61,13 +62,14 @@ public class crm_MypageDao {
 		crm_MypageDao my = new crm_MypageDao();
 		String result = "";
 		Map<String, Object> pMap = new HashMap<String, Object>();
-		pMap.put("u_id","test4");
+		pMap.put("u_id","test5");
 		pMap.put("u_pw","123");
-		pMap.put("u_soc","910685-1129562");
+		pMap.put("u_soc","910685-1129563");
 		pMap.put("u_addr","부산광역시");
-		pMap.put("u_phone","010-1111-1114");
-		pMap.put("u_name","회원4");
+		pMap.put("u_phone","010-1111-1115");
+		pMap.put("u_name","회원5");
 		result = my.proc_mem_Add(pMap);
+		logger.info("result: "+result);
 		logger.info("result: "+result);
 	}
     
