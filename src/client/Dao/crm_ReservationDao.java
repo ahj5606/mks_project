@@ -19,10 +19,13 @@ public class crm_ReservationDao {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}
-	//
-	public List<Map<String, Object>> reservationList(Map<String, Object> pMap) {
+
+	public List<Map<String, Object>> reservationList(Map<String, Object> pMap) { //모든과, 의사T, 같이 찾기
 		logger.info("[crm_ReservationDao] reservationList 호출성공");
 		List<Map<String, Object>> reservationList = null;
+//		pMap.put("hp_code", "647HP");
+//		pMap.put("dept_code", "37");
+//		pMap.put("doc_name", "김지우");
 		reservationList = sqlSes.selectList("reservationList", pMap);
 		return reservationList;
 	}
@@ -39,11 +42,11 @@ public class crm_ReservationDao {
 //		return null;
 //	}
 
-	public List<Map<String, Object>> watiCheck(Map<String, Object> pMap) {
-		logger.info("[crm_ReservationDao] watiCheck 호출성공");
-		List<Map<String, Object>> watiCheck = null;
-		watiCheck = sqlSes.selectList("watiCheck", pMap);
-		return watiCheck;
+	public List<Map<String, Object>> waitCheck(Map<String, Object> pMap) {
+		logger.info("[crm_ReservationDao] waitCheck 호출성공");
+		List<Map<String, Object>> waitCheck = null;
+		waitCheck = sqlSes.selectList("waitCheck", pMap);
+		return waitCheck;
 	}
 	
 	public List<Map<String, Object>> docSel(Map<String, Object> pMap) {
@@ -68,7 +71,7 @@ public class crm_ReservationDao {
 		return time;
 	}
 	
-	public int reservation(Map<String, Object> pMap) {
+	public int reservation(Map<String, Object> pMap) { //예약하기
 		logger.info("[crm_ReservationDao] reservation 호출성공");
 		int result = 0;
 		result = sqlSes.delete("reservation", pMap);
@@ -77,10 +80,11 @@ public class crm_ReservationDao {
 		return result;
 	}
 	
-//	public static void main(String[] args) {
-//		crm_ReservationDao res = new crm_ReservationDao();
-//		Map<String, Object> pMap = new HashMap<String, Object>();
+	public static void main(String[] args) {
+		crm_ReservationDao res = new crm_ReservationDao();
+		Map<String, Object> pMap = new HashMap<String, Object>();
+//		res.reservationList(pMap);
 //		res.docSel(pMap);
-//		System.out.println(pMap);
-//	}
+		System.out.println(pMap);
+	}
 }
