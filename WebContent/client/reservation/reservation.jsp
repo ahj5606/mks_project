@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import ="java.text.ParseException"    %>
+<%@ page import ="java.text.SimpleDateFormat"  %>
+<%@ page import ="java.util.ArrayList"        %>
+<%@ page import ="java.util.Calendar"          %>
+<%@ page import ="java.util.Date"              %>
+<%@ page import ="java.util.HashMap"           %>
+<%@ page import ="java.util.List"              %>
+<%@ page import ="java.util.Map"               %>
 <%
 	String hp_name = null;// 페이지 이동하면서 파라미터로 넘어온 **** 병원이름 
 	if( request.getParameter("hp_name")!=null){
@@ -20,6 +28,90 @@
 		mem_name = (String)session.getAttribute("mem_name");
 	};
 	
+	/*************************************************************************
+	* 불규칙한 예약시간 목록 리스트를 가지고 아래와 같은 형식으로 뽑아야함!!!!!!!!!
+		[{
+	   		start: '2020-06-01',
+	    	end: '2020-06-10',
+	    	rendering: 'background'
+		},{
+			start: '2020-06-15',
+	    	end: '2020-06-24',
+	    	rendering: 'background'
+		},{
+			start: '2020-06-27',
+	    	end: '2020-07-05',
+	    	rendering: 'background'
+		}]
+		
+	*/
+	List<Map<String, Object>> resList = new ArrayList<Map<String,Object>>();
+	Map<String,Object> map = null;
+	map = new HashMap<String, Object>();
+	map.put("res_date", "2020-06-19");
+	resList.add(map);
+	map = new HashMap<String, Object>();
+	map.put("res_date", "2020-06-20");
+	resList.add(map);
+	map = new HashMap<String, Object>();
+	map.put("res_date", "2020-06-26");
+	resList.add(map);
+	map = new HashMap<String, Object>();
+	map.put("res_date", "2020-06-27");
+	resList.add(map);
+	map = new HashMap<String, Object>();
+	map.put("res_date", "2020-06-28");
+	resList.add(map);
+	map = new HashMap<String, Object>();
+	map.put("res_date", "2020-07-05");
+	resList.add(map);
+	map = new HashMap<String, Object>();
+	map.put("res_date", "2020-07-06");
+	resList.add(map);
+	
+	StringBuilder sb = new StringBuilder();
+	for(int i=0; i<resList.size(); i++){
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			String ddd1 = resList.get(i).get("res_date").toString();
+			String ddd2 = null;
+			Date date1 = sdf.parse(ddd1);
+			Date date2 = null;
+			String date1_str = null;
+			if(i!=resList.size()-1) {
+				if(i==0) {
+					sb.append("[{");
+					sb.append("start: "+"'"+ddd1+"',");
+				}
+				ddd2 = resList.get(i+1).get("res_date").toString();
+				date2 = sdf.parse(ddd2);
+				Calendar cal1 = Calendar.getInstance();
+		        cal1.setTime(date1);
+		        cal1.add(Calendar.DATE, +1);
+		        date1 = cal1.getTime();
+		        date1_str = sdf.format(date1);
+		        
+		        if(!date1.equals(date2)) {
+		        	sb.append("end: "+"'"+date1_str+"',");
+					sb.append("rendering: 'background'");
+					sb.append("},{");
+					sb.append("start:"+"'"+ddd2+"',");
+		        }
+			}else {
+				Calendar cal1 = Calendar.getInstance();
+		        cal1.setTime(date1);
+		        cal1.add(Calendar.DATE, +1);
+		        date1 = cal1.getTime();
+		        date1_str = sdf.format(date1);
+		        sb.append("end: "+"'"+date1_str+"',");
+				sb.append("rendering: 'background'");
+				sb.append("}]");
+			}
+		} catch (ParseException e) {
+		}
+	}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -33,9 +125,7 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
 <%@ include file="/common/bootStrap4UI.jsp"%>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+
 <style type="text/css">
 	.container{
 		padding:5px;
@@ -64,6 +154,7 @@
 	}
 </style>
 <script type="text/javascript">
+	var day_of_choice = "";
 	function make_reservation(){
 		alert("예약하기 버튼!!");
 	}
@@ -81,13 +172,6 @@
 	  		<div class="col-md">
 	  			<!-- 검색 -->
 				<div class="row">
-					<!-- <div class="col-md pr-0">
-						<select class="form-control" id="s_month">
-							<option value="">6월</option>
-							<option value="">7월</option>
-							<option value="">8월</option>
-						</select>
-					</div> -->
 					<div class="col-md">
 						<select class="form-control" id="s_doc">
 							<option value="담당의사">담당의사</option>
@@ -112,10 +196,10 @@
 								<div class="row my-1">
 									<div class="col-md px-3">
 										<table id="t_my_resevation">
-											<tr><th style='padding:2px;' id="dept_name">진료과목</th><td style='padding:2px;'> </td></tr>
-											<tr><th style='padding:2px;' id="doc_name">담당의사</th><td style='padding:2px;'> </td></tr>
-											<tr><th style='padding:2px;' id="res_date">예약날짜</th><td style='padding:2px;'> </td></tr>
-											<tr><th style='padding:2px;' id="res_time">예약시간</th><td style='padding:2px;'> </td></tr>
+											<tr><th style='padding:2px;'>진료과목</th><td id="dept_name" style='padding:2px;'></td></tr>
+											<tr><th style='padding:2px;'>담당의사</th><td  id="doc_name" style='padding:2px;'></td></tr>
+											<tr><th style='padding:2px;'>예약날짜</th><td id="res_date" style='padding:2px;'></td></tr>
+											<tr><th style='padding:2px;'>예약시간</th><td id="res_time" style='padding:2px;'></td></tr>
 										</table>
 									</div>
 								</div>
@@ -234,7 +318,31 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
-				plugins: [ 'dayGrid' ]
+				 plugins: [ 'interaction', 'dayGrid' ]
+				,defaultView: 'dayGridMonth'
+				,selectable: true
+				,dateClick: function(info) {
+					//전변에 클릭한 날짜 저장해놓고 저장되어 있다면 이벤트가 일어나지 않게....
+					var click_day = new Date(info.dateStr);
+					<%
+						for(int i=0; i<resList.size(); i++){
+							String day_str = resList.get(i).get("res_date").toString();
+						%>
+							var day = new Date(day);
+							if(day=click_day){
+								//전변에 클릭한 ctn
+								alert('선택: ' + info.dateStr);
+								//info.dayEl.style.backgroundColor = 'red';
+								day_of_choice = info.dateStr;
+								$("#res_date").html(day_of_choice);
+								$("#res_date").css('color','red');
+							}
+							return;
+														
+						<%}%>
+				}
+				,events:<%=sb.toString()%>
+				,dragOpacity: 1
 			});
 			calendar.render();
 		});

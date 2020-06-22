@@ -9,8 +9,9 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>회원가입</title>
-<%@ include file="/common/bootStrap4UI.jsp"%>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
+<%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
 	label{
 		margin:8px;
@@ -21,6 +22,7 @@
 	} 
 </style>
 <script type="text/javascript">
+<<<<<<< HEAD
 function addrSearch() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -43,6 +45,22 @@ function addrSearch() {
         }
     }).open();
 }
+=======
+	function addrSearch() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	        	var zip = data.zonecode;
+	            var addr = data.sigungu; // 최종 주소 변수
+	            var addr1 = data.sido; // 최종 주소 변수
+	            var addr2 = data.bname; // 최종 주소 변수
+	            /* $("#i_addr").val(addr+" "+addr1+" "+addr2);
+	            $("#i_zipcode").val(zip); */
+	            document.getElementById("i_addr").value = addr+" "+addr1+" "+addr2;
+	            document.getElementById("i_zipcode").value = zip;
+	        }
+	    }).open();
+	}
+>>>>>>> refs/heads/jina
 	function acc_check(){
 		alert("회원가입버튼 호출");
 	}
@@ -99,9 +117,7 @@ function addrSearch() {
     							<div class="col-md">
 	    							<div class="input-group">
 	      								<input type="text" readonly class="form-control" id="i_zipcode">
-	      								<div class="input-group-prepend">
-	      									<button class="btn btn-md btn-dark" onClick="addrSearch()">주소검색</button>
-	      								</div>
+	      								<input type="button" onclick="addrSearch()" value="우편번호 찾기"><br>
 	   								</div>
     							</div>
   							</div>
