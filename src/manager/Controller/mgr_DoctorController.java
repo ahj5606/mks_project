@@ -75,7 +75,6 @@ public class mgr_DoctorController implements mgr_Controller {
 				
 			mav.addObject("dList", dList);
 			mav.IsForward(true);
-			
 			mav.setViewName("/doctor/mgr_doctor");	
 			
 		}else if("doctorDEPT".equals(requestName)) {
