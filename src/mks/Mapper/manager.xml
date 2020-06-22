@@ -2,6 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.managerMapper">
 
+	
+	<select id="noticeSEL" parameterType="map" resultType="map">
+		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
+		 FROM mks_board b, mks_online o
+		 WHERE b.mks_id = o.mks_id
+		 <if test="board_no!=null">
+		 	AND b.board_no=#{board_no}
+		 </if>
+		 ORDER BY b.board_no desc
+	</select>
+	
+	<select id="getBoardNO" parameterType="int" resultType="int">
+        SELECT NVL((
+                     SELECT /*+index_desc(mks_board XPK게시판)*/ board_no
+                          FROM mks_board
+                       WHERE rownum = 1
+                 ),0)+1 board_no
+           FROM dual
+	</select>
+	
+	<update id="noticeUPD" parameterType="map">
+		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}
+		 WHERE board_no=#{board_no}
+	</update>
+	
+	<delete id="noticeDEL" parameterType="map">
+		DELETE FROM mks_board 
+		 WHERE board_no=#{board_no}
+	</delete>
+ 
+	<insert id="noticeINS" parameterType="map">
+		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title, board_file, mks_id)
+ 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), #{board_title}, #{board_file}, #{mks_id});
+	</insert>
+	
+	
+	
+	
+	
 	<select id="patientList" parameterType="map" resultType="map">
         SELECT MIN(mem.mem_name) mem_name , mem.mem_memcode mem_memcode, MIN(mem.mem_socialnum) mem_socialnum,MIN(mem.mem_phone) mem_phone
                FROM MKS_MEMBER mem , MKS_HISTORY his
@@ -44,44 +83,6 @@
 		 ORDER BY mem.mem_memcode
 	</select>
 
-	<select id="noticeSEL" parameterType="map" resultType="map">
-		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
-		 FROM mks_board b, mks_online o
-		 WHERE b.mks_id = o.mks_id
-		 <if test="board_no!=null">
-		 	AND b.board_no=#{board_no}
-		 </if>
-	</select>
-	
-	<select id="getBoardNO">
-        SELECT NVL((
-                     SELECT /*+index_desc(mks_board XPK게시판)*/ board_no
-                          FROM mks_board
-                       WHERE rownum = 1
-                 ),0)+1 board_no
-           FROM dual
-	</select>
-	
-	<update id="noticeUPD" parameterType="map">
-		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}
-		 WHERE board_no=#{board_no}
-	</update>
-	
-	<delete id="noticeDEL" parameterType="map">
-	
-	</delete>
- 
-	<insert id="noticeINS" parameterType="map">
-		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title, board_file, mks_id)
- 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), #{board_title}, #{board_file}, #{mks_id});
-	</insert>
-
-	
-	<select id="doctorSEL" parameterType="map" resultType="map">
-		
-	
-	</select>
-	
 	<select id="patientDoctor" parameterType="map" resultType="map">
      SELECT DOC_CODE,DOC_NAME,DEPT_NAME,DEPT_CODE,HP_NAME
          FROM MKS_DOCTOR 
@@ -109,5 +110,16 @@
 		INSERT INTO MKS_HISTORY(HIS_DATE,HIS_CONTENT,MEM_MEMCODE,DOC_CODE,DOC_NAME,HP_CODE,DEPT_NAME,DEPT_CODE,HP_NAME)
 		VALUES(#{his_date},#{his_content},#{mem_code},#{doc_code},#{doc_name},#{hp_code},#{dept_name},#{dept_code},#{hp_name})		
 	</insert>	
+	
+	
+		
+
+	
+	<select id="doctorSEL" parameterType="map" resultType="map">
+		
+	
+	</select>
+	
+	
 	
 </mapper>

@@ -28,12 +28,13 @@ public class mgr_NoticeController implements mgr_Controller {
 		mgr_NoticeLogic mnl = new mgr_NoticeLogic();
 		List<Map<String, Object>> nList = null;
 		Map<String, Object> nMap = null;
+		int result = 0;
 		
 		String no 		= req.getParameter("no");
 		String title 	= req.getParameter("title");
 		String content 	= req.getParameter("content");
 		String writer 	= req.getParameter("writer");
-		String fileName = req.getParameter("fileName");
+		String file		= req.getParameter("file");
 		String id		= req.getParameter("id");
 		
 		
@@ -63,30 +64,49 @@ public class mgr_NoticeController implements mgr_Controller {
 			
 		}else if("noticeINS".equals(requestName)) {
 			//공지사항을 입력할 때 
+			logger.info("controller=>ins호출 성공");
+
 			nMap = new HashMap<String, Object>();
 			nMap.put("board_content", content);
-			nMap.put("board_title", content);
-			nMap.put("board_file", content);
-			nMap.put("mks_id", content);
+			nMap.put("board_title", title);
+			nMap.put("board_file", file);
+
+			result = mnl.noticeINS(nMap);
 			
-			
-			
+			if(result==1) {
+				mav.IsForward(true);
+				mav.addObject("nMap", nMap);
+				mav.setViewName("/notice/s_table");
+			}
+			else {
+				logger.info("INS실패");
+			}
 			
 			
 			
 		}else if("noticeUPD".equals(requestName)) {
 			//수정확인을 눌럿을 때
+			logger.info("controller=>upd호출 성공");
+
+			nMap = new HashMap<String, Object>();
+			nMap.put("board_content", content);
+			nMap.put("board_title", title);
+			nMap.put("board_no", no);
+
+			result = mnl.noticeUPD(nMap);
 			
-			
-			
-			
+			mav.cudResult(result);
 			
 		}else if("noticeDEL".equals(requestName)) {
 			//삭제확인을 눌럿을 때
+			logger.info("controller=>del호출 성공");
 			
+			nMap = new HashMap<String, Object>();
+			nMap.put("board_no", no);
 			
+			result = mnl.noticeDEL(nMap);
 			
-			
+			mav.cudResult(result);
 			
 		}
 		return mav;
