@@ -28,7 +28,6 @@ public class crm_HospitalDao {
 		logger.info("hospitalList: " + hospitalList.size()); //널포인트 인셉션 터지는 위치.
 		return hospitalList;
 	}
-
 	
 	public static void main(String[] args) {
 		crm_HospitalDao hos = new crm_HospitalDao();
