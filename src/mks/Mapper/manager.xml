@@ -63,7 +63,8 @@
 	
 
 	<select id="doctorList" parameterType="map" resultType="map">
-		
+		select *
+				from MKS_DOCTOR
 	</select>
 	
 	<select id="doctorSEL" parameterType="map" resultType="map">

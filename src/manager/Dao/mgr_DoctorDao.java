@@ -21,9 +21,11 @@ public class mgr_DoctorDao {
 		List<Map<String,Object>> dList = null;
 		try {
 			SqlSession sqlSes = sqlMapper.openSession();
+			logger.info("다오 docdorList 호출");
 			dList=sqlSes.selectList("doctorList",pMap);
+			logger.info("doctorList: "+dList.size());
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		return dList;
 	}
@@ -33,7 +35,7 @@ public class mgr_DoctorDao {
 			SqlSession sqlSes = sqlMapper.openSession();
 			dList=sqlSes.selectList("doctorSEL",pMap);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return dList;
 	}
@@ -43,7 +45,7 @@ public class mgr_DoctorDao {
 			SqlSession sqlSes = sqlMapper.openSession();
 			dList=sqlSes.selectList("doctorDEPT",pMap);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return dList;
 	}
@@ -53,7 +55,7 @@ public class mgr_DoctorDao {
 			SqlSession sqlSes = sqlMapper.openSession();
 			dList=sqlSes.selectList("doctorDetail",pMap);//sql
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return dList;
 	}
@@ -63,7 +65,7 @@ public class mgr_DoctorDao {
 			SqlSession sqlSes = sqlMapper.openSession();
 			dList=sqlSes.selectList("doctorINS",pMap);//sql
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return dList;
 	}
@@ -73,7 +75,7 @@ public class mgr_DoctorDao {
 			SqlSession sqlSes = sqlMapper.openSession();
 			dList=sqlSes.selectList("doctorUPD",pMap);//sql
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return dList;
 	}
@@ -83,7 +85,7 @@ public class mgr_DoctorDao {
 			SqlSession sqlSes = sqlMapper.openSession();
 			dList=sqlSes.selectList("doctorDEL",pMap);//sql
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return dList;
 	}

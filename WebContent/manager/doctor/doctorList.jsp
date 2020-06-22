@@ -29,8 +29,6 @@
 	
 </head>
 <body>  
-	
-
 	<div class="container-fluid" id="sidebar">
 	    <div class="row">
 	        <div class="col-sm-2" style="margin-top: 45px">
