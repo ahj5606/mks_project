@@ -32,19 +32,22 @@ public class mgr_DoctorLogic {
 		dList=mgr_dDao.doctorDetail(pMap);
 		return dList;
 	}
-	public List<Map<String, Object>> doctorINS(Map<String, Object> pMap) {
-		List<Map<String,Object>> dList=null;
-		dList=mgr_dDao.doctorINS(pMap);
-		return dList;
+	public int doctorINS(Map<String, Object> pMap) {
+		logger.info("doctorINS");
+		int result = 0;
+		result = mgr_dDao.doctorINS(pMap);
+		return result;
 	}
-	public List<Map<String, Object>> doctorUPD(Map<String, Object> pMap) {
-		List<Map<String,Object>> dList=null;
-		dList=mgr_dDao.doctorUPD(pMap);
-		return dList;
+	public int doctorUPD(Map<String, Object> pMap) {
+		logger.info("doctorUPD");
+		int result =0;
+		result=mgr_dDao.doctorUPD(pMap);
+		return result;
 	}
-	public List<Map<String, Object>> doctorDEL(Map<String, Object> pMap) {
-		List<Map<String,Object>> dList=null;
-		dList=mgr_dDao.doctorDEL(pMap);
-		return dList;
+	public int doctorDEL(Map<String, Object> pMap) {
+		logger.info("doctorDEL");
+		int result =0;
+		result=mgr_dDao.doctorDEL(pMap);
+		return result;
 	}
 }

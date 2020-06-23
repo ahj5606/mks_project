@@ -66,8 +66,15 @@
 
 	</select>
 	<select id="doctorList" parameterType="map" resultType="map">
+<<<<<<< HEAD
 
 		
+=======
+		select dept_name, doc_code, hp_code
+        		,DOC_STATE,DOC_NAME,DOC_POSITION,DOC_EDUCATION
+        		,DOC_PHONE,DOC_OFFDAY
+			from mks_doctor
+>>>>>>> refs/heads/smw
 	</select>
 	
 
@@ -77,20 +84,7 @@
 	</select>
 	
 	<insert id="doctorINS" parameterType="map">
-		INSERT INTO mks_doctor(doc_code,hp_code,dept_name,doc_name,doc_position
-							,doc_education,doc_phone,doc_offday,doc_state
-								) 
-                     VALUES(
-                              #{doc_code}
-                             ,#{hp_code}
-                             ,#{dept_name}
-                             ,#{doc_name}
-                             ,#{doc_position}                                                    
-                             ,#{doc_education}                                                    
-                             ,#{doc_phone}
-                             ,#{doc_offday}
-                             ,#{doc_state}
-                            )
+		
 	</insert>
 	
 	<update id="doctorUPD" parameterType="map">

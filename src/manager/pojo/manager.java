@@ -28,7 +28,9 @@ public class manager extends HttpServlet {
 		mgr_Controller controller = null;
 		
 		if(commands.length==3) {
+			logger.info("1+++++++++++++++++++++++++");
 			controller = mgr_ControllerMapper.getController(commands);
+			logger.info("1+++++++++++++++++++++++++");
 			logger.info(controller);
 			
 		}
