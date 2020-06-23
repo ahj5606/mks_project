@@ -44,7 +44,7 @@
   				<div>
 	     		<div class="form-group" style="margin-top: 30px">
 		      	  <label>의사코드</label>
-		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" value="" style="width: 245px">
+		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" style="width: 245px">
 		    	</div>
 			    <div class="form-group">
 			      <label>병원코드</label>
@@ -149,7 +149,7 @@
 				       			삭제 하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docDel()">저장</button>
+				        <button type="button" class="btn btn-primary" onclick="docDel()">확인</button>
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				      </div>
 				    </div>
