@@ -6,11 +6,12 @@
 <%
 	
 	String hp_code = "276HP";
+//String hp_code = "635HP";
 	
 	List<Map<String,Object>> nList = (List<Map<String,Object>>)request.getAttribute("nList");
 
 	int tot=nList.size();
-	int numPerPage =1;
+	int numPerPage =5;
 	int nowPage =0;
 	if(request.getParameter("nowPage")!=null){
 		nowPage =Integer.parseInt(request.getParameter("nowPage"));
@@ -95,11 +96,14 @@
 			<table id="notice_board" class="table table-striped table-bordered" >
 				<thead>
 				<tr style="text-align:center;">
-					<th data-field="BOARD_NO">번호</th>
+					<th >번호</th>
+					<th data-field="BOARD_NO"data-visible="false">번호</th>
 					<th data-field="BOARD_TITLE">제목</th>
 					<th data-field="DEPT_NAME">작성자</th>
+					<th data-field="BOARD_DATE">게시일</th>
 					<th data-field="BOARD_CONTENT" data-visible="false">내용</th>
 					<th data-field="MKS_ID" data-visible="false">아이디</th>
+					<th data-field="BOARD_FILE" data-visible="false">파일</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -108,11 +112,14 @@
 					if(i<numPerPage*(nowPage+1) && i>=numPerPage*nowPage){
 				%>
 					<tr>
-						<td><%=nList.get(i).get("BOARD_NO") %></td>
+						<td><%=++i%></td>
+						<td><%=nList.get(--i).get("BOARD_NO") %></td>
 						<td><%=nList.get(i).get("BOARD_TITLE") %></td>
 						<td><%=nList.get(i).get("DEPT_NAME") %></td>
+						<td><%=nList.get(i).get("BOARD_DATE") %></td>
 						<td><%=nList.get(i).get("BOARD_CONTENT") %></td>
 						<td><%=nList.get(i).get("MKS_ID") %></td>
+						<td><%=nList.get(i).get("BOARD_FILE") %></td>
 					</tr>
 				<%
 					}
@@ -125,7 +132,7 @@
 	</div>
 	
 	<div>
-		<div class="row" style="margin-left:200px;margin-right:-350px;">
+		<div class="row" style="margin-left:430px;justify-content: center;">
 		<!-- 
 		<div class="col-md-2"  >	
 		<select id="select" class="form-control" style="width:200px;margin-left:-20px;">
@@ -134,7 +141,7 @@
 		</select>
 		</div>
 		 -->
-		<div class="col-md" style="margin-left:-30px;">
+		<div class="col-md" >
 		<form id="notice_search_form" class="form-inline">
 			<input id="notice_input"type="text" class="form-control" placeholder="  제목 또는 작성자 검색" style="width:500px;">
 			<div class="input-group-btn" style="margin-left:10px;">
@@ -150,20 +157,7 @@
  		String pagination = pb.getPageBar();
  		out.print(pagination);
  %>   
-		
-		<!-- 
-		<nav aria-label="Page navigation example">
-			<ul class="pagination" style="">
-				<li class="page-item"><a class="page-link" href="#"> < </a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">4</a></li>
-				<li class="page-item"><a class="page-link" href="#">5</a></li>
-				<li class="page-item"><a class="page-link" href="#">></a></li>
-			</ul>
-		</nav>
-		 -->
+
 		</div>
 	</div>	
 		
@@ -206,12 +200,16 @@
 					select_content = JSON.parse(imsi);
 					var imsi = JSON.stringify(row.MKS_ID)
 					select_id = JSON.parse(imsi);
+					var imsi = JSON.stringify(row.BOARD_FILE)
+					board_file = JSON.parse(imsi);
 					
 					alert(select_no); 
 					alert(select_title); 
 					alert(select_content); 
+					alert(select_id); 
+					alert(board_file); 
 					
-					location.href="./noticeDetail.mgr?no="+select_no+"&title="+select_title+"&content="+select_content+"&writer=<%=h_dept%>&mks_id="+select_id;
+					location.href="./noticeDetail.mgr?no="+select_no;
 			     }
 			});		
 			$("#notice_board").bootstrapTable('hideLoading');

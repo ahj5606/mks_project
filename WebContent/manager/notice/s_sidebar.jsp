@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
 	String hp_code = "276HP";
+//String hp_code = "635HP";
 	String h_name = "가산사랑병원";
 	String h_dept = "원무과";
 %>

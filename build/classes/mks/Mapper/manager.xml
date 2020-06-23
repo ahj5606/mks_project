@@ -36,20 +36,18 @@
 	</select>
 	
 	<update id="noticeUPD" parameterType="map">
-		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}
+		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}, board_file=#{board_file}
 		 WHERE board_no=#{board_no}
-		   AND o.hp_code=#{hp_code}
 	</update>
 	
 	<delete id="noticeDEL" parameterType="map">
 		DELETE FROM mks_board 
 		 WHERE board_no=#{board_no}
-		   AND o.hp_code=#{hp_code}
 	</delete>
  
 	<insert id="noticeINS" parameterType="map">
-		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title,mks_id)
- 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), #{board_title},#{mks_id})
+		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title,mks_id,board_file)
+ 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), #{board_title},#{mks_id},#{board_file})
 	</insert>
 	
 	

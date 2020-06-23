@@ -14,15 +14,7 @@
 	function back(){
 		location.href="/manager/notice/noticeSEL.mgr";
 	}
-	function notice_save(){
-		alert("수정 확인 버튼 호출 성공");
 
-		//$("#modalBox").modal("show");
-/* 		
-		$("#notice_write_form").attr('method','get');
-		$("#notice_write_form").attr('action','./save.jsp');
-		$("#notice_write_form").submit(); */
-	}
 	function notice_update(){
 		alert("수정 확인 버튼 호출 성공");
 		var title = $("#notice_title").val();
@@ -30,7 +22,8 @@
 		var no = $("#notice_no").val();
 		var writer = $("#notice_writer").val();
 		var content = $("#notice_content").val();
-		var param = "title="+title+"&wrtier="+writer+"&content="+content+"&no="+no;
+		var file = $("#userfile").val();
+		var param = "title="+title+"&wrtier="+writer+"&content="+content+"&no="+no+"&board_file="+file;
 		alert(title+"/"+writer+"/"+content);
 		alert("param=>"+param);
 		$.ajax({
@@ -89,6 +82,20 @@
  </div>
   <div  class="row" style="margin-bottom:30px;">
   <div class="col-md-12">
+  
+		 <div class="form-group">
+			<label for="InputSubject1">파일첨부</label>
+			<input id="fileInput" filestyle="" type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+			<div class="bootstrap-filestyle input-group">
+				<input type="text" id="userfile" class="form-control" name="board_file" value="<%=nList.get(0).get("BOARD_FILE") %>" disabled="">
+				<span class="group-span-filestyle input-group-btn" tabindex="0">
+				<label for="fileInput" class="btn btn-default">
+				<span class="glyphicon fa fa-upload"></span>
+				</label>
+				</span>
+			</div>
+		</div>
+		
 	<label>내용</label>
     <input id="notice_content" name="content" type="text" class="form-control" value="<%=nList.get(0).get("BOARD_CONTENT") %>" placeholder="     내용을 입력해주세요." style="height:500px;">
     </div>
@@ -147,7 +154,19 @@
  </div>
   </div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#fileInput").on('change',function(){
+			if(window.FileReader){
+				var filename = $(this)[0].files[0].name;
+			}else{
+				var filename = $(this).val().split('/').pop().split('\\').pop();
+			}
+			$("#userfile").val(filename);
+		});
+	});
 
+</script>
 
 
 </body>

@@ -39,7 +39,9 @@ public class mgr_NoticeController implements mgr_Controller {
 		String id		= req.getParameter("id");
 		String hp_code 	= req.getParameter("hp_code");
 		String search 	= req.getParameter("search");
-		
+		String mks_id	= "test";
+		hp_code = "276HP";
+
 		
 		if("noticeSEL".equals(requestName)) {
 			//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
@@ -72,9 +74,12 @@ public class mgr_NoticeController implements mgr_Controller {
 				
 		}else if("noticeDetail".equals(requestName)) {
 			//글 row를 클릭하여 상세보기 페이지로 넘어갈 때 req.getParameter 글번호
+			logger.info("controller=>detail");
 			nMap = new HashMap<String, Object>();
+			nMap.put("hp_code", hp_code);
 			nMap.put("board_no", no);
 	
+			logger.info("controller=>board_no=>"+nMap.get("board_no"));
 			nList = mnl.noticeSEL(nMap);
 			logger.info("mgr_NoticController=>noticeDetail=>nList=>"+nList);
 			mav.setViewName("/notice/s_detailform");
@@ -88,18 +93,24 @@ public class mgr_NoticeController implements mgr_Controller {
 			
 			
 			nMap = new HashMap<String, Object>();
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
 			nMap.put("board_content", content);
 			nMap.put("board_title", title);
 			nMap.put("board_file", board_file);
 
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.multiBind(nMap);
+			/*
+			 * HashMapBinder hmb = new HashMapBinder(req); hmb.multiBind(nMap);
+			 */
 			result = mnl.noticeINS(nMap);
 			
 			if(result==1) {
-				mav.IsForward(true);
-				mav.addObject("nMap", nMap);
-				mav.setViewName("/notice/s_table");
+				hp_code = "276HP";
+				 mav.IsForward(false); 
+				 //mav.addObject("nMap", nMap);
+				 mav.setViewName("/notice/noticeSEL.mgr?hp_code="+hp_code+"&");
+				 
+				//res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
 			}
 			else {
 				logger.info("INS실패");
@@ -112,6 +123,8 @@ public class mgr_NoticeController implements mgr_Controller {
 			logger.info("controller=>upd호출 성공");
 
 			nMap = new HashMap<String, Object>();
+			nMap.put("hp_code", hp_code);
+			nMap.put("board_file", board_file);
 			nMap.put("board_content", content);
 			nMap.put("board_title", title);
 			nMap.put("board_no", no);
@@ -125,6 +138,8 @@ public class mgr_NoticeController implements mgr_Controller {
 			logger.info("controller=>del호출 성공");
 			
 			nMap = new HashMap<String, Object>();
+			nMap.put("hp_code", hp_code);
+
 			nMap.put("board_no", no);
 			
 			result = mnl.noticeDEL(nMap);

@@ -19,10 +19,11 @@
 		var writer = $("#notice_writer").val();
 		var content = $("#notice_content").val();
 		//var board_file = $("#board_file").val();
-		var board_file = "3.png";
+		var board_file = $("#userfile").val();
 		
-		//alert(title+"/"+writer+"/"+content);
 
+		//alert(title+"/"+writer+"/"+content);
+		alert("board_file=>"+board_file);
 		location.href="/manager/notice/noticeINS.mgr?title="+title+"&writer="+writer+"&content="+content+"&dept=<%=dept %>&board_file="+board_file; 
 /* 		$("#notice_write_form").attr('method','get');
 		$("#notice_write_form").attr('action','/notice/noticeINS.mgr');
@@ -49,6 +50,7 @@
 	  
 	  <div  class="row" style="margin-bottom:30px;">
 	  <div class="col-md-12">
+<!-- 		
 		<span >첨부파일</span>
 		<div class="custom-file" style="margin-bottom:30px;margin-top:10px;">
 			<div>
@@ -56,7 +58,20 @@
 			<input type="file" class="custom-file-input" id="board_file" name="board_file">
 			</div>
 		</div>
-		
+		 -->
+		 
+		 <div class="form-group">
+			<label for="InputSubject1">파일첨부</label>
+			<input id="fileInput" filestyle="" type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+			<div class="bootstrap-filestyle input-group">
+				<input type="text" id="userfile" class="form-control" name="board_file" disabled="">
+				<span class="group-span-filestyle input-group-btn" tabindex="0">
+				<label for="fileInput" class="btn btn-default">
+				<span class="glyphicon fa fa-upload"></span>
+				</label>
+				</span>
+			</div>
+		</div>
 
 		<label>내용</label>
 	    <input id="notice_content" name="content" type="text" class="form-control" placeholder="     내용을 입력해주세요." style="height:500px;">
@@ -93,7 +108,19 @@
 	 </div>
 	  </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#fileInput").on('change',function(){
+		if(window.FileReader){
+			var filename = $(this)[0].files[0].name;
+		}else{
+			var filename = $(this).val().split('/').pop().split('\\').pop();
+		}
+		$("#userfile").val(filename);
+	});
+});
 
+</script>
 
 
 </body>

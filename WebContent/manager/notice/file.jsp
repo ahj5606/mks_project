@@ -9,14 +9,30 @@
 
 </head>
 <body>
-<<div class="input-group">
-  <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-  </div>
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
-  </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#fileInput").on('change',function(){
+			if(window.FileReader){
+				var filename = $(this)[0].files[0].name;
+			}else{
+				var filename = $(this).val().split('/').pop().split('\\').pop();
+			}
+			$("#userfile").val(filename);
+		});
+	});
+
+</script>
+<div class="form-group">
+	<label for="InputSubject1">파일첨부</label>
+	<input id="fileInput" filestyle="" type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+	<div class="bootstrap-filestyle input-group">
+		<input type="text" id="userfile" class="form-control" name="userfile" disabled="">
+		<span class="group-span-filestyle input-group-btn" tabindex="0">
+		<label for="fileInput" class="btn btn-default">
+		<span class="glyphicon fa fa-upload"></span>
+		</label>
+		</span>
+	</div>
 </div>
 </body>
 </html>
