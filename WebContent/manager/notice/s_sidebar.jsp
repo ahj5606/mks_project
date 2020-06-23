@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	String hp_code = "276HP";
 	String h_name = "가산사랑병원";
 	String h_dept = "원무과";
 %>
@@ -31,7 +32,7 @@
 		
 		<!-- 메뉴들 시작  -->
 		<li class="nav-item">
-			<a class="nav-link" href="/manager/notice/noticeSEL.mgr">
+			<a class="nav-link" href="/manager/notice/noticeSEL.mgr?hp_code=<%=hp_code%>">
 				<i class="fas fa-clipboard-list"></i>
 				<span>공지사항</span>
 			</a>

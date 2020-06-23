@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import manager.Logic.mgr_NoticeLogic;
+import manager.notice.HashMapBinder;
 import manager.pojo.mgr_ModelAndView;
 
 public class mgr_NoticeController implements mgr_Controller {
@@ -34,15 +35,18 @@ public class mgr_NoticeController implements mgr_Controller {
 		String title 	= req.getParameter("title");
 		String content 	= req.getParameter("content");
 		String writer 	= req.getParameter("writer");
-		String file		= req.getParameter("file");
+		String board_file	= req.getParameter("board_file");
 		String id		= req.getParameter("id");
+		String hp_code 	= req.getParameter("hp_code");
+		String search 	= req.getParameter("search");
 		
 		
 		if("noticeSEL".equals(requestName)) {
 			//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
 			nMap = new HashMap<String, Object>();
-			logger.info("mgr_NoticController=>noticeSEL=>nMap=>"+nMap);
 			nMap.put("mks_id", id);
+			nMap.put("hp_code", hp_code);
+			logger.info("mgr_NoticController=>noticeSEL=>nMap=>"+nMap);
 			nList = mnl.noticeSEL(nMap);
 			logger.info("mgr_NoticController=>noticeSEL=>nList=>"+nList);
 			mav.setViewName("/notice/s_table");
@@ -50,6 +54,22 @@ public class mgr_NoticeController implements mgr_Controller {
 			mav.addObject("nList", nList);
 			mav.IsForward(true);
 			
+		}else if("noticeSEARCH".equals(requestName)) {
+				//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
+				nMap = new HashMap<String, Object>();
+				nMap.put("mks_id", id);
+				nMap.put("hp_code", hp_code);
+				nMap.put("board_title", search);
+				nMap.put("dept_name", search);
+				logger.info("mgr_NoticController=>noticeSEARCH=>nMap=>"+nMap);
+				nList = mnl.noticeSEARCH(nMap);
+				logger.info("mgr_NoticController=>noticeSEARCH=>nList=>"+nList);
+				mav.setViewName("/notice/s_table");
+				logger.info("mgr_NoticController=>mav.getViewName=>"+mav.getViewName());
+				mav.addObject("nList", nList);
+				mav.IsForward(true);
+				
+				
 		}else if("noticeDetail".equals(requestName)) {
 			//글 row를 클릭하여 상세보기 페이지로 넘어갈 때 req.getParameter 글번호
 			nMap = new HashMap<String, Object>();
@@ -65,12 +85,15 @@ public class mgr_NoticeController implements mgr_Controller {
 		}else if("noticeINS".equals(requestName)) {
 			//공지사항을 입력할 때 
 			logger.info("controller=>ins호출 성공");
-
+			
+			
 			nMap = new HashMap<String, Object>();
 			nMap.put("board_content", content);
 			nMap.put("board_title", title);
-			nMap.put("board_file", file);
+			nMap.put("board_file", board_file);
 
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.multiBind(nMap);
 			result = mnl.noticeINS(nMap);
 			
 			if(result==1) {

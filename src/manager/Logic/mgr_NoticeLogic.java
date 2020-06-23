@@ -25,6 +25,14 @@ public class mgr_NoticeLogic {
 		return nList;
 	}
 	
+	public List<Map<String, Object>> noticeSEARCH(Map<String, Object> nMap){
+		List<Map<String, Object>> nList = new ArrayList<>();
+		nList = mnd.noticeSEARCH(nMap);
+		logger.info("mgr_NoticLogic=>noticeSEARCH=>nList=>"+nList);
+		
+		return nList;
+	}
+	
 	public int noticeINS(Map<String,Object> nMap) {
 		logger.info("logic=>ins호출 성공");
 		result = mnd.noticeINS(nMap);

@@ -15,15 +15,18 @@
 	function notice_save(){
 		alert("저장 버튼 호출 성공");
 		//$("#modalBox").modal("show");
-<%-- 		var title = $("#notice_title").val();
+ 		var title = $("#notice_title").val();
 		var writer = $("#notice_writer").val();
 		var content = $("#notice_content").val();
+		//var board_file = $("#board_file").val();
+		var board_file = "3.png";
+		
 		//alert(title+"/"+writer+"/"+content);
 
-		location.href="/notice/noticeINS.mgr?title="+title+"&writer="+writer+"&content="+content+"&dept="+<%=dept %>; --%>
-		$("#notice_write_form").attr('method','get');
+		location.href="/manager/notice/noticeINS.mgr?title="+title+"&writer="+writer+"&content="+content+"&dept=<%=dept %>&board_file="+board_file; 
+/* 		$("#notice_write_form").attr('method','get');
 		$("#notice_write_form").attr('action','/notice/noticeINS.mgr');
-		$("#notice_write_form").submit();
+		$("#notice_write_form").submit(); */
 	}
 
 </script>
@@ -33,7 +36,6 @@
 <h2>글쓰기</h2>
 </div>
 <div style="margin-top:30px;margin-bottom:10px;margin-right:10px; margin-left:30px;width:1200px;">
-	<form id="notice_write_form">
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-8">
 		    <label>제목</label>
@@ -90,7 +92,6 @@
 	  <button type="button" class="btn btn-default btn-light btn-outline-secondary" onClick="javascript:back()">취소</button>
 	 </div>
 	  </div>
-	</form>	
 </div>
 
 

@@ -38,6 +38,19 @@ public class mgr_NoticeDao {
 		
 		return nList;
 	}
+	public List<Map<String, Object>> noticeSEARCH(Map<String, Object> nMap){
+		try {
+			
+			nList = sqlSes.selectList("noticeSEARCH",nMap);
+			logger.info("mgr_NoticDao=>noticeSEARCH=>nList=>"+nList);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return nList;
+	}
 	
 	public int getBoardNO(Map<String,Object> nMap) {
 		logger.info("Dao=>getBoardNO 호출 성공");

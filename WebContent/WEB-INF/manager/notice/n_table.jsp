@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	
-	String hp_code = "635HP";
+	String hp_code = "276HP";
 	
 	List<Map<String,Object>> nList = (List<Map<String,Object>>)request.getAttribute("nList");
 
@@ -44,9 +44,11 @@
 		//alert("셀렉트박스값=>"+select_val);
 		alert("검색창에 입력한 값=>"+$("#notice_input").val());
 		
-		var title = $("#notice_input").val();
+		var search = $("#notice_input").val();
 		
-		$.ajax({
+		location.href="/manager/notice/noticeSEARCH.mgr?hp_code=<%=hp_code%>&search="+search;
+		
+/* 		$.ajax({
 			url:'./memList.jsp'
 			,datatype:'json'
 			,method:'get'
@@ -54,7 +56,7 @@
 			,success:function(data){
 				alert("검색해서 나온 data=>"+data);
 			}
-		});
+		}); */
 		
 		/*
 		if(select_val=="제목"){
@@ -143,7 +145,7 @@
 		</div>
 		<div class="row" style="margin-top:10px;justify-content: center;">
 <%
- 		String pagePath ="/manager/notice/noticetSEL.mgr?hp_code="+hp_code;
+ 		String pagePath ="/manager/notice/noticeSEL.mgr?hp_code="+hp_code;
  		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
  		String pagination = pb.getPageBar();
  		out.print(pagination);

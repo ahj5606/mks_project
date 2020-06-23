@@ -7,10 +7,23 @@
 		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
 		 FROM mks_board b, mks_online o
 		 WHERE b.mks_id = o.mks_id
+		  AND o.hp_code=#{hp_code}
 		 <if test="board_no!=null">
 		 	AND b.board_no=#{board_no}
 		 </if>
 		 ORDER BY b.board_no desc
+	</select>
+	
+	<select id="noticeSEARCH" parameterType="map" resultType="map">
+        SELECT b.board_no , b.board_title, o.hp_code
+            FROM mks_board b, mks_online o
+          WHERE b.mks_id = o.mks_id
+           AND o.hp_code=#{hp_code}
+           <if test="board_title!=null || dept_name!=null">
+	           AND b.board_title LIKE '%' || #{board_title} || '%'
+	           OR o.dept_name LIKE '%' || #{dept_name}|| '%'
+           </if>
+            ORDER BY b.board_no desc
 	</select>
 	
 	<select id="getBoardNO" parameterType="int" resultType="int">
@@ -25,16 +38,18 @@
 	<update id="noticeUPD" parameterType="map">
 		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}
 		 WHERE board_no=#{board_no}
+		   AND o.hp_code=#{hp_code}
 	</update>
 	
 	<delete id="noticeDEL" parameterType="map">
 		DELETE FROM mks_board 
 		 WHERE board_no=#{board_no}
+		   AND o.hp_code=#{hp_code}
 	</delete>
  
 	<insert id="noticeINS" parameterType="map">
-		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title, board_file, mks_id)
- 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), #{board_title}, #{board_file}, #{mks_id});
+		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title,mks_id)
+ 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), #{board_title},#{mks_id})
 	</insert>
 	
 	
