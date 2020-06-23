@@ -77,8 +77,8 @@
 <%
 	for(int i=0;i<docList.size();i++){
 %>
-					  	<tr>
-					  	  <td><%=docList.get(i).get("DEPT_NAME") %></td>
+					  	<tr class='clickable-row' data-href='url://link-for-first-row/'> 
+    					  <td><%=docList.get(i).get("DEPT_NAME") %></td>
 					  	  <td><%=docList.get(i).get("DOC_CODE") %></td>
 					  	  <td><%=docList.get(i).get("HP_CODE") %></td>
 					  	  <td><%=docList.get(i).get("DOC_STATE") %></td>
