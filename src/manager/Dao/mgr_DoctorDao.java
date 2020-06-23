@@ -29,16 +29,19 @@ public class mgr_DoctorDao {
 		}
 		return dList;
 	}
+
+	
 	public List<Map<String, Object>> doctorSEL(Map<String, Object> pMap) {
-		List<Map<String,Object>> dList = null;
-		try {
-			SqlSession sqlSes = sqlMapper.openSession();
-			dList=sqlSes.selectList("doctorSEL",pMap);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return dList;
+	List<Map<String,Object>> dList = null; 
+	try { 
+		SqlSession sqlSes = sqlMapper.openSession(); 
+		dList=sqlSes.selectList("doctorSEL",pMap); 
+		} catch (Exception e) { 
+			e.printStackTrace(); 
+		} 
+		return dList; 
 	}
+	
 	public List<Map<String, Object>> doctorDEPT(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList = null;
 		try {
@@ -50,43 +53,51 @@ public class mgr_DoctorDao {
 		return dList;
 	}
 	public List<Map<String, Object>> doctorDetail(Map<String, Object> pMap) {
-		List<Map<String,Object>> dList = null;
+		List<Map<String,Object>> dDetail= null;
 		try {
 			SqlSession sqlSes = sqlMapper.openSession();
-			dList=sqlSes.selectList("doctorDetail",pMap);//sql
+			logger.info("다오 doctorDetail 호출");
+			dDetail=sqlSes.selectList("doctorDetail",pMap);
+			logger.info("doctorDetail: "+dDetail.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return dList;
+		return dDetail;
 	}
-	public List<Map<String, Object>> doctorINS(Map<String, Object> pMap) {
-		List<Map<String,Object>> dList = null;
+	public int doctorINS(Map<String, Object> pMap) {
+		logger.info("doctorINS호출 성공");
+		int result = 0;
 		try {
 			SqlSession sqlSes = sqlMapper.openSession();
-			dList=sqlSes.selectList("doctorINS",pMap);//sql
+			result = sqlSes.insert("doctorINS",pMap);
+			logger.info("result:"+result);
+			sqlSes.commit(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return dList;
+		return result;
 	}
-	public List<Map<String, Object>> doctorUPD(Map<String, Object> pMap) {
-		List<Map<String,Object>> dList = null;
+	
+	
+	public int doctorUPD(Map<String, Object> pMap) {
+		logger.info("doctorUPD호출 성공");
+		int result = 0;
 		try {
 			SqlSession sqlSes = sqlMapper.openSession();
-			dList=sqlSes.selectList("doctorUPD",pMap);//sql
+			result = sqlSes.update("doctorUPD",pMap);
+			logger.info("result:"+result);
+			sqlSes.commit(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return dList;
+		return result;
 	}
-	public List<Map<String, Object>> doctorDEL(Map<String, Object> pMap) {
-		List<Map<String,Object>> dList = null;
-		try {
-			SqlSession sqlSes = sqlMapper.openSession();
-			dList=sqlSes.selectList("doctorDEL",pMap);//sql
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return dList;
+	public int doctorDEL(Map<String, Object> pMap) {
+		logger.info("doctorDEL 호출 성공");
+		int result = 0;
+		result = sqlSes.delete("doctorDEL",pMap);
+		logger.info("result:"+result);
+		sqlSes.commit(true);
+		return result;
 	}
 }
