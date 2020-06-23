@@ -87,7 +87,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 		<!--==============================================================  -->
-		<%@include file="./n_detailform.jsp" %>
+		<%@include file="n_detailform.jsp" %>
 		<!--==============================================================  -->
         </div>
         <!-- /.container-fluid -->

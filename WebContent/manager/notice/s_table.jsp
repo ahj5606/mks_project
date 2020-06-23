@@ -87,7 +87,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 		<!--==============================================================  -->
-		<%@include file="./n_table.jsp" %>
+		<%@include file="n_table.jsp" %>
 		<!--==============================================================  -->
         </div>
         <!-- /.container-fluid -->

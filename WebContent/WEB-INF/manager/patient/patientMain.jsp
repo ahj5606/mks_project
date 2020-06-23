@@ -94,11 +94,9 @@
 		$("#p_list").bootstrapTable({
 			onDblClickRow:function(row, $element, field)
 		     { 
-				alert("");
 				var jo = JSON.stringify(row);
 				var d = JSON.parse(jo);
 				var mem_code = d.MEM_MEMCODE;
-				alert(mem_code);
 				location.href="/manager/patient/patientDetail.mgr?hp_code=<%=hp_code%>&mem_code="+mem_code;
 				
 		     }

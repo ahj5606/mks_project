@@ -5,30 +5,18 @@
 //String hp_code = "635HP";
 	String h_name = "";
 	String h_dept = "";
-	
-	Cookie[] cookies = request.getCookies();
-	if(cookies!=null && cookies.length>0){
-		for(int i =0;i<cookies.length;i++){
-			String name = cookies[i].getName();
-			if(name.equals("hp_name")){
-				h_name = cookies[i].getValue();
-			}
-			if(name.equals("dept_name")){
-				h_dept = cookies[i].getValue();
-			}
-		}
-	}
-	
-	HttpSession sess = request.getSession();
-	hp_code = (String)sess.getAttribute("hp_code");
-	
+
 %>
 <!DOCTYPE html>
 <head>
 <title>병원관리시스템</title>
 <%@include file="../../common/ManagerCommon.jsp" %>
+<script type="text/javascript">
+	function a(){
+		alert("로그인 후 사용 가능합니다.");
+	}
+</script>
 </head>
-
 <body id="page-top">
 
   <!-- Page Wrapper -->
@@ -50,31 +38,31 @@
 		
 		<!-- 메뉴들 시작  -->
 		<li class="nav-item">
-			<a class="nav-link" href="/manager/notice/noticeSEL.mgr?hp_code=<%=hp_code%>">
+			<a class="nav-link" href="javascript:a()">
 				<i class="fas fa-clipboard-list"></i>
 				<span>공지사항</span>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="sidebar.jsp">
+			<a class="nav-link" href="javascript:a()">
 				<i class="fas fa-notes-medical"></i>
 				<span>예약</span>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="sidebar.jsp">
+			<a class="nav-link" href="javascript:a()">
 				<i class="fas fa-user"></i>
 				<span>환자</span>
 			</a>
 		</li>		
 		<li class="nav-item">
-			<a class="nav-link" href="sidebar.jsp">
+			<a class="nav-link" href="javascript:a()">
 				<i class="fa fa-stethoscope"></i>
 				<span>의사</span>
 			</a>
 		</li>		
 		<li class="nav-item">
-			<a class="nav-link" href="sidebar.jsp">
+			<a class="nav-link" href="javascript:a()">
 				<i class="fas fa-clock"></i>
 				<span>대기시간</span>
 			</a>
@@ -97,7 +85,6 @@
         <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow">
 			<p class="col-sm-12 col-md-9">
 			<p class="text-right"><strong><h4><%=h_name %></h4></strong></p>
-			<p class="text-right"><strong><h4>/</h3></strong></p>
 			<p class="text-right"><strong><h4><%=h_dept %></h3></strong></p>
 		</p>
         </nav>
@@ -106,8 +93,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 		<!--==============================================================  -->
-		<%-- <%@include file="./s_table.jsp" %> --%>
-		<%-- <%@include file="./notice_writeform.jsp" %> --%>
+		<%@include file="n_login.jsp" %>
 		<!--==============================================================  -->
         </div>
         <!-- /.container-fluid -->
@@ -123,4 +109,7 @@
 
 </body>
 
+</html>
+
+</body>
 </html>
