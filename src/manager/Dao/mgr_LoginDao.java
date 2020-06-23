@@ -17,9 +17,10 @@ public class mgr_LoginDao {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}
-	public void login() {
-		List<Map<String, Object>> list = null;
-		list = sqlSes.selectList("te",null);
-		logger.info(list); 
+	public List<Map<String, Object>> login(Map<String, Object> lMap) {
+		List<Map<String, Object>> lList = null;
+		lList = sqlSes.selectList("login",lMap);
+		logger.info(lList);
+		return lList;
 	}
 }
