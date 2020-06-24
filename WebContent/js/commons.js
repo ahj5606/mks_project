@@ -15,6 +15,7 @@ function cmm_window_popup(url, popupwidth, popupheight, popupname){
 	   options+=", left="+Left+", top=" + Top;
 	   options+=", width="+popupwidth+", height="+popupheight;
 	   popupname = window.open(url, popupname, options);
+	   noticeWindow.opener = self;
 	}
 
 

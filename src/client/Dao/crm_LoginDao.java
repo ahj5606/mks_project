@@ -1,15 +1,12 @@
 package client.Dao;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.log4j.Logger;
 
 import mks.util.MyBatisConnction;
@@ -23,18 +20,6 @@ public class crm_LoginDao {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}
-	
-//	public String proc_mem_login(Map<String, Object> pMap) {
-//		logger.info("[crm_LoignDao] proc_mem_login호출 성공");
-//		String result = "";
-//		sqlSes.selectOne("proc_mem_login", pMap);
-//		result = pMap.get("msg").toString();
-//		logger.info("result: " + result);
-//		result = pMap.get("msg_id").toString();
-//		logger.info("result: " + result);
-//		sqlSes.commit();
-//		return result;
-//	}
 	
 	public List<Map<String, Object>> proc_mem_login(Map<String, Object> pMap) {
 		logger.info("[crm_LoignDao] proc_mem_login호출 성공");
@@ -52,14 +37,14 @@ public class crm_LoginDao {
 		return login;
 	}
 	
-//	public static void main(String[] args) {
-//		crm_LoginDao logDao = new crm_LoginDao();
-//		List<Map<String, Object>> login = null;
-//		Map<String, Object> pMap = new HashMap<String, Object>();
-//		pMap.put("u_id", "test");
-//		pMap.put("u_pw", "123");
-//		login = logDao.proc_mem_login(pMap);
-//		logger.info("result: " + login);
-//	}
+	public static void main(String[] args) {
+		crm_LoginDao logDao = new crm_LoginDao();
+		List<Map<String, Object>> login = null;
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap.put("u_id", "test");
+		pMap.put("u_pw", "123");
+		login = logDao.proc_mem_login(pMap);
+		logger.info("result: " + login);
+	}
 	
 }

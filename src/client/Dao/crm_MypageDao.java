@@ -1,5 +1,6 @@
 package client.Dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,20 @@ public class crm_MypageDao {
 		return result;
 	}
 	
+	public List<Map<String, Object>> idCheck(Map<String, Object> pMap) {
+		logger.info("[crm_MypageDao] idCheck 호출성공");
+		List<Map<String, Object>> idCheck = null;
+		idCheck = sqlSes.selectList("idCheck", pMap);
+		return idCheck;
+	}
+	
+	public List<Map<String, Object>> socialnumCheck(Map<String, Object> pMap) {
+		logger.info("[crm_MypageDao] socialnumCheck 호출성공");
+		List<Map<String, Object>> socialnumCheck = null;
+		socialnumCheck = sqlSes.selectList("socialnumCheck", pMap);
+		return socialnumCheck;
+	}
+	
 	public String proc_mem_Add(Map<String, Object> pMap) {
 		logger.info("[crm_MypageDao] proc_mem_Add 호출성공");
 		String result = "";
@@ -58,19 +73,23 @@ public class crm_MypageDao {
 		return result;
 	}
 	
-	public static void main(String[] args) {
-		crm_MypageDao my = new crm_MypageDao();
-		String result = "";
-		Map<String, Object> pMap = new HashMap<String, Object>();
-		pMap.put("u_id","test5");
-		pMap.put("u_pw","123");
-		pMap.put("u_soc","910685-1129563");
-		pMap.put("u_addr","부산광역시");
-		pMap.put("u_phone","010-1111-1115");
-		pMap.put("u_name","회원5");
-		result = my.proc_mem_Add(pMap);
-		logger.info("result: "+result);
-		logger.info("result: "+result);
-	}
+//	public static void main(String[] args) {
+//		crm_MypageDao my = new crm_MypageDao();
+//		List<Map<String, Object>> result = new ArrayList<>();
+//		Map<String, Object> pMap = new HashMap<String, Object>();
+//		pMap.put("mem_socialnum", "1211212-123123");
+//		String result = "";
+//		pMap.put("u_id","test8");
+//		pMap.put("u_pw","123");
+//		pMap.put("u_soc","910685-1129566");
+//		pMap.put("u_addr","서울시 판교");
+//		pMap.put("u_phone","010-1111-1118");
+//		pMap.put("u_name","회원8");
+//		pMap.put("u_email","test8@naver.com");
+//		result = my.proc_mem_Add(pMap);
+//		result = my.idCheck(pMap);
+//		result = my.socialnumCheck(pMap);
+//		logger.info("result: "+result);
+//	}
     
 }
