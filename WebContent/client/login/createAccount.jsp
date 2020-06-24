@@ -22,7 +22,6 @@
 	} 
 </style>
 <script type="text/javascript">
-<<<<<<< HEAD
 function addrSearch() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -45,22 +44,7 @@ function addrSearch() {
         }
     }).open();
 }
-=======
-	function addrSearch() {
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	        	var zip = data.zonecode;
-	            var addr = data.sigungu; // 최종 주소 변수
-	            var addr1 = data.sido; // 최종 주소 변수
-	            var addr2 = data.bname; // 최종 주소 변수
-	            /* $("#i_addr").val(addr+" "+addr1+" "+addr2);
-	            $("#i_zipcode").val(zip); */
-	            document.getElementById("i_addr").value = addr+" "+addr1+" "+addr2;
-	            document.getElementById("i_zipcode").value = zip;
-	        }
-	    }).open();
-	}
->>>>>>> refs/heads/jina
+
 	function acc_check(){
 		alert("회원가입버튼 호출");
 	}

@@ -20,12 +20,13 @@ public class crm_ReservationDao {
 		sqlSes = sqlMapper.openSession();
 	}
 
-	public List<Map<String, Object>> reservationList(Map<String, Object> pMap) { //모든과, 의사T, 같이 찾기
+	public List<Map<String, Object>> reservationList(Map<String, Object> pMap) {
+		//병원만 선택후  모든과, 의사T, 대기시간 찾기 or 진료과목 및 의사T 조건검색 으로 목록 확인
 		logger.info("[crm_ReservationDao] reservationList 호출성공");
 		List<Map<String, Object>> reservationList = null;
-//		pMap.put("hp_code", "647HP");
-//		pMap.put("dept_code", "37");
-//		pMap.put("doc_name", "김지우");
+		pMap.put("hp_code", "647HP");
+//		pMap.put("dept_name", "원무과");
+//		pMap.put("doc_name", "이서연");
 		reservationList = sqlSes.selectList("reservationList", pMap);
 		return reservationList;
 	}
@@ -43,8 +44,11 @@ public class crm_ReservationDao {
 //	}
 
 	public List<Map<String, Object>> waitCheck(Map<String, Object> pMap) {
+		//대기표 발급화면 - 대기인원 현황
 		logger.info("[crm_ReservationDao] waitCheck 호출성공");
 		List<Map<String, Object>> waitCheck = null;
+		pMap.put("hp_code", "647HP");
+		pMap.put("dept_name", "원무과");
 		waitCheck = sqlSes.selectList("waitCheck", pMap);
 		return waitCheck;
 	}
@@ -52,7 +56,7 @@ public class crm_ReservationDao {
 	public List<Map<String, Object>> docSel(Map<String, Object> pMap) {
 		logger.info("[crm_ReservationDao] docSel 호출성공");
 		List<Map<String, Object>> docSel = null;
-//		pMap.put("hp_code", "647HP");
+		pMap.put("doc_name", "이서연");
 		docSel = sqlSes.selectList("docSel", pMap);
 		return docSel;
 	}
@@ -83,7 +87,8 @@ public class crm_ReservationDao {
 	public static void main(String[] args) {
 		crm_ReservationDao res = new crm_ReservationDao();
 		Map<String, Object> pMap = new HashMap<String, Object>();
-//		res.reservationList(pMap);
+		res.reservationList(pMap);
+//		res.waitCheck(pMap);
 //		res.docSel(pMap);
 		System.out.println(pMap);
 	}
