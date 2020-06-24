@@ -56,7 +56,7 @@
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="sidebar.jsp">
+			<a class="nav-link" href="/manager/patient/patientList.mgr">
 				<i class="fas fa-notes-medical"></i>
 				<span>예약</span>
 			</a>
