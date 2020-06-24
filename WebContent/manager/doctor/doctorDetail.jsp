@@ -137,7 +137,7 @@
 				       			삭제 하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docUpd()">저장</button>
+				        <button type="button" class="btn btn-primary" onclick="docDel()">저장</button>
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				      </div>
 				    </div>
