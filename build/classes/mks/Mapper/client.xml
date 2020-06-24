@@ -13,7 +13,7 @@
               AND hp_open = #{hp_open}
           </if>
           <if test="hp_close !=  null">
-              AND hp_close = #{hp_close}    
+              AND hp_close = #{hp_close}    	
           </if> 
 	</select>
 	 -->
@@ -21,8 +21,12 @@
 		SELECT
 		   h.hp_name, h.hp_address, d.dept_name, h.hp_open, h.hp_close 
 		 FROM mks_hospital h, mks_dept d
-		 WHERE hp_open = #{hp_open} 
-		 AND hp_close = #{hp_close}
+		<if test="hp_open != null">
+			 WHERE hp_open = #{hp_open}
+		</if>
+        <if test="hp_close !=  null">
+			 AND hp_close = #{hp_close}
+		</if> 
 	</select>
 <!-- crm_ReservationDao 부분 -->	
 	<select id="reservationList" parameterType="map" resultType="map">
@@ -48,7 +52,14 @@
 	
 <!-- crm_HealthDao 부분 -->
 <!-- crm_LoginDao 부분 -->
-	
+	<select id="proc_mem_login" parameterType="map" statementType="CALLABLE">
+		{call proc_mem_login (
+			#{u_id, mode=IN, jdbcType=VARCHAR}
+			,#{u_pw, mode=IN, jdbcType=VARCHAR}						
+			,#{msg, mode=OUT, jdbcType=VARCHAR}						
+			,#{msg_id, mode=OUT, jdbcType=VARCHAR}						
+		)}
+	</select>
 <!-- crm_MypageDao 부분 -->	
 	<select id="proc_mem_Add" parameterType="map" statementType="CALLABLE">
 		{call proc_mem_Add (
