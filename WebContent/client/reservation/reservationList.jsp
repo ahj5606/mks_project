@@ -23,7 +23,6 @@
 <title>예약목록 화면</title>
 <%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
-
 	.container{
 		padding:5px;
 	}
@@ -52,6 +51,17 @@
 	#board_1 > a, #board_2 > a, #doc_1 > a, #doc_2 > a,#doc_3 > a{
 		color:#4C4C4C;
 	}
+	#board, #board:hover{
+		color:#4C4C4C;
+		background-color:#EAEAEA;
+		border-color:#EAEAEA; 
+	}
+	a.page-link{
+		color:#4C4C4C;
+	}
+	body{
+	  	font-family: 'Do Hyeon', sans-serif;
+	}
 </style>
 <script type="text/javascript">
 	function res_pageGet(num){
@@ -76,7 +86,7 @@
 	}
 	function popup_board(){
 		alert("공지사항목록 팝업!");
-		cmm_window_popup('/client/reservation/boardList.jsp?hp_name='+<%=hp_name%>,'1200','800','공지사항');
+		cmm_window_popup('/client/reservation/h_boardList.jsp?hp_name='+'<%=hp_name%>','1000','700','공지사항');
 	}
 	function board_detail(b_choice){
 		//*** input 태그 안에 공지사항 b_no(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
@@ -84,22 +94,20 @@
 		alert("공지사항번호: "+b_no+" ==> 모달띄워야함!!");
 	}
 	function waiting(){
-		alert("대기버튼!");
+		alert("대기 팝업!");
+		cmm_window_popup('/client/reservation/waitting.jsp','400','400','원무과 대기 정보');
 	}
 	function doc_detail(doc_choice){//의사상세정보 
 		//*** input 태그 안에 doc_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
 		var doc_code = $(doc_choice).children("input").val();
 		alert("의사 코드: "+doc_code);
 		/* 
-		$.ajax({
-			url:"/client/login/jsonReservation.jsp?doc_code="+doc_code
-			,success:function(data){
-				//모달창에 정보 뿌리기
-				$('#modal_doc').modal('show')
-			}
-		}); 
+		$('#doc_detail').bootstrapTable('refreshOptions', {
+	           url:
+		});
+		$("div.fixed-table-loading").remove();	 
 		*/
-		$('#modal_doc').modal('show')
+		$('#modal_doc').modal('show');
 	}
 	//예약버튼을 눌렀을 때 *******************************************************************************
 	function reservation_detail(doc_choice){//상세예약하는 화면 열기!
@@ -109,13 +117,13 @@
 		alert("예약하기 원하는 의사이름: "+doc_name);
 		if(doc_name.length==0){//만약 의사이름이 없다면 == 일반내과 전체
 			alert("전체");
-			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','1000','병원 대기&예약 화면');
+			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','950','상세예약');
 			/* ****과 코드를 넘겨서 상세예약화면에서 dept_code로 
 					1)해당 과의 전체 의사 목록 뽑아서 카테고리완성, dept_name 전달   2)과전체 의사의 예약가능 날짜 List로 전달
 			*/
 		}else{
 			alert("의사 코드: "+doc_code);
-			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','1000','병원 대기&예약 화면');
+			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','950','상세예약');
 			/* ****의사 코드를 넘겨서 상세예약화면에서 doc_code로		
 					1)해당 의사의 dept_code를 뽑아서 의사 카테고리완성, dept_name 전달   2)해당의사의 예약가능날짜  List로 전달
 			}); 
@@ -127,10 +135,10 @@
 <body>
 	<!-- 네이게이션 -->
 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#007bff;">
-	    <a class="navbar-brand" href="#"><%=hp_name%></a>
+	    <a class="navbar-brand" href="#"><%=hp_name%><input type="hidden" value="12345"></a><!-- 병원코드 숨겨두기 -->
     </nav>
 	<!-- 본문 -->
-	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
+	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:15px;">
 	  	<!-- 상단1 -->
 	  	<div class="row mb-3 mt-2">
 	  		<div class="col-md">
@@ -144,9 +152,9 @@
 		<!-- 상단2 -->
 	  	<div class="row mb-3 mt-2">
 	  		<!-- 검색 -->
-	  		<div class="col-md pr-1">
+	  		<div class="col-md py-1 pr-1">
 	  			<!-- 진료과 -->
-				<div class="row">
+				<div class="row mr-1">
 					<div class="col-md">
 						<select class="form-control" id="s_gwa">
 							<option value="진료과">진료과</option>
@@ -158,7 +166,7 @@
 					</div>
 				</div>
 	  			<!-- 의사이름 -->
-				<div class="row pt-2">
+				<div class="row mr-1 pt-2">
 					<div class="col-md">
 						<div class="input-group">
 		      				<input type="text" class="form-control" id="doc_name" name="doc_name" type="search" placeholder="Ex) 고길동">
@@ -170,10 +178,10 @@
 				</div>
 			</div>
 			<!-- 공지사항 -->
-	  		<div class="col-8">
+	  		<div class="col-8 pt-1 ml-1">
 				<div class="row">
 					<div class="col-md">
-						<button class="btn btn-dark btn-block bg-light btn-outline-light" onClick="popup_board()">공지사항</button>
+						<button class="btn btn-dark btn-block" onClick="popup_board()" id="board">공지사항</button>
 					</div>
 				</div>
 				<div class="row">
@@ -220,7 +228,7 @@
 										<th scope="row">원무과</th>
 										<td></td>
 										<td>15분</td>
-										<td><button class="btn btn-dark btn-small" onClick="waiting()">대기</button></td>
+										<td><button class="btn btn-dark btn-small" onClick="waiting()">대기</button></td><!-- 병원코드 넘기기 -->
 									</tr>
 									<tr>
 										<th scope="row">일반내과</th>
@@ -275,8 +283,7 @@
 		<div class="row bg-light pt-3">
 		</div>
 	</footer> -->
-	
-	<!-- Modal -->
+	<!-- 의사 모달 -->
 	<div class="modal fade" id="modal_doc" tabindex="-1" role="dialog" aria-hidden="true">
   		<div class="modal-dialog" role="document">
    			<div class="modal-content">
@@ -289,7 +296,7 @@
       			</div>
       			<!-- body -->
       			<div class="modal-body">
-       				<table class="table table-hover" style="text-align:center;">
+       				<table class="table table-hover" id="doc_detail" style="text-align:center;">
 						<thead class="thead-light">
 							<tr>
 								<th scope="col">이름</th>
@@ -298,20 +305,15 @@
 								<th scope="col">직급</th>
 							</tr>
 						</thead>
-						<tbody id="doc_detail">
-							<!-- 의사이름 눌렀을 떄, doc_code가 넘어가서 select한 값을  뿌려준다...-->
-						</tbody>
 					</table>
      			</div>
      			<!-- footer -->
      			<div class="modal-footer">
-        			<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        			<button type="button" class="btn btn-primary">저장</button>
+        			<button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
       			</div>
     		</div>
   		</div>
 	</div>
-	
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -334,8 +336,6 @@
 				</tr>
 				*/
 			});
-		});
-		$(document).ready(function(){
 			$("#s_gwa").change(function(){
 				alert(this.value);
 			});
