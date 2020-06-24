@@ -4,6 +4,7 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%
+	
 	List<Map<String,Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 		if(docList==null){
 			docList = new ArrayList();
@@ -115,6 +116,10 @@
 	$(document).ready(function(){
 		doc_list();
 	});
-</script>	
+	
+	
+
+</script>
+	
 </body>
 </html>
