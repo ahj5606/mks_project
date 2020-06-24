@@ -4,13 +4,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<Map<String,Object>> docDetail = (List<Map<String,Object>>)request.getAttribute("docDetail");
-		Map<String,Object> rmap = null;
-		if(docDetail==null){
-			rmap=docDetail.get(0);
-			}
-		
-		
+	List<Map<String, Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
+	if(docList==null){
+		docList = new ArrayList();
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -19,10 +16,8 @@
 <title>의사 상세</title>
 <script type="text/javascript">
 	function docIns() {
-		alert("저장호출 성공");
-		$("#form-group").attr("method","post");
-		$("#form-group").attr("action","./boardINS.mvc3?cud=INS");
-		$("#form-group").submit();
+		alert("저장");
+		location.href="./docIns.jsp";
 	}
 	function docUpd() {
 		alert("수정");
@@ -46,42 +41,42 @@
   				<div>
 	     		<div class="form-group" style="margin-top: 30px">
 		      	  <label>의사코드</label>
-		      	  <input type="text" class="form-control" id="doc_code" name="doc_code"  style="width: 245px">
+		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" value="<%=docList.get(0).get("DOC_CODE")%>" style="width: 245px">
 		    	</div>
 			    <div class="form-group">
 			      <label>병원코드</label>
-			      <input type="text" class="form-control" id="hp_code" name="hp_code" style="width: 245px">
+			      <input type="text" class="form-control" id="hp_code" name="hp_code" value="<%=docList.get(0).get("HP_CODE")%>"style="width: 245px">
 			    </div>
 			    <div class="form-group">
 			      <label>부서</label>
-			      <input type="text" class="form-control" id="dept_name" name="dept_name" style="width: 245px">
+			      <input type="text" class="form-control" id="dept_name" name="dept_name" value="<%=docList.get(0).get("DEPT_NAME")%>"style="width: 245px">
 			    </div>
 			    <div class="form-group">
 			      <label>이름</label>
-			      <input type="text" class="form-control" id="doc_name" name="doc_name" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_name" name="doc_name" value="<%=docList.get(0).get("DOC_NAME")%>" style="width: 245px">
 			    </div>
 			    <div class="form-group">
 			      <label>직급</label>
-			      <input type="text" class="form-control" id="doc_position" name="doc_position" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_position" name="doc_position" value="<%=docList.get(0).get("DOC_POSITION")%>"style="width: 245px">
 			    </div>
 			    </div>
 			    
 			   	<div>
 		    	<div class="form-group">
 			      <label>전공</label>
-			      <input type="text" class="form-control" id="doc_education" name="doc_education" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_education" name="doc_education" value="<%=docList.get(0).get("")%>" style="width: 245px">
 			    </div>
 		    	<div class="form-group">
 			      <label>전화</label>
-			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" value="<%=docList.get(0).get("")%>" style="width: 245px">
 			    </div>
 			    <div class="form-group">
 			      <label>휴무일</label>
-			      <input type="text" class="form-control" id="doc_offday" name="doc_offDay" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_offday" name="doc_offDay" value="<%=docList.get(0).get("")%>" style="width: 245px">
 			    </div>
 			    <div class="form-group">
 			      <label>상태</label>
-			      <input type="text" class="form-control" id="doc_state" name="doc_state" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_state" name="doc_state" value="<%=docList.get(0).get("")%>" style="width: 245px">
 			    </div>
 		    	</div>
 		    <div>
@@ -151,7 +146,7 @@
 				       			삭제 하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docDel()">확인</button>
+				        <button type="button" class="btn btn-primary" onclick="docDel()">저장</button>
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				      </div>
 				    </div>

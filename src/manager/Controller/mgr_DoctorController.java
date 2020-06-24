@@ -87,12 +87,22 @@ public class mgr_DoctorController implements mgr_Controller {
 			
 			
 		}else if("doctorSEL".equals(requestName)) { 
-			/*
-			 * List<Map<String,Object>> dList = null; Map<String,Object> pMap = new
-			 * HashMap<>(); dList = mgr_dLogic.doctorSEL(pMap); if(dList==null) { dList =
-			 * new ArrayList<>();//memList.size()=0 } req.setAttribute("docList", dList);
-			 * path = "forward:/doctor/doctorList.jsp";
-			 */
+			 String doc_name = req.getParameter("doc_name");
+			 String doc_code = req.getParameter("doc_code");
+			 String hp_code = "280HP";
+			 
+			 List<Map<String,Object>> docSEL = null; 
+			 Map<String,Object> pMap = new HashMap<>(); 
+			 
+			 pMap.put("doc_name",doc_name);
+			 pMap.put("doc_code",doc_code);
+			 pMap.put("hp_code",hp_code);
+			 docSEL = mgr_dLogic.doctorSEL(pMap); 
+			 mav.addObject("docList",docSEL);
+			 mav.IsForward(true);
+			 mav.setViewName("/doctor/mgr_doctor");
+			 
+			 
 		}
 		else if("doctorDetail".equals(requestName)) {
 			List<Map<String,Object>> docDetail = null;

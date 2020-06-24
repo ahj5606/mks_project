@@ -7,8 +7,10 @@
 <title>의사 상세</title>
 <script type="text/javascript">
 	function docIns() {
-		alert("저장");
-		location.href="./docIns.jsp";
+		alert("저장호출 성공");
+		$("#form-group").attr("method","post");
+		$("#form-group").attr("action","./doctorINS.mgr?cud=INS");
+		$("#form-group").submit();
 	}
 	function docUpd() {
 		alert("수정");

@@ -70,7 +70,17 @@
 	</select>
 	
 	<select id="doctorSEL" parameterType="map" resultType="map">
-		
+		SELECT doc_code,doc_state, doc_education, doc_phone, doc_position
+        , doc_name, doc_offday, hp_code, dept_name, dept_code, hp_name
+			from MKS_DOCTOR
+			WHERE hp_code =#{hp_code}
+				<if test="doc_code!=null">
+					And doc_code Like '%'||#{doc_code}||'%'
+				</if>
+				<if test="doc_name!=null">
+					And doc_name=#{doc_name}
+				</if>
+			
 	</select>
 	
 	<insert id="doctorINS" parameterType="map">
