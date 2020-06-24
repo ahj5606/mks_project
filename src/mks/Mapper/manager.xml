@@ -56,9 +56,6 @@
 	</insert>
 	
 	
-	
-	
-	
 	<select id="patientList" parameterType="map" resultType="map">
         SELECT MIN(mem.mem_name) mem_name , mem.mem_memcode mem_memcode, MIN(mem.mem_socialnum) mem_socialnum,MIN(mem.mem_phone) mem_phone
                FROM MKS_MEMBER mem , MKS_HISTORY his
@@ -69,6 +66,7 @@
    		GROUP BY mem.mem_memcode
    		ORDER BY mem.mem_memcode
 	</select>
+	
 	<select id="patientSEL" parameterType="map" resultType="map">
         SELECT MIN(mem.mem_name) mem_name , mem.mem_memcode mem_memcode, MIN(mem.mem_socialnum) mem_socialnum,MIN(mem.mem_phone) mem_phone
                FROM MKS_MEMBER mem , MKS_HISTORY his
@@ -98,6 +96,62 @@
 		 AND mem.mem_memcode=#{mem_code}
 		 ORDER BY mem.mem_memcode
 	</select>
+	
+
+	<select id="doctorSEL" parameterType="map" resultType="map">
+
+	</select>
+	<select id="doctorList" parameterType="map" resultType="map">
+		select dept_name, doc_code, hp_code
+        		,DOC_STATE,DOC_NAME,DOC_POSITION,DOC_EDUCATION
+        		,DOC_PHONE,DOC_OFFDAY
+			from mks_doctor
+	</select>
+	
+	<insert id="doctorINS" parameterType="map">
+		
+	</insert>
+	
+	<update id="doctorUPD" parameterType="map">
+		UPDATE mks_doctor
+		       set
+		<if test="doc_code!=null">
+		       doc_code = #{doc_code}
+		</if>       
+		<if test="hp_code!=null">		       
+		      ,hp_code = #{hp_code}
+		</if>      
+		<if test="dept_name!=null">		       
+		      ,dept_name = #{dept_name}
+		</if>      
+		<if test="doc_name!=null">		       
+		      ,doc_name = #{doc_name}
+		</if>		      
+		<if test="doc_position!=null">		       
+		      ,doc_position = #{doc_position}
+		</if>   
+		<if test="doc_education!=null">		       
+		      ,doc_education = #{doc_education}
+		</if>   
+		<if test="doc_phone!=null">		       
+		      ,doc_phone = #{doc_phone}
+		</if>   
+		<if test="doc_offday!=null">		       
+		      ,doc_offday = #{doc_offday}
+		</if>   
+		<if test="doc_phone!=null">		       
+		      ,doc_state = #{doc_state}
+		</if>   
+		<where>
+			<if test="doc_code!=null">
+		 		and doc_code = #{doc_code}	
+			</if>
+		</where>  
+	</update>
+	
+	<delete id="doctorDEL">
+		DELETE FROM mks_doctor WHERE doc_name=#{doc_name}
+	</delete>
 
 	<select id="patientDoctor" parameterType="map" resultType="map">
      SELECT DOC_CODE,DOC_NAME,DEPT_NAME,DEPT_CODE,HP_NAME
@@ -126,6 +180,8 @@
 		INSERT INTO MKS_HISTORY(HIS_DATE,HIS_CONTENT,MEM_MEMCODE,DOC_CODE,DOC_NAME,HP_CODE,DEPT_NAME,DEPT_CODE,HP_NAME)
 		VALUES(#{his_date},#{his_content},#{mem_code},#{doc_code},#{doc_name},#{hp_code},#{dept_name},#{dept_code},#{hp_name})		
 	</insert>	
+
+
 	<update id="patientUPD" parameterType="map">
 		UPDATE MKS_MEMBER 
 		SET MEM_NAME=#{mem_name} ,  mem_phone=#{mem_phone} ,mem_address=#{mem_address} 
@@ -133,13 +189,6 @@
 	</update>
 	
 	
-		
-
-	
-	<select id="doctorSEL" parameterType="map" resultType="map">
-		
-	
-	</select>
 	
 	
 	
