@@ -2,52 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.clientMapper">
 <!-- crm_HospitalDao 부분 -->
-	<!-- 
-	<select id="hospitalList" parameterType="map" resultType="map">
-         SELECT
-            hp_name
-          FROM mks_hospital
-          WHERE 1 = 1
-          AND 
-          <if test="hp_open != null">
-              AND hp_open = #{hp_open}
-          </if>
-          <if test="hp_close !=  null">
-              AND hp_close = #{hp_close}    	
-          </if> 
-	</select>
-	 -->
 	<select id="hospitalList" parameterType="map" resultType="map">
 		SELECT
-		   h.hp_name, h.hp_address, d.dept_name, h.hp_open, h.hp_close 
-		 FROM mks_hospital h, mks_dept d
-		<if test="hp_open != null">
-			 WHERE hp_open = #{hp_open}
-		</if>
-        <if test="hp_close !=  null">
-			 AND hp_close = #{hp_close}
-		</if> 
+		    r,hp_name,hp_lat,hp_lng,hp_detail,hp_address,hp_open,hp_close,hp_phone,dept_name
+		  FROM hospitalList
 	</select>
+	
 <!-- crm_ReservationDao 부분 -->	
 	<select id="reservationList" parameterType="map" resultType="map">
-		SELECT 
-		    dept_name, doc_code, doc_name
-		  FROM mks_doctor
+		SELECT
+			rnum, hp_code, dept_name, doc_name, waittime
+		  FROM reservationList
+		  WHERE 1 = 1
 		  <if test="hp_code != null">
-			  WHERE hp_code = #{hp_code}
+		  	AND hp_code = #{hp_code}
 		  </if>
-		  <if test="dept_code != null">
-			  AND dept_code = #{dept_code}
+		  <if test="dept_name != null">
+		  	AND dept_name = #{dept_name}
 		  </if>
 		  <if test="doc_name != null">
-			  AND doc_name = #{doc_name}	
-		  </if>
+			AND doc_name = #{doc_name}
+		  </if>	
+	</select>
+	<select id="waitCheck" parameterType="map" resultType="map">
+		SELECT 
+		    dept_prewait, (dept_lastwait - dept_prewait)*2
+		  FROM mks_dept
+		  WHERE hp_code = #{hp_code}
+		  AND dept_name = #{dept_name} 	
 	</select>
 	<select id="docSel" parameterType="map" resultType="map">
 		SELECT 
 		    doc_name, dept_name, doc_position, doc_education
 		  FROM mks_doctor
-		  WHERE hp_code = #{hp_code}
+		  WHERE doc_name = #{doc_name}
 	</select>
 	
 <!-- crm_HealthDao 부분 -->
@@ -60,8 +48,26 @@
 			,#{msg_id, mode=OUT, jdbcType=VARCHAR}						
 		)}
 	</select>
+	
 <!-- crm_MypageDao 부분 -->	
+	<select id="idCheck" parameterType="map" resultType="map">
+	<!-- id중복 검사  -->
+		SELECT
+		    o.mks_id
+		  FROM mks_online o, mks_member m
+		  WHERE o.mem_memcode = m.mem_memcode
+		  AND o.mks_id = #{mks_id}	
+	</select>
+	<select id="socialnumCheck" parameterType="map" resultType="map">
+	<!-- 주민번호 중복검사 -->
+		SELECT
+		    m.mem_socialnum
+		  FROM mks_online o, mks_member m
+		  WHERE o.mem_memcode = m.mem_memcode
+		  AND m.mem_socialnum = #{mem_socialnum}	
+	</select>
 	<select id="proc_mem_Add" parameterType="map" statementType="CALLABLE">
+	<!-- 그냥 회원가입할 때. -->
 		{call proc_mem_Add (
 			#{u_id, mode=IN, jdbcType=VARCHAR}
 			,#{u_pw, mode=IN, jdbcType=VARCHAR}
@@ -70,6 +76,7 @@
 			,#{u_addr, mode=IN, jdbcType=VARCHAR}
 			,#{u_phone, mode=IN, jdbcType=VARCHAR}
 			,#{u_name, mode=IN, jdbcType=VARCHAR}
+			,#{u_email, mode=IN, jdbcType=VARCHAR}
 		)}
 	</select>
 	
