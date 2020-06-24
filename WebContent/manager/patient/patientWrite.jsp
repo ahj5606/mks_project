@@ -195,23 +195,40 @@
 		var mem_phone =  $("#mem_phone").val();
 		var mem_address =$("#mem_address").val();
 		var his_content =$("#his_content").val();
-		
-		var param = "doc_name="+doc_name+"&dept_name="+dept_name+"&dept_code="+dept_code+"&doc_code="+doc_code+"&hp_name="+hp_name+"&his_date="+his_date+"&mem_name="+mem_name+"&mem_social="+mem_social+"&mem_phone="+mem_phone+"&mem_address="+mem_address+"&his_content="+his_content;
-		
-		$.ajax({
-			url:"/manager/patient/patientINS.mgr?"+param
-			,success:function(data){
-				if(data.trim()=="성공"){
-					alert("입력에 성공했습니다.");
-					location.href="/manager/patient/patientSEL.mgr";
-				}else{
-					alert("입력에 실패했습니다.");
-					$("#UpdateModal").modal('hide');
-					location.href="/manager/patient/mgr_patientWrite.jsp";
-				}
-			}
+		if(doc_name==""){
+			alert("담당을 선택하세요");
+		}else if(mem_name==""){
+			alert("이름을 입력하세요");
+		}else  if(mem_social==""){
+			alert("주민번호를 입력하세요");
+		}else if(mem_phone==""){
+			alert("전화번호를 입력하세요");
+		}else if(mem_address==""){
+			alert("주소 입력하세요");
+		}else if(his_content==""){
+			alert("내용을 입력하세요");
+		}else if(doc_code==""){
+			alert("담당을 선택하세요");
+		}else if(dept_code==""){
+			alert("담당을 선택하세요");
+		}else {
+			var param = "doc_name="+doc_name+"&dept_name="+dept_name+"&dept_code="+dept_code+"&doc_code="+doc_code+"&hp_name="+hp_name+"&his_date="+his_date+"&mem_name="+mem_name+"&mem_social="+mem_social+"&mem_phone="+mem_phone+"&mem_address="+mem_address+"&his_content="+his_content;
 			
-		})
+			$.ajax({
+				url:"/manager/patient/patientINS.mgr?"+param
+				,success:function(data){
+					if(data.trim()=="성공"){
+						alert("입력에 성공했습니다.");
+						location.href="/manager/patient/patientSEL.mgr";
+					}else{
+						alert("입력에 실패했습니다.");
+						$("#UpdateModal").modal('hide');
+						location.href="/manager/patient/mgr_patientWrite.jsp";
+					}
+				}
+				
+			})
+		}
 	}
 
 

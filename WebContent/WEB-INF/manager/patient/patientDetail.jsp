@@ -299,8 +299,17 @@
 		var  modal_content= $("#modal_content").val();
 		var his_date = $("#modal_date").val();
 		var hp_name =$("#modal_hp_name").val();
-		var param ="mem_code="+mem_code+"&doc_name="+doc_name+"&dept_name="+dept_name+"&dept_code="+dept_code+"&doc_code="+doc_code+"&modal_content="+modal_content+"&his_date="+his_date+"&hp_name="+hp_name;
-		location.href="/manager/patient/patientHISINS.mgr?"+param;
+		if(doc_name==""){
+			alert("내용을 입력하세요");
+		}else 
+		 if(modal_content==""){
+			alert("내용을 입력하세요");
+		}else{
+			var param ="mem_code="+mem_code+"&doc_name="+doc_name+"&dept_name="+dept_name+"&dept_code="+dept_code+"&doc_code="+doc_code+"&modal_content="+modal_content+"&his_date="+his_date+"&hp_name="+hp_name;
+			location.href="/manager/patient/patientHISINS.mgr?"+param; 
+			
+			
+		}
 	}
 	function back(){
 		location.href="/manager/patient/patientList.mgr";

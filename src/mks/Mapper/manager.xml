@@ -95,9 +95,7 @@
 		<if test="hp_code!=null">
 			AND his.hp_code=#{hp_code}
 		 </if>
-		 <if test="mem_code!=null">
-			 AND mem.mem_memcode=#{mem_code}
-		 </if>
+		 AND mem.mem_memcode=#{mem_code}
 		 ORDER BY mem.mem_memcode
 	</select>
 

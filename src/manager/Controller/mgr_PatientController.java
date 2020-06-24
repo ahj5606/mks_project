@@ -111,18 +111,6 @@ public class mgr_PatientController implements mgr_Controller {
 			String mem_address = req.getParameter("mem_address");
 			String his_content = req.getParameter("his_content");
 			
-			logger.info(doc_name);
-			logger.info(dept_name);
-			logger.info(dept_code);
-			logger.info(doc_code);
-			logger.info(hp_name);
-			logger.info(his_date);
-			logger.info(mem_name);
-			logger.info(mem_social);
-			logger.info(mem_phone);
-			logger.info(mem_address);
-			logger.info(his_content);
-			
 			Map<String, Object> pMap = new HashMap();
 			pMap.put("hp_code", hp_code);
 			pMap.put("doc_name", doc_name);
@@ -210,7 +198,7 @@ public class mgr_PatientController implements mgr_Controller {
 			mav.IsForward(false);
 			String path = null;
 			if(result==1) {
-				path = "/patient/patientDetail.mgr?hp_code="+hp_code+"&mem_code="+mem_code+"&";
+				path = "/patient/patientDetail.mgr?mem_code="+mem_code+"&";
 			}else {
 				path = "/patient/patientList.mgr?";
 			}
