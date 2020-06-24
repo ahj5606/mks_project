@@ -70,9 +70,8 @@
 	resList.add(map);
 	
 	StringBuilder sb = new StringBuilder();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	for(int i=0; i<resList.size(); i++){
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			String ddd1 = resList.get(i).get("res_date").toString();
 			String ddd2 = null;
@@ -152,11 +151,27 @@
 		font-family:'Do Hyeon';
 		margin-top:30px;
 	}
+	body{
+	  	font-family: 'Do Hyeon', sans-serif;
+	}
 </style>
 <script type="text/javascript">
 	var day_of_choice = "";
-	function make_reservation(){
-		alert("예약하기 버튼!!");
+	function make_reservation(){//예약 정보 qr코드 생성 **************************************************
+		alert("예약 정보 QR코드 DB에 저장하고 전송해야함!");
+		var imsi = document.getElementById("dept_name").innerHTML;
+		imsi += "/ "+document.getElementById("doc_name").innerHTML;
+		imsi += "/ "+document.getElementById("res_date").innerHTML;
+		imsi += "/ "+document.getElementById("res_time").innerHTML;
+		var qrcode = new QRCode(document.getElementById("qr_img"), {
+		 	text: imsi,
+			width: 128,
+			height: 128,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
+		});
+		$('#modal_qr').modal('show')
 	}
 </script>
 </head>
@@ -166,10 +181,10 @@
 	    <a class="navbar-brand" href="#">가산독산병원</a>
     </nav>
 	<!-- 본문 -->
-	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
+	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:10px;">
 	  	<div class="row mb-3 mt-2">
 			<!-- 우측 -->
-	  		<div class="col-md">
+	  		<div class="col-md mt-2">
 	  			<!-- 검색 -->
 				<div class="row">
 					<div class="col-md">
@@ -180,6 +195,7 @@
 							<option value="강감찬">강감찬</option>
 						</select>
 					</div>
+					<div class="col-md-7"></div>
 				</div>
 	  			<!-- 날짜테이블 -->
 				<div class="row pt-2">
@@ -219,11 +235,11 @@
 				</div>
 			</div>
 			<!-- 좌측 -->
-	  		<div class="col-md">
+	  		<div class="col-md mt-2">
 	  			<!-- 예약시간 테이블 -->
 				<div class="row">
 					<div class="col-md">
-						<div class="table-responsive-md" style="overflow-y: scroll;height:510px;">
+						<div class="table-responsive-md" style="overflow-y: scroll;height:515px;">
 							<table class="table table-hover" id="t_reservationlList" style="text-align:center;">
 								<thead class="thead-light">
 									<tr>
@@ -276,8 +292,15 @@
 					</div>
 				</div>
 				<!-- 안내문구 -->
-				<div class="row pt-2 mt-4" style="height:250px;background-color:#000000">
+				<div class="row pt-2 mt-4" style="height:250px;">
 					<div class="col-md">
+						어떤 경제변량이 다른 경제변량의 변화에 따라 바뀔 때 그 변화가 한 번에 끝나지 않고 연달아 변화를 불러일으켜서 
+						마지막에 가서는 최초의 변화량의 몇 배에 이르는 변화를 하는 경우가 있는데 이러한 변화의 파급관계를 분석하고 
+						최초의 경제변량의 변화에 따라 최종적으로 빚어낸 총효과의 크기가 어떻게 결정되는가를 규명하는 것이 승수이론이다. 
+						최종적으로 산출된 총효과를 승수효과라고 하며 어느 독립변수의 변화에 대해 다른 모든 변수가 어떤 비율로 변화하는가를 
+						나타내는 것을 승수라고 한다.승수효과에 관한 정식화는 R.F. 칸에서 시작되었다. 칸은 고용량의 제1차적 변화는 제2차, 
+						제3차 등의 고용증가로 파급된다는 사실에서 고용승수를 정식화하였다.
+						그러나 이론체계의 중추부분에 승수이론을 도입한 것은 J.M. 케인즈다. 케인즈의 승수는 투자증가와 그 결과인 소득증가 사이의 투자승수였다. 
 					</div>
 				</div>
 	  		</div>
@@ -288,6 +311,28 @@
 		<div class="row bg-light pt-3">
 		</div>
 	</footer> -->
+	
+	<!-- qr 모달 -->
+	<div class="modal fade bd-example-modal-sm" id="modal_qr" tabindex="-1" role="dialog" aria-hidden="true">
+  		<div class="modal-dialog modal-sm" role="document">
+   			<div class="modal-content">
+   				<!-- head -->
+     	 		<div class="modal-header">
+        			<h5 class="modal-title">발급된 예약 qr코드</h5>
+      			</div>
+      			<!-- body -->
+      			<div class="modal-body">
+   					<div class="row" style="justify-content: center">
+      					<div class="row" id="qr_img"></div>
+     				</div>
+     			</div>
+     			<!-- footer -->
+     			<div class="modal-footer">
+        			<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="self.close();">닫기</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
 	
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
@@ -311,10 +356,11 @@
 		});
 		$("#s_doc").change(function(){
 			alert(this.value);
+			$("#doc_name").html(this.value);
+			$("#doc_name").css('color','red');
 		});
-		$("#s_month").change(function(){
-			alert(this.value);
-		});
+		$("#dept_name").html("일반내과");
+		$("#dept_name").css('color','red');
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -322,24 +368,19 @@
 				,defaultView: 'dayGridMonth'
 				,selectable: true
 				,dateClick: function(info) {
+					var day = info.dateStr;
+					alert("선택: "+day);
 					//전변에 클릭한 날짜 저장해놓고 저장되어 있다면 이벤트가 일어나지 않게....
-					var click_day = new Date(info.dateStr);
-					<%
-						for(int i=0; i<resList.size(); i++){
-							String day_str = resList.get(i).get("res_date").toString();
-						%>
-							var day = new Date(day);
-							if(day=click_day){
-								//전변에 클릭한 ctn
-								alert('선택: ' + info.dateStr);
-								//info.dayEl.style.backgroundColor = 'red';
-								day_of_choice = info.dateStr;
-								$("#res_date").html(day_of_choice);
-								$("#res_date").css('color','red');
-							}
+					<%for(int i=0; i<resList.size(); i++){
+						Date date = sdf.parse(resList.get(i).get("res_date").toString());
+						String date_str = sdf.format(date);%>
+						if(day=='<%=date_str%>'){
+							day_of_choice = info.dateStr;
+							$("#res_date").html(day_of_choice);
+							$("#res_date").css('color','red');
 							return;
-														
-						<%}%>
+						}
+					<%}%>
 				}
 				,events:<%=sb.toString()%>
 				,dragOpacity: 1

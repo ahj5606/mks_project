@@ -64,7 +64,6 @@
 			}
 		});
 	}
-
 	function login(){
 		alert("로그인 버튼!");
 		/* 
@@ -74,13 +73,52 @@
 		*/
 		location.href='/client/login/loginpro.jsp'
 	}
+	function search_addr() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = data.sigungu; 
+                var addr1 = data.sido; 
+                var addr2 = data.bname;
+                document.getElementById("h_addr").value = addr+" "+addr1+" "+addr2;
+                // 주소로 상세 정보를 검색
+                geocoder.addressSearch(data.address, function(results, status) {
+                    if (status === daum.maps.services.Status.OK) {
+                        var result = results[0]; //첫번째 결과의 값을 활용
+                        var coords = new daum.maps.LatLng(result.y, result.x);
+                        map.setCenter(coords);
+                        map.setLevel(4);          
+                    }
+                });
+            }
+        }).open();        
+    };
+	function search_h_name(){
+		alert("입력한 병원이름: "+$("#h_name").val());
+		$.ajax({
+			url:'/login/hospitalList.crm?hp_name='+$("#h_name").val()
+		   ,dataType: 'json'
+		   ,success:function(data){
+			   var result = JSON.stringify(data);
+			   var jsonDoc = JSON.parse(result);
+			   for(var i=0;i<jsonDoc.length;i++){
+				 //  var imsi = $("#h_name").val()+"";       
+				   var imsi2 = jsonDoc[i].HP_NAME+"";
+				 //  if(imsi== imsi2){
+					   var coords3 = new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1);
+					   map.setCenter(coords3);
+					   map.setLevel(4); 
+				  // }			
+			   }
+		   }
+		});
+	}
 </script>
 </head>
 <body>
 	<!-- 메뉴바 -->
 	<jsp:include page="./menu.jsp"/>
 	<!-- 본문 -->
-	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
+	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:15px;">
 	  	<div class="row pt-4">
 	  		<!-- 지도 검색 -->
 	  		<div class="col-md">
@@ -157,9 +195,10 @@
 					    	</div>
 					    </div>
 				    </form>
-				    <div class="row mb-3">
+				    <div class="row mb-1">
 				    	<div class="col-md">
 				    		<button class="btn btn-md btn-dark btn-block" onClick="login()">로그인</button>
+				    		<small id="loginFail" class="text-danger">아이디 혹은 비밀번호가 일치하지 않습니다.</small>
 				    	</div>
 				    </div>
 			   	</div>
@@ -190,7 +229,6 @@
 				   	<div class="row mb-1">
 				   		<div class="col-md">
 				   			<!-- 정보 -->
-
 					   		<div class="card">
 	  							<h6 class="card-header" style="height:35px;background-color:#007bff;color:#FFFFFF;">예약정보</h6>
 	  							<div class="card-body pt-1" style="background-color:#FAED7D;height:110px;">
@@ -215,7 +253,6 @@
 									</div>
 	  							</div>
 							</div>
-
 							<!-- 페이지네이션 -->
 							<ul class="pagination pagination-small justify-content-center mb-0">
 								<li class="page-item">
@@ -299,6 +336,7 @@
 					$("#t_my_resevation").html(inner);
 				}
 			});
+			//************************* 즐겨찾기병원 목록 가져오기!! (hidden으로 병원코드 숨겨놓기)
 		<%}%>
 		$(document).ready(function(){
 			$("#s_gwa").change(function(){
@@ -315,7 +353,7 @@
 	    ,mapTypeId: daum.maps.MapTypeId.ROADMAP
 	});
 	var infowindow = new daum.maps.InfoWindow();//말풍선을 클릭했을 때 열리는 창
-	 $(document).ready(function(){
+	$(document).ready(function(){
 		////////////end of map
 			var marker;//5개가 출력(json으로 스캔-jsonMapList.jsp)
 			var i;//마커 생성시 부여한 인덱스값 0~4   
@@ -342,13 +380,13 @@
 							   content += '<b>전화번호 :<br>  '+jsonDoc[i].HP_PHONE+'</b>';
 							   content += '<br>';
 							   content += '<b>대기인원 : </b>';
-							   <!--<%
-								if(parameter!=null){ %>-->
+							   <%
+								if(parameter!=null){ %>
 								var imsi = jsonDoc[i].HP_NAME;
-							   content += '<a href="javascript:popup_reservation('+"'"+imsi+"'"+')">';																	
-
-							   content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
-							   <!--<%}%>-->
+							   //content += '<a href="javascript:popup_reservation('+imsi+')">';																	
+							   //content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
+							   content += '<button class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+')" style="width:46px;font-size:1px;">예약</button><br>'
+							   <%}%>
 							   //content += '<a href="../reservation/reservationList.jsp?jsonDoc[i].HP_NAME"><img src=./bookbutton.png width=20 height=20/></a><br>';
 							   content += '<br>';
 							   content += '<br>';
@@ -365,47 +403,6 @@
 			});////////////////////end of ajax
 			 map.relayout();
 			});
-		function search_addr() {
-	        new daum.Postcode({
-	            oncomplete: function(data) {
-	                var addr = data.sigungu; 
-	                var addr1 = data.sido; 
-	                var addr2 = data.bname;
-	                document.getElementById("h_addr").value = addr+" "+addr1+" "+addr2;
-	                // 주소로 상세 정보를 검색
-	                geocoder.addressSearch(data.address, function(results, status) {
-	                    if (status === daum.maps.services.Status.OK) {
-	                        var result = results[0]; //첫번째 결과의 값을 활용
-	                        var coords = new daum.maps.LatLng(result.y, result.x);
-	                        map.setCenter(coords);
-	                        map.setLevel(4);          
-	                    }
-	                });
-	            }
-	        }).open();        
-	    };
- 
-		function search_h_name(){
-			alert("입력한 병원이름: "+$("#h_name").val());
-			$.ajax({
-				url:'/login/hospitalList.crm?hp_name='+$("#h_name").val()
-			   ,dataType: 'json'
-			   ,success:function(data){
-				   var result = JSON.stringify(data);
-				   var jsonDoc = JSON.parse(result);
-				   for(var i=0;i<jsonDoc.length;i++){
-					 //  var imsi = $("#h_name").val()+"";       
-					   var imsi2 = jsonDoc[i].HP_NAME+"";
-					 //  if(imsi== imsi2){
-						   var coords3 = new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1);
-						   map.setCenter(coords3);
-						   map.setLevel(4); 
-					  // }			
-				   }
-			   }
-			});
-		}
-
 	</script>
 </body>
 </html>

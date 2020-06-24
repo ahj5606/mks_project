@@ -2,5 +2,6 @@
     pageEncoding="UTF-8"%>
 <%
 	session.setAttribute("mem_name", "이진아");
+	session.setAttribute("mks_id", "star1");
 	response.sendRedirect("./main.jsp");
 %>
