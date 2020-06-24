@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -25,8 +27,23 @@ public class mgr_PatientController implements mgr_Controller {
 	public mgr_ModelAndView mgrProcess(HttpServletRequest req, HttpServletResponse res)
 			throws IOException, ServletException {
 		mgr_ModelAndView mav = new mgr_ModelAndView(req,res);
+		String hp_code = null;
+		String dept_code = null;
+		Cookie[] cookies = req.getCookies();
+		if(cookies!=null && cookies.length>0){
+			for(int i =0;i<cookies.length;i++){
+				String name = cookies[i].getName();
+				if(name.equals("dept_code")){
+					dept_code = cookies[i].getValue();
+				}
+			}
+		}
+		HttpSession sess = req.getSession();
+		hp_code = (String)sess.getAttribute("hp_code");
+		if(hp_code ==null || dept_code ==null) {
+			//로그인 정보가 만료되었습니다.
+		}
 		if("patientList".equals(requestName)) {
-			String hp_code = req.getParameter("hp_code");
 			logger.info("hp_code :"+hp_code);
 			
 			Map<String,Object> pMap = new HashMap<>();
@@ -39,7 +56,6 @@ public class mgr_PatientController implements mgr_Controller {
 			logger.info(pList);
 			mav.setViewName("/patient/mgr_patient");
 		}else if("patientSEL".equals(requestName)) {	
-			String hp_code ="280HP";
 			
 			
 			String mem_name = req.getParameter("mem_name");
@@ -72,7 +88,6 @@ public class mgr_PatientController implements mgr_Controller {
 			}
 		}else if("patientDetail".equals(requestName)) {
 			String mem_code = req.getParameter("mem_code");
-			String hp_code = req.getParameter("hp_code");
 			//멤버 테이블에서 조회
 			List<Map<String,Object>> pList = null;
 			Map<String, Object> pMap = new HashMap<>();
@@ -86,7 +101,7 @@ public class mgr_PatientController implements mgr_Controller {
 		}else if("patientINS".equals(requestName)) {
 			String doc_name = req.getParameter("doc_name");
 			String dept_name = req.getParameter("dept_name");
-			String dept_code = req.getParameter("dept_code");
+			dept_code = req.getParameter("dept_code");
 			String doc_code = req.getParameter("doc_code");
 			String hp_name = req.getParameter("hp_name");
 			String his_date = req.getParameter("his_date");
@@ -95,7 +110,6 @@ public class mgr_PatientController implements mgr_Controller {
 			String mem_phone = req.getParameter("mem_phone");
 			String mem_address = req.getParameter("mem_address");
 			String his_content = req.getParameter("his_content");
-			String hp_code ="280HP";
 			
 			logger.info(doc_name);
 			logger.info(dept_name);
@@ -129,7 +143,6 @@ public class mgr_PatientController implements mgr_Controller {
 			
 			
 		}else if("patientUPD".equals(requestName)) {
-			String hp_code ="280HP";
 			String mem_code = req.getParameter("mem_code");
 			String mem_name = req.getParameter("mem_name");
 			String mem_phone = req.getParameter("mem_phone");
@@ -146,7 +159,6 @@ public class mgr_PatientController implements mgr_Controller {
 			String path = null;
 			mav.cudResult(result);
 		}else if("patientDEL".equals(requestName)) {
-			String hp_code ="280HP";
 			String mem_code = req.getParameter("mem_code");
 			Map<String, Object> pMap = new HashMap();
 			pMap.put("hp_code", hp_code);
@@ -164,8 +176,6 @@ public class mgr_PatientController implements mgr_Controller {
 			}
 			mav.setViewName(path);
 		}else if("patientDoctor".equals(requestName)) {
-			String hp_code ="280HP";			
-			String dept_code ="58";
 			List<Map<String,Object>> pList = null;
 			Map<String, Object> pMap = new HashMap();
 			pMap.put("hp_code", hp_code);
@@ -177,12 +187,11 @@ public class mgr_PatientController implements mgr_Controller {
 			
 			
 		}else if("patientHISINS".equals(requestName)) {
-			String hp_code ="280HP";
 			String hp_name = req.getParameter("hp_name");
 			String doc_name = req.getParameter("doc_name");
 			String mem_code = req.getParameter("mem_code");
 			String dept_name = req.getParameter("dept_name");
-			String dept_code = req.getParameter("dept_code");
+			dept_code = req.getParameter("dept_code");
 			String doc_code = req.getParameter("doc_code");
 			String his_content = req.getParameter("modal_content");
 			String his_date = req.getParameter("his_date");
