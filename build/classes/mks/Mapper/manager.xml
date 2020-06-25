@@ -97,6 +97,11 @@
 		 ORDER BY mem.mem_memcode
 	</select>
 	
+	<select id="doctorDEPT" parameterType="map" resultType="map">
+		select dept_name
+			from mks_dept
+			where dept_name = {#dept_name};
+	</select>
 
 	<select id="doctorList" parameterType="map" resultType="map">
 		select dept_name, doc_code, hp_code
@@ -119,39 +124,25 @@
 	</select>
 	
 	<insert id="doctorINS" parameterType="map">
-		
+		insert into MKS_DOCTOR(doc_code,doc_state,doc_education,doc_phone
+                       ,doc_position,doc_name,doc_offday,dept_name,hp_code,dept_code,hp_name)
+			values(#{doc_code},#{doc_state},#{doc_education},#{doc_phone},#{doc_position}
+					,#{doc_name},#{doc_offday},#{dept_name},#{hp_code},#{dept_code},#{hp_name})
 	</insert>
 	
 	<update id="doctorUPD" parameterType="map">
 		UPDATE mks_doctor
-		       set
-		<if test="doc_code!=null">
-		       doc_code = #{doc_code}
-		</if>       
-		<if test="hp_code!=null">		       
-		      ,hp_code = #{hp_code}
-		</if>      
-		<if test="dept_name!=null">		       
-		      ,dept_name = #{dept_name}
-		</if>      
-		<if test="doc_name!=null">		       
-		      ,doc_name = #{doc_name}
-		</if>		      
-		<if test="doc_position!=null">		       
-		      ,doc_position = #{doc_position}
-		</if>   
-		<if test="doc_education!=null">		       
-		      ,doc_education = #{doc_education}
-		</if>   
-		<if test="doc_phone!=null">		       
-		      ,doc_phone = #{doc_phone}
-		</if>   
-		<if test="doc_offday!=null">		       
-		      ,doc_offday = #{doc_offday}
-		</if>   
-		<if test="doc_phone!=null">		       
-		      ,doc_state = #{doc_state}
-		</if>   
+		       set doc_code = #{doc_code}
+		        ,doc_state = #{doc_state}
+		       	,doc_education = #{doc_education}
+		       	,doc_phone = #{doc_phone}
+		       	,doc_position = #{doc_position}
+		       	,doc_name = #{doc_name}
+		       	,doc_offday = #{doc_offday}
+		       	,dept_name = #{dept_name}
+		       	,hp_code = #{hp_code}
+		       	,dept_code = #{dept_code}
+		       	,hp_name = #{hp_name}
 		<where>
 			<if test="doc_code!=null">
 		 		and doc_code = #{doc_code}	
@@ -160,7 +151,7 @@
 	</update>
 	
 	<delete id="doctorDEL">
-		DELETE FROM mks_doctor WHERE doc_name=#{doc_name}
+		DELETE FROM mks_doctor WHERE doc_code=#{doc_code}
 	</delete>
 
 	<select id="patientDoctor" parameterType="map" resultType="map">

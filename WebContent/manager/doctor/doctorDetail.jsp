@@ -8,19 +8,25 @@
 <script type="text/javascript">
 	function docIns() {
 		alert("저장호출 성공");
-		location.href="./docIns.jsp";
+		$("#f_doctor").attr("method","get");
+		$("#f_doctor").attr("action","./doctorINS.mgr");
+		$("#f_doctor").submit();
 	}
 	function docUpd() {
-		alert("수정");
-		location.href="./docUpd.jsp";
+		alert("수정호출 성공");
+		$("#f_doctor").attr("method","get");
+		$("#f_doctor").attr("action","./doctorUPD.mgr");
+		$("#f_doctor").submit();
 	}
 	function docDel() {
-		alert("삭제");
-		location.href="./docDel.jsp";
+		alert("삭제호출 성공");
+		$("#f_doctor").attr("method","get");
+		$("#f_doctor").attr("action","./doctorDEL.mgr");
+		$("#f_doctor").submit();
 	}
 	function docClose() {
 		alert("닫기");
-		location.href="./mgr_doctor.jsp";
+		location.href="./doctorList.mgr";
 	}
 </script>
 	 <%@include file="../../common/ManagerCommon.jsp" %> 
@@ -28,7 +34,9 @@
 <div style="margin:20px;">
 <h2>의사추가</h2>
 </div>
+
 	<div class="container">
+	<form id="f_doctor">
   				<div>
 	     		<div class="form-group" style="margin-top: 30px">
 		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" style="width: 245px">
@@ -55,13 +63,20 @@
 			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화"style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <input type="text" class="form-control" id="doc_offday" name="doc_offDay" placeholder="휴무일" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" style="width: 245px">
 			    </div>
 			    <div class="form-group">
 			      <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
 			    </div>
+			    <div class="form-group">
+			      <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" style="width: 245px">
+			    </div>
+			    <div class="form-group">
+			      <input type="text" class="form-control" id="hp_name" name="hp_name" placeholder="병원이름" style="width: 245px">
+			    </div>
 		    	</div>
 		    <div>
+		    
 		    <!--버튼시작  -->
 		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
 					저장
@@ -137,6 +152,7 @@
 		    <button type="button" class="btn btn-primary" onclick="docClose()">닫기</button>
 		    <!--버튼 끝 -->
 		    </div>
+		 </form>   
 	</div>
 </body>
 </html>

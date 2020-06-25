@@ -15,6 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
+
 <script type="text/javascript">
 	function docIns(){
 		alert("의사추가");
@@ -65,8 +66,10 @@
 					  <thead>
 					    <tr>
 						  <th scope="col" data-field="DEPT_NAME">부서</th>
+						  <th scope="col" data-field="DEPT_CODE">부서코드</th>
 						  <th scope="col" data-field="DOC_CODE">의사코드</th>
-						  <th scope="col" data-field="HP_CODE">의사코드</th>
+						  <th scope="col" data-field="HP_CODE">병원코드</th>
+						  <th scope="col" data-field="HP_NAME">병원이름</th>
 						  <th scope="col" data-field="DOC_STATE">전공</th> 	
 						  <th scope="col" data-field="DOC_NAME">이름</th> 
 						  <th scope="col" data-field="DOC_POSITION">직급</th> 
@@ -82,8 +85,10 @@
 %>
 					  	<tr>
 					  	  <td><%=docList.get(i).get("DEPT_NAME") %></td>
+					  	  <td><%=docList.get(i).get("DEPT_CODE") %></td>
 					  	  <td><%=docList.get(i).get("DOC_CODE") %></td>
 					  	  <td><%=docList.get(i).get("HP_CODE") %></td>
+					  	  <td><%=docList.get(i).get("HP_NAME") %></td>
 					  	  <td><%=docList.get(i).get("DOC_STATE") %></td>
 					  	  <td><%=docList.get(i).get("DOC_NAME") %></td>
 					  	  <td><%=docList.get(i).get("DOC_POSITION") %></td>
@@ -114,11 +119,17 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function(){
-		doc_list();
-	});
-	
-	
-
+	    $('#doc_list').bootstrapTable('refreshOptions', {
+	           url: "/manager/doctor/doctorList.mgr?num="+1
+	         ,onClickRow : function(row,element,field){
+	            var doc_name = row.DOC_NAME;
+	            var doc_code = row.DOC_CODE;
+	            location.href= '/manager/doctor/doctorDetail.mgr?doc_code='+doc_code;
+	            //==> board_no를 넘겨주면 해당 게시글을  select!!
+	         }
+	    });
+	    $("div.fixed-table-loading").remove();
+	 });
 </script>
 	
 </body>

@@ -15,7 +15,11 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
-	
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
@@ -99,18 +103,27 @@
 	  
 	</div>
 <script type="text/javascript">
-	$(document).ready(function(){
-	    $('#doc_list').bootstrapTable('refreshOptions', {
-	           url: "/manager/doctor/doctorList.mgr?num="+1
-	         ,onClickRow : function(row,element,field){
-	            var doc_name = row.DOC_NAME;
-	            var doc_code = row.DOC_CODE;
-	            location.href= '/manager/doctor/doctorDetail.mgr?mks_id='+id;
-	            //==> board_no를 넘겨주면 해당 게시글을  select!!
-	         }
-	    });
-	    $("div.fixed-table-loading").remove();
-	 });
+	$(document).ready(function(data){
+		$("#doc_list").bootstrapTable({
+			onDblClickRow:function(row, $element, field)
+		     { 
+				var jo = JSON.stringify(row);
+				var d = JSON.parse(jo);
+				var DOC_NAME = d.DOC_NAME;
+				var DEPT_NAME = d.DEPT_NAME;
+				var DEPT_CODE = d.DEPT_CODE;
+				var DOC_CODE = d.DOC_CODE;
+				var HP_NAME = d.HP_NAME;
+				$("#modal_docname").val(DOC_NAME);
+				$("#modal_deptname").val(DEPT_NAME);
+				$("#modal_deptcode").val(DEPT_CODE);
+				$("#modal_doccode").val(DOC_CODE);
+				$("#modal_hp_name").val(HP_NAME);
+				$("#doctorSearch").modal('hide');
+		     }
+		})
+		$("#d_list").bootstrapTable('hideLoading');
+	})
 	function docSel(){
 		alert("의사검색");
 		var d_name = $("#d_name").val();

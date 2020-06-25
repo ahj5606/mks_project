@@ -84,6 +84,7 @@ public class mgr_DoctorDao {
 		int result = 0;
 		try {
 			SqlSession sqlSes = sqlMapper.openSession();
+			logger.info("sqlSes"+sqlSes);
 			result = sqlSes.update("doctorUPD",pMap);
 			logger.info("result:"+result);
 			sqlSes.commit(true);
