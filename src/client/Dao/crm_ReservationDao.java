@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+
 import mks.util.MyBatisConnction;
 
 public class crm_ReservationDao {
@@ -24,10 +26,12 @@ public class crm_ReservationDao {
 		//병원만 선택후  모든과, 의사T, 대기시간 찾기 or 진료과목 및 의사T 조건검색 으로 목록 확인
 		logger.info("[crm_ReservationDao] reservationList 호출성공");
 		List<Map<String, Object>> reservationList = null;
-		pMap.put("hp_code", "647HP");
-//		pMap.put("dept_name", "원무과");
-//		pMap.put("doc_name", "이서연");
-		reservationList = sqlSes.selectList("reservationList", pMap);
+		pMap.put("u_dept_name","소아과");
+		pMap.put("u_hp_code","647HP");
+		pMap.put("fnum",1);
+		pMap.put("enum",5);
+		sqlSes.selectList("reservationList", pMap);
+		reservationList = (List<Map<String, Object>>)pMap.get("res_list");
 		return reservationList;
 	}
 	
@@ -87,9 +91,9 @@ public class crm_ReservationDao {
 	public static void main(String[] args) {
 		crm_ReservationDao res = new crm_ReservationDao();
 		Map<String, Object> pMap = new HashMap<String, Object>();
-		res.reservationList(pMap);
+		List<Map<String, Object>> list = res.reservationList(pMap);
 //		res.waitCheck(pMap);
 //		res.docSel(pMap);
-		System.out.println(pMap);
+		System.out.println(list);
 	}
 }
