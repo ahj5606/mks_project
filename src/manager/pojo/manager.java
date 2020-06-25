@@ -19,18 +19,26 @@ public class manager extends HttpServlet {
 	public void doService(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		logger.info("doService호출 성공");
 		String requestURI = req.getRequestURI();
+		logger.info("requestURI : "+requestURI);
 		String contextPath = req.getContextPath();
+		logger.info("contextPath : "+contextPath);
 		String command = requestURI.substring(contextPath.length()+1);
+		logger.info("before command : "+command);
 		int end = command.lastIndexOf(".");
+		logger.info("after command : "+command); 
 		String imsi = null;
 		imsi = command.substring(0,end);
+		logger.info("imsi requestName: "+imsi);
 		String commands[] = imsi.split("/");
+		logger.info("commands 0: "+commands[0]);
 		mgr_Controller controller = null;
 		
+		
+		
+		
 		if(commands.length==3) {
-			controller = mgr_ControllerMapper.getController(commands);
-			logger.info(controller);
-			
+		logger.info("if commands: "+commands.length);
+		controller = mgr_ControllerMapper.getController(commands);
 		}
 		
 		if(controller!=null) {

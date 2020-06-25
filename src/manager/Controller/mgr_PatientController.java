@@ -40,8 +40,6 @@ public class mgr_PatientController implements mgr_Controller {
 			mav.setViewName("/patient/mgr_patient");
 		}else if("patientSEL".equals(requestName)) {	
 			String hp_code ="280HP";
-			
-			
 			String mem_name = req.getParameter("mem_name");
 			String mem_socialnum = req.getParameter("mem_socialnum");
 			
