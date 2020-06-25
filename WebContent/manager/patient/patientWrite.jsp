@@ -44,7 +44,7 @@
 							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="d_search()">담당자 검색</button>
 					</div>
 					<br>
-				      <table class="table table-hover" id="d_list" data-page-size="10" data-search="true">
+				      <table class="table table-hover" id="d_list" data-page-size="10" data-search="true" data-search="true"  data-pagination="true" data-pagination-loop="false">
 						<thead>
 						 	<tr>
 					 			 <th scope="col" data-field="DOC_NAME">담당자 이름</th> 	

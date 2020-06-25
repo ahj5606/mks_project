@@ -149,7 +149,7 @@
 							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="d_search()">담당자 검색</button>
 					</div>
 					<br>
-				      <table class="table table-hover" id="d_list" data-page-size="10" data-search="true">
+				      <table class="table table-hover" id="d_list" data-page-size="10" data-search="true"  data-pagination="true" data-pagination-loop="false">
 						<thead>
 						 	<tr>
 					 			 <th scope="col" data-field="DOC_NAME">담당자 이름</th> 	
@@ -160,16 +160,6 @@
 				  			</tr>
 						</thead>
 					 </table>
-					 <div style="text-align: center;">
-					 	<nav aria-label="Page navigation example">
-						  <ul class="pagination">
-						    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						    <li class="page-item"><a class="page-link" href="#">1</a></li>
-						    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-						  </ul>
-						</nav>
-					 
-					 </div>
 				      </div>
 				      </div>
 				      <div class="modal-footer">
