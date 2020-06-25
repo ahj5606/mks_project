@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="noticeSEARCH" parameterType="map" resultType="map">
-        SELECT b.board_no , b.board_title, o.hp_code
+		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
             FROM mks_board b, mks_online o
           WHERE b.mks_id = o.mks_id
            AND o.hp_code=#{hp_code}

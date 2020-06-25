@@ -54,6 +54,7 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
+	      
 	        <p>&nbsp;아이디 또는 비밀번호를 입력해주세요.</p>
 	      </div>
 	      <div class="modal-footer">
