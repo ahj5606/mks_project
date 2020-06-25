@@ -265,7 +265,6 @@
 		$("#d_list").bootstrapTable({
 			onDblClickRow:function(row, $element, field)
 		     { 
-				
 				alert("호출성공");
 				var jo = JSON.stringify(row);
 				var d = JSON.parse(jo);

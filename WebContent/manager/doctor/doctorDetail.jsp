@@ -8,9 +8,7 @@
 <script type="text/javascript">
 	function docIns() {
 		alert("저장호출 성공");
-		$("#form-group").attr("method","post");
-		$("#form-group").attr("action","./doctorINS.mgr?cud=INS");
-		$("#form-group").submit();
+		location.href="./docIns.jsp";
 	}
 	function docUpd() {
 		alert("수정");
@@ -33,43 +31,34 @@
 	<div class="container">
   				<div>
 	     		<div class="form-group" style="margin-top: 30px">
-		      	  <label>의사코드</label>
-		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" style="width: 245px">
+		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" style="width: 245px">
 		    	</div>
 			    <div class="form-group">
-			      <label>병원코드</label>
-			      <input type="text" class="form-control" id="hp_code" name="hp_code" style="width: 245px">
+			      <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>부서</label>
-			      <input type="text" class="form-control" id="dept_name" name="dept_name" style="width: 245px">
+			      <input type="text" class="form-control" id="dept_name" name="dept_name" placeholder="부서" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>이름</label>
-			      <input type="text" class="form-control" id="doc_name" name="doc_name" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>직급</label>
-			      <input type="text" class="form-control" id="doc_position" name="doc_position" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" style="width: 245px">
 			    </div>
 			    </div>
 			    
 			   	<div>
 		    	<div class="form-group">
-			      <label>전공</label>
-			      <input type="text" class="form-control" id="doc_education" name="doc_education" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="전공" style="width: 245px">
 			    </div>
 		    	<div class="form-group">
-			      <label>전화</label>
-			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화"style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>휴무일</label>
-			      <input type="text" class="form-control" id="doc_offday" name="doc_offDay" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_offday" name="doc_offDay" placeholder="휴무일" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>상태</label>
-			      <input type="text" class="form-control" id="doc_state" name="doc_state" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
 			    </div>
 		    	</div>
 		    <div>
@@ -139,7 +128,7 @@
 				       			삭제 하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docDel()">저장</button>
+				        <button type="button" class="btn btn-primary" onclick="docDel()">확인</button>
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				      </div>
 				    </div>
