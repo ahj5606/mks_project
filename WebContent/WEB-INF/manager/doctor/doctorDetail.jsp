@@ -1,5 +1,17 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	List<Map<String,Object>> docDetail = (List<Map<String,Object>>)request.getAttribute("docDetail");
+		Map<String,Object> rmap = null;
+		if(docDetail==null){
+			rmap=docDetail.get(0);
+			}
+		
+		
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,8 +19,10 @@
 <title>의사 상세</title>
 <script type="text/javascript">
 	function docIns() {
-		alert("저장");
-		location.href="./docIns.jsp";
+		alert("저장호출 성공");
+		$("#form-group").attr("method","post");
+		$("#form-group").attr("action","./boardINS.mvc3?cud=INS");
+		$("#form-group").submit();
 	}
 	function docUpd() {
 		alert("수정");
@@ -23,7 +37,7 @@
 		location.href="./mgr_doctor.jsp";
 	}
 </script>
-	 <%@include file="../../common/ManagerCommon.jsp" %> 
+	<%@include file="/common/ManagerCommon.jsp" %>
 <body>
 <div style="margin:20px;">
 <h2>의사추가</h2>
@@ -32,7 +46,7 @@
   				<div>
 	     		<div class="form-group" style="margin-top: 30px">
 		      	  <label>의사코드</label>
-		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" style="width: 245px">
+		      	  <input type="text" class="form-control" id="doc_code" name="doc_code"  style="width: 245px">
 		    	</div>
 			    <div class="form-group">
 			      <label>병원코드</label>
@@ -137,7 +151,7 @@
 				       			삭제 하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docDel()">저장</button>
+				        <button type="button" class="btn btn-primary" onclick="docDel()">확인</button>
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				      </div>
 				    </div>

@@ -1,4 +1,4 @@
-package manager.notice;
+package mks.util;
 
 import java.io.File;
 import java.util.Enumeration;
@@ -10,6 +10,8 @@ import org.apache.log4j.Logger;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+import manager.notice.HangulConversion;
 
 public class HashMapBinder {
 	Logger logger = Logger.getLogger(HashMapBinder.class);
@@ -75,7 +77,12 @@ public class HashMapBinder {
 		//enumeration에 값이 들어있는지 체크해 줌.
 		while(en.hasMoreElements()) {
 			String key = en.nextElement();//name, address, pet
-			pMap.put(key,HangulConversion.toUTF(req.getParameter(key)));
+			if(req.getParameter(key).equals("")) {
+				pMap.put(key,null);
+			}else {
+				pMap.put(key,req.getParameter(key));
+				
+			}
 		}
 	}
 }

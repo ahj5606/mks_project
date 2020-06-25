@@ -25,9 +25,6 @@ public class mgr_ControllerMapper {
 			controller = new mgr_ReserveController(requestName);
 		}
 		
-		
-		
-		
 		return controller;
 	}
 

@@ -5,12 +5,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String hp_code = "280HP";//실제론쿠키로 가져올 값임.
-	//모든 hp_code는 서블릿에서 세션값으로 가져올것
-	String dept_code ="58";
-	
-	
-	
 	List<Map<String, Object>> pList = (List<Map<String, Object>>)request.getAttribute("pList");
 	if(pList==null){
 		pList = new ArrayList();
@@ -79,7 +73,7 @@
 			      </div>
 			      <!--  -->
  <%
- 		String pagePath ="/manager/patient/patientSEL.mgr?hp_code="+hp_code+"&mem_name="+mem_name+"&mem_socialnum="+mem_socialnum;
+ 		String pagePath ="/manager/patient/patientSEL.mgr?mem_name="+mem_name+"&mem_socialnum="+mem_socialnum;
  		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
  		String pagination = pb.getPageBar();
  		out.print(pagination);
@@ -97,7 +91,7 @@
 				var jo = JSON.stringify(row);
 				var d = JSON.parse(jo);
 				var mem_code = d.MEM_MEMCODE;
-				location.href="/manager/patient/patientDetail.mgr?hp_code=<%=hp_code%>&mem_code="+mem_code;
+				location.href="/manager/patient/patientDetail.mgr?mem_code="+mem_code;
 				
 		     }
 		});
@@ -107,7 +101,7 @@
 		function p_search(){
 			var p_name = $("#p_name").val();
 			var p_social =$("#p_social").val();
-			location.href="./patientSEL.mgr?hp_code=<%=hp_code%>&mem_name="+p_name+"&mem_socialnum="+p_social
+			location.href="./patientSEL.mgr?mem_name="+p_name+"&mem_socialnum="+p_social
 		}
 	
 		function pai_add(){

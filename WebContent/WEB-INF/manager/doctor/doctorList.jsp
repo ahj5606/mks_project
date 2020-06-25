@@ -45,7 +45,6 @@
 			      <a class="dropdown-item" href="#">영상의학과</a>
 			      <a class="dropdown-item" href="#">마취통증의학과</a>
 			      <a class="dropdown-item" href="#">정신건강의학과</a>
-			     
 			    </div>
 		    </div>
 	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="patientName" aria-describedby="basic-addon1">
@@ -65,22 +64,21 @@
 					    <tr>
 						  <th scope="col" data-field="DEPT_NAME">부서</th>
 						  <th scope="col" data-field="DOC_CODE">의사코드</th>
-						  <th scope="col" data-field="HP_CODE">의사코드</th>
-						  <th scope="col" data-field="DOC_STATE">전공</th> 	
+						  <th scope="col" data-field="HP_CODE">병원코드</th>
+						  <th scope="col" data-field="DOC_STATE">상태</th> 	
 						  <th scope="col" data-field="DOC_NAME">이름</th> 
 						  <th scope="col" data-field="DOC_POSITION">직급</th> 
 						  <th scope="col" data-field="DOC_EDUCATION">학력</th>
 						  <th scope="col" data-field="DOC_PHONE">전화</th>
-						  <th scope="col" data-field="DOC_OFFDAY">상태</th>
+						  <th scope="col" data-field="DOC_OFFDAY">휴무일</th>
 					    </tr>
 					  </thead>
 					  <tbody>
 <%
 	for(int i=0;i<docList.size();i++){
-		
 %>
-					  	<tr>
-					  	  <td><%=docList.get(i).get("DEPT_NAME") %></td>
+					  	<tr class='clickable-row' data-href='url://link-for-first-row/'> 
+    					  <td><%=docList.get(i).get("DEPT_NAME") %></td>
 					  	  <td><%=docList.get(i).get("DOC_CODE") %></td>
 					  	  <td><%=docList.get(i).get("HP_CODE") %></td>
 					  	  <td><%=docList.get(i).get("DOC_STATE") %></td>
@@ -111,10 +109,6 @@
 	<div>
 	  
 	</div>
-<script type="text/javascript">
-	$(document).ready(function(){
-		doc_list();
-	});
-</script>	
+	
 </body>
 </html>
