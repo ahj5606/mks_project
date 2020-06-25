@@ -62,11 +62,11 @@
 		 
 		 <div class="form-group">
 			<label for="InputSubject1">파일첨부</label>
-			<input id="fileInput" filestyle="" type="file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+			<input id="fileInput" filestyle="" type="file" data-class-button="btn btn-default btn-outline-secondary" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
 			<div class="bootstrap-filestyle input-group">
 				<input type="text" id="userfile" class="form-control" name="board_file" disabled="">
 				<span class="group-span-filestyle input-group-btn" tabindex="0">
-				<label for="fileInput" class="btn btn-default">
+				<label for="fileInput" class="btn btn-default btn-outline-secondary">
 				<span class="glyphicon fa fa-upload"></span>
 				</label>
 				</span>
