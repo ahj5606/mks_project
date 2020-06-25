@@ -266,7 +266,6 @@
 		$("#d_list").bootstrapTable({
 			onDblClickRow:function(row, $element, field)
 		     { 
-				
 				var jo = JSON.stringify(row);
 				var d = JSON.parse(jo);
 				var DOC_NAME = d.DOC_NAME;

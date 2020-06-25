@@ -15,14 +15,6 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
-<script type="text/javascript">
-	function docIns(){
-		alert("의사추가");
-		location.href="./mgr_doctorDetail.jsp"
-	}
-	
-	
-</script>
 	
 </head>
 <body>  
@@ -44,8 +36,8 @@
 			      <a class="dropdown-item" href="#">정신건강의학과</a>
 			    </div>
 		    </div>
-	        	 <input id="d_name" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="patientName" aria-describedby="basic-addon1">
-	        	 <input id="d_code" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="patientName" aria-describedby="basic-addon1">
+	        	 <input id="d_name" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="doctorName" aria-describedby="basic-addon1">
+	        	 <input id="d_code" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="doctorCode" aria-describedby="basic-addon1">
 	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSel()">의사 검색</button>
 	        </div>
 	        <div class="col-sm-8" id="main">
@@ -107,13 +99,30 @@
 	  
 	</div>
 <script type="text/javascript">
-function docSel(){
-	alert("의사검색");
-	var d_name = $("#d_name").val();
-	var d_code =$("#d_code").val();
-	location.href="./doctorSEL.mgr?hp_code=<%=hp_code%>&doc_name="+d_name+"&doc_code="+d_code
-}
-
+	$(document).ready(function(){
+	    $('#doc_list').bootstrapTable('refreshOptions', {
+	           url: "/manager/doctor/doctorList.mgr?num="+1
+	         ,onClickRow : function(row,element,field){
+	            var doc_name = row.DOC_NAME;
+	            var doc_code = row.DOC_CODE;
+	            location.href= '/manager/doctor/doctorDetail.mgr?mks_id='+id;
+	            //==> board_no를 넘겨주면 해당 게시글을  select!!
+	         }
+	    });
+	    $("div.fixed-table-loading").remove();
+	 });
+	function docSel(){
+		alert("의사검색");
+		var d_name = $("#d_name").val();
+		var d_code =$("#d_code").val();
+		location.href="./doctorSEL.mgr?hp_code=<%=hp_code%>&doc_name="+d_name+"&doc_code="+d_code
+	}
+	function docIns(){
+		alert("의사추가");
+		location.href="./mgr_doctorDetail.jsp"
+	}
+	
+	
 </script>
 </body>
 </html>

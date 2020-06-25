@@ -118,7 +118,6 @@
 				<if test="doc_name!=null">
 					And doc_name=#{doc_name}
 				</if>
-			
 	</select>
 	
 	<insert id="doctorINS" parameterType="map">

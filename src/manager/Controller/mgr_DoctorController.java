@@ -83,9 +83,6 @@ public class mgr_DoctorController implements mgr_Controller {
 			mav.IsForward(true);
 			mav.setViewName("/doctor/mgr_doctor");	
 			
-		}else if("doctorDEPT".equals(requestName)) {
-			
-			
 		}else if("doctorSEL".equals(requestName)) { 
 			 String doc_name = req.getParameter("doc_name");
 			 String doc_code = req.getParameter("doc_code");
@@ -117,6 +114,7 @@ public class mgr_DoctorController implements mgr_Controller {
 		} else if("doctorINS".equals(requestName)) {
 			int result = 0;//1이면 등록 성공, 0이면 실패
 			Map<String,Object> pMap = new HashMap<>();
+			HashMapBinder hmb = new HashMapBinder(req);
 			pMap.put("dept_name",req.getParameter("dept_name"));
 			pMap.put("doc_code",req.getParameter("doc_code"));
 			pMap.put("doc_state",req.getParameter("doc_state"));
@@ -134,7 +132,9 @@ public class mgr_DoctorController implements mgr_Controller {
 			result = mgr_dLogic.doctorUPD(pMap);
 			
 		} else if("doctorDEL".equals(requestName)) {
-			
+			int result =0;
+			Map<String,Object> pMap = new HashMap<>();
+			result = mgr_dLogic.doctorDEL(pMap);
 			
 		}  
 		
