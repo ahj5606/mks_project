@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String hp_code = "";
-	String hp_name = "";
-	String dept_name = "";
-	String dept_code="";
-	
-	Cookie[] cookies = request.getCookies();
-	if(cookies!=null && cookies.length>0){
+String hp_code = "";
+String hp_name = "";
+String dept_name = "";
+String dept_code="";
+String mks_id = "";
+
+Cookie[] cookies = request.getCookies();
+if(cookies!=null && cookies.length>0){
 		for(int i =0;i<cookies.length;i++){
 			String name = cookies[i].getName();
 			if(name.equals("hp_name")){
@@ -19,12 +20,17 @@
 			if(name.equals("dept_code")){
 				dept_code = cookies[i].getValue();
 			}
-			
-		}
+			if(name.equals("mks_id")){
+				mks_id = cookies[i].getValue();
+			}
+		
 	}
-	
-	HttpSession sess = request.getSession();
-	hp_code = (String)sess.getAttribute("hp_code");
+}
+
+HttpSession sess = request.getSession();
+hp_code = (String)sess.getAttribute("hp_code");
+
+
 																					
 %>
 <!DOCTYPE html>

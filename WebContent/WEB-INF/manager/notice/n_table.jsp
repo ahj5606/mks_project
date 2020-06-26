@@ -4,8 +4,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
-
 	List<Map<String,Object>> nList = (List<Map<String,Object>>)request.getAttribute("nList");
 
 	int tot=nList.size();
