@@ -9,18 +9,60 @@
 	</select>
 	
 <!-- crm_ReservationDao 부분 -->	
-	<resultMap id="rmap" type="java.util.Map"/>	
-	<select id="reservationList" parameterType="java.util.Map" statementType="CALLABLE">
-		{call cur_reservelist (
-                                   #{res_list,jdbcType=CURSOR
-		                                   , mode=OUT
-		                                   , javaType=java.sql.ResultSet
-		                                   , resultMap=rmap}
-                                    ,#{u_dept_name, mode=IN, jdbcType=VARCHAR}
-                                    ,#{u_hp_code, mode=IN, jdbcType=VARCHAR}
-                                    ,#{fnum, mode=IN, jdbcType=INTEGER}
-                                    ,#{enum, mode=IN, jdbcType=INTEGER}			
-							   )}
+	<resultMap id="rmap1" type="java.util.Map"/>	
+	<resultMap id="rmap2" type="java.util.Map"/>	
+	<resultMap id="rmap3" type="java.util.Map"/>	
+	<resultMap id="rmap4" type="java.util.Map"/>	
+	<select id="proc_reservelist" parameterType="java.util.Map" statementType="CALLABLE">
+		<if test="u_dept_name == null and u_doc_name == null">
+			{call proc_reservelist_first (
+	                                   #{res_list,jdbcType=CURSOR
+			                                   , mode=OUT
+			                                   , javaType=java.sql.ResultSet
+			                                   , resultMap=rmap1}
+	                                    ,#{u_hp_code, mode=IN, jdbcType=VARCHAR}
+	                                    ,#{fnum, mode=IN, jdbcType=INTEGER}
+	                                    ,#{enum, mode=IN, jdbcType=INTEGER}			
+								   )}
+		</if>
+		<if test="u_dept_name == null and u_doc_name != null">
+			{call proc_reservelist_second (
+	                                   #{res_list,jdbcType=CURSOR
+			                                   , mode=OUT
+			                                   , javaType=java.sql.ResultSet
+			                                   , resultMap=rmap2}
+	                                    ,#{u_hp_code, mode=IN, jdbcType=VARCHAR}
+	                                    ,#{u_doc_name, mode=IN, jdbcType=VARCHAR}
+	                                    ,#{fnum, mode=IN, jdbcType=INTEGER}
+	                                    ,#{enum, mode=IN, jdbcType=INTEGER}			
+								   )}
+		</if>
+		<if test="u_dept_name != null and u_doc_name == null">									   
+			{call proc_reservelist_third (
+	                                   #{res_list,jdbcType=CURSOR
+			                                   , mode=OUT
+			                                   , javaType=java.sql.ResultSet
+			                                   , resultMap=rmap3}
+	                                    ,#{u_hp_code, mode=IN, jdbcType=VARCHAR}
+	                                    ,#{u_dept_name, mode=IN, jdbcType=VARCHAR}
+	                                    ,#{fnum, mode=IN, jdbcType=INTEGER}
+	                                    ,#{enum, mode=IN, jdbcType=INTEGER}			
+								   )}
+		</if>
+		<!--  -->
+		<if test="u_dept_name != null and u_doc_name != null"> 
+			{call proc_reservelist_fourth (
+	                                   #{res_list,jdbcType=CURSOR
+			                                   , mode=OUT
+			                                   , javaType=java.sql.ResultSet
+			                                   , resultMap=rmap4}
+	                                    ,#{u_hp_code, mode=IN, jdbcType=VARCHAR}
+	                                    ,#{u_dept_name, mode=IN, jdbcType=VARCHAR}
+	                                    ,#{u_doc_name, mode=IN, jdbcType=VARCHAR}
+	                                    ,#{fnum, mode=IN, jdbcType=INTEGER}
+	                                    ,#{enum, mode=IN, jdbcType=INTEGER}			
+								   )}
+		 </if>
 	</select>
 	<select id="waitCheck" parameterType="map" resultType="map">
 		SELECT 
