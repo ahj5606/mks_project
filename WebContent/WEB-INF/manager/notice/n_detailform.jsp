@@ -17,7 +17,7 @@
 
 	function notice_update(){
 		alert("수정 확인 버튼 호출 성공");
-		/* var title = $("#notice_title").val();
+		var title = $("#notice_title").val();
 		alert("title=>"+title);
 		var no = $("#notice_no").val();
 		var writer = $("#notice_writer").val();
@@ -39,9 +39,9 @@
 					alert("수정실패");
 				}
 			}
-		}); */
+		}); 
 		
-		$("#notice_detail_form").submit();
+		//$("#notice_detail_form").submit();
 		
 	}
 	function notice_delete(){
@@ -71,7 +71,9 @@
 <h2>글쓰기</h2>
 </div>
 <div style="margin-top:30px;margin-bottom:10px;margin-right:10px; margin-left:30px;width:1200px;">
+<!-- 
 <form id="notice_detail_form" action="/manager/notice/noticeUPD.mgr" method="post">
+ -->
   <div class="row" style="margin-bottom:30px;">
 	<div class="col-md-8">
 		<input id="notice_no" name="no" type="hidden" class="form-control" placeholder="제목" value="<%=nList.get(0).get("BOARD_NO") %>">
@@ -90,7 +92,10 @@
 			<label for="InputSubject1">파일첨부</label>
 			<input id="fileInput" filestyle="" type="file" data-class-button="btn btn-default btn-outline-secondary" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
 			<div class="bootstrap-filestyle input-group">
+			<a href="downLoad.jsp?board_file=<%=nList.get(0).get("BOARD_FILE") %>"><%=nList.get(0).get("BOARD_FILE") %></a>
+			<%-- 
 				<input type="text" id="userfile" class="form-control" name="board_file" value="<%=nList.get(0).get("BOARD_FILE") %>" disabled="">
+				 --%>
 				<span class="group-span-filestyle input-group-btn" tabindex="0">
 				<label for="fileInput" class="btn btn-default btn-outline-secondary">
 				<span class="glyphicon fa fa-upload"></span>
@@ -103,8 +108,8 @@
     <input id="notice_content" name="content" type="text" class="form-control" value="<%=nList.get(0).get("BOARD_CONTENT") %>" placeholder="     내용을 입력해주세요." style="height:500px;">
     </div>
 </div>
-</form>
-<div class="row">
+<!-- </form>
+ --><div class="row">
 	  <div class="col-md-12" style="text-align:right;">
 		
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal">수정</button>

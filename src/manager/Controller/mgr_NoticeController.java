@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -19,6 +21,7 @@ public class mgr_NoticeController implements mgr_Controller {
 	String requestName= null;
 	Logger logger = Logger.getLogger(mgr_NoticeController.class);
 	public mgr_NoticeController(String requestName){
+		
 		this.requestName=requestName;
 	}
 	@Override
@@ -31,17 +34,45 @@ public class mgr_NoticeController implements mgr_Controller {
 		Map<String, Object> nMap = null;
 		int result = 0;
 		
+		String hp_code = "";
+		String hp_name = "";
+		String dept_name = "";
+		String dept_code="";
+		String mks_id = "";
 		String no 		= req.getParameter("no");
 		String title 	= req.getParameter("title");
 		String content 	= req.getParameter("content");
 		String writer 	= req.getParameter("writer");
 		String board_file	= req.getParameter("board_file");
 		String id		= req.getParameter("id");
-		String hp_code 	= req.getParameter("hp_code");
 		String search 	= req.getParameter("search");
-		String mks_id	= "test";
-		hp_code = "276HP";
+		
+		HttpSession sess = req.getSession();
 
+		if(sess!=null) {
+			Cookie[] cookies = req.getCookies();
+			if(cookies!=null && cookies.length>0){
+				for(int i =0;i<cookies.length;i++){
+					String name = cookies[i].getName();
+					if(name.equals("hp_name")){
+						hp_name = cookies[i].getValue();
+					}
+					if(name.equals("dept_name")){
+						dept_name = cookies[i].getValue();
+					}
+					if(name.equals("dept_code")){
+						dept_code = cookies[i].getValue();
+					}
+					if(name.equals("mks_id")){
+						mks_id = cookies[i].getValue();
+					}
+					
+				}
+			}
+			
+			
+			hp_code = (String)sess.getAttribute("hp_code");
+		}
 		
 		if("noticeSEL".equals(requestName)) {
 			//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
@@ -59,7 +90,7 @@ public class mgr_NoticeController implements mgr_Controller {
 		}else if("noticeSEARCH".equals(requestName)) {
 				//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
 				nMap = new HashMap<String, Object>();
-				nMap.put("mks_id", id);
+				nMap.put("mks_id", mks_id);
 				nMap.put("hp_code", hp_code);
 				nMap.put("board_title", search);
 				nMap.put("dept_name", search);
@@ -75,14 +106,16 @@ public class mgr_NoticeController implements mgr_Controller {
 		}else if("noticeDetail".equals(requestName)) {
 			//글 row를 클릭하여 상세보기 페이지로 넘어갈 때 req.getParameter 글번호
 			logger.info("controller=>detail");
-			/*
-			 * nMap = new HashMap<String, Object>(); nMap.put("hp_code", hp_code);
-			 * nMap.put("board_no", no);
-			 */
 			
-			nMap = new HashMap<String, Object>();
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.multiBind(nMap);
+			nMap = new HashMap<String, Object>(); 
+			nMap.put("hp_code", hp_code);
+			nMap.put("board_no", no);
+			
+			
+			/*
+			 * nMap = new HashMap<String, Object>(); HashMapBinder hmb = new
+			 * HashMapBinder(req); hmb.multiBind(nMap);
+			 */
 	
 			logger.info("controller=>board_no=>"+nMap.get("board_no"));
 			nList = mnl.noticeSEL(nMap);
@@ -112,7 +145,6 @@ public class mgr_NoticeController implements mgr_Controller {
 			result = mnl.noticeINS(nMap);
 			
 			if(result==1) {
-				hp_code = "276HP";
 				 mav.IsForward(false); 
 				 //mav.addObject("nMap", nMap);
 				 mav.setViewName("/notice/noticeSEL.mgr?hp_code="+hp_code+"&");
