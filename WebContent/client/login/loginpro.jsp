@@ -1,7 +1,10 @@
+<%@page import="oracle.net.aso.a"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <script>
 <%
-	session.setAttribute("mem_name", "이진아");
-	session.setAttribute("mks_id", "star1");
-	response.sendRedirect("./main.jsp");
+
+	response.sendRedirect("/client/login/main.jsp");
+
 %>
+</script>

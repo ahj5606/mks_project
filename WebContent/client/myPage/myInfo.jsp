@@ -83,42 +83,31 @@
 					<div class="row m-2 my-0" style="justify-content: center">
 						<form>
 							<!-- 이름 -->
- 				 			<div class="form-group row mb-1 mt-3">
+ 				 			<div class="form-group row mb-1 mt-2">
     							<label for="i_name" style="width:80px;">이름</label>
     							<div class="col-md">
-     					 			<div class="input-group">
-      									<input type="text" readonly class="form-control" id="i_name">
-	   								</div>
-	   							</div>
+      								<input type="text" readonly class="form-control" id="i_name">
+    							</div>
   							</div>
   							<!-- 아이디 -->
   							<div class="form-group row mb-1">
     							<label for="i_id" style="width:80px;">아이디</label>
     							<div class="col-md">
-     					 			<div class="input-group">
-	      								<input type="text" readonly class="form-control" id="i_id">
-	   								</div>
+     					 			<input type="text" readonly class="form-control" id="i_id">
     							</div>
   							</div>
   							<!-- 비밀번호 -->
   							<div class="form-group row mb-1">
     							<label for="i_pw" style="width:80px;">비밀번호</label>
     							<div class="col-md">
-    								<div class="input-group">
-     					 				<input type="password" class="form-control" id="i_pw">
-     					 			</div>
-      								<small id="pwFail" class="text-muted">7~12자이어야 하며 공백은 불가합니다.</small>
+     					 			<input type="password" class="form-control" id="i_pw">
     							</div>
   							</div>
-  							<!-- 주민번호 -->
+  							<!-- 비밀번호  확인 -->
   							<div class="form-group row mb-1">
-    							<label for="i_reg" style="width:80px;">주민번호</label>
+    							<label for="i_pw2" style="width:80px;">비밀번호 확인</label>
     							<div class="col-md">
-     					 			<div class="input-group">
-	      								<input type="text" readonly class="form-control" id="i_reg1">
-	      								<label>-</label>
-	      								<input type="password" readonly class="form-control" id="i_reg2">
-	   								</div>
+     					 			<input type="password" class="form-control" id="i_pw2">
     							</div>
   							</div>
   							<!-- 우편번호 -->
@@ -157,32 +146,16 @@
   							<div class="form-group row mb-1">
     							<label for="i_email" style="width:80px;">이메일</label>
     							<div class="col-md">
-    								<div class="input-group">
-	      								<input type="text" class="form-control" id="i_email">
-	      								<input type="button" onclick="send_mail()" value="인증번호 받기" 
-	      													style="background-color:#353535;color:#F6F6F6;"><br>
-	   								</div>
-    							</div>
-  							</div>
-  							<!-- 인증번호 입력 -->
-  							<div class="form-group row mb-1">
-    							<label for="i_email_check" style="width:80px;"></label>
-    							<div class="col-md">
-    								<div class="input-group">
-	      								<input type="text" class="form-control" id="i_email_check">
-	      								<input type="button" onclick="check_mail()" value="인증하기" 
-	      													style="background-color:#353535;color:#F6F6F6;"><br>
-	   								</div>
-	   								<small id="emailFail" class="text-muted">이메일을 입력해주세요.</small>
+     					 			<input type="text" class="form-control" id="i_email">
     							</div>
   							</div>
 						</form>
 					</div>
 					<!-- 버튼 -->
 					<div class="row mb-3 mr-2">
-						<div class="col-md pr-1" style="text-align:right">
+						<div class="col-md" style="text-align:right">
 							<button class="btn btn-md btn-dark" onClick="modal_ins()">수정</button>
-							<button class="btn btn-md btn-dark" onClick="location.href='/client/myPage/pwInput.jsp'">닫기</button>
+							<button class="btn btn-md btn-dark" onClick="location.href='/client/mypage/pwInput.jsp'">닫기</button>
 						</div>
 					</div>
 				</div><!-- 개인정보 입력폼 -->
