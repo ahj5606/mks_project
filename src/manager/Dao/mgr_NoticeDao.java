@@ -65,7 +65,7 @@ public class mgr_NoticeDao {
 
 		logger.info("ins_board_no=>"+board_no);
 		try {
-			
+			logger.info("dao=>ins=>board_file=>"+nMap.get("board_file"));
 			result = sqlSes.insert("noticeINS",nMap);
 			logger.info("mgr_NoticDao=>noticeINS=>result=>"+result);
 			sqlSes.commit();

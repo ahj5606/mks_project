@@ -3,7 +3,7 @@
 <mapper namespace="mks.Mapper.managerMapper">
 
 	<select id="login" parameterType="map" resultType="map">
-	 SELECT hp_code, hp_name, dept_name, dept_code FROM mks_online
+	 SELECT hp_code, hp_name, dept_name, dept_code,mks_id FROM mks_online
 		WHERE mks_id=#{mks_id}
 		AND mks_pw=#{mks_pw}
 	</select>

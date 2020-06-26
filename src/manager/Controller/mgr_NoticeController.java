@@ -75,9 +75,14 @@ public class mgr_NoticeController implements mgr_Controller {
 		}else if("noticeDetail".equals(requestName)) {
 			//글 row를 클릭하여 상세보기 페이지로 넘어갈 때 req.getParameter 글번호
 			logger.info("controller=>detail");
+			/*
+			 * nMap = new HashMap<String, Object>(); nMap.put("hp_code", hp_code);
+			 * nMap.put("board_no", no);
+			 */
+			
 			nMap = new HashMap<String, Object>();
-			nMap.put("hp_code", hp_code);
-			nMap.put("board_no", no);
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.multiBind(nMap);
 	
 			logger.info("controller=>board_no=>"+nMap.get("board_no"));
 			nList = mnl.noticeSEL(nMap);
@@ -91,13 +96,15 @@ public class mgr_NoticeController implements mgr_Controller {
 			//공지사항을 입력할 때 
 			logger.info("controller=>ins호출 성공");
 			
-			
+			logger.info("controller=>board_file=>"+board_file);
 			nMap = new HashMap<String, Object>();
-			nMap.put("mks_id", mks_id);
-			nMap.put("hp_code", hp_code);
-			nMap.put("board_content", content);
-			nMap.put("board_title", title);
-			nMap.put("board_file", board_file);
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.multiBind(nMap);
+			/*
+			 * nMap.put("mks_id", mks_id); nMap.put("hp_code", hp_code);
+			 * nMap.put("board_content", content); nMap.put("board_title", title);
+			 * nMap.put("board_file", board_file);
+			 */
 
 			/*
 			 * HashMapBinder hmb = new HashMapBinder(req); hmb.multiBind(nMap);
@@ -122,25 +129,38 @@ public class mgr_NoticeController implements mgr_Controller {
 			//수정확인을 눌럿을 때
 			logger.info("controller=>upd호출 성공");
 
-			nMap = new HashMap<String, Object>();
-			nMap.put("hp_code", hp_code);
-			nMap.put("board_file", board_file);
-			nMap.put("board_content", content);
-			nMap.put("board_title", title);
-			nMap.put("board_no", no);
+			/*
+			 * nMap = new HashMap<String, Object>(); nMap.put("hp_code", hp_code);
+			 * nMap.put("board_file", board_file); nMap.put("board_content", content);
+			 * nMap.put("board_title", title); nMap.put("board_no", no);
+			 */
 
+			nMap = new HashMap<String, Object>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.multiBind(nMap);
+			
 			result = mnl.noticeUPD(nMap);
 			
-			mav.cudResult(result);
+			//mav.cudResult(result);
+			if(result==1) {
+				mav.IsForward(false);
+				res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
+				
+			}
+			
 			
 		}else if("noticeDEL".equals(requestName)) {
 			//삭제확인을 눌럿을 때
 			logger.info("controller=>del호출 성공");
 			
+			/*
+			 * nMap = new HashMap<String, Object>(); nMap.put("hp_code", hp_code);
+			 * nMap.put("board_no", no);
+			 */
+			
 			nMap = new HashMap<String, Object>();
-			nMap.put("hp_code", hp_code);
-
-			nMap.put("board_no", no);
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.multiBind(nMap);
 			
 			result = mnl.noticeDEL(nMap);
 			

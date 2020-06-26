@@ -13,21 +13,22 @@
 		location.href="/manager/notice/noticeSEL.mgr";
 	}
 	function notice_save(){
-		alert("저장 버튼 호출 성공");
+		alert("저장 버튼 호출 성공"+$("#userfile").val());
 		//$("#modalBox").modal("show");
- 		var title = $("#notice_title").val();
-		var writer = $("#notice_writer").val();
-		var content = $("#notice_content").val();
+ 		//var title = $("#notice_title").val();
+		//var writer = $("#notice_writer").val();
+		//var content = $("#notice_content").val();
 		//var board_file = $("#board_file").val();
-		var board_file = $("#userfile").val();
+		//var board_file = $("#userfile").val();
 		
 
 		//alert(title+"/"+writer+"/"+content);
-		alert("board_file=>"+board_file);
-		location.href="/manager/notice/noticeINS.mgr?title="+title+"&writer="+writer+"&content="+content+"&dept=<%=dept %>&board_file="+board_file; 
-/* 		$("#notice_write_form").attr('method','get');
-		$("#notice_write_form").attr('action','/notice/noticeINS.mgr');
-		$("#notice_write_form").submit(); */
+		//alert("board_file=>"+board_file);
+<%-- 		location.href="/manager/notice/noticeINS.mgr?title="+title+"&writer="+writer+"&content="+content+"&dept=<%=dept %>&board_file="+board_file; 
+ --%>
+ /* 		$("#notice_write_form").attr('method','get');
+		$("#notice_write_form").attr('action','/notice/noticeINS.mgr'); */
+		$("#notice_write_form").submit();
 	}
 
 </script>
@@ -36,11 +37,12 @@
 <div style="margin:20px;">
 <h2>글쓰기</h2>
 </div>
+<form id="notice_write_form" enctype="multipart/form-data" action="/manager/notice/noticeINS.mgr" method="post">
 <div style="margin-top:30px;margin-bottom:10px;margin-right:10px; margin-left:30px;width:1200px;">
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-8">
 		    <label>제목</label>
-		    <input id="notice_title" name="title" type="text" class="form-control" placeholder="제목">
+		    <input id="notice_title" name="board_title" type="text" class="form-control" placeholder="제목">
 	    </div>
 		<div class="col-md-4">
 		    <label>작성자</label>
@@ -60,21 +62,31 @@
 		</div>
 		 -->
 		 
-		 <div class="form-group">
+		<!--  <div>
 			<label for="InputSubject1">파일첨부</label>
 			<input id="fileInput" filestyle="" type="file" data-class-button="btn btn-default btn-outline-secondary" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
 			<div class="bootstrap-filestyle input-group">
 				<input type="text" id="userfile" class="form-control" name="board_file" disabled="">
 				<span class="group-span-filestyle input-group-btn" tabindex="0">
-				<label for="fileInput" class="btn btn-default btn-outline-secondary">
 				<span class="glyphicon fa fa-upload"></span>
 				</label>
 				</span>
 			</div>
+		</div> -->
+		
+		<div>
+		   <input id="fileInput" filestyle="" type="file" name="s_file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);">
+		   <div class="bootstrap-filestyle input-group">
+		      <span class="group-span-filestyle input-group-btn" tabindex="0">
+		         <label for="fileInput" class="btn btn-default">
+		            <span class="glyphicon fa fa-upload"></span>
+		         </label>
+		      </span>
+		   </div>
 		</div>
 
 		<label>내용</label>
-	    <input id="notice_content" name="content" type="text" class="form-control" placeholder="     내용을 입력해주세요." style="height:500px;">
+	    <input id="notice_content" name="board_content" type="text" class="form-control" placeholder="     내용을 입력해주세요." style="height:500px;">
 	    </div>
 	</div>
 	<div class="row">
@@ -108,6 +120,7 @@
 	 </div>
 	  </div>
 </div>
+</form>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#fileInput").on('change',function(){

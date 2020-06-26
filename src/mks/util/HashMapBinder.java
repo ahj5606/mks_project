@@ -4,17 +4,25 @@ import java.io.File;
 import java.util.Enumeration;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import manager.notice.HangulConversion;
-
 public class HashMapBinder {
 	Logger logger = Logger.getLogger(HashMapBinder.class);
+	String hp_code = "";
+	String hp_name = "";
+	String dept_name = "";
+	String dept_code="";
+	String mks_id="";
+	
+	
+	
 	//요청 객체는 사용자가 요청했을 때  요청을 받아주는 서블릿에서 
 	//주소번지를 받아와야 한다.
 	//그래야 그 사람에 대한 요청 정보를 확인할 수 있는 것이다.
@@ -26,26 +34,63 @@ public class HashMapBinder {
 	//첨부파일의 한글처리
 	String encType = "utf-8";
 	//첨부파일의 크기
-	int maxSize = 5*1024*1024;//5MB
+	int maxSize = 50*1024*1024;//5MB
+	
+	
 	public HashMapBinder() {}
 	
 	public HashMapBinder(HttpServletRequest req) {
 		this.req = req;
-		realFolder = "C:\\Users\\kosmo_02\\git\\mks_project\\WebContent\\manager\\notice";
+		realFolder = "C:\\Users\\kosmo_02\\git\\mks_project\\WebContent\\pds";
+		Cookie[] cookies = req.getCookies();
+		if(cookies!=null && cookies.length>0){
+			for(int i =0;i<cookies.length;i++){
+				String name = cookies[i].getName();
+				if(name.equals("hp_name")){
+					hp_name = cookies[i].getValue();
+				}
+				if(name.equals("dept_name")){
+					dept_name = cookies[i].getValue();
+				}
+				if(name.equals("dept_code")){
+					dept_code = cookies[i].getValue();
+				}
+				if(name.equals("mks_id")){
+					mks_id = cookies[i].getValue();
+				}
+				
+			}
+		}
+		
+		HttpSession sess = req.getSession();
+		hp_code = (String)sess.getAttribute("hp_code");
+		
+	
 	}
 	public void multiBind(Map<String,Object> pMap) {
+		logger.info("multiBind 호출 성공");
 		pMap.clear();
+		pMap.put("hp_name", hp_name);
+		pMap.put("dept_name", dept_name);
+		pMap.put("dept_code", dept_code);
+		pMap.put("mks_id", mks_id);
+		pMap.put("hp_code", hp_code);
+		logger.info("pMap=>"+pMap);
 		try {
+			logger.info(" before multi : "+multi);
 				multi = new MultipartRequest(req, realFolder, maxSize, encType, new DefaultFileRenamePolicy());
 				logger.info("multi : "+multi);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		Enumeration<String> en = multi.getParameterNames();
 		//자료구조안에 데이터가 있나요?
 		while(en.hasMoreElements()) {
 			String key = en.nextElement();
 			pMap.put(key, multi.getParameter(key));
+			logger.info("ket=>map=>"+pMap);
+			logger.info("ket=>value=>"+pMap.get(key));
 		}
 		//첨부파일에 대한 정보를 받아오는 코드 추가하기
 		Enumeration<String> files = multi.getFileNames();
@@ -55,13 +100,16 @@ public class HashMapBinder {
 				String fname = files.nextElement();
 				logger.info("fname:"+fname);
 				String filename = multi.getFilesystemName(fname);
-				pMap.put("bs_file", filename);
+				pMap.put("board_file", filename);
 				if(filename !=null && filename.length()>1) {
 					file = new File(realFolder+"\\"+filename);
 				}
 				logger.info("file:"+file);
 			}///////////////end of while
 		}//////////////////end of if
+		else {
+			pMap.put("board_file", "");
+		}
 		//위에서 파일객체가 만들어 졌으니까 파일 크기를 계산가능
 		double size = 0;
 		if(file !=null) {
@@ -75,12 +123,13 @@ public class HashMapBinder {
 		pMap.clear();
 		Enumeration<String> en = req.getParameterNames();
 		//enumeration에 값이 들어있는지 체크해 줌.
+		HangulConversion hc = new HangulConversion();
 		while(en.hasMoreElements()) {
 			String key = en.nextElement();//name, address, pet
 			if(req.getParameter(key).equals("")) {
 				pMap.put(key,null);
 			}else {
-				pMap.put(key,req.getParameter(key));
+				pMap.put(key,hc.toUTF(req.getParameter(key)));
 				
 			}
 		}

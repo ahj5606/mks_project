@@ -17,7 +17,7 @@
 
 	function notice_update(){
 		alert("수정 확인 버튼 호출 성공");
-		var title = $("#notice_title").val();
+		/* var title = $("#notice_title").val();
 		alert("title=>"+title);
 		var no = $("#notice_no").val();
 		var writer = $("#notice_writer").val();
@@ -39,7 +39,9 @@
 					alert("수정실패");
 				}
 			}
-		});
+		}); */
+		
+		$("#notice_detail_form").submit();
 		
 	}
 	function notice_delete(){
@@ -69,6 +71,7 @@
 <h2>글쓰기</h2>
 </div>
 <div style="margin-top:30px;margin-bottom:10px;margin-right:10px; margin-left:30px;width:1200px;">
+<form id="notice_detail_form" action="/manager/notice/noticeUPD.mgr" method="post">
   <div class="row" style="margin-bottom:30px;">
 	<div class="col-md-8">
 		<input id="notice_no" name="no" type="hidden" class="form-control" placeholder="제목" value="<%=nList.get(0).get("BOARD_NO") %>">
@@ -100,6 +103,7 @@
     <input id="notice_content" name="content" type="text" class="form-control" value="<%=nList.get(0).get("BOARD_CONTENT") %>" placeholder="     내용을 입력해주세요." style="height:500px;">
     </div>
 </div>
+</form>
 <div class="row">
 	  <div class="col-md-12" style="text-align:right;">
 		
