@@ -81,6 +81,24 @@
 			}
 		});
 	}
+	function pageMove(click){
+		var imsi = $(click).children(".sr-only").text();
+		if(imsi=="Previous"){
+			//previous();
+			alert("Previous");
+		}else if(imsi=="Next"){
+			alert("Next");
+			/* 
+			$.ajax({
+				url: "/client/login/jsonReservList.jsp?num=0"
+				,dataType: "text"
+				,success: function(data){
+					next(data, 5);
+				}
+			}); 
+			*/
+		}
+	} 
 	function search_doc_name(){
 		alert("입력한 의사이름: "+$("#doc_name").val());
 	}
@@ -263,9 +281,9 @@
 									<span class="sr-only">Previous</span>
 								</a>
 							</li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a></li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a></li>
+							<li class="page-item mr-1" id="p_1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
+							<li class="page-item mr-1" id="p_2"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
+							<li class="page-item mr-1" id="p_3"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
 							<li class="page-item mr-1">
 								<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
@@ -323,6 +341,24 @@
 				<li id="board_1"><a href="javascript:board_detail($('#board_1'))">자바라기</a><input type="hidden" value="1"></li>
 				<li id="board_2"><a href="javascript:board_detail($('#board_2'))">프로젝트</a><input type="hidden" value="2"></li> 
 				*/
+			});
+			$.ajax({
+				url: "/client/hospital/jsonHospitalList.jsp?num=0"
+				,dataType: "text"
+				,success: function(data){
+					var totalSize = Number(data.trim()); 
+					var mok = parseInt(totalSize/5);
+					if(mok<3){
+						$("#page_3").remove();
+						if(mok<2){
+							$("#page_2").remove();
+							if(mok<1){
+								$("#page_1").remove();
+							}
+						}
+					}
+					res_pageGet(1);
+				}
 			});
 			$.ajax({// **** 테이블 목록 가져오는 아작스
 				/* 

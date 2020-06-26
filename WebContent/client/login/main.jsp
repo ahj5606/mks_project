@@ -64,6 +64,20 @@
 			}
 		});
 	}
+	function pageMove(click){
+		var imsi = $(click).children(".sr-only").text();
+		if(imsi=="Previous"){
+			previous();
+		}else if(imsi=="Next"){
+			$.ajax({
+				url: "/client/login/jsonMyReservList.jsp?num=0"
+				,dataType: "text"
+				,success: function(data){
+					next(data, 1);
+				}
+			});
+		}
+	}
 	function login(){
 		alert("로그인 버튼!");
 		/* 
@@ -261,9 +275,9 @@
 										<span class="sr-only">Previous</span>
 									</a>
 								</li>
-								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)">1</a></li>
-								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)">2</a></li>
-								<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)">3</a></li>
+								<li class="page-item mr-1" id="p_1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
+								<li class="page-item mr-1" id="p_2"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
+								<li class="page-item mr-1" id="p_3"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
 								<li class="page-item mr-1">
 									<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Next">
 										<span aria-hidden="true">&raquo;</span>
@@ -320,7 +334,8 @@
 	<jsp:include page="./footer.jsp"/>
 	<!-- 돔 구성 완료되었을 떄 -->
 	<script type="text/javascript">
-		<%if(mem_name!=null){%>
+		$(document).ready(function(){
+			<%if(mem_name!=null){%>
 			$.ajax({
 				url:"/client/login/jsonMyReservList.jsp?num="+1
 				,success:function(data){
@@ -337,8 +352,25 @@
 				}
 			});
 			//************************* 즐겨찾기병원 목록 가져오기!! (hidden으로 병원코드 숨겨놓기)
-		<%}%>
-		$(document).ready(function(){
+			<%}%>
+			$.ajax({
+				url: "/client/login/jsonMyReservList.jsp?num=0"
+				,dataType: "text"
+				,success: function(data){
+					var totalSize = Number(data.trim()); 
+					var mok = parseInt(totalSize);
+					if(mok<3){
+						$("#page_3").remove();
+						if(mok<2){
+							$("#page_2").remove();
+							if(mok<1){
+								$("#page_1").remove();
+							}
+						}
+					}
+					res_pageGet(1);
+				}
+			});
 			$("#s_gwa").change(function(){
 				alert(this.value);
 			});

@@ -6,7 +6,10 @@
 <%
 
 String imsi = request.getParameter("num");
-int num = Integer.parseInt(imsi);
+int num = 0;
+if(imsi!=null){
+	num = Integer.parseInt(imsi);
+}
 
 List<Map<String,Object>> list = new ArrayList<>();
 Map<String,Object> map = null;
@@ -18,17 +21,23 @@ int recodeNum = 5;
 fNum = (num-1)*recodeNum+1;
 eNum = num*recodeNum;
 
-for(int i=fNum; i<=eNum; i++){
-map = new HashMap<>();
-map.put("HP_NAME","가산"+i+"병원");
-map.put("HP_ADDR","서울 금천구 가산 "+i+"동");
-map.put("HP_TIME","9:00 ~ 18:3"+i);
-map.put("HP_GAW","내과, 여기가어딥니과");
-list.add(map);
+if(num==0){
+	out.print(27);
+}else{
+	for(int i=fNum; i<=eNum; i++){
+		if(i<=27){
+			map = new HashMap<>();
+			map.put("HP_NAME","가산"+i+"병원");
+			map.put("HP_ADDR","서울 금천구 가산 "+i+"동");
+			map.put("HP_TIME","9:00 ~ 18:3"+i);
+			map.put("HP_GAW","내과, 여기가어딥니과");
+			list.add(map);
+		}
+	}
+			Gson gson = new Gson();
+			String imsi2 = gson.toJson(list);
+			out.print(imsi2);
 }
 
-Gson gson = new Gson();
-String imsi2 = gson.toJson(list);
-out.print(imsi2);
 
 %>
