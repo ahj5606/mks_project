@@ -74,19 +74,24 @@
 			</div>
 		</div> -->
 		
-		<div>
-		   <input id="fileInput" filestyle="" type="file" name="s_file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" class="form-control" tabindex="-1" style="position: absolute; clip: rect(0px 0px 0px 0px);">
-		   <div class="bootstrap-filestyle input-group">
-		      <span class="group-span-filestyle input-group-btn" tabindex="0">
-		         <label for="fileInput" class="btn btn-default">
-		            <span class="glyphicon fa fa-upload"></span>
-		         </label>
-		      </span>
-		   </div>
+		<div class="form-group">
+			<label for="InputSubject1">파일첨부</label>
+			<input id="fileInput" filestyle="" type="file" name="board_file"data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+			<div class="bootstrap-filestyle input-group">
+				<input type="text" id="userfile" class="form-control"  disabled="" >
+				<span class="group-span-filestyle input-group-btn" tabindex="0">
+				<label for="fileInput" class="btn btn-default btn-outline-primary" style="margin-left:5px;">
+				<span class="glyphicon fa fa-upload"></span>
+				</label>
+				</span>
+			</div>
 		</div>
 
 		<label>내용</label>
-	    <input id="notice_content" name="board_content" type="text" class="form-control" placeholder="     내용을 입력해주세요." style="height:500px;">
+		<!-- 
+	    <input id="notice_content" name="board_content" multiline=true type="text" class="form-control" placeholder="     내용을 입력해주세요." style="height:500px; ">
+	     -->
+	     <textarea class="form-control ml-1" rows="10" name="board_content" id="notice_content" placeholder="내용을 입력해 주세요" ></textarea>
 	    </div>
 	</div>
 	<div class="row">
