@@ -23,8 +23,10 @@ public class crm_HospitalDao {
 		//제휴병원 리스트
 		logger.info("[crm_HospitalDao] hospitalList호출 성공");
 		List<Map<String, Object>> hospitalList = null;
+		pMap.put("first", 1);
+		pMap.put("end", 5);
 		pMap.put("hp_open", "09:00");
-//		pMap.put("hp_close", "18:00");
+		pMap.put("hp_close", "18:00");
 		hospitalList = sqlSes.selectList("hospitalList", pMap);
 		logger.info("hospitalList: " + hospitalList.size()); //널포인트 인셉션 터지는 위치.
 		return hospitalList;

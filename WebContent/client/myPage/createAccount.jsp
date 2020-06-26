@@ -34,15 +34,19 @@
 	* 2) id_check + reg_check + email_check + pw_check = 4 
 	* 두 조건을 만족해야 ==> insert 가능
 	*/
-	var id;//아이디
-	var reg;//주민번호
-	var email;//이메일
-	var email_num;//인증번호
-	var id_check=0;//아이디 중복검사 통과시 1로
-	var reg_check=0;//주민번호 가입검사 통과시 1로
-	var email_check=0;//이메일 인증성공시 1로
+	var id = null;//아이디 저장
+	var email = null;//이메일 저장
+	var email_num = null;//인증번호 저장
+	var time_check = null;//인증번호 발송버튼 눌렀을 때의 시간 저장
+	var reg;//주민번호 저장
+	
+	var name_check=0;//이름 조건 통과시1로
 	var pw_check=0;//비밀번호 일치시 1로
-	var time_check;//인증번호 발송버튼 눌렀을 때의 시간
+	var id_check=0;//아이디 중복검사 통과시 1로
+	var email_check=0;//이메일 인증성공시 1로
+	var reg_check1=0;//주민번호 가입검사 통과시 1로
+	var reg_check2=0;//주민번호 가입검사 통과시 1로
+	
 	function addrSearch() {
 	    new daum.Postcode({
 	        oncomplete: function(data) {
@@ -59,31 +63,104 @@
 	}
 	function acc_check(){
 		alert("회원가입버튼 호출");
-		//2가지조건 만족하니?
+		var imsi = $("#i_reg1").val()+"-"+$("#i_reg2").val();
+		if((name_check+pw_check+id_check+email_check+reg_check1+reg_check2)==6){
+			alert("id: "+id+", i_id: "+$("#i_id").val());
+			alert("email: "+email+", i_email: "+$("#i_email").val());
+			alert("reg: "+reg+", imsi: "+imsi);
+			if(id==$("#i_id").val() && email==$("#i_email").val() && reg==imsi ){
+				alert("회원가입하러 go~!!!");
+			}
+		}
 	}
 	function check_id(){
 		alert("아이디 중복검사!");
-		//빈문자열이 아니니?
-		//loginFail
-	}
-	function check_reg(){
-		alert("주민번호 가입검사!");
-		//빈문자열아니니?
-		//숫자니?
-		//길이는 맞니?
-		//regFail
+		id = null;
+		if(id_check==1){//아이디 기준 통과시
+			//ajax로 아이디 중복검사하러~~~~~
+			//1) 통과되었다면...
+			$("#idFail").html("통과");
+			$("#idFail").attr('class','text-success');
+			id = $("#i_id").val();
+			id_check=1;
+			/*2) 중복된다면...
+			$("#idFail").html("존재하는 아이디입니다.");
+			$("#idFail").attr('class','text-danger');
+			id_check=0;
+			*/
+		}else{
+			alert("아이디가 형식에 맞지 않습니다.");
+			id_check=0;
+		}
+		
 	}
 	function send_mail(){
 		alert("인증번호 발송!");
-		//빈문자열 아니니?
-		//이메일형식에 맞니?
-		//emailFail
+		email = null;
+		email_num = null;
+		var input = $("#i_email").val();
+		checkEmail(input);
+		if(email_check==1){//이메일 기준 통과시
+			email = input;
+			var time = new Date();
+			time_check = time.getTime();
+			$.ajax({
+				url: './mailing.jsp?i_email='+email
+				,success: function(data){
+					var res = data.trim();
+					email_num = res;
+					alert("인증번호: "+email_num);
+				}
+			});
+		}else{
+			alert("이메일이 형식에 맞지 않습니다.");
+		}
+		
 	}
 	function check_mail(){
-		alert("인증번호 검사!");
-		//3분이 안지났니?
-		//인증번호가 일치하니?
-		//emailFail
+		if(email_num==null){
+			alert("인증번호가 발송되지 않았습니다.");
+			email_check=0;
+		}else{
+			var time = new Date();
+			time = time.getTime();
+			if((time-time_check)>60000){//540000
+				$("#emailFail").html("입력시간이 초과되었습니다.");
+				$("#emailFail").attr('class','text-danger');
+				email_check=0;
+			}else{
+				var input = $("#i_email_check").val();
+				if(input==email_num){
+				alert("같음");
+					$("#emailFail").html("통과");
+					$("#emailFail").attr('class','text-success');
+					email_check=1;
+				}
+			}
+		}
+	}
+	function check_reg(){
+		alert("주민번호 가입검사!");
+		reg = null;
+		if(reg_check2==1&&reg_check1==1){//주민번호 기준 통과시
+				//ajax로 주민번호 중복검사하러~~~~~
+				//1) 통과되었다면...
+				$("#regFail").html("통과");
+				$("#regFail").attr('class','text-success');
+				reg = $("#i_reg1").val()+"-"+$("#i_reg2").val();
+				reg_check2=1;
+				reg_check1=1;
+				/*2) 중복된다면...
+				$("#regFail").html("이미 가입된 주민번호입니다.");
+				$("#regFail").attr('class','text-danger');
+				reg_check2=0;
+				reg_check1=0;
+				*/
+		}else{
+			alert("주민번호가 형식에 맞지 않습니다.");
+			reg_check2=0;
+			reg_check1=0;
+		}
 	}
 </script>
 </head>
@@ -102,14 +179,17 @@
 				<hr>
 				<!-- 회원가입 입력폼 -->
 				<div class="border mb-0 mt-3">
-					<div class="row m-2 my-0" style="justify-content: center">
+					<div class="row m-2 my-0 mb-4" style="justify-content: center">
 						<form>
 							<!-- 이름 -->
  				 			<div class="form-group row mb-1 mt-3">
     							<label for="i_name" style="width:80px;">이름</label>
     							<div class="col-md">
-      								<input type="text" class="form-control" id="i_name">
-    							</div>
+     					 			<div class="input-group">
+      									<input type="text" class="form-control" id="i_name">
+	   								</div>
+      								<small id="loginFail" class="text-muted">1~7자이어야 하며 특수문자는 입력불가합니다.</small>
+	   							</div>
   							</div>
   							<!-- 아이디 -->
   							<div class="form-group row mb-1">
@@ -120,24 +200,17 @@
 	      								<input type="button" onclick="check_id()" value="중복 검사" 
 	      													style="background-color:#353535;color:#F6F6F6;"><br>
 	   								</div>
-	   								<small id="loginFail" class="text-danger">이미 가입된 아이디 입니다.</small>
+	   								<small id="idFail" class="text-muted">7~12자이어야 하며 공백과 한글은 불가합니다.</small>
     							</div>
   							</div>
   							<!-- 비밀번호 -->
   							<div class="form-group row mb-1">
     							<label for="i_pw" style="width:80px;">비밀번호</label>
     							<div class="col-md">
-     					 			<input type="password" class="form-control" id="i_pw">
-    							</div>
-  							</div>
-  							<!-- 비밀번호  확인 -->
-  							<div class="form-group row mb-1">
-    							<label for="i_pw2" style="width:80px;">비밀번호 확인</label>
-    							<div class="col-md">
     								<div class="input-group">
-     					 				<input type="password" class="form-control" id="i_pw_check">
+     					 				<input type="password" class="form-control" id="i_pw">
      					 			</div>
-	    							<small id="pwFail" class="text-danger">비밀번호가 일치하지 않습니다.</small>
+      								<small id="pwFail" class="text-muted">7~12자이어야 하며 공백은 불가합니다.</small>
     							</div>
   							</div>
   							<!-- 주민번호 -->
@@ -146,13 +219,13 @@
     							<div class="col-md">
      					 			<div class="input-group">
 	      								<input type="text" class="form-control" id="i_reg1">
-	      								<label>&nbsp;-&nbsp;</label>
+	      								<label>-</label>
 	      								<input type="password" class="form-control" id="i_reg2">
 	      								<label></label>
 	      								<input type="button" onclick="check_reg()" value="가입 확인" 
 	      													style="background-color:#353535;color:#F6F6F6;"><br>
 	   								</div>
-	   								<small id="regFail" class="text-danger">이미 가입된 주민번호 입니다.</small>
+	   								<small id="regFail" class="text-muted">주민번호를 입력해주세요.</small>
     							</div>
   							</div>
   							<!-- 우편번호 -->
@@ -200,21 +273,21 @@
   							</div>
   							<!-- 인증번호 입력 -->
   							<div class="form-group row mb-1">
-    							<label for="i_email" style="width:80px;"></label>
+    							<label for="i_email_check" style="width:80px;"></label>
     							<div class="col-md">
     								<div class="input-group">
 	      								<input type="text" class="form-control" id="i_email_check">
 	      								<input type="button" onclick="check_mail()" value="인증하기" 
 	      													style="background-color:#353535;color:#F6F6F6;"><br>
 	   								</div>
-	   								<small id="emailFail" class="text-danger">입력 가능 시간은 3분입니다.</small>
+	   								<small id="emailFail" class="text-muted">이메일을 입력해주세요.</small>
     							</div>
   							</div>
 						</form>
 					</div>
 					<!-- 버튼 -->
-					<div class="row mb-3 mr-2">
-						<div class="col-md" style="text-align:right">
+					<div class="row mb-4 mr-1">
+						<div class="col-md pr-1" style="text-align:right">
 							<button class="btn btn-md btn-dark" onClick="acc_check()">회원가입하기</button>
 						</div>
 					</div>
@@ -227,7 +300,26 @@
 	<!-- 돔구성 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			//$("#i_pw_check").
+			$("#i_name").keyup(function(){
+				var input = $("#i_name").val();
+				checkNames(input,1,7);
+			});
+			$("#i_pw").keyup(function(){
+				var input = $("#i_pw").val();
+				checkPw(input,7,12);
+			});
+			$("#i_id").keyup(function(){
+				var input = $("#i_id").val();
+				checkId(input,7,12);
+			});
+			$("#i_reg1").keyup(function(){
+				var input = $("#i_reg1").val();
+				regFirst(input);
+			});
+			$("#i_reg2").keyup(function(){
+				var input = $("#i_reg2").val();
+				regSec(input);
+			});
 		});
 	</script>
 </body>

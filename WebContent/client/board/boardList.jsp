@@ -49,6 +49,21 @@
 			 url: "/client/board/jsonBoardList.jsp?num="+num
 		});
 		$("div.fixed-table-loading").remove(); 
+	} 
+	function pageMove(click){
+		var imsi = $(click).children(".sr-only").text();
+		if(imsi=="Previous"){
+			previous();
+		}else if(imsi=="Next"){
+			//총 예약리스트 사이즈 가져오기
+			$.ajax({
+				url: "/client/board/jsonBoardList.jsp?num=0"
+				,dataType: "text"
+				,success: function(data){
+					next(data, 5);
+				}
+			});
+		}
 	}
 	function board_write(){
 		 location.href= '/client/board/boardForm.jsp';
@@ -142,9 +157,9 @@
 									<span class="sr-only">Previous</span>
 								</a>
 							</li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
+							<li class="page-item mr-1" id="p_1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
+							<li class="page-item mr-1" id="p_2"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
+							<li class="page-item mr-1" id="p_3"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
 							<li class="page-item mr-1">
 								<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
@@ -173,6 +188,24 @@
 				  }
 			});
 			$("div.fixed-table-loading").remove();
+			$.ajax({
+				url: "/client/board/jsonBoardList.jsp?num=0"
+				,dataType: "text"
+				,success: function(data){
+					var totalSize = Number(data.trim()); 
+					var mok = parseInt(totalSize/5);
+					if(mok<3){
+						$("#page_3").remove();
+						if(mok<2){
+							$("#page_2").remove();
+							if(mok<1){
+								$("#page_1").remove();
+							}
+						}
+					}
+					res_pageGet(1);
+				}
+			});
 		});
 	</script>
 </body>
