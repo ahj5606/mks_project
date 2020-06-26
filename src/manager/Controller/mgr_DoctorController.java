@@ -37,8 +37,8 @@ public class mgr_DoctorController implements mgr_Controller {
 			Map<String, Object> pMap = new HashMap<>();
 //			
 //				
-				dList = mgr_dLogic.doctorList(pMap);
-				logger.info("docList: "+dList.size());
+			dList = mgr_dLogic.doctorList(pMap);
+			logger.info("docList: "+dList.size());
 //				
 			mav.addObject("docList", dList);
 			mav.IsForward(true);
