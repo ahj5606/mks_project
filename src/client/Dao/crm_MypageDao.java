@@ -73,23 +73,23 @@ public class crm_MypageDao {
 		return result;
 	}
 	
-//	public static void main(String[] args) {
-//		crm_MypageDao my = new crm_MypageDao();
+	public static void main(String[] args) {
+		crm_MypageDao my = new crm_MypageDao();
 //		List<Map<String, Object>> result = new ArrayList<>();
-//		Map<String, Object> pMap = new HashMap<String, Object>();
-//		pMap.put("mem_socialnum", "1211212-123123");
-//		String result = "";
-//		pMap.put("u_id","test8");
-//		pMap.put("u_pw","123");
-//		pMap.put("u_soc","910685-1129566");
-//		pMap.put("u_addr","서울시 판교");
-//		pMap.put("u_phone","010-1111-1118");
-//		pMap.put("u_name","회원8");
-//		pMap.put("u_email","test8@naver.com");
-//		result = my.proc_mem_Add(pMap);
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap.put("mem_socialnum", "1211212-123123");
+		String result = "";
+		pMap.put("u_id","test1");
+		pMap.put("u_pw","123");
+		pMap.put("u_soc","910685-1129561");
+		pMap.put("u_addr","경기도 부천");
+		pMap.put("u_phone","010-1111-1111");
+		pMap.put("u_name","회원1");
+		pMap.put("u_email","test8@naver.com");
+		result = my.proc_mem_Add(pMap);
 //		result = my.idCheck(pMap);
 //		result = my.socialnumCheck(pMap);
-//		logger.info("result: "+result);
-//	}
+		logger.info("result: "+result);
+	}
     
 }

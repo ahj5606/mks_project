@@ -3,9 +3,36 @@
 <mapper namespace="mks.Mapper.clientMapper">
 <!-- crm_HospitalDao 부분 -->
 	<select id="hospitalList" parameterType="map" resultType="map">
-		SELECT
-		    r,hp_name,hp_lat,hp_lng,hp_detail,hp_address,hp_open,hp_close,hp_phone,dept_name
-		  FROM view_hospitalList
+		SELECT 
+		    r, hp_code, hp_name , hp_lat, hp_lng, hp_detail, hp_address, hp_open, hp_close, hp_phone, dept_name
+		  FROM (
+		        SELECT  ROWNUM 
+		            r, hp_code, hp_name, hp_lat, hp_lng, hp_detail, hp_address, hp_open, hp_close, hp_phone, dept_name                   
+		          FROM ( 
+		                SELECT h.hp_code , MIN(h.hp_name) hp_name 
+		                                , MIN(h.hp_lat) hp_lat ,MIN(h.hp_lng) hp_lng
+		                                , MIN(h.hp_detail) hp_detail, MIN(h.hp_address) hp_address
+		                                , MIN(h.hp_open) hp_open , MIN(h.hp_close) hp_close
+		                                , MIN(h.hp_phone) hp_phone
+		                                ,WM_CONCAT(d.dept_name) dept_name 
+		                  FROM mks_hospital h , mks_dept d
+		                  WHERE h.hp_code= d.hp_code
+		                  GROUP BY h.hp_code
+		                )
+		                WHERE 1 = 1
+		                <if test="hp_open != null">
+		                   AND hp_open = #{hp_open}
+		                </if>
+		                <if test="hp_close != null">
+		                   AND hp_close = #{hp_close}
+		                </if>
+		                <if test="hp_name != null">
+		                   AND hp_name = #{hp_name} 
+		                </if>
+		        )
+		<if test="first != null">
+			WHERE r BETWEEN #{first} AND #{end};
+		</if>   
 	</select>
 	
 <!-- crm_ReservationDao 부분 -->	
@@ -77,6 +104,13 @@
 		  FROM mks_doctor
 		  WHERE doc_name = #{doc_name}
 	</select>
+	<insert id="reservation" parameterType="map">
+	<!-- 예약하기. -->
+		INSERT 
+		  INTO mks_reserve
+		    (mem_memcode, res_memo, sch_code, res_qrcode, doc_name, res_time, doc_code, hp_code, dept_name, dept_code, sch_date, hp_name) 
+		  VAlUES (#{mem_memcode},#{res_memo},#{sch_code},#{res_qrcode},#{doc_name},#{res_time},#{doc_code},#{hp_code},#{dept_name},#{dept_code},#{sch_date},#{hp_name});	
+	</insert>
 	
 <!-- crm_HealthDao 부분 -->
 <!-- crm_LoginDao 부분 -->

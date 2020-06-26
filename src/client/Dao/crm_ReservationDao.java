@@ -80,10 +80,12 @@ public class crm_ReservationDao {
 		return time;
 	}
 	
-	public int reservation(Map<String, Object> pMap) { //예약하기
+	public int reservation(Map<String, Object> pMap) { 
+		//예약하기
 		logger.info("[crm_ReservationDao] reservation 호출성공");
 		int result = 0;
-		result = sqlSes.delete("reservation", pMap);
+		pMap.put("mem_memcode", 1);
+		result = sqlSes.insert("reservation", pMap);
 		logger.info("result: " + result);
 		sqlSes.commit(true);
 		return result;
