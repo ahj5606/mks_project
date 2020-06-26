@@ -95,7 +95,10 @@ public class HashMapBinder {
 		//첨부파일에 대한 정보를 받아오는 코드 추가하기
 		Enumeration<String> files = multi.getFileNames();
 		File file = null;
-		if(files!=null) {
+		if(pMap.get("board_file")==null) {
+			pMap.put("board_file", "");
+		}
+		else if(files!=null) {
 			while(files.hasMoreElements()) {
 				String fname = files.nextElement();
 				logger.info("fname:"+fname);
@@ -107,9 +110,7 @@ public class HashMapBinder {
 				logger.info("file:"+file);
 			}///////////////end of while
 		}//////////////////end of if
-		else {
-			pMap.put("board_file", "");
-		}
+		
 		//위에서 파일객체가 만들어 졌으니까 파일 크기를 계산가능
 		double size = 0;
 		if(file !=null) {
