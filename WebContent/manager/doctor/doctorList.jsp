@@ -21,7 +21,7 @@
 		alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
 	}
-	function docSel(){
+	function docSearch(){
 		alert("의사검색");
 		location.href="./docList.jsp"
 		
@@ -52,7 +52,7 @@
 		    </div>
 	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="patientName" aria-describedby="basic-addon1">
 	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="patientName" aria-describedby="basic-addon1">
-	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSel()">의사 검색</button>
+	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSearch()">의사 검색</button>
 	        </div>
 	        <div class="col-sm-8" id="main">
 	        	 <div class="tab-content" id="nav-tabContent">
@@ -101,13 +101,15 @@
 %>					  	
 					  </tbody>
 					</table>
-					<ul class="pagination">
-						  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						  <li class="page-item"><a class="page-link" href="#">1</a></li>
-						  <li class="page-item"><a class="page-link" href="#">2</a></li>
-						  <li class="page-item"><a class="page-link" href="#">3</a></li>
-						  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
+					<div class="text-center">
+						<ul class="pagination">
+							  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+							  <li class="page-item"><a class="page-link" href="#">1</a></li>
+							  <li class="page-item"><a class="page-link" href="#">2</a></li>
+							  <li class="page-item"><a class="page-link" href="#">3</a></li>
+							  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</ul>
+					</div>
 					</div>
 			      </div>
 			     </div>
@@ -117,20 +119,7 @@
 	<div>
 	  
 	</div>
-<script type="text/javascript">
-	$(document).ready(function(){
-	    $('#doc_list').bootstrapTable('refreshOptions', {
-	           url: "/manager/doctor/doctorList.mgr?num="+1
-	         ,onClickRow : function(row,element,field){
-	            var doc_name = row.DOC_NAME;
-	            var doc_code = row.DOC_CODE;
-	            location.href= '/manager/doctor/doctorDetail.mgr?doc_code='+doc_code;
-	            //==> board_no를 넘겨주면 해당 게시글을  select!!
-	         }
-	    });
-	    $("div.fixed-table-loading").remove();
-	 });
-</script>
+
 	
 </body>
 </html>

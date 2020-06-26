@@ -97,12 +97,12 @@ public class mgr_DoctorController implements mgr_Controller {
 			int result =0;
 			Map<String,Object> pMap = new HashMap<>();
 			result = mgr_dLogic.doctorUPD(pMap);
-			
+			path = "redirect:/manage/doctorList.mgr?crud=doctorList";
 		} else if("doctorDEL".equals(requestName)) {
 			int result =0;
 			Map<String,Object> pMap = new HashMap<>();
 			result = mgr_dLogic.doctorDEL(pMap);
-			
+			path = "redirect:/manage/doctorList.mgr?crud=doctorList";
 		}  
 		
 		return mav;

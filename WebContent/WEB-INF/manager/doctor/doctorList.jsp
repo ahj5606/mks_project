@@ -42,7 +42,7 @@
 		    </div>
 	        	 <input id="d_name" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="doctorName" aria-describedby="basic-addon1">
 	        	 <input id="d_code" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="doctorCode" aria-describedby="basic-addon1">
-	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSel()">의사 검색</button>
+	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSearch()">의사 검색</button>
 	        </div>
 	        <div class="col-sm-8" id="main">
 	        	 <div class="tab-content" id="nav-tabContent">
@@ -86,13 +86,15 @@
 %>					  	
 					  </tbody>
 					</table>
-					<ul class="pagination">
-						  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						  <li class="page-item"><a class="page-link" href="#">1</a></li>
-						  <li class="page-item"><a class="page-link" href="#">2</a></li>
-						  <li class="page-item"><a class="page-link" href="#">3</a></li>
-						  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
+					<div class="text-center">
+						<ul class="pagination">
+							  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+							  <li class="page-item"><a class="page-link" href="#">1</a></li>
+							  <li class="page-item"><a class="page-link" href="#">2</a></li>
+							  <li class="page-item"><a class="page-link" href="#">3</a></li>
+							  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</ul>
+					</div>
 					</div>
 			      </div>
 			     </div>
@@ -106,25 +108,13 @@
 	$(document).ready(function(data){
 		$("#doc_list").bootstrapTable({
 			onDblClickRow:function(row, $element, field)
-		     { 
-				var jo = JSON.stringify(row);
-				var d = JSON.parse(jo);
-				var DOC_NAME = d.DOC_NAME;
-				var DEPT_NAME = d.DEPT_NAME;
-				var DEPT_CODE = d.DEPT_CODE;
-				var DOC_CODE = d.DOC_CODE;
-				var HP_NAME = d.HP_NAME;
-				$("#modal_docname").val(DOC_NAME);
-				$("#modal_deptname").val(DEPT_NAME);
-				$("#modal_deptcode").val(DEPT_CODE);
-				$("#modal_doccode").val(DOC_CODE);
-				$("#modal_hp_name").val(HP_NAME);
-				$("#doctorSearch").modal('hide');
+		     {
+					
 		     }
 		})
-		$("#d_list").bootstrapTable('hideLoading');
+		$("#doc_list").bootstrapTable('hideLoading');
 	})
-	function docSel(){
+	function docSearch(){
 		alert("의사검색");
 		var d_name = $("#d_name").val();
 		var d_code =$("#d_code").val();
