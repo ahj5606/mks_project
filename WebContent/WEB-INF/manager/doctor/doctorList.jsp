@@ -105,20 +105,24 @@
 	  
 	</div>
 <script type="text/javascript">
-	$(document).ready(function(data){
-		$("#doc_list").bootstrapTable({
-			onDblClickRow:function(row, $element, field)
-		     {
-					
-		     }
-		})
-		$("#doc_list").bootstrapTable('hideLoading');
+$(document).ready(function(data){
+	$("#doc_list").bootstrapTable({
+		onDblClickRow:function(row, $element, field)
+	     { 
+			var jo = JSON.stringify(row);
+			var d = JSON.parse(jo);
+			var doc_code = d.DOC_CODE;
+			location.href="/manager/doctor/doctorDetail.mgr?doc_code="+doc_code;
+			alert("클릭"+doc_code);
+	     }
 	})
+	$("#doc_list").bootstrapTable('hideLoading');
+})
 	function docSearch(){
 		alert("의사검색");
 		var d_name = $("#d_name").val();
 		var d_code =$("#d_code").val();
-		location.href="./doctorSEL.mgr?hp_code=<%=hp_code%>&doc_name="+d_name+"&doc_code="+d_code
+		location.href='./doctorSEL.mgr?hp_code=<%=hp_code%>'+'&doc_name='+d_name+'&doc_code='+d_code
 	}
 	function docIns(){
 		alert("의사추가");

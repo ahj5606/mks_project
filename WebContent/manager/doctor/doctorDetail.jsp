@@ -8,9 +8,10 @@
 <script type="text/javascript">
 	function docIns() {
 		alert("저장호출 성공");
-		$("#f_doctor").attr("method","get");
+		$("#f_doctor").attr("method","post");
 		$("#f_doctor").attr("action","./doctorINS.mgr");
 		$("#f_doctor").submit();
+		
 	}
 	function docUpd() {
 		alert("수정호출 성공");
@@ -28,6 +29,7 @@
 		alert("닫기");
 		location.href="./doctorList.mgr";
 	}
+	
 </script>
 	 <%@include file="../../common/ManagerCommon.jsp" %> 
 <body>
