@@ -180,7 +180,7 @@
 				<!-- 지도화면 -->
 				<div class="row mb-2">
 					<div class="col-md">
-						<div id="map" style="width:100%;height:330px;"></div>
+						<div id="map" style="width:100%;height:345px;"></div>
 					</div>
 				</div>
 	  		</div>
@@ -245,12 +245,12 @@
 				   			<!-- 정보 -->
 					   		<div class="card">
 	  							<h6 class="card-header" style="height:35px;background-color:#007bff;color:#FFFFFF;">예약정보</h6>
-	  							<div class="card-body pt-1" style="background-color:#FAED7D;height:110px;">
+	  							<div class="card-body py-0" style="background-color:#FAED7D;">
 									<div class="row">
-										<div class="col-md py-1 px-3" style="height:100px;">
+										<div class="col py-3 px-2" >
 											<table>
 												<tr>
-													<td style="padding-right:50px;">
+													<td style="padding-right:5px;">
 														<table id="t_my_resevation">
 														</table>
 													</td>
