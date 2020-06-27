@@ -7,8 +7,9 @@
 <%
 List<Map<String,Object>> hpList =(List<Map<String,Object>>)request.getAttribute("hpList");
 
-Gson g = new Gson();
-String imsi = g.toJson(hpList);
+Gson gson = new Gson();
+String imsi = gson.toJson(hpList);
 out.print(imsi);
-        	//out.print(mrList);
+        	
+        	
 %>

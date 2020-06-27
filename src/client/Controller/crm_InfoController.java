@@ -17,7 +17,7 @@ public class crm_InfoController implements crm_Controller{
 	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res)
 					throws IOException, ServletException
 			 {
-		crm_ModelAndView mav = new crm_ModelAndView();
+		crm_ModelAndView mav = new crm_ModelAndView(req,res);
 		if("introduce".equals(requestName)) {
 			
 		}else if("memService".equals(requestName)) {

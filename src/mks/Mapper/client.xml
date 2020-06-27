@@ -1,13 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.clientMapper">
-<!-- crm_HospitalDao 부분 -->
-	<select id="hospitalList" parameterType="map" resultType="map">
-		SELECT
-		    r,hp_name,hp_lat,hp_lng,hp_detail,hp_address,hp_open,hp_close,hp_phone,dept_name
-		  FROM view_hospitalList
+
+<!-- 지도마커 뿌리기 
+	<select id="deptList" parameterType="map" resultType="map">
+			  SELECT  rnum, hp_name, hp_lat, hp_lng, hp_phone,hp_close,hp_open,hp_address,hp_code
+                 FROM (select  rownum rnum, hp_name, hp_lat, hp_lng, hp_phone,
+                            hp_close,hp_open,hp_address,hp_code from mks_hospital)
+                where hp_lng is not null and hp_lat  is not null
+		<if test="hp_name!=null">
+			and hp_name = #{hp_name}
+		</if>
+		<if test="hp_open != null">
+          and hp_open = #{hp_open}
+      	</if>
+        <if test="hp_close !=  null">
+          AND hp_close = #{hp_close}
+         </if>
+         <if test="first!=null">
+         	and rnum between #{first} and #{end}
+         </if>
+	</select>-->
+	<!-- 지도 진료과 카테고리 -->
+	<select id="categori"  parameterType="map" resultType="map">
+	        select dept_name from mks_dept
+        group by dept_name
+        </select>
+
+	<select resultType="map" parameterType="map" id="hospitalList">
+		SELECT 
+		    r, hp_code, hp_name , hp_lat, hp_lng, hp_detail, hp_address, hp_open, hp_close, hp_phone, dept_name
+		  FROM (
+		        SELECT  ROWNUM 
+		            r, hp_code, hp_name, hp_lat, hp_lng, hp_detail, hp_address, hp_open, hp_close, hp_phone, dept_name                   
+		          FROM ( 
+		                SELECT h.hp_code , MIN(h.hp_name) hp_name 
+		                                , MIN(h.hp_lat) hp_lat ,MIN(h.hp_lng) hp_lng
+		                                , MIN(h.hp_detail) hp_detail, MIN(h.hp_address) hp_address
+		                                , MIN(h.hp_open) hp_open , MIN(h.hp_close) hp_close
+		                                , MIN(h.hp_phone) hp_phone
+		                                ,WM_CONCAT(d.dept_name) dept_name 
+		                  FROM mks_hospital h , mks_dept d
+		                  WHERE h.hp_code= d.hp_code
+		                  GROUP BY h.hp_code
+		                )
+		                WHERE 1 = 1
+		                <if test="hp_open != null">
+			                AND hp_open = #{hp_open}
+		                </if>
+		                <if test="hp_close != null">
+			                AND hp_close = #{hp_close}
+		                </if>
+		                <if test="hp_name != null">
+			                AND hp_name = #{hp_name} 
+		                </if>
+		        )
+		        <if test="first != null">   
+					WHERE r BETWEEN #{first} AND #{end}
+				</if>
 	</select>
-	
+
+<!-- crm_ReservationDao 부분 -->   
 <!-- crm_ReservationDao 부분 -->	
 	<resultMap id="rmap1" type="java.util.Map"/>	
 	<resultMap id="rmap2" type="java.util.Map"/>	
@@ -64,47 +117,39 @@
 								   )}
 		 </if>
 	</select>
-	<select id="waitCheck" parameterType="map" resultType="map">
-		SELECT 
-		    dept_prewait, (dept_lastwait - dept_prewait)*2
-		  FROM mks_dept
-		  WHERE hp_code = #{hp_code}
-		  AND dept_name = #{dept_name} 	
-	</select>
-	<select id="docSel" parameterType="map" resultType="map">
-		SELECT 
-		    doc_name, dept_name, doc_position, doc_education
-		  FROM mks_doctor
-		  WHERE doc_name = #{doc_name}
-	</select>
-	
-<!-- crm_HealthDao 부분 -->
 <!-- crm_LoginDao 부분 -->
-	<select id="proc_mem_login" parameterType="map" statementType="CALLABLE">
-		{call proc_mem_login (
-			#{u_id, mode=IN, jdbcType=VARCHAR}
-			,#{u_pw, mode=IN, jdbcType=VARCHAR}						
-			,#{msg, mode=OUT, jdbcType=VARCHAR}						
-			,#{msg_id, mode=OUT, jdbcType=VARCHAR}						
-		)}
-	</select>
-	
+   <select id="proc_mem_login" parameterType="map" statementType="CALLABLE">
+      {call proc_mem_login (
+         #{u_id, mode=IN, jdbcType=VARCHAR}
+         ,#{u_pw, mode=IN, jdbcType=VARCHAR}                  
+         ,#{msg, mode=OUT, jdbcType=VARCHAR}                  
+         ,#{msg_id, mode=OUT, jdbcType=VARCHAR}                  
+      )}
+   </select>
+   
 <!-- crm_MypageDao 부분 -->	
-	<select id="idCheck" parameterType="map" resultType="map">
+	<select id="idCheck" parameterType="map" resultType="String">
 	<!-- id중복 검사  -->
-		SELECT
+		SELECT NVL(
+		(SELECT
 		    o.mks_id
 		  FROM mks_online o, mks_member m
 		  WHERE o.mem_memcode = m.mem_memcode
-		  AND o.mks_id = #{mks_id}	
+		  AND o.mks_id = #{mks_id}
+		  ),'통과')idCheck		    
+		  FROM DUAL	
+		
 	</select>
-	<select id="socialnumCheck" parameterType="map" resultType="map">
+	<select id="socialnumCheck" parameterType="map" resultType="String">
 	<!-- 주민번호 중복검사 -->
-		SELECT
+	SELECT NVL(
+		(SELECT
 		    m.mem_socialnum
 		  FROM mks_online o, mks_member m
 		  WHERE o.mem_memcode = m.mem_memcode
-		  AND m.mem_socialnum = #{mem_socialnum}	
+		    AND m.mem_socialnum = #{mem_socialnum}
+ 		),'통과')socialnumCheck	
+ 		FROM DUAL		 
 	</select>
 	<select id="proc_mem_Add" parameterType="map" statementType="CALLABLE">
 	<!-- 그냥 회원가입할 때. -->
@@ -117,7 +162,7 @@
 			,#{u_phone, mode=IN, jdbcType=VARCHAR}
 			,#{u_name, mode=IN, jdbcType=VARCHAR}
 			,#{u_email, mode=IN, jdbcType=VARCHAR}
-		)}
+			)}
 	</select>
-	
+
 </mapper>

@@ -15,8 +15,22 @@ public class crm_HospitalLogic {
 		logger.info("병원리스트");
 		List<Map<String,Object>> hpList=null;
 		hpList=crm_hpDao.hospitalList(pMap);
-		logger.info(hpList.size());
+		//logger.info(hpList.size());
 		return hpList;
+	}
+	public List<Map<String,Object>> deptList(Map<String, Object> pMap) {
+		logger.info("병원리스트");
+		List<Map<String,Object>> deptList=null;
+		deptList=crm_hpDao.deptList(pMap);
+		//logger.info(hpList.size());
+		return deptList;
+	}
+	public List<Map<String,Object>> categori(Map<String, Object> pMap) {
+		logger.info("카테고리");
+		List<Map<String,Object>> categori=null;
+		categori=crm_hpDao.categori(pMap);
+		//logger.info(hpList.size());
+		return categori;
 	}
 	/*public static void main(String[] args) {
 		crm_HospitalLogic cl=new crm_HospitalLogic();
