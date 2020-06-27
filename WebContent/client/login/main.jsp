@@ -382,13 +382,11 @@ var sts =new Array();
 					<div class="row mb-1">
 						<div class="col-md">
 							<!-- 정보 -->
-							<div class="card">
-								<h6 class="card-header"
-									style="height: 35px; background-color: #007bff; color: #FFFFFF;">예약정보</h6>
-								<div class="card-body pt-1"
-									style="background-color: #FAED7D; height: 110px;">
+					   		<div class="card">
+	  							<h6 class="card-header" style="height:35px;background-color:#007bff;color:#FFFFFF;">예약정보</h6>
+	  							<div class="card-body py-1" style="background-color:#FAED7D;">
 									<div class="row">
-										<div class="col py-1 px-2" >
+										<div class="col-md py-1 px-3">
 											<table>
 												<tr>
 													<td style="padding-right:5px;">
@@ -398,8 +396,7 @@ var sts =new Array();
 													<td>
 														<table id="qr_img">
 															<tr>
-																<td><img src="./qrCode.jpg" class="rounded"
-																	alt="qr코드 이미지"></td>
+																<td><img src="./qrCode.jpg" class="rounded" alt="qr코드 이미지"></td>
 															</tr>
 														</table>
 													</td>
@@ -407,7 +404,7 @@ var sts =new Array();
 											</table>
 										</div>
 									</div>
-								</div>
+	  							</div>
 							</div>
 							<!-- 페이지네이션 -->
 							<ul class="pagination pagination-small justify-content-center mb-0">
