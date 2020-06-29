@@ -11,5 +11,4 @@ Gson gson = new Gson();
 String imsi = gson.toJson(proc_reservelist);
 out.print(imsi);
         	
-        	
 %>

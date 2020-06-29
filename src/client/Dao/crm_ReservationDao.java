@@ -26,11 +26,18 @@ public class crm_ReservationDao {
 		//병원만 선택후  모든과, 의사T, 대기시간 찾기 or 진료과목 및 의사T 조건검색 으로 목록 확인
 		logger.info("[crm_ReservationDao] proc_reservelist 호출성공");
 		List<Map<String, Object>> proc_reservelist = null;
-		pMap.put("u_hp_code","647HP");
-		pMap.put("u_dept_name","소아과");
-//		pMap.put("u_doc_name","조하윤");
-		pMap.put("fnum",1);
-		pMap.put("enum",5);
+	//pMap.put("u_hp_code","647HP");
+	//pMap.put("u_dept_name","소아과");
+	//pMap.put("u_doc_name","조하윤");
+	//pMap.put("fnum",1);
+	//pMap.put("enum",5);
+		
+	//	if(pMap.get("u_dept_name")!=null) {
+	//		String	name=pMap.get("u_dept_name").toString();
+	//		logger.info("[crm_ReservationDao] dept_name"+name);
+	//	}else {
+	//		logger.info("[crm_ReservationDao] dept_name"+"nul이닷@@@@@@@@@@@@@@@@@@@@@@@@");
+	//	}
 		sqlSes.selectList("proc_reservelist", pMap);
 		proc_reservelist = (List<Map<String, Object>>)pMap.get("res_list");
 		return proc_reservelist;

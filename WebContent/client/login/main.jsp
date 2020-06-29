@@ -217,7 +217,7 @@ var sts =new Array();
 %>
 									var imsi = jsonDoc[i].HP_NAME;
 									var imsi1 = jsonDoc[i].HP_CODE;
-									alert(imsi1);
+									//alert(imsi1);
 								   //content += '<a href="javascript:popup_reservation('+imsi+')">';																	
 								   //content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
 								   content += '<button class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+","+"'"+imsi1+"'"+')" style="width:46px;font-size:1px;">예약</button><br>'
@@ -526,7 +526,7 @@ var sts =new Array();
 					}
 				}
 			}
-			res_pageGet(1);
+			//res_pageGet(1);
 		}
 	});
 	

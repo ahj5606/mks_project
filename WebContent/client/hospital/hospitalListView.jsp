@@ -148,6 +148,7 @@
                  url: "/hospital/hospitalList.crm?num="+1
          });
          $("div.fixed-table-loading").remove();
+         
          $.ajax({
 				url: "/hospital/hospitalList.crm?num=0"//
 				,dataType: "text"

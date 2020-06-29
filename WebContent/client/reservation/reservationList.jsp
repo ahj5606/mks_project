@@ -14,6 +14,9 @@
    String dept_name=null;
    if( request.getParameter("dept_name")!=null){
 	      dept_name =  request.getParameter("dept_name");
+	      if(dept_name.length()==0 || "전체".equals(dept_name)){
+	    	  dept_name=null;
+	      }
 	   }
    String hp_code=null;
    if( request.getParameter("hp_code")!=null){
@@ -74,51 +77,48 @@
 	}
 </style>
 <script type="text/javascript">
+var dept_name;
+var doc_name;
 function res_pageGet(num){
 	$.ajax({
-		url:"/reservation/proc_reservelist.crm?num="+num
-		,success:function(data){
-			/* 
-			#t_reservationlList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
-			**** 일반내과(전체)와 같은 경우는.... 음... 부서코드를 박아야되나...?
-			<tr>
-				<th scope="row">일반내과1</th>
-				<td id="doc_2"><a href="javascript:doc_detail($('#doc_2'))">고길동2</a><input type="hidden" value="122"></td>
-				<td></td>
-				<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_2'))">예약</button></td>
-			</tr>
-			*/
-		}
+        url:'/reservation/proc_reservelist.crm?hp_code='+'<%=hp_code%>'+'&dept_name='+'<%=dept_name%>'+'&num='+num
+        ,dataType: 'json'
+        ,success:function(data){
+           var result = JSON.stringify(data);
+           var jsonDoc = JSON.parse(result);
+           var imsi="";
+           alert('<%=hp_code%>');
+           alert('<%=dept_name%>');
+           for(var i=0; i<jsonDoc.length; i++){
+              	imsi +=	'<tr>';
+			  	imsi +=	'<th scope="row">'+jsonDoc[i].DEPT_NAME+'</th>';
+			  	imsi += '<td>';
+				if( jsonDoc[i].DOC_NAME !=null){
+			  	imsi +=	"<a href='#' onClick=doc_detail(this)><input type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>"+jsonDoc[i].DOC_NAME+"</a>";
+			  	}
+			  	imsi += '</td>';
+			  	imsi +='<td></td>';
+			  	if(jsonDoc[i].DOC_CODE==null){
+			  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
+			  	}else{
+			  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
+			  	}
+			  	imsi += '</tr>';
+           }
+           $("#tbody").html(imsi);
+        }   
 	});
-}
-function pageMove(click){
-	var imsi = $(click).children(".sr-only").text();
-	if(imsi=="Previous"){
-		//previous();
-		alert("Previous");
-	}else if(imsi=="Next"){
-		alert("Next");
-		/* 
-		$.ajax({
-			url: "/client/login/jsonReservList.jsp?num=0"
-			,dataType: "text"
-			,success: function(data){
-				next(data, 5);
-			}
-		}); 
-		*/
-	}
-} 	
+}	
 function pageMove(click){
 	var imsi = $(click).children(".sr-only").text();
 	if(imsi=="Previous"){
 		previous();
 	}else if(imsi=="Next"){
 		$.ajax({
-			url: "/client/login/jsonMyReservList.jsp?num=0"
+			url: "/reservation/proc_reservelist.crm?num=0"//
 			,dataType: "text"
 			,success: function(data){
-				next(data, 1);
+				next(data, 5);
 			}
 		});
 	}
@@ -140,9 +140,9 @@ function pageMove(click){
 		alert("대기 팝업!");
 		cmm_window_popup('/client/reservation/waitting.jsp','400','400','원무과 대기 정보');
 	}
-	function doc_detail(doc_choice){//의사상세정보 
+	function doc_detail(el){//의사상세정보 
 		//*** input 태그 안에 doc_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
-		var doc_code = $(doc_choice).children("input").val();
+		var doc_code = $(el).children("input").val();
 		alert("의사 코드: "+doc_code);
 		/* 
 		$('#doc_detail').bootstrapTable('refreshOptions', {
@@ -156,17 +156,18 @@ function pageMove(click){
 	function reservation_detail(doc_choice){//상세예약하는 화면 열기!
 		//*** input 태그 안에  doc_code & dept_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
 		var doc_code = $(doc_choice).children("input").val();
-		var doc_name = $(doc_choice).children("a").text();
-		alert("예약하기 원하는 의사이름: "+doc_name);
-		if(doc_name.length==0){//만약 의사이름이 없다면 == 일반내과 전체
-			alert("전체");
-			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','950','상세예약');
+		
+		var imsi = $(doc_choice).children("input").attr('class');
+		alert(imsi);
+		if(imsi=='doc_yes'){//만약 의사이름이 없다면 == 일반내과 전체
+			alert("의사 코드: "+doc_code);
+			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_code="+'<%=hp_code%>','1200','950','상세예약');
 			/* ****과 코드를 넘겨서 상세예약화면에서 dept_code로 
 					1)해당 과의 전체 의사 목록 뽑아서 카테고리완성, dept_name 전달   2)과전체 의사의 예약가능 날짜 List로 전달
 			*/
 		}else{
-			alert("의사 코드: "+doc_code);
-			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_name="+'<%=hp_name%>','1200','950','상세예약');
+			alert("전체");
+			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_code="+'<%=hp_code%>','1200','950','상세예약');
 			/* ****의사 코드를 넘겨서 상세예약화면에서 doc_code로		
 					1)해당 의사의 dept_code를 뽑아서 의사 카테고리완성, dept_name 전달   2)해당의사의 예약가능날짜  List로 전달
 			}); 
@@ -266,8 +267,8 @@ function pageMove(click){
 										<th scope="col">대기 및 예약</th>
 									</tr>
 								</thead>
-								<tbody id="tbody">
-								<!--  <tr>
+						<tbody id="tbody">
+									<!--   <tr>
 										<th scope="row">원무과</th>
 										<td></td>
 										<td>15분</td>
@@ -290,7 +291,7 @@ function pageMove(click){
 										<td id="doc_3"><a href="javascript:doc_detail($('#doc_3'))">고길동3</a><input type="hidden" value="131"></td>
 										<td></td>
 										<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_3'))">예약</button></td>
-									</tr> -->
+									</tr> -->	 
 								</tbody>
 							</table>
 						</div>	
@@ -367,41 +368,35 @@ function pageMove(click){
 				<li id="board_2"><a href="javascript:board_detail($('#board_2'))">프로젝트</a><input type="hidden" value="2"></li> 
 				*/
 			});
-			$.ajax({
-				url: "/reservation/proc_reservelist.crm?num=0"
-				,dataType: "text"
-				,success: function(data){
-					var totalSize = Number(data.trim()); 
-					var mok = parseInt(totalSize/5);
-					if(mok<3){
-						$("#page_3").remove();
-						if(mok<2){
-							$("#page_2").remove();
-							if(mok<1){
-								$("#page_1").remove();
-							}
-						}
-					}
-					res_pageGet(1);
-				}
-			});
-			$.ajax({// **** 테이블 목록 가져오는 아작스
-		        url:'/reservation/proc_reservelist.crm'
+
+			$.ajax({// **** 테이블 목록 가져오는 아작스 
+				<%if(dept_name==null){%>
+			        url :'/reservation/proc_reservelist.crm?hp_code='+'<%=hp_code%>'+'&num=1'
+		        <%}else{%>
+			        url:'/reservation/proc_reservelist.crm?hp_code='+'<%=hp_code%>'+'&dept_name='+'<%=dept_name%>'+'&num=1'
+		       <%}%>
 		            ,dataType: 'json'
 		            ,success:function(data){
 		               var result = JSON.stringify(data);
 		               var jsonDoc = JSON.parse(result);
 		               var imsi="";
-		    
+		               alert('<%=hp_code%>');
+		               alert('<%=dept_name%>');
 		               for(var i=0; i<jsonDoc.length; i++){
-		                  
 		                  	imsi +=	'<tr>';
 						  	imsi +=	'<th scope="row">'+jsonDoc[i].DEPT_NAME+'</th>';
-						  	//imsi +=	'<td id="doc_1"><a href="javascript:doc_detail($('#jsonDoc[i].DOC'))"></a><input type="hidden" value="55555"></td>';
+						  	imsi += '<td>';
+							if( jsonDoc[i].DOC_NAME !=null){
+						  	imsi +=	"<a href='#' onClick=doc_detail(this)><input type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>"+jsonDoc[i].DOC_NAME+"</a>";
+						  	}
+						  	imsi += '</td>';
 						  	imsi +='<td></td>';
-						  	//imsi +='<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_1'))">예약</button></td>';
+						  	if(jsonDoc[i].DOC_CODE==null){
+						  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
+						  	}else{
+						  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
+						  	}
 						  	imsi += '</tr>';
-		               		
 		               }
 		               $("#tbody").html(imsi);
 		            }   
@@ -417,6 +412,27 @@ function pageMove(click){
 				</tr>
 				*/
 			});
+			
+			  $.ajax({
+					url: "/reservation/proc_reservelist.crm?num=0"
+					,dataType: "text"
+					,success: function(data){
+						var totalSize = Number(data.trim()); 
+						var mok = parseInt(totalSize/5);
+						if(mok<3){
+							$("#page_3").remove();
+							if(mok<2){
+								$("#page_2").remove();
+								if(mok<1){
+									$("#page_1").remove();
+								}
+							}
+						}
+						 //res_pageGet(1);
+
+					}
+				});  
+			  
 			$("#s_gwa").change(function(){
 				alert(this.value);
 			});

@@ -28,31 +28,42 @@ public class crm_ReservationController implements crm_Controller {
 			 {
 		crm_ModelAndView mav = new crm_ModelAndView(req,res);
 		if("proc_reservelist".equals(requestName)) {
+			List<Map<String,Object>> proc_reservelist= null;
+			List<Map<String,Object>> nav= null;
 			String hp_code = req.getParameter("hp_code");	//화면에서 넣은값		
 			String dept_name = req.getParameter("dept_name");
+			String imsi = req.getParameter("num");
 			//String imsi = req.getParameter("num");
 			//String imsi = req.getParameter("num");
 			//String imsi = req.getParameter("num");
-			pMap.put("u_hp_code","647HP");
-			pMap.put("u_dept_name","dept_name");
-			pMap.put("u_doc_name","조하윤");
-			pMap.put("fnum",1);
-			pMap.put("enum",5);
+		pMap.put("u_hp_code",hp_code);
+		if(dept_name!=null) {
+			logger.info("dept_name: "+dept_name);
+			pMap.put("u_dept_name",dept_name);
+		}
+		//pMap.put("u_doc_name","조하윤");
 			int first = 0;
 			int end = 0;
-		//	if(imsi!=null) {
-		//		int num = Integer.parseInt(imsi);
-		//		int recodeNum = 5;
-		//		first = (num-1)*recodeNum+1;
-		//		end = num*recodeNum;
-		//		pMap.put("first", first);
-		//		pMap.put("end", end);
-		//		logger.info("first: "+first+", end: "+end);
-		//	}
-			List<Map<String,Object>> proc_reservelist= null;
-			proc_reservelist=crm_rsLogic.proc_reservelist(pMap);
-			logger.info("reservation controller"+proc_reservelist.size());
-			mav.addObject("proc_reservelist",proc_reservelist);
+			//pMap.put("fnum",1);
+			//pMap.put("enum",5);
+			if(imsi!=null) {				
+				int num = Integer.parseInt(imsi);
+				if(num==0) {
+					nav=crm_rsLogic.proc_reservelist(pMap);
+					logger.info("nav"+nav.size());
+					int size=nav.size();
+					mav.addObject("size", size);
+				}
+				int recodeNum = 5;
+				first = (num-1)*recodeNum+1;
+				end = num*recodeNum;
+				pMap.put("fnum", first);
+				pMap.put("enum", end);
+				logger.info("first: "+first+", end: "+end);
+				proc_reservelist=crm_rsLogic.proc_reservelist(pMap);
+				mav.addObject("proc_reservelist",proc_reservelist);
+				logger.info("reservation controller"+proc_reservelist.size());
+			}
 			mav.IsForward(true);
 			logger.info("proc_reservelist...!!!!");
 			logger.info(proc_reservelist);
