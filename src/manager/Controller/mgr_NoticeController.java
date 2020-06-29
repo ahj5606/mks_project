@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import manager.Logic.mgr_NoticeLogic;
-import manager.notice.HashMapBinder;
 import manager.pojo.mgr_ModelAndView;
+import mks.util.HashMapBinder;
 
 public class mgr_NoticeController implements mgr_Controller {
 	String requestName= null;

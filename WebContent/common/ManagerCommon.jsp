@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css"href="<%=path %>css/all.min.css"  >
 <script src="<%=path %>js/jquery.min.js"></script>
 <script src="<%=path %>js/bootstrap.min.js"></script>
+<script src="<%=path %>js/bootstrap.bundle.min.js"></script>
 <script src="<%=path %>js/dist/bootstrap-table.min.js"></script>
 <script src="<%=path %>js/manager.js"></script>
 
