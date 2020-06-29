@@ -77,18 +77,20 @@
 	}
 </style>
 <script type="text/javascript">
-var dept_name;
-var doc_name;
+var hp_code = '<%=hp_code%>'
+var dept_name = '<%=dept_name%>';
+var doc_name = "";
 function res_pageGet(num){
+	alert("hp_code: "+hp_code+", dept_name: "+dept_name+", doc_name: "+doc_name);
 	$.ajax({
-        url:'/reservation/proc_reservelist.crm?hp_code='+'<%=hp_code%>'+'&dept_name='+'<%=dept_name%>'+'&num='+num
+        url:'/reservation/proc_reservelist.crm?hp_code='+hp_code+'&dept_name='+dept_name+'&num='+num+'&doc_name='+doc_name
         ,dataType: 'json'
         ,success:function(data){
            var result = JSON.stringify(data);
            var jsonDoc = JSON.parse(result);
            var imsi="";
-           alert('<%=hp_code%>');
-           alert('<%=dept_name%>');
+           alert(hp_code);
+           alert("아작스후: "+dept_name);
            for(var i=0; i<jsonDoc.length; i++){
               	imsi +=	'<tr>';
 			  	imsi +=	'<th scope="row">'+jsonDoc[i].DEPT_NAME+'</th>';
@@ -115,7 +117,7 @@ function pageMove(click){
 		previous();
 	}else if(imsi=="Next"){
 		$.ajax({
-			url: "/reservation/proc_reservelist.crm?num=0"//
+			url: '/reservation/proc_reservelist.crm?hp_code='+hp_code+'&dept_name='+dept_name+'&num=0&doc_name='+doc_name
 			,dataType: "text"
 			,success: function(data){
 				next(data, 5);
@@ -123,10 +125,96 @@ function pageMove(click){
 		});
 	}
 }
-	
-	function search_doc_name(){
-		alert("입력한 의사이름: "+$("#doc_name").val());
+function page_btn(){
+	$.ajax({
+		url: '/reservation/proc_reservelist.crm?hp_code='+hp_code+'&dept_name='+dept_name+'&num=0&doc_name='+doc_name
+		,dataType: "text"
+		,success: function(data){
+			var totalSize = Number(data.trim()); 
+			var mok = Math.ceil(totalSize/5);
+			alert("page_btn*mok: "+mok);
+			$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+			$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+			$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+			if(mok<3){
+				$("#page_3").remove();
+				if(mok<2){
+					$("#page_2").remove();
+					if(mok<1){
+						$("#page_1").remove();
+					}
+				}
+			}
+		}
+	});
+}
+//------------------------진료과 선택--------------------------
+function s_categori(){
+	$.ajax({
+       url:'/reservation/proc_reservelist.crm?hp_code='+'<%=hp_code%>'+'&num=1'
+       ,dataType: 'json'
+       ,success:function(data){
+          var res = JSON.stringify(data);
+          var res2 = JSON.parse(res);
+          var imsi="";
+          <%if(dept_name!=null){%>
+          alert("not null"+'<%=dept_name%>');
+          imsi += '<option value="'+'<%=dept_name%>'+'">'+'<%=dept_name%>'+'</option>';
+          imsi += '<option value="전체">전체</option>';
+          <%}else{%>
+          alert("null: "+'<%=dept_name%>');
+          imsi += '<option value="전체">전체</option>';
+          <%}%>
+          for(var i=0; i<res2.length; i++){
+        	  <%if(dept_name!=null){%>
+        	  var d_name = '<%=dept_name%>';
+        	  if(res2[i].DEPT_NAME!=d_name){
+	             imsi += '<option value='+"'"+res2[i].DEPT_NAME+"''"+'>'+res2[i].DEPT_NAME+'</option>';
+        	  }
+             <%}else{%>
+	             imsi += '<option value='+"'"+res2[i].DEPT_NAME+"''"+'>'+res2[i].DEPT_NAME+'</option>';
+             <%}%>
+          }
+          $("#s_gwa").html(imsi);
+       }   
+    });
 	}
+//------------------------의사 검색---------------------------
+ function search_doc_name(){
+		doc_name = $("#doc_name").val();
+		if(dept_name=="전체"){
+			dept_name = "";
+		}
+		alert("입력한 의사이름: "+doc_name);
+		$.ajax({
+			 url:'/reservation/proc_reservelist.crm?hp_code='+hp_code+'&dept_name='+dept_name+'&num=1&doc_name='+doc_name
+		   ,dataType: 'json'
+		   ,success:function(data){
+			    var result = JSON.stringify(data);
+	               var jsonDoc = JSON.parse(result);
+	               var imsi="";
+	               for(var i=0; i<jsonDoc.length; i++){
+	                  	imsi +=	'<tr>';
+					  	imsi +=	'<th scope="row">'+jsonDoc[i].DEPT_NAME+'</th>';
+					  	imsi += '<td>';
+						if( jsonDoc[i].DOC_NAME !=null){
+					  	imsi +=	"<a href='#' onClick=doc_detail(this)><input type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>"+jsonDoc[i].DOC_NAME+"</a>";
+					  	}
+					  	imsi += '</td>';
+					  	imsi +='<td></td>';
+					  	if(jsonDoc[i].DOC_CODE==null){
+					  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
+					  	}else{
+					  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
+					  	}
+					  	imsi += '</tr>';
+	               }
+	               $("#tbody").html(imsi);
+		   		}
+		});
+		page_btn();
+	} 
+//------------------------의사 검색 끝---------------------------	
 	function popup_board(){
 		alert("공지사항목록 팝업!");
 		cmm_window_popup('/client/reservation/h_boardList.jsp?hp_name='+'<%=hp_name%>','1000','700','공지사항');
@@ -174,6 +262,7 @@ function pageMove(click){
 			*/
 		}
 	}
+
 </script>
 </head>
 <body>
@@ -201,11 +290,11 @@ function pageMove(click){
 				<div class="row mr-1">
 					<div class="col-md">
 						<select class="form-control" id="s_gwa">
-							<option value="진료과">진료과</option>
+							<!-- <option value="진료과">진료과</option>
 							<option value="내과">내과</option>
 							<option value="외과">외과</option>
 							<option value="소아과">소아과</option>
-							<option value="이비인후과">이비인후과</option>
+							<option value="이비인후과">이비인후과</option> -->
 						</select>
 					</div>
 				</div>
@@ -368,75 +457,16 @@ function pageMove(click){
 				<li id="board_2"><a href="javascript:board_detail($('#board_2'))">프로젝트</a><input type="hidden" value="2"></li> 
 				*/
 			});
-
-			$.ajax({// **** 테이블 목록 가져오는 아작스 
-				<%if(dept_name==null){%>
-			        url :'/reservation/proc_reservelist.crm?hp_code='+'<%=hp_code%>'+'&num=1'
-		        <%}else{%>
-			        url:'/reservation/proc_reservelist.crm?hp_code='+'<%=hp_code%>'+'&dept_name='+'<%=dept_name%>'+'&num=1'
-		       <%}%>
-		            ,dataType: 'json'
-		            ,success:function(data){
-		               var result = JSON.stringify(data);
-		               var jsonDoc = JSON.parse(result);
-		               var imsi="";
-		               alert('<%=hp_code%>');
-		               alert('<%=dept_name%>');
-		               for(var i=0; i<jsonDoc.length; i++){
-		                  	imsi +=	'<tr>';
-						  	imsi +=	'<th scope="row">'+jsonDoc[i].DEPT_NAME+'</th>';
-						  	imsi += '<td>';
-							if( jsonDoc[i].DOC_NAME !=null){
-						  	imsi +=	"<a href='#' onClick=doc_detail(this)><input type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>"+jsonDoc[i].DOC_NAME+"</a>";
-						  	}
-						  	imsi += '</td>';
-						  	imsi +='<td></td>';
-						  	if(jsonDoc[i].DOC_CODE==null){
-						  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
-						  	}else{
-						  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
-						  	}
-						  	imsi += '</tr>';
-		               }
-		               $("#tbody").html(imsi);
-		            }   
-			
-				/* 
-				#t_reservationlList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
-				**** 일반내과(전체)와 같은 경우는.... 음... 부서코드를 박아야되나...?
-				<tr>
-					<th scope="row">일반내과1</th>
-					<td id="doc_2"><a href="javascript:doc_detail($('#doc_2'))">고길동2</a><input type="hidden" value="122"></td>
-					<td></td>
-					<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_2'))">예약</button></td>
-				</tr>
-				*/
-			});
-			
-			  $.ajax({
-					url: "/reservation/proc_reservelist.crm?num=0"
-					,dataType: "text"
-					,success: function(data){
-						var totalSize = Number(data.trim()); 
-						var mok = parseInt(totalSize/5);
-						if(mok<3){
-							$("#page_3").remove();
-							if(mok<2){
-								$("#page_2").remove();
-								if(mok<1){
-									$("#page_1").remove();
-								}
-							}
-						}
-						 //res_pageGet(1);
-
-					}
-				});  
-			  
+			 s_categori();
+			 res_pageGet(1);
+			 page_btn();
 			$("#s_gwa").change(function(){
-				alert(this.value);
-			});
+				alert("카테코리 선택: "+this.value);
+				dept_name = $('#s_gwa').val();
+				search_doc_name();
+			}); 
 		});
+		
 	</script>
 </body>
 </html>

@@ -52,7 +52,6 @@
 		alert("카테고리: "+b_order);
 		alert(b_title);
 		alert(b_writer);
-		alert(b_writer);
 		if(b_order=="날짜별"){
 			$('#t_boardList').bootstrapTable('refreshOptions', {
 				 url: "/board/boardList.crm?num="+num+"&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name
@@ -62,7 +61,7 @@
 				url: "/board/boardList.crm?num="+num+"&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name+"&b_order="+b_order
 			});
 		}
-		page_btn();
+		//page_btn();
 		$("div.fixed-table-loading").remove(); 
 	} 
 	function pageMove(click){
@@ -278,7 +277,7 @@
 			page_btn();
 			$("#b_order").change(function() {
 				b_order = this.value;
-				b_title = $("#b_title").val();
+				b_title = $("#b_title").val();//con_search() 함수로 대체 가능!!!
 				b_writer = $("#b_writer").val();
 				hp_name = $("#hp_name").val();
 				if(b_order=="날짜별"){
