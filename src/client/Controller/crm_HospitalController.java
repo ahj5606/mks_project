@@ -20,6 +20,7 @@ public class crm_HospitalController implements crm_Controller{
 	Logger logger = Logger.getLogger(crm_HospitalController.class);
 	String requestName= null;
 	crm_HospitalLogic crm_hpLogic =new crm_HospitalLogic();
+	Map<String,Object> pMap = new HashMap();
 	public crm_HospitalController(String requestName){
 		this.requestName=requestName;
 	}
@@ -29,31 +30,73 @@ public class crm_HospitalController implements crm_Controller{
 					throws IOException, ServletException
 			 {
 		crm_ModelAndView mav = new crm_ModelAndView(req,res);
-		/*if("hospitalList".equals(requestName)) {
+		if("deptList".equals(requestName)) {
 			//logger.info("hospitalList");
 			String hp_name = req.getParameter("hp_name");
-			Map<String,Object> pMap = new HashMap();
+			String imsi = req.getParameter("num");
+			int first = 0;
+			int end = 0;
+			if(imsi!=null) {
+				int num = Integer.parseInt(imsi);
+				int recodeNum = 5;
+				first = (num-1)*recodeNum+1;
+				end = num*recodeNum;
+				pMap.put("first", first);
+				pMap.put("end", end);
+				logger.info("first: "+first+", end: "+end+",imsi:"+imsi);
+			}
 			pMap.put("hp_name", hp_name);
+			List<Map<String,Object>> deptList= null;
+			deptList=crm_hpLogic.deptList(pMap);
+			logger.info("controller: deptList: "+deptList);
+			logger.info(deptList.size());
+			mav.addObject("deptList", deptList);
+			mav.IsForward(true);
+			logger.info("deptList...!!!!");
+			mav.setViewName("/hospital/deptList");
+		}else if("hospitalList".equals(requestName)) { //로그인 요청을 보냇을때 처리 쿠키와 세션도 저장해 주세요 ~~
+			String hp_name = req.getParameter("hp_name");				
+			/* sql ************************************
+			 * where rownum between fNum and eNum 
+			 */
 			List<Map<String,Object>> hpList= null;
-			hpList=crm_hpLogic.hospitalList(pMap);
-			logger.info("controller: hpList: "+hpList);
-			logger.info(hpList.size());
-			mav.addObject("hpList", hpList);
+			List<Map<String,Object>> nav= null;
+			String imsi = req.getParameter("num");
+			int end = 0;
+			int first = 0;
+			pMap.put("hp_name", hp_name);
+			if(imsi!=null) {
+				int num = Integer.parseInt(imsi);
+				if(num==0) {
+					nav=crm_hpLogic.hospitalList(pMap);
+					logger.info("nav"+nav.size());
+					int size=nav.size();
+					mav.addObject("size", size);
+				}else {
+					int recodeNum = 5;
+					first = (num-1)*recodeNum+1;
+					end = num*recodeNum;
+					pMap.put("first", first);
+					pMap.put("end", end);
+					logger.info("first: "+first+", end: "+end);
+					hpList=crm_hpLogic.hospitalList(pMap);
+					mav.addObject("hpList", hpList);
+					logger.info("hospitalcontroller"+hpList.size());
+				}
+			}
 			mav.IsForward(true);
 			logger.info("hpList...!!!!");
-			mav.setViewName("/login/hospitalList");*/
-		if("hospitalSel".equals(requestName)) {
-			
-		} else if("hospitalIns".equals(requestName)) {
-		
-		} else if("hospitalUpd".equals(requestName)) {
-			
-		} else if("hospitalDel".equals(requestName)) {
-
-		} else if("mapSel".equals(requestName)) {
-
+			mav.setViewName("/hospital/hospitalList");
+		}else if("categori".equals(requestName)) {
+			List<Map<String,Object>> categori= null;
+			categori=crm_hpLogic.categori(pMap);
+			logger.info("hospitalcontroller"+categori.size());
+			mav.addObject("categori", categori);
+			mav.IsForward(true);
+			logger.info("categori");
+			mav.setViewName("/hospital/categori");
 		}
-
 		return mav;
+		
 	}
 }

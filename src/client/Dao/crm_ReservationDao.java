@@ -28,7 +28,7 @@ public class crm_ReservationDao {
 		List<Map<String, Object>> proc_reservelist = null;
 		pMap.put("u_hp_code","647HP");
 		pMap.put("u_dept_name","소아과");
-		pMap.put("u_doc_name","조하윤");
+//		pMap.put("u_doc_name","조하윤");
 		pMap.put("fnum",1);
 		pMap.put("enum",5);
 		sqlSes.selectList("proc_reservelist", pMap);
@@ -112,8 +112,7 @@ public class crm_ReservationDao {
 		return docCategory;
 	}
 	
-	public int reservation(Map<String, Object> pMap) { 
-		//예약하기
+	public int reservation(Map<String, Object> pMap) { //예약하기
 		logger.info("[crm_ReservationDao] reservation 호출성공");
 		int result = 0;
 //		pMap.put("mem_memcode", 95);

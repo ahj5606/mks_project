@@ -11,6 +11,14 @@
       mem_name = (String)session.getAttribute("mem_name");
    };
    
+   String dept_name=null;
+   if( request.getParameter("dept_name")!=null){
+	      dept_name =  request.getParameter("dept_name");
+	   }
+   String hp_code=null;
+   if( request.getParameter("hp_code")!=null){
+	     hp_code =  request.getParameter("hp_code");
+	   }
 %>
 <!DOCTYPE html>
 <html>
@@ -21,6 +29,8 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>예약목록 화면</title>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
 <%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
 	.container{
@@ -64,41 +74,56 @@
 	}
 </style>
 <script type="text/javascript">
-	function res_pageGet(num){
+function res_pageGet(num){
+	$.ajax({
+		url:"/reservation/proc_reservelist.crm?num="+num
+		,success:function(data){
+			/* 
+			#t_reservationlList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
+			**** 일반내과(전체)와 같은 경우는.... 음... 부서코드를 박아야되나...?
+			<tr>
+				<th scope="row">일반내과1</th>
+				<td id="doc_2"><a href="javascript:doc_detail($('#doc_2'))">고길동2</a><input type="hidden" value="122"></td>
+				<td></td>
+				<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_2'))">예약</button></td>
+			</tr>
+			*/
+		}
+	});
+}
+function pageMove(click){
+	var imsi = $(click).children(".sr-only").text();
+	if(imsi=="Previous"){
+		//previous();
+		alert("Previous");
+	}else if(imsi=="Next"){
+		alert("Next");
+		/* 
 		$.ajax({
-			url:"/client/login/jsonReservList.jsp?num="+num
-			,success:function(data){
-				/* 
-				#t_reservationlList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
-				**** 일반내과(전체)와 같은 경우는.... 음... 부서코드를 박아야되나...?
-				<tr>
-					<th scope="row">일반내과1</th>
-					<td id="doc_2"><a href="javascript:doc_detail($('#doc_2'))">고길동2</a><input type="hidden" value="122"></td>
-					<td></td>
-					<td><button class="btn btn-dark w-50" onClick="reservation_detail($('#doc_2'))">예약</button></td>
-				</tr>
-				*/
+			url: "/client/login/jsonReservList.jsp?num=0"
+			,dataType: "text"
+			,success: function(data){
+				next(data, 5);
+			}
+		}); 
+		*/
+	}
+} 	
+function pageMove(click){
+	var imsi = $(click).children(".sr-only").text();
+	if(imsi=="Previous"){
+		previous();
+	}else if(imsi=="Next"){
+		$.ajax({
+			url: "/client/login/jsonMyReservList.jsp?num=0"
+			,dataType: "text"
+			,success: function(data){
+				next(data, 1);
 			}
 		});
 	}
-	function pageMove(click){
-		var imsi = $(click).children(".sr-only").text();
-		if(imsi=="Previous"){
-			//previous();
-			alert("Previous");
-		}else if(imsi=="Next"){
-			alert("Next");
-			/* 
-			$.ajax({
-				url: "/client/login/jsonReservList.jsp?num=0"
-				,dataType: "text"
-				,success: function(data){
-					next(data, 5);
-				}
-			}); 
-			*/
-		}
-	} 
+}
+	
 	function search_doc_name(){
 		alert("입력한 의사이름: "+$("#doc_name").val());
 	}
@@ -241,12 +266,12 @@
 										<th scope="col">대기 및 예약</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
+								<tbody id="tbody">
+								<!--  <tr>
 										<th scope="row">원무과</th>
 										<td></td>
 										<td>15분</td>
-										<td><button class="btn btn-dark btn-small" onClick="waiting()">대기</button></td><!-- 병원코드 넘기기 -->
+										<td><button class="btn btn-dark btn-small" onClick="waiting()">대기</button></td>
 									</tr>
 									<tr>
 										<th scope="row">일반내과</th>
@@ -265,7 +290,7 @@
 										<td id="doc_3"><a href="javascript:doc_detail($('#doc_3'))">고길동3</a><input type="hidden" value="131"></td>
 										<td></td>
 										<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_3'))">예약</button></td>
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>	
@@ -343,7 +368,7 @@
 				*/
 			});
 			$.ajax({
-				url: "/client/hospital/jsonHospitalList.jsp?num=0"
+				url: "/reservation/proc_reservelist.crm?num=0"
 				,dataType: "text"
 				,success: function(data){
 					var totalSize = Number(data.trim()); 
@@ -361,6 +386,26 @@
 				}
 			});
 			$.ajax({// **** 테이블 목록 가져오는 아작스
+		        url:'/reservation/proc_reservelist.crm'
+		            ,dataType: 'json'
+		            ,success:function(data){
+		               var result = JSON.stringify(data);
+		               var jsonDoc = JSON.parse(result);
+		               var imsi="";
+		    
+		               for(var i=0; i<jsonDoc.length; i++){
+		                  
+		                  	imsi +=	'<tr>';
+						  	imsi +=	'<th scope="row">'+jsonDoc[i].DEPT_NAME+'</th>';
+						  	//imsi +=	'<td id="doc_1"><a href="javascript:doc_detail($('#jsonDoc[i].DOC'))"></a><input type="hidden" value="55555"></td>';
+						  	imsi +='<td></td>';
+						  	//imsi +='<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_1'))">예약</button></td>';
+						  	imsi += '</tr>';
+		               		
+		               }
+		               $("#tbody").html(imsi);
+		            }   
+			
 				/* 
 				#t_reservationlList 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
 				**** 일반내과(전체)와 같은 경우는.... 음... 부서코드를 박아야되나...?

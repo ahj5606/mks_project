@@ -44,10 +44,25 @@
 	}
 </style>
 <script type="text/javascript">
+	var b_order ="날짜별";
+	var b_title = "";
+	var b_writer = "";
+	var hp_name = "";
 	function res_pageGet(num){
-		$('#t_boardList').bootstrapTable('refreshOptions', {
-			 url: "/client/board/jsonBoardList.jsp?num="+num
-		});
+		alert("카테고리: "+b_order);
+		alert(b_title);
+		alert(b_writer);
+		alert(b_writer);
+		if(b_order=="날짜별"){
+			$('#t_boardList').bootstrapTable('refreshOptions', {
+				 url: "/board/boardList.crm?num="+num+"&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name
+			});
+		}else{
+			$('#t_boardList').bootstrapTable('refreshOptions', {
+				url: "/board/boardList.crm?num="+num+"&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name+"&b_order="+b_order
+			});
+		}
+		page_btn();
 		$("div.fixed-table-loading").remove(); 
 	} 
 	function pageMove(click){
@@ -55,9 +70,8 @@
 		if(imsi=="Previous"){
 			previous();
 		}else if(imsi=="Next"){
-			//총 예약리스트 사이즈 가져오기
 			$.ajax({
-				url: "/client/board/jsonBoardList.jsp?num=0"
+				url: "/board/boardList.crm?num=0"
 				,dataType: "text"
 				,success: function(data){
 					next(data, 5);
@@ -65,18 +79,62 @@
 			});
 		}
 	}
+	function page_btn(){
+		$.ajax({
+			url: "/board/boardList.crm?num=0&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name
+			,dataType: "text"
+			,success: function(data){
+				var totalSize = Number(data.trim()); 
+				var mok = Math.ceil(totalSize/5);
+				alert("page_btn*mok: "+mok);
+				$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+				$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+				$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+				if(mok<3){
+					$("#page_3").remove();
+					if(mok<2){
+						$("#page_2").remove();
+						if(mok<1){
+							$("#page_1").remove();
+						}
+					}
+				}
+			}
+		});
+	}
 	function board_write(){
-		 location.href= '/client/board/boardForm.jsp';
+		var mks_id = '<%=mks_id%>'
+		$.ajax({
+			url: '/board/boardResList.crm?mks_id='+mks_id
+			,success:function(data){
+				var res = JSON.parse(data);
+				alert("사이즈: "+res.length);
+				if(res.length>0){
+					location.href='/client/board/boardForm.jsp'
+				}else{
+					alert("후기를 작성할 수 있는 예약정보가 존재하지 않습니다.");
+				}
+			}
+		});
 	}
-	function search_b_title(){
-		alert("제목검색");
-		var i_title = $("#b_title").val();
-		alert("i_title: "+i_title);
-	}
-	function search_b_writer(){
-		alert("작성자 검색");
-		var i_writer = $("#b_writer").val();
-		alert("i_writer: "+i_writer);
+	function con_search(){
+		b_title = $("#b_title").val();
+		b_writer = $("#b_writer").val();
+		hp_name = $("#hp_name").val();
+		b_order = $("#b_order").val();
+		alert("b_title: "+b_title+", b_writer: "+b_writer+", hp_name: "+hp_name+", b_order:"+b_order);
+		if(b_order=="날짜별"){
+			$('#t_boardList').bootstrapTable('refreshOptions', {
+				 url: "/board/boardList.crm?num=1&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name
+			});
+		}else{
+			alert(b_order);
+			$('#t_boardList').bootstrapTable('refreshOptions', {
+				 url: "/board/boardList.crm?num=1&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name+"&b_order="+b_order
+			});
+		}
+		page_btn();
+		$("div.fixed-table-loading").remove();
 	}
 </script>
 </head>
@@ -101,22 +159,32 @@
 	    					<div class="col-md mb-2">
 		    					<div class="input-group">
 		      						<input type="text" class="form-control" id="b_title" name="b_title" type="search" placeholder="제목">
-		      						<div class="input-group-prepend">
-		      							<button class="btn btn-dark btn-block" onClick="search_b_title()">검색</button>
-		      						</div>
 		   						</div>
 	    					</div>
 							<!-- 이름검색 -->
-	    					<div class="col-md">
+	    					<div class="col-md mb-2">
 		    					<div class="input-group">
 		      						<input type="text" class="form-control" id="b_writer" name="b_writer" type="search" placeholder="작성자">
-		      						<div class="input-group-prepend">
-		      							<button class="btn btn-dark btn-block" onClick="search_b_writer()">검색</button>
-		      						</div>
 		   						</div>
 	    					</div>
-	    					<div class="col-md-6"></div>
-	  					</div>
+	    					<!-- 병원검색 -->
+	    					<div class="col-md mb-2">
+		    					<div class="input-group">
+		      						<input type="text" class="form-control" id="hp_name" name="hp_name" type="search" placeholder="병원이름">
+		   						</div>
+	    					</div>
+	    					<div class="col-md-1 mb-2">
+	    						<button class="btn btn-dark btn-block" onClick="con_search()">검색</button>
+	    					</div>
+	    					<div class="col-md-2">
+	    					</div>
+	    					<div class="col-md mb-2">
+	      						<select class="form-control" id="b_order">
+	      							<option value="날짜별">날짜별</option>
+	      							<option value="조회수별">조회수별</option>
+								</select>
+	    					</div>
+	    				</div>
    					</div>
 				</div>
 				<!-- 테이블 -->
@@ -126,10 +194,12 @@
 							<table class="table" id="t_boardList" data-toggle="table">
 								<thead class="thead-light">
 									<tr>
-										<th data-field="BOARD_TITLE">제목</th>
+										<th class="d-none" data-field="EVA_CODE">글번호</th>
+										<th data-field="HP_NAME">후기병원</th>
 										<th data-field="MKS_ID">작성자</th>
-										<th data-field="BOARD_DATE">작성날짜</th>
-										<th class="d-none" data-field="BOARD_NO">글번호</th>
+										<th data-field="EVA_TITLE">제목</th>
+										<th data-field="EVA_DATE">작성날짜</th>
+										<th data-field="HIT">조회수</th>
 									</tr>
 								</thead>
 							</table>
@@ -178,33 +248,51 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#t_boardList').bootstrapTable('refreshOptions', {
-		          url: "/client/board/jsonBoardList.jsp?num="+1
+		          url: "/board/boardList.crm?num=1"
 				  ,onClickRow : function(row,element,field){
-					  var board_no = row.BOARD_NO;
-					  var id = row.MKS_ID;
-					  alert("글쓴이 id: "+id);
-					  location.href= '/client/board/boardDetail.jsp?mks_id='+id;
-					  //==> board_no를 넘겨주면 해당 게시글을  select!!
+					  var eva_code = row.EVA_CODE;
+					  var mks_id = row.MKS_ID;
+					  var sch_code = row.SCH_CODE;
+					  //alert("sch_code: "+sch_code);
+					  alert("eva_code: "+eva_code);
+					  <%if(mks_id==null){%>
+					  	  	alert("로그인이 필요한 서비스입니다.");
+					  <%}else{%>
+							$.ajax({
+								url: '/board/boardHit.crm?eva_code='+eva_code
+								,success: function(data){
+									var res = data.trim();
+									alert(res);
+									if(res=='실패'){
+										alert('조회수 올리기 실패');
+									}else{
+										alert('조회수 올리기 성공');
+									}
+								}
+							});
+						  	location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+mks_id+"&sch_code="+sch_code;
+					  <%}%>
 				  }
 			});
 			$("div.fixed-table-loading").remove();
-			$.ajax({
-				url: "/client/board/jsonBoardList.jsp?num=0"
-				,dataType: "text"
-				,success: function(data){
-					var totalSize = Number(data.trim()); 
-					var mok = parseInt(totalSize/5);
-					if(mok<3){
-						$("#page_3").remove();
-						if(mok<2){
-							$("#page_2").remove();
-							if(mok<1){
-								$("#page_1").remove();
-							}
-						}
-					}
-					res_pageGet(1);
+			page_btn();
+			$("#b_order").change(function() {
+				b_order = this.value;
+				b_title = $("#b_title").val();
+				b_writer = $("#b_writer").val();
+				hp_name = $("#hp_name").val();
+				if(b_order=="날짜별"){
+					$('#t_boardList').bootstrapTable('refreshOptions', {
+						 url: "/board/boardList.crm?num=1&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name
+					});
+				}else{
+					alert(b_order);
+					$('#t_boardList').bootstrapTable('refreshOptions', {
+						 url: "/board/boardList.crm?num=1&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name+"&b_order="+b_order
+					});
 				}
+				page_btn();
+				$("div.fixed-table-loading").remove();
 			});
 		});
 	</script>

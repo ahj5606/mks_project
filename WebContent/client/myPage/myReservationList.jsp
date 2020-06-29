@@ -30,24 +30,9 @@
 <script type="text/javascript">
 	function res_pageGet(num){
 		$('#t_myReList').bootstrapTable('refreshOptions', {
-	          url: "/client/myPage/jsonMyReservationList.jsp?num="+num
+	          url: "/client/mypage/jsonMyReservationList.jsp?num="+num
 		});
 		$("div.fixed-table-loading").remove();
-	}
-	function pageMove(click){
-		var imsi = $(click).children(".sr-only").text();
-		if(imsi=="Previous"){
-			previous();
-		}else if(imsi=="Next"){
-			//총 예약리스트 사이즈 가져오기
-			$.ajax({
-				url: "/client/myPage/jsonMyReservationList.jsp?num=0"
-				,dataType: "text"
-				,success: function(data){
-					next(data, 5);
-				}
-			});
-		}
 	}
 </script>
 </head>
@@ -76,7 +61,7 @@
 				<!-- 내용 -->
 				<div class="border mb-0 mt-0">
 					<div class="row mx-2">
-						<div class="col-md">
+						<div class="col">
 							<!-- 나의 예약 리스트 -->
 							<div class="container mb-0 my-4">
 								<div class="table-responsive-md">
@@ -105,9 +90,9 @@
 												<span class="sr-only">Previous</span>
 											</a>
 										</li>
-										<li class="page-item mr-1" id="p_1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
-										<li class="page-item mr-1" id="p_2"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
-										<li class="page-item mr-1" id="p_3"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
+										<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
+										<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
+										<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
 										<li class="page-item mr-1">
 											<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Next">
 												<span aria-hidden="true">&raquo;</span>
@@ -130,29 +115,11 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#t_myReList').bootstrapTable('refreshOptions', {
-		          url: "/client/myPage/jsonMyReservationList.jsp?num="+1
+		          url: "/client/mypage/jsonMyReservationList.jsp?num="+1
 				  ,onClickRow : function(row,element,field){
 				  }
 			});
 			$("div.fixed-table-loading").remove();
-			$.ajax({
-				url: "/client/myPage/jsonMyReservationList.jsp?num=0"
-				,dataType: "text"
-				,success: function(data){
-					var totalSize = Number(data.trim()); 
-					var mok = parseInt(totalSize/5);
-					if(mok<3){
-						$("#page_3").remove();
-						if(mok<2){
-							$("#page_2").remove();
-							if(mok<1){
-								$("#page_1").remove();
-							}
-						}
-					}
-					res_pageGet(1);
-				}
-			});
 		});
 	</script>
 </body>

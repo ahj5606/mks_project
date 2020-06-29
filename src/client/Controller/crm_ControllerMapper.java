@@ -15,9 +15,8 @@ public class crm_ControllerMapper {
 		if("login".equals(work)) {
 			controller = new crm_LoginController(requestName);
 		}else if("hospital".equals(work)) {
-			logger.info("hospital1");
+			logger.info("hospital");
 			controller = new crm_HospitalController(requestName);
-			logger.info("hospital2");
 		}else if("mypage".equals(work)) {
 			controller = new crm_MypageController(requestName);
 		}else if("reservation".equals(work)) {
