@@ -148,7 +148,7 @@
 		</div>
 		<div class="row" style="margin-top:10px;margin-left:-80px;justify-content: center;">
 <%
- 		String pagePath ="/manager/notice/noticeSEL.mgr";
+ 		String pagePath ="/manager/notice/noticeSEL.mgr?";
  		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
  		String pagination = pb.getPageBar();
  		out.print(pagination);
