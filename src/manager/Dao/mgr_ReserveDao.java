@@ -42,8 +42,11 @@ public class mgr_ReserveDao {
 		return rList;
 	}
 	public int reserveUPD(Map<String, Object> pMap) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.info("reserveUPD 호출 성공");
+		int result =-1;
+		result=sqlSes.update("reserveUPD",pMap);
+		sqlSes.commit();
+		return result;
 	}
 	public List<Map<String, Object>> reserveDoctor(Map<String, Object> pMap) {
 		List<Map<String,Object>> rList = null;
@@ -54,6 +57,32 @@ public class mgr_ReserveDao {
 		List<Map<String,Object>> rList = null;
 		rList=sqlSes.selectList("reserveSchedule",pMap);
 		return rList;
+	}
+	public int reserveINS(Map<String, Object> pMap) {
+		logger.info("reserveINS 호출 성공");
+		int result =-1;
+		result=sqlSes.insert("reserveINS",pMap);
+		sqlSes.commit();
+		return result;
+	}
+	public List<Map<String, Object>> reservePatient(Map<String, Object> pMap) {
+		List<Map<String,Object>> rList = null;
+		rList=sqlSes.selectList("reservePatient",pMap);
+		return rList;
+	}
+	public int reserveDEL(Map<String, Object> pMap) {
+		logger.info("reserveINS 호출 성공");
+		int result =-1;
+		result=sqlSes.delete("reserveDEL",pMap);
+		sqlSes.commit();
+		return result;
+	}
+	public List<Map<String, Object>> reserveDEPT(Map<String, Object> pMap) {
+		logger.info("reserveDEPT 호출 성공");
+		List<Map<String,Object>> dList = null;
+		dList=sqlSes.selectList("reserveDEPT",pMap);
+		logger.info("dList:"+dList.size());
+		return dList;
 	}
 
 

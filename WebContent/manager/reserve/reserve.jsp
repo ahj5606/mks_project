@@ -99,11 +99,12 @@
 								style="width: 800px;">
 								<thead>
 									<tr>
-										<th scope="col" data-field="MEM_MEMCODE">예약일자</th>
+										<th scope="col" data-field="MEM_MEMCODE">회원코드</th>
 										<th scope="col" data-field="DEPT_NAME">진료과</th>
 										<th scope="col" data-field="MEM_NAME">환자이름</th>
 										<th scope="col" data-field="MEM_PHONE">연락처</th>
 										<th scope="col" data-field="DOC_NAME">담당의</th>
+										<th scope="col" data-field="SCH_DATE">예약 일자</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -117,6 +118,7 @@
 					<td><%=rList.get(i).get("DEPT_NAME") %></td>
 					<td><%=rList.get(i).get("MEM_PHONE") %></td>
 					<td><%=rList.get(i).get("DOC_NAME") %></td>
+					<td><%=rList.get(i).get("SCH_DATE") %></td>
 	</tr>
 <%
 	}

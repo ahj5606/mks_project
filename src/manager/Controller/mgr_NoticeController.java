@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import manager.Logic.mgr_NoticeLogic;
-import manager.notice.HashMapBinder;
 import manager.pojo.mgr_ModelAndView;
 
 public class mgr_NoticeController implements mgr_Controller {
