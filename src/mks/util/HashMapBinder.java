@@ -108,7 +108,7 @@ public class HashMapBinder {
 			if(req.getParameter(key).equals("")) {
 				pMap.put(key,null);
 			}else {
-				pMap.put(key,hc.toUTF(req.getParameter(key)));
+				pMap.put(key,req.getParameter(key));
 				logger.info("hashMapBinder  :  "+req.getParameter(key));
 			}
 		}
