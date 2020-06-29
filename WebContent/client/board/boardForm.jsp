@@ -3,13 +3,6 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList, java.util.Map, java.util.HashMap"%>
 <%
-	//************ 1) 상세읽기에서 수정버튼을 누르고 들어왔을 때....
-	String b_title = request.getParameter("board_title");
-	String b_writer = request.getParameter("board_writer");
-	String b_date = request.getParameter("board_date");
-	String b_content = request.getParameter("content");
-	
-	//************ 2) 글쓰기 버튼 누르고 왔을 때
 	Object parmeter = session.getAttribute("mks_id");
 	String mks_id = null;
 	if(parmeter!=null){
@@ -17,10 +10,18 @@
 	} 
 	
 	Calendar cal = Calendar.getInstance();
-	int day = cal.get(Calendar.DAY_OF_MONTH);
-	int month = cal.get(Calendar.MONTH)+1;
-	int year = cal.get(Calendar.YEAR);
-	String today = year+"/"+month+"/"+day;
+	String day = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
+	if(day.length()==1){
+		day = "0"+day;
+	}
+	String month = Integer.toString(cal.get(Calendar.MONTH)+1);
+	if(month.length()==1){
+		month = "0"+month;
+	}
+	String year = Integer.toString(cal.get(Calendar.YEAR));
+	String today = year+"-"+month+"-"+day;
+	
+	String eva_code = request.getParameter("eva_code");
 	
 %>
 <!DOCTYPE html>
@@ -57,17 +58,68 @@
 	}
 </style>
 <script type="text/javascript">
-	function res_pageGet(num){
-		$('#t_hospitalList').bootstrapTable('refreshOptions', {
-			 url: "/client/board/jsonBoardList.jsp?num="+num
-		});
-		$("div.fixed-table-loading").remove(); 
-	}
+	var mks_id = '<%=mks_id%>'
 	function modal_ins(){
-		$('#modal_ins').modal('show');
+		var sch_code;
+		var eva_title = $("#eva_title").val().length;
+		var eva_content = $("#eva_content").val().length;
+		<%if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?%>
+			sch_code = $("#res_list").val();
+		<%}else{%>
+			sch_code ="unnecessary";
+		<%}%>
+		if(sch_code==0){
+			alert("예약 정보를 선택해주세요.");
+		}else if(eva_title==0||eva_content==0){
+			alert("제목 혹은 내용이 비어있습니다.");
+		}else{
+			$('#modal_ins').modal('show');
+		}
 	}
 	function board_ins(){
-		alert("저장");
+		alert("입력 저장");
+		var sch_code = $("#res_list").val();
+		var eva_content = $("#eva_content").val();
+		var eva_title = $("#eva_title").val();
+		var eva_date = $("#eva_date").val();
+		var param = 'eva_content='+eva_content+'&mks_id='+mks_id+'&sch_code='+sch_code+'&eva_title='+eva_title+'&eva_date='+eva_date;
+		alert("param: "+param);
+		$.ajax({
+			url: '/board/boardIns.crm'
+			,data: param
+			,success:function(data){
+				var res = data.trim();
+				alert(res);
+				if(res=='실패'){
+					alert('입력실패');
+				}else{
+					alert('입력성공');
+					location.href="/client/board/boardList.jsp"
+				}
+			}
+		});
+	}
+	function board_upd(){
+		alert("수정 저장");
+		var eva_code = '<%=eva_code%>'
+		var eva_content = $("#eva_content").val();
+		var eva_title = $("#eva_title").val();
+		var param = 'eva_content='+eva_content+'&eva_title='+eva_title+'&eva_code='+eva_code
+		alert("param: "+param);
+		$.ajax({
+			url: '/board/boardUpd.crm'
+			,data: param
+			,success:function(data){
+				var res = data.trim();
+				alert(res);
+				if(res=='실패'){
+					alert('수정실패');
+				}else{
+					alert('수정성공');
+					location.href="/client/board/boardList.jsp"
+				}
+			}
+		});
 	}
 	function board_list(){
 		alert("목록으로!");
@@ -88,34 +140,47 @@
 					</div>
 				</div>
 				<hr>
-				<!-- 헤드 -->
+				<!-- 내용 -->
 				<div class="row m-2" style="justify-content:center;">
 					<form id="f_board">
+					<%if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?%>
 						<div class="form-group row mb-2 mt-3">
+							<label for="board_title" style="width:50px;margin-left:12px;">예약정보</label>
+	    					<div class="col-md">
+	      						<select class="form-control" id="res_list">
+								</select>
+	    					</div>
+	    				</div>
+	    			<%}else{//수정버튼을 누르고 들어왔지?%>
+	    				<div class="form-group row mb-2 mt-3">
+							<label for="board_title" style="width:50px;margin-left:12px;">후기병원</label>
+	    					<div class="col-md">
+	      						<input type="text" readonly class="form-control" id="hp_name" style="width:400px;">
+	    					</div>
+	    				</div>
+	    			<%}%>
+						<div class="form-group row mb-2">
 							<label for="board_title" style="width:50px;margin-left:12px;">제목</label>
 	    					<div class="col-md">
-	      						<input type="text" class="form-control" id="board_title" style="width:400px;">
+	      						<input type="text" class="form-control" id="eva_title" style="width:400px;">
 	    					</div>
 	    				</div>
 	    				<div class="form-group row mb-2">
 							<label for="board_writer" style="width:50px;margin-left:12px;">작성자</label>
 	    					<div class="col-md">
-	      						<input type="text" class="form-control" id="board_writer" style="width:400px;">
+	      						<input type="text" class="form-control" id="eva_writer" value='<%=mks_id%>' style="width:400px;">
 	    					</div>
 	    				</div>
 	    				<div class="form-group row mb-4">
 							<label for="board_date" style="width:50px;margin-left:12px;">작성날짜</label>
 	    					<div class="col-md">
-	      						<input type="text" readonly class="form-control" id="board_date" value="<%=today%>" style="width:400px;">
+	      						<input type="text" class="form-control" id="eva_date" value="<%=today%>" style="width:400px;">
 	    					</div>
 	    				</div>
 	    				<div class="form-group row">
-							<textarea class="form-control ml-1" rows="10" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
+							<textarea class="form-control ml-1" rows="10" id="eva_content" placeholder="내용을 입력해 주세요"></textarea>
 	    				</div>
 					</form>
-				</div>
-				<!-- 바디:내용 -->
-				<div class="row mb-0" >
 				</div>
 				<!-- 버튼 -->
 				<div class="row mb-2">
@@ -146,23 +211,57 @@
      			</div>
      			<!-- footer -->
      			<div class="modal-footer">
-        			<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_ins();">저장</button>
+     				<%if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?%>
+        				<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_ins()">저장</button>
+        			<%}else{//수정 버튼을 누르고 들어왔니?%>
+        				<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_upd()">저장</button>
+        			<%}%>
         			<button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">닫기</button>
       			</div>
     		</div>
   		</div>
 	</div>
-	
 	<!-- 돔구성 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			if('<%=b_title%>'!=null){
-				alert("");
-				$("#board_title").val('<%=b_title%>');
-				$("#board_writer").val('<%=b_writer%>');
-				$("#board_date").val('<%=b_date%>');
-				$("#content").val('<%=b_content%>');
-			}
+			<%if(eva_code==null){%>//글쓰기 버튼을 누르고 들어왔니?
+				$.ajax({
+					url: '/board/boardResList.crm?mks_id='+mks_id
+					,success:function(data){
+						var res = JSON.parse(data);
+						alert(res);
+						alert("사이즈: "+res.length);
+						var imsi = '<option value="">선택</option>';
+						for(var i=0; i<res.length; i++){
+							var res_list = "["+res[i].SCH_DATE+"] "+res[i].HP_NAME+", "+res[i].DEPT_NAME+", "+res[i].DOC_NAME
+							imsi += '<option value='+"'"+res[i].SCH_CODE+"''"+'>'+res_list+'</option>';
+						}
+						$("#res_list").html(imsi);
+					}
+				});
+				$("#res_list").change(function() {
+					alert(this.value);
+					var res_choice = $('#res_list').val();
+				});
+			<%}else{%>//수정버튼을 누르고 들어왔니?
+				var eva_code = '<%=eva_code%>'
+				$.ajax({
+					url: '/board/boardList.crm?num=1&eva_code='+eva_code
+					,success: function(data){
+						var res = JSON.parse(data);
+						alert(res);
+						alert("사이즈: "+res.length);
+						$("#hp_name").val(res[0].HP_NAME);
+						$("#eva_title").val(res[0].EVA_TITLE);
+						$("#eva_writer").val(res[0].MKS_ID);
+						$("#eva_date").val(res[0].EVA_DATE);
+						$("#eva_content").val(res[0].EVA_CONTENT);
+						$("#eva_writer").attr('readonly',true);
+						$("#eva_date").attr('readonly', true);
+					}
+				});
+				
+			<%}%>
 		});
 	</script>
 </body>

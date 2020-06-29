@@ -4,30 +4,21 @@
 <%@ page import="com.google.gson.Gson"%>
 <%
 
-String imsi = request.getParameter("num");
-int num = Integer.parseInt(imsi);
 
-List<Map<String,Object>> list = new ArrayList<>();
-Map<String,Object> map = null;
+Object obj = request.getAttribute("bList_size");
 
-int fNum = 0;
-int eNum = 0;
-int recodeNum = 5;
-
-fNum = (num-1)*recodeNum+1;
-eNum = num*recodeNum;
-
-for(int i=fNum; i<=eNum; i++){
-map = new HashMap<>();
-map.put("BOARD_TITLE","후기"+i);
-map.put("MKS_ID","star"+i);
-map.put("BOARD_DATE","2020/06/1"+i);
-map.put("BOARD_NO",i);
-list.add(map);
+if(obj!=null){//사이즈를 넘겨야한다면!
+	int bList_size = (int)obj;
+	out.print(bList_size);
+}else{
+	Object obj2 = request.getAttribute("bList");
+	List<Map<String, Object>> boardList = null;
+	if(obj2!=null){
+		boardList = (List<Map<String, Object>>)obj2;
+	}
+	Gson gson = new Gson();
+	String imsi = gson.toJson(boardList);
+	out.print(imsi);
 }
-
-Gson gson = new Gson();
-String imsi2 = gson.toJson(list);
-out.print(imsi2);
 
 %>

@@ -103,9 +103,6 @@ var sts =new Array();
 		$("#f_login").attr("method","post");
 		$("#f_login").attr("action","/login/login.crm?requestName=login");//로그인 url ****
 		$("#f_login").submit();
-	
-
-		location.href='/client/login/loginpro.jsp'
 	}
 	
 	function search_addr() {
@@ -508,42 +505,36 @@ var sts =new Array();
 				});
 		//************************* 즐겨찾기병원 목록 가져오기!! (hidden으로 병원코드 숨겨놓기)
 	<%}%>
-	$.ajax({
-		url: "/client/login/jsonMyReservList.jsp?num=0"
-		,dataType: "text"
-		,success: function(data){
-			var totalSize = Number(data.trim()); 
-			var mok = parseInt(totalSize);
-			if(mok<3){
-				$("#page_3").remove();
-				if(mok<2){
-					$("#page_2").remove();
-					if(mok<1){
-						$("#page_1").remove();
+		$.ajax({
+			url: "/client/login/jsonMyReservList.jsp?num=0"
+			,dataType: "text"
+			,success: function(data){
+				var totalSize = Number(data.trim()); 
+				var mok = parseInt(totalSize);
+				if(mok<3){
+					$("#page_3").remove();
+					if(mok<2){
+						$("#page_2").remove();
+						if(mok<1){
+							$("#page_1").remove();
+						}
 					}
 				}
+				res_pageGet(1);
 			}
-			res_pageGet(1);
-		}
-	});
-	
-	$("#s_gwa").change(function(){
-		alert(this.value);
-	});
-});
-
-		$(document).ready(function() { //카테고리 선택
-			s_categori();//dept name 선택
-			categori_map();
-			
-			$("#s_gwa").change(function() {
-				alert(this.value);
-				dept_name = $('#s_gwa').val();
-				alert("dept_name: " + dept_name);
-				categori_map();
-			});
-
 		});
+	});
+	$(document).ready(function() { //카테고리 선택
+		s_categori();//dept name 선택
+		categori_map();
+		
+		$("#s_gwa").change(function() {
+			alert(this.value);
+			dept_name = $('#s_gwa').val();
+			alert("dept_name: " + dept_name);
+			categori_map();
+		});
+	});
 	</script>
 	<!-- 지도 API -->
 	<script>
