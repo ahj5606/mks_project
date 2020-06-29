@@ -175,7 +175,9 @@ var sts =new Array();
 			   }
 			   
 			   for(var i=0;i<jsonDoc.length;i++){ 
-	
+					if(dept_name=="전체"){
+						dept_name = "";
+					}
 				   var imsi = jsonDoc[i].DEPT_NAME.toString();
 					sts[i] =imsi.indexOf(dept_name);//-1이면 없는거 밑에 마커 없애기. 카테고리정한걸 예약리스트에  보내기
 					   marker = new daum.maps.Marker({

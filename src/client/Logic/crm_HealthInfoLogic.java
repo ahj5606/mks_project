@@ -7,8 +7,8 @@ import org.apache.log4j.Logger;
 
 import client.Dao.crm_HospitalDao;
 
-public class crm_HospitalLogic {
-	Logger logger = Logger.getLogger(crm_HospitalLogic.class);
+public class crm_HealthInfoLogic {
+	Logger logger = Logger.getLogger(crm_HealthInfoLogic.class);
 	crm_HospitalDao crm_hpDao = new crm_HospitalDao();
 	
 	public List<Map<String,Object>> hospitalList(Map<String, Object> pMap) {

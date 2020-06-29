@@ -100,12 +100,17 @@ function res_pageGet(num){
 			  	}
 			  	imsi += '</td>';
 			  	imsi +='<td></td>';
-			  	if(jsonDoc[i].DOC_CODE==null){
-			  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
-			  	}else{
-			  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
-			  	}
-			  	imsi += '</tr>';
+		  		if(jsonDoc[i].DEPT_NAME=="원무과"){
+
+		  			imsi += "<td><button class='btn btn-dark btn-small' onClick='waiting()'>대기</button></td>"
+		  		}else{
+		  			if(jsonDoc[i].DOC_CODE==null){				  		
+		  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
+		  			}else{
+		  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
+		  			}
+		  		imsi += '</tr>';
+		  		}
            }
            $("#tbody").html(imsi);
         }   
@@ -151,7 +156,7 @@ function page_btn(){
 //------------------------진료과 선택--------------------------
 function s_categori(){
 	$.ajax({
-       url:'/reservation/proc_reservelist.crm?hp_code='+'<%=hp_code%>'+'&num=1'
+       url:'/reservation/deptCategory.crm?hp_code='+'<%=hp_code%>'+'&num=1'
        ,dataType: 'json'
        ,success:function(data){
           var res = JSON.stringify(data);
@@ -202,13 +207,18 @@ function s_categori(){
 					  	}
 					  	imsi += '</td>';
 					  	imsi +='<td></td>';
-					  	if(jsonDoc[i].DOC_CODE==null){
-					  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
-					  	}else{
-					  	imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
-					  	}
-					  	imsi += '</tr>';
-	               }
+					  		if(jsonDoc[i].DEPT_NAME=="원무과"){
+
+					  			imsi += "<td><button class='btn btn-dark btn-small' onClick='waiting()'>대기</button></td>"
+					  		}else{
+					  			if(jsonDoc[i].DOC_CODE==null){				  		
+					  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
+					  			}else{
+					  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
+					  			}
+					  		imsi += '</tr>';
+					  		}
+	               }	
 	               $("#tbody").html(imsi);
 		   		}
 		});
@@ -232,12 +242,12 @@ function s_categori(){
 		//*** input 태그 안에 doc_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
 		var doc_code = $(el).children("input").val();
 		alert("의사 코드: "+doc_code);
-		/* 
+		
 		$('#doc_detail').bootstrapTable('refreshOptions', {
-	           url:
+	           url:'/reservation/docSel.crm?doc_code='+doc_code
 		});
 		$("div.fixed-table-loading").remove();	 
-		*/
+		
 		$('#modal_doc').modal('show');
 	}
 	//예약버튼을 눌렀을 때 *******************************************************************************
@@ -254,7 +264,7 @@ function s_categori(){
 					1)해당 과의 전체 의사 목록 뽑아서 카테고리완성, dept_name 전달   2)과전체 의사의 예약가능 날짜 List로 전달
 			*/
 		}else{
-			alert("전체");
+			alert("전체"+doc_code);
 			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_code="+'<%=hp_code%>','1200','950','상세예약');
 			/* ****의사 코드를 넘겨서 상세예약화면에서 doc_code로		
 					1)해당 의사의 dept_code를 뽑아서 의사 카테고리완성, dept_name 전달   2)해당의사의 예약가능날짜  List로 전달
@@ -290,11 +300,6 @@ function s_categori(){
 				<div class="row mr-1">
 					<div class="col-md">
 						<select class="form-control" id="s_gwa">
-							<!-- <option value="진료과">진료과</option>
-							<option value="내과">내과</option>
-							<option value="외과">외과</option>
-							<option value="소아과">소아과</option>
-							<option value="이비인후과">이비인후과</option> -->
 						</select>
 					</div>
 				</div>

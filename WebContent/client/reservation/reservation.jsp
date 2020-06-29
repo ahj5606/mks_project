@@ -13,6 +13,10 @@
    if( request.getParameter("hp_name")!=null){
       hp_name =  request.getParameter("hp_name");
    }
+   String hp_code = null;// 페이지 이동하면서 파라미터로 넘어온 **** 병원이름 
+   if( request.getParameter("hp_code")!=null){
+      hp_code =  request.getParameter("hp_code");
+   }
    String dept_code = null;// 페이지 이동하면서 파라미터로 넘어온 **** 부서코드
    if( request.getParameter("dept_code")!=null){
       hp_name =  request.getParameter("dept_code");
@@ -188,10 +192,10 @@
             <div class="row">
                <div class="col-md">
                   <select class="form-control" id="s_doc">
-                     <option value="담당의사">담당의사</option>
-                     <option value="고길동">고길동</option>
-                     <option value="김유신">김유신</option>
-                     <option value="강감찬">강감찬</option>
+                   <!--  <option value="담당의사">담당의사</option>
+                    <option value="고길동">고길동</option>
+                    <option value="김유신">김유신</option>
+                    <option value="강감찬">강감찬</option>-->
                   </select>
                </div>
                <div class="col-md-7"></div>
@@ -351,6 +355,20 @@
                2) 해당 부서의  모든 의사목록 setattribute("docList",docList)         ==> 의사 카테고리 리프레시
                3) 해당 부서의 모든 의사의 예약가능 리스트 setattribute("resList",resList) ==> 달력 리프레시
             */
+        	$.ajax({
+        	       url:'/reservation/docCategory.crm?hp_code='+'<%=hp_code%>'+"&dept_code="+'<%=dept_code%>'
+        	       ,dataType: 'json'
+        	       ,success:function(data){
+        	    	  alert(dept_code);
+        	          var res = JSON.stringify(data);
+        	          var res2 = JSON.parse(res);
+        	          var imsi="";
+        	          for(var i=0; i<res2.length; i++){
+        		             imsi += '<option value='+"'"+res2[i].DOC_NAME+"''"+'>'+res2[i].DOC_NAME+'</option>';
+        	          }
+        	          $("#s_doc").html(imsi);
+        	       }   
+        	    });
          <%}%>
       });
       $("#s_doc").change(function(){

@@ -20,4 +20,25 @@ public class crm_ReservationLogic {
 		//logger.info(hpList.size());
 		return proc_reservelist;
 	}
+	public List<Map<String,Object>> deptCategory(Map<String, Object> pMap) {
+		logger.info("부서카테고리");
+		List<Map<String,Object>> deptCategory=null;
+		deptCategory=crm_rsDao.deptCategory(pMap);
+		//logger.info(hpList.size());
+		return deptCategory;
+	}
+	public List<Map<String,Object>> docCategory(Map<String, Object> pMap) {
+		logger.info("의사카테고리");
+		List<Map<String,Object>> docCategory=null;
+		docCategory=crm_rsDao.docCategory(pMap);
+		//logger.info(hpList.size());
+		return docCategory;
+	}
+	public List<Map<String,Object>> docSel(Map<String, Object> pMap) {
+		logger.info("의사상세정보");
+		List<Map<String,Object>> docSel=null;
+		docSel=crm_rsDao.docSel(pMap);
+		//logger.info(hpList.size());
+		return docSel;
+	}
 }

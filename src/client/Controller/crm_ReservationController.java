@@ -70,6 +70,28 @@ public class crm_ReservationController implements crm_Controller {
 			logger.info("proc_reservelist...!!!!");
 			logger.info(proc_reservelist);
 			mav.setViewName("/reservation/proc_reservelist");
+		}else if("deptCategory".equals(requestName)) {
+			List<Map<String,Object>> deptCategory= null;
+			String hp_code = req.getParameter("hp_code");
+			pMap.put("hp_code", hp_code);
+			deptCategory=crm_rsLogic.deptCategory(pMap);
+			logger.info("hospitalcontroller"+deptCategory.size());
+			mav.addObject("deptCategory", deptCategory);
+			mav.IsForward(true);
+			logger.info("deptCategory");
+			mav.setViewName("/reservation/deptCategory");
+		}else if("docCategory".equals(requestName)) {
+			List<Map<String,Object>> docCategory= null;
+			String hp_code = req.getParameter("hp_code");
+			String dept_code = req.getParameter("dept_code");
+			pMap.put("hp_code", hp_code);
+			pMap.put("dept_code", dept_code);
+			docCategory=crm_rsLogic.docCategory(pMap);
+			logger.info("hospitalcontroller"+docCategory.size());
+			mav.addObject("docCategory", docCategory);
+			mav.IsForward(true);
+			logger.info("docCategory");
+			mav.setViewName("/reservation/docCategory");
 		}else if("noticeSel".equals(requestName)) {
 				
 		} else if("noticeList".equals(requestName)) {
@@ -83,7 +105,15 @@ public class crm_ReservationController implements crm_Controller {
 		}else if("check".equals(requestName)) {
 			
 		}else if("docSel".equals(requestName)) {
-			
+			List<Map<String,Object>> docSel= null;
+			String doc_code = req.getParameter("doc_code");
+			pMap.put("doc_code", doc_code);
+			docSel=crm_rsLogic.docCategory(pMap);
+			logger.info("hospitalcontroller"+docSel.size());
+			mav.addObject("docSel", docSel);
+			mav.IsForward(true);
+			logger.info("docSel");
+			mav.setViewName("/reservation/docSel");
 		}
 		return mav;
 	}
