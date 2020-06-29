@@ -14,7 +14,9 @@
 <script src='<%=path.toString()%>fullcalendar/interaction/main.js'></script>
 <script src="<%=path %>js/jquery.min.js"></script>
 <script src="<%=path %>js/bootstrap.min.js"></script>
-<script src="<%=path %>js/bootstrap.bundle.min.js"></script>
+
+<%-- <script src="<%=path %>js/bootstrap.bundle.min.js"></script> --%>
+
 <script src="<%=path %>js/dist/bootstrap-table.min.js"></script>
 <script src="<%=path %>js/manager.js"></script>
 

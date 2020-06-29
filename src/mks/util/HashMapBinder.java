@@ -109,7 +109,8 @@ public class HashMapBinder {
 				pMap.put(key,null);
 			}else {
 				pMap.put(key,req.getParameter(key));
-				
+				logger.info("hashMapBinder  :  "+req.getParameter(key));
+
 			}
 		}
 	}
