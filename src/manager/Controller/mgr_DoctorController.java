@@ -36,13 +36,18 @@ public class mgr_DoctorController implements mgr_Controller {
 			logger.info("requestName: "+requestName);
 			
 			List<Map<String,Object>> dList = null;
+			List<Map<String,Object>> deptList = null;//진료과
 			Map<String, Object> pMap = new HashMap<>();
 //			
 //				
 			dList = mgr_dLogic.doctorList(pMap);
+			deptList = mgr_dLogic.doctorDEPT(pMap);//드롭다운
 			logger.info("docList: "+dList.size());
-//				
+			logger.info("deptList: "+deptList.size());
 			mav.addObject("docList", dList);
+			mav.addObject("deptList",deptList);
+			
+			logger.info("deptList: "+deptList);
 			mav.IsForward(true);
 			mav.setViewName("/doctor/mgr_doctor");	
 			
@@ -57,7 +62,10 @@ public class mgr_DoctorController implements mgr_Controller {
 			 pMap.put("doc_code",doc_code);
 			 pMap.put("hp_code",hp_code);
 			 dList = mgr_dLogic.doctorSEL(pMap); 
+			 List<Map<String,Object>> rList = null;
+			 rList = mgr_dLogic.doctorDEPT(pMap);//드롭다운
 			 mav.addObject("docList",dList);
+			 mav.addObject("deptName",rList);
 			 mav.IsForward(true);
 			 mav.setViewName("/doctor/mgr_doctor");
 			

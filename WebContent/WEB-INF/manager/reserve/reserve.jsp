@@ -96,7 +96,7 @@
 							<div class="col">
 										<!-- 진료과 드롭다운 태그 -->
 									<div id="deptDrop"class="btn-group btn-default m-3" >
-										<button id="selDept"class="btn dropdown-toggle" type="button"
+										<button id="selDept"class="btn dropdown-toggle btn-primary" type="button"
 											data-toggle="dropdown">
 											진료과 전체
 											<!-- 버튼태그 우측 메뉴출력을 위한 화살표표시
@@ -106,12 +106,12 @@
 										
 										<!--메뉴버튼 클릭시 하단 표출된 리스트 영역  -->
 										<ul class="dropdown-menu text-center">
-											<li><a href="javascript:void(0)">진료과 전체</a></li>
+											
 									<%
-										for(int i=0;i<dList.size();i++){
+										for(int i=0;i<rList.size();i++){
 											
 									%>
-											<li><a href="javascript:void(0)"><%=dList.get(i).get("DEPT_NAME") %></a></li>
+											<li><a href="javascript:void(0)"><%=rList.get(i).get("DEPT_NAME") %></a></li>
 									<%
 										}
 									%>

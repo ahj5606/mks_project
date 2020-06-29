@@ -116,9 +116,8 @@
 	</select>
 	
 	<select id="doctorDEPT" parameterType="map" resultType="map">
-		select dept_name
-			from mks_dept
-			where dept_name = {#dept_name};
+		select distinct dept_name
+            from mks_dept
 	</select>
 	
 	<select id="doctorDetail" parameterType="map" resultType="map">

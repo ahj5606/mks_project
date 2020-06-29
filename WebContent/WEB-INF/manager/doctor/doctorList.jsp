@@ -3,43 +3,60 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
+
 <%
 	String hp_code = "280HP";
 	List<Map<String,Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 		if(docList==null){
 			docList = new ArrayList();
 		}
+	
+	List<Map<String,Object>> deptList = (List<Map<String, Object>>)request.getAttribute("deptList");
+		if(deptList==null){
+			deptList = new ArrayList();
+		}
+		
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>환자 페이지 </title>
+<title>의사 페이지 </title>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
+  <script src="js/bootstrap.min.js"></script> -->
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
 	    <div class="row">
 	        <div class="col-sm-2" style="margin-top: 45px">
-	        <div class="dropdown" style="margin-bottom: 10px">
-		    <button class="btn btn-primary dropdown-toggle" style="margin-top: 30px;" data-toggle="dropdown">과</button>
-			    <div class="dropdown-menu">
-			      <a class="dropdown-item" href="#">원무과</a>
-			      <a class="dropdown-item" href="#">소아과</a>
-			      <a class="dropdown-item" href="#">신경과</a>
-			      <a class="dropdown-item" href="#">신경외과</a>
-			      <a class="dropdown-item" href="#">정형외과</a>
-			      <a class="dropdown-item" href="#">내과</a>
-			      <a class="dropdown-item" href="#">외과</a>
-			      <a class="dropdown-item" href="#">영상의학과</a>
-			      <a class="dropdown-item" href="#">마취통증의학과</a>
-			      <a class="dropdown-item" href="#">정신건강의학과</a>
-			    </div>
-		    </div>
+	       						<!-- 진료과 드롭다운 태그 -->
+							<div id="deptDrop"class="btn-group btn-default m-3" >
+								<button id="selDept"class="btn dropdown-toggle btn-primary" type="button"
+									data-toggle="dropdown">
+									진료과 전체
+									<!-- 버튼태그 우측 메뉴출력을 위한 화살표표시
+									(없어도 무관하나 메뉴버튼이라는것을 알려주기 위함) -->
+									<span class="caret"></span>
+								</button>
+								
+								<!--메뉴버튼 클릭시 하단 표출된 리스트 영역  -->
+								<ul class="dropdown-menu text-center">
+									
+							<%
+								for(int i=0;i<deptList.size();i++){
+									
+							%>
+									<li><a href="javascript:void(0)"><%=deptList.get(i).get("DEPT_NAME") %></a></li>
+							<%
+								}
+							%>
+								</ul>
+														
+								<!-- 진료과 드롭다운 태그 -->
+							</div>
 	        	 <input id="d_name" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="doctorName" aria-describedby="basic-addon1">
 	        	 <input id="d_code" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="doctorCode" aria-describedby="basic-addon1">
 	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSearch()">의사 검색</button>
