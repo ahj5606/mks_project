@@ -9,11 +9,13 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.Spring;
 
 import org.apache.log4j.Logger;
 
 import manager.Logic.mgr_DoctorLogic;
 import manager.pojo.mgr_ModelAndView;
+import mks.util.HashMapBinder;
 
 public class mgr_DoctorController implements mgr_Controller {
 	
@@ -28,104 +30,97 @@ public class mgr_DoctorController implements mgr_Controller {
 			throws IOException, ServletException {
 		mgr_ModelAndView mav = new mgr_ModelAndView(req, res);
 		String path = "";
+		String dept_code = null;
+		String hp_code = "280HP";
 		if("doctorList".equals(requestName)) {
 			logger.info("requestName: "+requestName);
-//			String doc_code = req.getParameter("doc_code");
-//			String hp_code = req.getParameter("hp_code");
-//			String doc_name = req.getParameter("doc_name");
-//			String dept_name = req.getParameter("dept_name");
-//			String doc_position = req.getParameter("doc_position");
-//			String doc_education = req.getParameter("doc_education");
-//			String doc_phone = req.getParameter("doc_phone");
-//			String doc_offday = req.getParameter("doc_offday");
-//			String doc_state = req.getParameter("doc_state");
 			
-			List<Map<String,Object>> docList = null;
+			List<Map<String,Object>> dList = null;
 			Map<String, Object> pMap = new HashMap<>();
-//			if("".equals(req.getParameter("doc_code"))) {
-//				doc_code=null;
-//			}
-//			if("".equals(req.getParameter("hp_code"))) {
-//				hp_code=null;
-//			}
-//			if("".equals(req.getParameter("doc_name"))) {
-//				doc_name=null;
-//			}
-//			if("".equals(req.getParameter("doc_position"))) {
-//				doc_position=null;
-//			}	
-//			if("".equals(req.getParameter("doc_education"))) {
-//				doc_education=null;
-//			}
-//			if("".equals(req.getParameter("doc_phone"))) {
-//				doc_phone=null;
-//			}	
-//			if("".equals(req.getParameter("doc_offday"))) {
-//				doc_offday=null;
-//			}
-//			if("".equals(req.getParameter("doc_state"))) {
-//				doc_state=null;
-//			}	
-//				pMap.put("doc_code", doc_code);
-//				pMap.put("hp_code", hp_code);
-//				pMap.put("doc_name", doc_name);
-//				pMap.put("dept_name", dept_name);
-//				pMap.put("doc_position", doc_position);
-//				pMap.put("doc_education", doc_education);
-//				pMap.put("doc_phone", doc_phone);
-//				pMap.put("doc_offday", doc_offday);
-//				pMap.put("doc_state", doc_state);
+//			
 //				
-				docList = mgr_dLogic.doctorList(pMap);
-				logger.info("docList: "+docList.size());
+			dList = mgr_dLogic.doctorList(pMap);
+			logger.info("docList: "+dList.size());
 //				
-			mav.addObject("docList", docList);
+			mav.addObject("docList", dList);
 			mav.IsForward(true);
 			mav.setViewName("/doctor/mgr_doctor");	
 			
-		}else if("doctorDEPT".equals(requestName)) {
-			
-			
 		}else if("doctorSEL".equals(requestName)) { 
-			/*
-			 * List<Map<String,Object>> dList = null; Map<String,Object> pMap = new
-			 * HashMap<>(); dList = mgr_dLogic.doctorSEL(pMap); if(dList==null) { dList =
-			 * new ArrayList<>();//memList.size()=0 } req.setAttribute("docList", dList);
-			 * path = "forward:/doctor/doctorList.jsp";
-			 */
+			 String doc_name = req.getParameter("doc_name");
+			 String doc_code = req.getParameter("doc_code");
+			 
+			 List<Map<String,Object>> dList = null; 
+			 Map<String,Object> pMap = new HashMap<>(); 
+			 
+			 pMap.put("doc_name",doc_name);
+			 pMap.put("doc_code",doc_code);
+			 pMap.put("hp_code",hp_code);
+			 dList = mgr_dLogic.doctorSEL(pMap); 
+			 mav.addObject("docList",dList);
+			 mav.IsForward(true);
+			 mav.setViewName("/doctor/mgr_doctor");
+			
+			 
 		}
 		else if("doctorDetail".equals(requestName)) {
-			List<Map<String,Object>> docDetail = null;
+			String doc_code = null;
+			List<Map<String,Object>> dList = null;
 			Map<String, Object> pMap = new HashMap<>();
-			docDetail = mgr_dLogic.doctorDetail(pMap);
-			logger.info("doctorDetail dList: "+docDetail.size());
-			mav.addObject("docDetail", docDetail);
+			doc_code=req.getParameter("doc_code");
+			pMap.put("doc_code", doc_code);
+			logger.info(pMap.get("doc_code"));
+			dList = mgr_dLogic.doctorDetail(pMap);
+			logger.info("doctorDetail dList: "+dList.size());
+			mav.addObject("docList", dList);
 			mav.IsForward(true);
 			mav.setViewName("/doctor/mgr_doctorDetail");
 			
 			
 		} else if("doctorINS".equals(requestName)) {
+			logger.info("의사 등록 호출 시작");
 			int result = 0;//1이면 등록 성공, 0이면 실패
 			Map<String,Object> pMap = new HashMap<>();
-			pMap.put("dept_name",req.getParameter("dept_name"));
-			pMap.put("doc_code",req.getParameter("doc_code"));
-			pMap.put("doc_state",req.getParameter("doc_state"));
-			pMap.put("doc_name",req.getParameter("doc_name"));
-			pMap.put("doc_position",req.getParameter("doc_position"));
-			pMap.put("doc_education",req.getParameter("doc_education"));
-			pMap.put("doc_phone",req.getParameter("doc_phone"));
-			pMap.put("doc_offday",req.getParameter("doc_offday"));
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.binder(pMap);
+			logger.info(pMap.get("dept_name"));
+			logger.info(pMap.get("doc_state"));
+			logger.info(pMap.get("doc_education"));
 			result = mgr_dLogic.doctorINS(pMap);
-			path = "redirect:/manage/doctorList.mgr?crud=doctorList";
+			mav.cudResult(result);
+			
+			
 			
 		} else if("doctorUPD".equals(requestName)) {
 			int result =0;
 			Map<String,Object> pMap = new HashMap<>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.binder(pMap);
 			result = mgr_dLogic.doctorUPD(pMap);
+			mav.cudResult(result);
 			
 		} else if("doctorDEL".equals(requestName)) {
-			
-			
+			int result =0;
+			Map<String,Object> pMap = new HashMap<>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.binder(pMap);
+			result = mgr_dLogic.doctorDEL(pMap);
+			mav.IsForward(false);
+			if(result==1) {
+				path = "/doctor/doctorList.mgr?";
+			}else {
+				path = "/doctor/doctorDetail.mgr?hp_code="+hp_code+"&doc_code="+req.getParameter("doc_code")+"&"
+																  +"&hp_name="+req.getParameter("doc_name")+"&"
+																  +"&doc_name="+req.getParameter("doc_name")+"&"
+																  +"&dept_code="+req.getParameter("dept_code")+"&"
+																  +"&dept_name="+req.getParameter("dept_name")+"&"
+																  +"&doc_position="+req.getParameter("doc_position")+"&"
+																  +"&doc_education="+req.getParameter("doc_education")+"&"
+																  +"&doc_phone="+req.getParameter("doc_phone")+"&"
+																  +"&doc_offday="+req.getParameter("doc_offday")+"&"
+																  +"&doc_state="+req.getParameter("doc_state")+"&";
+			}
+			mav.setViewName(path);
 		}  
 		
 		return mav;

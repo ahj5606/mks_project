@@ -14,10 +14,17 @@
   <meta name="author" content="">
   <title>병원관리시스템</title>
   <!-- Custom fonts for this template-->
-	<%@include file="../common/ManagerCommon.jsp" %>
+	<%@include file="../../common/ManagerCommon.jsp" %>
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <!-- Custom styles for this template-->
-
+<style type="text/css">
+#sidebar {
+	margin-top: 100px;
+	margin-left: 30px;
+}
+</style>
+<script type="text/javascript">
+</script>
 </head>
 
 <body id="page-top">
@@ -42,7 +49,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/notice/noticeSEL.mgr">
           <i class="fas fa-clipboard-list"></i>
           <span>공지사항</span></a>
       </li>
@@ -50,7 +57,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/reserve/reserveList.mgr">
           <i class="fas fa-notes-medical"></i>
           <span>예약</span>
         </a>
@@ -59,7 +66,7 @@
       
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/patient/patientList.mgr">
           <i class="fas fa-user"></i>
           <span>환자</span>
         </a>
@@ -68,7 +75,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/doctor/doctorList.mgr">
           <i class="fa fa-stethoscope"></i>
           <span>의사</span>
         </a>
@@ -82,7 +89,7 @@
           <span>대기시간</span></a>
       </li>
 
-	
+
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
@@ -108,8 +115,7 @@
         <!-- end of Topbar -->
         </nav>
         <!--====================================== 여기에 코드를 메인 코드를 넣어야 함  -->
-        <%@include file="../patient/patientWrite.jsp" %>
-        	
+        <%@include file="reserveAdd.jsp" %>
         <!--======================================  -->
         <!-- end of Main Content -->
         </div>

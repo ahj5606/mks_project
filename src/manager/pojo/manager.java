@@ -1,5 +1,4 @@
 package manager.pojo;
-
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;

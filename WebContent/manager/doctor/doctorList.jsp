@@ -4,6 +4,7 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%
+	
 	List<Map<String,Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 		if(docList==null){
 			docList = new ArrayList();
@@ -14,12 +15,13 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
+
 <script type="text/javascript">
 	function docIns(){
 		alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
 	}
-	function docSel(){
+	function docSearch(){
 		alert("의사검색");
 		location.href="./docList.jsp"
 		
@@ -50,7 +52,7 @@
 		    </div>
 	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="patientName" aria-describedby="basic-addon1">
 	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="patientName" aria-describedby="basic-addon1">
-	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSel()">의사 검색</button>
+	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSearch()">의사 검색</button>
 	        </div>
 	        <div class="col-sm-8" id="main">
 	        	 <div class="tab-content" id="nav-tabContent">
@@ -64,8 +66,10 @@
 					  <thead>
 					    <tr>
 						  <th scope="col" data-field="DEPT_NAME">부서</th>
+						  <th scope="col" data-field="DEPT_CODE">부서코드</th>
 						  <th scope="col" data-field="DOC_CODE">의사코드</th>
-						  <th scope="col" data-field="HP_CODE">의사코드</th>
+						  <th scope="col" data-field="HP_CODE">병원코드</th>
+						  <th scope="col" data-field="HP_NAME">병원이름</th>
 						  <th scope="col" data-field="DOC_STATE">전공</th> 	
 						  <th scope="col" data-field="DOC_NAME">이름</th> 
 						  <th scope="col" data-field="DOC_POSITION">직급</th> 
@@ -81,8 +85,10 @@
 %>
 					  	<tr>
 					  	  <td><%=docList.get(i).get("DEPT_NAME") %></td>
+					  	  <td><%=docList.get(i).get("DEPT_CODE") %></td>
 					  	  <td><%=docList.get(i).get("DOC_CODE") %></td>
 					  	  <td><%=docList.get(i).get("HP_CODE") %></td>
+					  	  <td><%=docList.get(i).get("HP_NAME") %></td>
 					  	  <td><%=docList.get(i).get("DOC_STATE") %></td>
 					  	  <td><%=docList.get(i).get("DOC_NAME") %></td>
 					  	  <td><%=docList.get(i).get("DOC_POSITION") %></td>
@@ -95,13 +101,15 @@
 %>					  	
 					  </tbody>
 					</table>
-					<ul class="pagination">
-						  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						  <li class="page-item"><a class="page-link" href="#">1</a></li>
-						  <li class="page-item"><a class="page-link" href="#">2</a></li>
-						  <li class="page-item"><a class="page-link" href="#">3</a></li>
-						  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
+					<div class="text-center">
+						<ul class="pagination">
+							  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+							  <li class="page-item"><a class="page-link" href="#">1</a></li>
+							  <li class="page-item"><a class="page-link" href="#">2</a></li>
+							  <li class="page-item"><a class="page-link" href="#">3</a></li>
+							  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</ul>
+					</div>
 					</div>
 			      </div>
 			     </div>
@@ -111,10 +119,7 @@
 	<div>
 	  
 	</div>
-<script type="text/javascript">
-	$(document).ready(function(){
-		doc_list();
-	});
-</script>	
+
+	
 </body>
 </html>

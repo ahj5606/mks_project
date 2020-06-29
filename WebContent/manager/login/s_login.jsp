@@ -1,13 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	String hp_code = "";
-//String hp_code = "635HP";
-	String h_name = "";
-	String h_dept = "";
-	
-	
-%>
 <!DOCTYPE html>
 <head>
 <title>병원관리시스템</title>
@@ -85,8 +77,6 @@
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow">
 			<p class="col-sm-12 col-md-9">
-			<p class="text-right"><strong><h4><%=h_name %></h4></strong></p>
-			<p class="text-right"><strong><h4><%=h_dept %></h3></strong></p>
 		</p>
         </nav>
         <!-- End of Topbar -->
@@ -94,7 +84,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 		<!--==============================================================  -->
-		<%@include file="n_login.jsp" %>
+		<%@ include file="./n_login.jsp" %>
 		<!--==============================================================  -->
         </div>
         <!-- /.container-fluid -->

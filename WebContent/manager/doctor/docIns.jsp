@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-docIns
-</body>
-</html>
+<script>
+	alert("등록됨");
+	location.href="./docList.mgr?cud=SEL";
+</script>

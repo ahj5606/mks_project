@@ -72,7 +72,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/reserve/reserveList.mgr">
           <i class="fas fa-notes-medical"></i>
           <span>예약</span>
         </a>
@@ -90,7 +90,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/doctor/doctorList.mgr">
           <i class="fa fa-stethoscope"></i>
           <span>의사</span>
         </a>

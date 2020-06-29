@@ -2,20 +2,28 @@
     pageEncoding="UTF-8"%>
 <%
 	String hp_code = "";
-//String hp_code = "635HP";
-	String h_name = "";
-	String h_dept = "";
+	String hp_name = "";
+	String dept_name = "";
+	String dept_code="";
+	String mks_id="";
 	
 	Cookie[] cookies = request.getCookies();
 	if(cookies!=null && cookies.length>0){
 		for(int i =0;i<cookies.length;i++){
 			String name = cookies[i].getName();
 			if(name.equals("hp_name")){
-				h_name = cookies[i].getValue();
+				hp_name = cookies[i].getValue();
 			}
 			if(name.equals("dept_name")){
-				h_dept = cookies[i].getValue();
+				dept_name = cookies[i].getValue();
 			}
+			if(name.equals("dept_code")){
+				dept_code = cookies[i].getValue();
+			}
+			if(name.equals("mks_id")){
+				mks_id = cookies[i].getValue();
+			}
+			
 		}
 	}
 	
@@ -50,13 +58,13 @@
 		
 		<!-- 메뉴들 시작  -->
 		<li class="nav-item">
-			<a class="nav-link" href="/manager/notice/noticeSEL.mgr?hp_code=<%=hp_code%>">
+			<a class="nav-link" href="/manager/notice/noticeSEL.mgr">
 				<i class="fas fa-clipboard-list"></i>
 				<span>공지사항</span>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" href="">
+			<a class="nav-link" href="/manager/reserve/reserveList.mgr">
 				<i class="fas fa-notes-medical"></i>
 				<span>예약</span>
 			</a>
@@ -68,7 +76,7 @@
 			</a>
 		</li>		
 		<li class="nav-item">
-			<a class="nav-link" href="sidebar.jsp">
+			<a class="nav-link" href="/manager/doctor/doctorList.mgr">
 				<i class="fa fa-stethoscope"></i>
 				<span>의사</span>
 			</a>
@@ -96,9 +104,9 @@
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow">
 			<p class="col-sm-12 col-md-9">
-			<p class="text-right"><strong><h4><%=h_name %></h4></strong></p>
+			<p class="text-right"><strong><h4><%=hp_name %></h4></strong></p>
 			<p class="text-right"><strong><h4>/</h3></strong></p>
-			<p class="text-right"><strong><h4><%=h_dept %></h3></strong></p>
+			<p class="text-right"><strong><h4><%=dept_name %></h3></strong></p>
 		</p>
         </nav>
         <!-- End of Topbar -->

@@ -4,6 +4,7 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%
+	String hp_code = "280HP";
 	List<Map<String,Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 		if(docList==null){
 			docList = new ArrayList();
@@ -14,19 +15,11 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
-<script type="text/javascript">
-	function docIns(){
-		alert("의사추가");
-		location.href="./mgr_doctorDetail.jsp"
-	}
-	function docSel(){
-		alert("의사검색");
-		location.href="./docList.jsp"
-		
-	}
-	
-</script>
-	
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
@@ -47,9 +40,9 @@
 			      <a class="dropdown-item" href="#">정신건강의학과</a>
 			    </div>
 		    </div>
-	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="patientName" aria-describedby="basic-addon1">
-	        	 <input type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="patientName" aria-describedby="basic-addon1">
-	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSel()">의사 검색</button>
+	        	 <input id="d_name" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="doctorName" aria-describedby="basic-addon1">
+	        	 <input id="d_code" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="doctorCode" aria-describedby="basic-addon1">
+	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSearch()">의사 검색</button>
 	        </div>
 	        <div class="col-sm-8" id="main">
 	        	 <div class="tab-content" id="nav-tabContent">
@@ -93,13 +86,15 @@
 %>					  	
 					  </tbody>
 					</table>
-					<ul class="pagination">
-						  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						  <li class="page-item"><a class="page-link" href="#">1</a></li>
-						  <li class="page-item"><a class="page-link" href="#">2</a></li>
-						  <li class="page-item"><a class="page-link" href="#">3</a></li>
-						  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
+					<div class="text-center">
+						<ul class="pagination">
+							  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+							  <li class="page-item"><a class="page-link" href="#">1</a></li>
+							  <li class="page-item"><a class="page-link" href="#">2</a></li>
+							  <li class="page-item"><a class="page-link" href="#">3</a></li>
+							  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</ul>
+					</div>
 					</div>
 			      </div>
 			     </div>
@@ -109,6 +104,32 @@
 	<div>
 	  
 	</div>
+<script type="text/javascript">
+$(document).ready(function(data){
+	$("#doc_list").bootstrapTable({
+		onDblClickRow:function(row, $element, field)
+	     { 
+			var jo = JSON.stringify(row);
+			var d = JSON.parse(jo);
+			var doc_code = d.DOC_CODE;
+			location.href="/manager/doctor/doctorDetail.mgr?doc_code="+doc_code;
+			alert("클릭"+doc_code);
+	     }
+	})
+	$("#doc_list").bootstrapTable('hideLoading');
+})
+	function docSearch(){
+		alert("의사검색");
+		var d_name = $("#d_name").val();
+		var d_code =$("#d_code").val();
+		location.href='./doctorSEL.mgr?hp_code=<%=hp_code%>'+'&doc_name='+d_name+'&doc_code='+d_code
+	}
+	function docIns(){
+		alert("의사추가");
+		location.href="./mgr_doctorDetail.jsp"
+	}
 	
+	
+</script>
 </body>
 </html>

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String name = request.getParameter("s_file");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +12,8 @@
 
 </head>
 <body>
-<button class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#myModal">저장
+<h1><%=name %></h1>
+<!-- <button class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#myModal">저장
 </button>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -26,9 +30,9 @@
         <button type="button" class="btn btn-primary">저장</button>
         <button type="button" class="btn btn-default  btn-outline-secondary" data-dismiss="modal">닫기</button>
       </div>
-    </div> <!-- 모달 콘텐츠 -->
-  </div> <!-- 모달 다이얼로그 -->
-</div> <!-- 모달 전체 윈도우 -->
+    </div> 모달 콘텐츠
+  </div> 모달 다이얼로그
+</div> 모달 전체 윈도우 -->
 
 </body>
 </html>

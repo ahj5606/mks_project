@@ -4,10 +4,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	
-	String hp_code = "276HP";
-//String hp_code = "635HP";
-	
 	List<Map<String,Object>> nList = (List<Map<String,Object>>)request.getAttribute("nList");
 
 	int tot=nList.size();
@@ -38,7 +34,7 @@
 	
 	function writeform(){
 		//alert("글쓰기 버튼 호출 성공");
-		location.href="./s_writeform.jsp?dept=<%=h_dept%>"
+		location.href="./s_writeform.jsp?dept=<%=dept_name%>"
 	}
 	function search(){
 		alert("검색 버튼 호출 성공");
@@ -96,7 +92,7 @@
 			<table id="notice_board" class="table table-striped table-bordered" >
 				<thead>
 				<tr style="text-align:center;">
-					<th >번호</th>
+					<th class="sortable "data-sortable="true">번호</th>
 					<th data-field="BOARD_NO"data-visible="false">번호</th>
 					<th data-field="BOARD_TITLE">제목</th>
 					<th data-field="DEPT_NAME">작성자</th>

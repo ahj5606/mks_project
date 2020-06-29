@@ -4,86 +4,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	List<Map<String,Object>> docDetail = (List<Map<String,Object>>)request.getAttribute("docDetail");
-		Map<String,Object> rmap = null;
-		if(docDetail==null){
-			rmap=docDetail.get(0);
-			}
-		
-		
+	String hp_code = "280HP";
+	List<Map<String, Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
+	if(docList==null){
+		docList = new ArrayList();
+	}
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>의사 상세</title>
-<script type="text/javascript">
-	function docIns() {
-		alert("저장호출 성공");
-		$("#form-group").attr("method","post");
-		$("#form-group").attr("action","./boardINS.mvc3?cud=INS");
-		$("#form-group").submit();
-	}
-	function docUpd() {
-		alert("수정");
-		location.href="./docUpd.jsp";
-	}
-	function docDel() {
-		alert("삭제");
-		location.href="./docDel.jsp";
-	}
-	function docClose() {
-		alert("닫기");
-		location.href="./mgr_doctor.jsp";
-	}
-</script>
 	<%@include file="/common/ManagerCommon.jsp" %>
+
 <body>
 <div style="margin:20px;">
 <h2>의사추가</h2>
 </div>
 	<div class="container">
-  				<div>
+	<form id="f_upd">
+			<div>
 	     		<div class="form-group" style="margin-top: 30px">
-		      	  <label>의사코드</label>
-		      	  <input type="text" class="form-control" id="doc_code" name="doc_code"  style="width: 245px">
+		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" value="<%=docList.get(0).get("DOC_CODE")%>" style="width: 245px">
 		    	</div>
 			    <div class="form-group">
-			      <label>병원코드</label>
-			      <input type="text" class="form-control" id="hp_code" name="hp_code" style="width: 245px">
+			      <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" value="<%=docList.get(0).get("HP_CODE")%>" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>부서</label>
-			      <input type="text" class="form-control" id="dept_name" name="dept_name" style="width: 245px">
+			      <input type="text" class="form-control" id="dept_name" name="dept_name" placeholder="부서" value="<%=docList.get(0).get("DEPT_NAME")%>" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>이름</label>
-			      <input type="text" class="form-control" id="doc_name" name="doc_name" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" value="<%=docList.get(0).get("DOC_NAME")%>" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>직급</label>
-			      <input type="text" class="form-control" id="doc_position" name="doc_position" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" value="<%=docList.get(0).get("DOC_POSITION")%>"style="width: 245px">
 			    </div>
-			    </div>
-			    
-			   	<div>
-		    	<div class="form-group">
-			      <label>전공</label>
-			      <input type="text" class="form-control" id="doc_education" name="doc_education" style="width: 245px">
+			    <div class="form-group">
+			      <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="전공" value="<%=docList.get(0).get("DOC_EDUCATION")%>"style="width: 245px">
 			    </div>
 		    	<div class="form-group">
-			      <label>전화</label>
-			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화" value="<%=docList.get(0).get("DOC_PHONE")%>" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>휴무일</label>
-			      <input type="text" class="form-control" id="doc_offday" name="doc_offDay" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" value="<%=docList.get(0).get("DOC_OFFDAY")%>"style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			      <label>상태</label>
-			      <input type="text" class="form-control" id="doc_state" name="doc_state" style="width: 245px">
+			      <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" value="<%=docList.get(0).get("DOC_STATE")%>"style="width: 245px">
 			    </div>
-		    	</div>
+			    <div class="form-group">
+			      <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" value="<%=docList.get(0).get("DEPT_CODE")%>"style="width: 245px">
+			    </div>
+			    <div class="form-group">
+			      <input type="text" class="form-control" id="hp_name" name="hp_name" placeholder="병원이름" value="<%=docList.get(0).get("HP_NAME")%>"style="width: 245px">
+			    </div>
+		   	</div>
+		   	</form>
 		    <div>
 		    <!--버튼시작  -->
 		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
@@ -160,6 +135,32 @@
 		    <button type="button" class="btn btn-primary" onclick="docClose()">닫기</button>
 		    <!--버튼 끝 -->
 		    </div>
+		    
 	</div>
+<script type="text/javascript">
+	function docIns() {
+		alert("저장");
+		$("#f_upd").attr("method","post");
+		$("#f_upd").attr("action","./doctorINS.mgr");
+		$("#f_upd").submit();
+	}
+	function docDel() {
+		alert("삭제함");
+		var doc_code = $("#doc_code").val();
+		//alert(doc_code);
+		location.href="/manger/doctor/doctorDEL.mgr?doc_code="+doc_code
+	}
+	function docClose() {
+		alert("닫기");
+		location.href="./doctorList.mgr";
+	}
+	function docUpd(){
+		alert("수정");
+		$("#f_upd").attr("method","get");
+		$("#f_upd").attr("action","./doctorUPD.mgr");
+		$("#f_upd").submit();
+		
+	}
+</script>
 </body>
 </html>

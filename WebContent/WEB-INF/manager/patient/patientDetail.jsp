@@ -266,7 +266,6 @@
 		$("#d_list").bootstrapTable({
 			onDblClickRow:function(row, $element, field)
 		     { 
-				
 				var jo = JSON.stringify(row);
 				var d = JSON.parse(jo);
 				var DOC_NAME = d.DOC_NAME;
@@ -305,10 +304,8 @@
 		 if(modal_content==""){
 			alert("내용을 입력하세요");
 		}else{
-			var param ="mem_code="+mem_code+"&doc_name="+doc_name+"&dept_name="+dept_name+"&dept_code="+dept_code+"&doc_code="+doc_code+"&modal_content="+modal_content+"&his_date="+his_date+"&hp_name="+hp_name;
+			var param ="mem_code="+mem_code+"&doc_name="+doc_name+"&dept_name="+dept_name+"&dept_code="+dept_code+"&doc_code="+doc_code+"&his_content="+modal_content+"&his_date="+his_date+"&hp_name="+hp_name;
 			location.href="/manager/patient/patientHISINS.mgr?"+param; 
-			
-			
 		}
 	}
 	function back(){
