@@ -3,7 +3,7 @@
 <mapper namespace="mks.Mapper.managerMapper">
 
 	<select id="login" parameterType="map" resultType="map">
-	 SELECT hp_code, hp_name, dept_name, dept_code FROM mks_online
+	 SELECT hp_code, hp_name, dept_name, dept_code,mks_id FROM mks_online
 		WHERE mks_id=#{mks_id}
 		AND mks_pw=#{mks_pw}
 	</select>
@@ -41,7 +41,14 @@
 	</select>
 	
 	<update id="noticeUPD" parameterType="map">
-		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}, board_file=#{board_file}
+		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}
+		<choose>
+		 <when test="board_file != null">
+		 ,board_file=#{board_file}
+		 </when>
+		 <otherwise>
+		 </otherwise>
+	 </choose>
 		 WHERE board_no=#{board_no}
 	</update>
 	
@@ -52,7 +59,18 @@
  
 	<insert id="noticeINS" parameterType="map">
 		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title,mks_id,board_file)
- 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), #{board_title},#{mks_id},#{board_file})
+ 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), 
+ 			        #{board_title},#{mks_id}
+	 <choose>
+		 <when test="board_file != null">
+		 ,#{board_file})
+		 </when>
+		 <otherwise>
+		 ,'')
+		 </otherwise>
+	 </choose>
+ 			        
+ 			        
 	</insert>
 	
 	

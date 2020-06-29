@@ -1,4 +1,4 @@
-package manager.notice;
+package mks.util;
 /*
  * POST방식으로 전송시 사용함.
  */

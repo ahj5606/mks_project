@@ -6,7 +6,7 @@
    String fname = b_file;
    out.print("b_file: 8->euc"+b_file);      
    out.print("<br>");      
-   String filePath = "C:\\Users\\kosmo_02\\git\\mks_project\\WebContent\\manager\\notice"; // 절대경로.   
+   String filePath = "C:\\Users\\kosmo_02\\git\\mks_project\\WebContent\\pds"; // 절대경로.   
    //파일이름만을 객체화 시켜줌, 파일 크기
    File file = new File(filePath,b_file.trim());
     String mimeType = getServletContext().getMimeType(file.toString());

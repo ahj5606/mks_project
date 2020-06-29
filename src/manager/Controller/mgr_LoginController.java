@@ -49,12 +49,15 @@ public class mgr_LoginController implements mgr_Controller {
 			Cookie hp_name = new Cookie("hp_name", lList.get(0).get("HP_NAME").toString());
 			Cookie dept_code = new Cookie("dept_code", lList.get(0).get("DEPT_CODE").toString());
 			Cookie dept_name = new Cookie("dept_name", lList.get(0).get("DEPT_NAME").toString());
+			Cookie mks_id = new Cookie("mks_id", lList.get(0).get("MKS_ID").toString());
 			hp_name.setPath("/manager");
 			dept_code.setPath("/manager");
 			dept_name.setPath("/manager");
+			mks_id.setPath("/manager");
 			res.addCookie(dept_name);
 			res.addCookie(dept_code);
 			res.addCookie(hp_name);
+			res.addCookie(mks_id);
 			HttpSession hp_code = req.getSession();
 			hp_code.setAttribute("hp_code", lList.get(0).get("HP_CODE").toString());
 			

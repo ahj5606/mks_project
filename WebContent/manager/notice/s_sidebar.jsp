@@ -5,6 +5,7 @@
 	String hp_name = "";
 	String dept_name = "";
 	String dept_code="";
+	String mks_id="";
 	
 	Cookie[] cookies = request.getCookies();
 	if(cookies!=null && cookies.length>0){
@@ -18,6 +19,9 @@
 			}
 			if(name.equals("dept_code")){
 				dept_code = cookies[i].getValue();
+			}
+			if(name.equals("mks_id")){
+				mks_id = cookies[i].getValue();
 			}
 			
 		}
