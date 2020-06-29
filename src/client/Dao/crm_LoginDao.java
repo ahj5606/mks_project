@@ -22,6 +22,7 @@ public class crm_LoginDao {
 	}
 	
 	public List<Map<String, Object>> proc_mem_login(Map<String, Object> pMap) {
+		//로그인하기.
 		logger.info("[crm_LoignDao] proc_mem_login호출 성공");
 		List<Map<String, Object>> login = new ArrayList<>();
 		String name = "";
