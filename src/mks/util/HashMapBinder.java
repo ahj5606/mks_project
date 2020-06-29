@@ -2,6 +2,7 @@ package mks.util;
 
 import java.io.File;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -16,10 +17,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 public class HashMapBinder {
 	Logger logger = Logger.getLogger(HashMapBinder.class);
 	String hp_code = "";
-	String hp_name = "";
-	String dept_name = "";
-	String dept_code="";
-	String mks_id="";
+
 	
 	
 	
@@ -36,45 +34,22 @@ public class HashMapBinder {
 	//첨부파일의 크기
 	int maxSize = 50*1024*1024;//5MB
 	
-	
 	public HashMapBinder() {}
 	
 	public HashMapBinder(HttpServletRequest req) {
 		this.req = req;
 		realFolder = "C:\\Users\\kosmo_02\\git\\mks_project\\WebContent\\pds";
-		Cookie[] cookies = req.getCookies();
-		if(cookies!=null && cookies.length>0){
-			for(int i =0;i<cookies.length;i++){
-				String name = cookies[i].getName();
-				if(name.equals("hp_name")){
-					hp_name = cookies[i].getValue();
-				}
-				if(name.equals("dept_name")){
-					dept_name = cookies[i].getValue();
-				}
-				if(name.equals("dept_code")){
-					dept_code = cookies[i].getValue();
-				}
-				if(name.equals("mks_id")){
-					mks_id = cookies[i].getValue();
-				}
-				
-			}
-		}
-		
 		HttpSession sess = req.getSession();
 		hp_code = (String)sess.getAttribute("hp_code");
 		
+
 	
 	}
 	public void multiBind(Map<String,Object> pMap) {
 		logger.info("multiBind 호출 성공");
 		pMap.clear();
-		pMap.put("hp_name", hp_name);
-		pMap.put("dept_name", dept_name);
-		pMap.put("dept_code", dept_code);
-		pMap.put("mks_id", mks_id);
 		pMap.put("hp_code", hp_code);
+		
 		logger.info("pMap=>"+pMap);
 		try {
 			logger.info(" before multi : "+multi);
@@ -123,6 +98,8 @@ public class HashMapBinder {
 	public void binder(Map<String,Object> pMap) {
 		//기존에 들어 있던 값이 있다면 모두 비운다.
 		pMap.clear();
+		pMap.put("hp_code", hp_code);
+
 		Enumeration<String> en = req.getParameterNames();
 		//enumeration에 값이 들어있는지 체크해 줌.
 		HangulConversion hc = new HangulConversion();

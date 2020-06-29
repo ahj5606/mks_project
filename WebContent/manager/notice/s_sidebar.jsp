@@ -58,7 +58,7 @@
 		
 		<!-- 메뉴들 시작  -->
 		<li class="nav-item">
-			<a class="nav-link" href="/manager/notice/noticeSEL.mgr?hp_code=<%=hp_code%>">
+			<a class="nav-link" href="/manager/notice/noticeSEL.mgr">
 				<i class="fas fa-clipboard-list"></i>
 				<span>공지사항</span>
 			</a>

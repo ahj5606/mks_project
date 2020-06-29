@@ -77,7 +77,11 @@ public class mgr_NoticeController implements mgr_Controller {
 		if("noticeSEL".equals(requestName)) {
 			//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
 			nMap = new HashMap<String, Object>();
-			nMap.put("mks_id", id);
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.binder(nMap);			
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
 			nMap.put("hp_code", hp_code);
 			logger.info("mgr_NoticController=>noticeSEL=>nMap=>"+nMap);
 			nList = mnl.noticeSEL(nMap);
@@ -90,10 +94,13 @@ public class mgr_NoticeController implements mgr_Controller {
 		}else if("noticeSEARCH".equals(requestName)) {
 				//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
 				nMap = new HashMap<String, Object>();
+				HashMapBinder hmb = new HashMapBinder(req);
+				hmb.binder(nMap);			
+				nMap.put("dept_name", dept_name);
+				nMap.put("dept_code", dept_code);
 				nMap.put("mks_id", mks_id);
 				nMap.put("hp_code", hp_code);
 				nMap.put("board_title", search);
-				nMap.put("dept_name", search);
 				logger.info("mgr_NoticController=>noticeSEARCH=>nMap=>"+nMap);
 				nList = mnl.noticeSEARCH(nMap);
 				logger.info("mgr_NoticController=>noticeSEARCH=>nList=>"+nList);
@@ -107,7 +114,12 @@ public class mgr_NoticeController implements mgr_Controller {
 			//글 row를 클릭하여 상세보기 페이지로 넘어갈 때 req.getParameter 글번호
 			logger.info("controller=>detail");
 			
-			nMap = new HashMap<String, Object>(); 
+			nMap = new HashMap<String, Object>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.binder(nMap);	
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
 			nMap.put("hp_code", hp_code);
 			nMap.put("board_no", no);
 			
@@ -133,6 +145,10 @@ public class mgr_NoticeController implements mgr_Controller {
 			nMap = new HashMap<String, Object>();
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.multiBind(nMap);
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
 			/*
 			 * nMap.put("mks_id", mks_id); nMap.put("hp_code", hp_code);
 			 * nMap.put("board_content", content); nMap.put("board_title", title);
@@ -147,7 +163,7 @@ public class mgr_NoticeController implements mgr_Controller {
 			if(result==1) {
 				 mav.IsForward(false); 
 				 //mav.addObject("nMap", nMap);
-				 mav.setViewName("/notice/noticeSEL.mgr?hp_code="+hp_code+"&");
+				 mav.setViewName("/notice/noticeSEL.mgr");
 				 
 				//res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
 			}
@@ -170,13 +186,17 @@ public class mgr_NoticeController implements mgr_Controller {
 			nMap = new HashMap<String, Object>();
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.multiBind(nMap);
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
 			
 			result = mnl.noticeUPD(nMap);
 			
 			//mav.cudResult(result);
 			if(result==1) {
 				mav.IsForward(false);
-				mav.setViewName("/notice/noticeSEL.mgr?hp_code="+hp_code+"&");
+				mav.setViewName("/notice/noticeSEL.mgr");
 				/*
 				 * res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
 				 */				
@@ -195,12 +215,16 @@ public class mgr_NoticeController implements mgr_Controller {
 			nMap = new HashMap<String, Object>();
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(nMap);
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
 			
 			result = mnl.noticeDEL(nMap);
 			
 			if(result==1) {
 				mav.IsForward(false);
-				mav.setViewName("/notice/noticeSEL.mgr?hp_code="+hp_code+"&");
+				mav.setViewName("/notice/noticeSEL.mgr");
 				/*
 				 * res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
 				 */				
