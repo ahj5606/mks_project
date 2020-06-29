@@ -223,13 +223,30 @@
 		<if test="hp_code!=null">
 			AND res.hp_code=#{hp_code}
 		</if>
+		ORDER BY res.sch_date
 	</select>	
+	
+	<select id="reserveDEPT" parameterType="map" resultType="map">
+			select distinct dept_name
+			from  mks_reserve
+		<if test="hp_code!=null">
+			where hp_code=#{hp_code}
+		</if>
+		 ORDER BY dept_name
+	</select>	
+	
 	<select id="reserveSEL" parameterType="map" resultType="map">
-			select mem.mem_memcode, mem.mem_name,  mem.mem_phone, res.*
+			select mem.mem_memcode, mem.mem_name,  mem.mem_phone
+			, res.mem_memcode, res.sch_code, res.doc_code, res.doc_name
+							, res.dept_code, res.dept_name, res.hp_name, res.hp_code,
+							 res.sch_date, res.res_time, res.res_memo, res.res_qrcode
 			from  mks_member mem, mks_reserve res
 			where mem.mem_memcode=res.mem_memcode
 		<if test="hp_code!=null">
 			AND res.hp_code=#{hp_code}
+		</if>
+		<if test="dept_name!=null">
+			AND res.dept_name=#{dept_name}
 		</if>
 		<if test="mem_name!=null">
 			AND mem.mem_name=#{mem_name}
@@ -237,8 +254,13 @@
 		<if test="doc_name!=null">
 			AND res.doc_name=#{doc_name}
 		</if>
-		
+		<if test="startDate!=null and endDate!=null">
+			AND res.sch_date between #{startDate} and #{endDate}
+		</if>
+		ORDER BY res.sch_date
 	</select>
+	
+	
 		<select id="reserveDetail" parameterType="map" resultType="map">
 			select mem.mem_memcode, mem.mem_name, mem.mem_phone, mem.mem_socialnum,
 			 	res.res_memo, res.sch_code, res.doc_name,
@@ -254,9 +276,19 @@
 			AND res.sch_code=#{sch_code}
 		</if>
 	</select>	
+		<select id="reservePatient" parameterType="map" resultType="map">
+        SELECT MIN(mem.mem_name) mem_name , mem.mem_memcode mem_memcode, MIN(mem.mem_socialnum) mem_socialnum,MIN(mem.mem_phone) mem_phone
+               FROM MKS_MEMBER mem , MKS_HISTORY his
+           WHERE mem.mem_memcode = his.mem_memcode 
+   		<if test="hp_code!=null">
+	   		AND his.hp_code=#{hp_code}
+   		</if>
+   		GROUP BY mem.mem_memcode
+   		ORDER BY mem.mem_memcode
+	</select>
 	
 	<select id="reserveDoctor" parameterType="map" resultType="map">
-	 select DISTINCT doc_code, doc_name,dept_name,dept_code,HP_NAME
+	 select DISTINCT doc_code, doc_name,dept_name,dept_code,HP_NAME,hp_code
 		from MKS_SCHEDULE
 	<if test="hp_code!=null">
 		where hp_code=#{hp_code}
@@ -265,14 +297,46 @@
 	</select>
 	
 	<select id="reserveSchedule" parameterType="map" resultType="map">
-		select sch_code, sch_date, sch_time
-		from mks_schedule
-		where doc_code=#{doc_code}
+	   select sch_code, sch_date, substr(sch_time,0,2)||':'||substr(sch_time,3,2) sch_time
+        from mks_schedule
+        where sch_code not in (select sch_code from mks_reserve)
+		and doc_code=#{doc_code}
 		<if test="hp_code!=null">
-			AND hp_code=#{hp_code}
+		AND hp_code=#{hp_code}
 		</if>
+		ORDER BY sch_date
 	</select>
+	<insert id="reserveINS" parameterType="map">
+	insert into mks_reserve (mem_memcode, sch_code, doc_code, doc_name
+							, dept_code, dept_name, hp_name, hp_code,
+							 sch_date, res_time, res_memo, res_qrcode)
+							 VALUES(#{mem_memcode},
+								   #{sch_code},
+								   #{doc_code},
+								   #{doc_name},
+								   #{dept_code},
+								   #{dept_name},
+								   #{hp_name},
+								   #{hp_code},
+								   #{sch_date},
+								   #{res_time},
+								   #{res_memo},
+								   #{res_qrcode}
+								  )
+							 
+	</insert>
 	
+	<update id="reserveUPD" parameterType="map">
+           UPDATE mks_reserve
+               set
+              mem_memcode= #{mem_memcode}
+              WHERE sch_code= #{sch_code}
+	</update>
+	
+	<delete id="reserveDEL" parameterType="map">
+	DELETE FROM mks_reserve WHERE mem_memcode=#{mem_memcode}
+	AND sch_code = #{sch_code}
+	</delete>
 		<select id="getResTotal" parameterType="map" resultType="int">
 	    SELECT count(mr.sch_code)
         FROM MKS_RESERVE  mr, mks_schedule ms
@@ -281,5 +345,5 @@
 	
 	
 	
-	
+	          
 </mapper>

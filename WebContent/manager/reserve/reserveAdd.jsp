@@ -26,66 +26,147 @@
 	}
 	function reserve_save(){
 		alert("저장");
-		var r_name = $("#patientName").val();
+		var pCode = $("#patientCode").val();
+		var p_code = parseInt(pCode);
+		var p_name = $("#patientName").val();
+		var p_snum = $("#socialNum").val();
+		var p_phone = $("#phoneNum").val();
+		var d_dept = $("#dept").val();
+		var d_deptno = $("#deptno").val();
+		var doc_code= $("#doctorCode").val();
 		var doc_name =$("#doctor").val();
+		var r_Code =$("#resCode").val();
+		var resCode = parseInt(r_Code);
 		var resTime =$("#resTime").val();
-		var resDate =$("#resDate").val();
+		var resdate =$("#resDate").val();
+		var resMemo =$("#memo").val();
+		
+		var resdateSpl=null;
+		resdateSpl = resdate.split('/');
+		//alret(resdateSpl[0]+"//"+resdateSpl[1]+"//"+resdateSpl[2]);
+		var resDate = resdateSpl[0]+"/"+resdateSpl[1]+"/"+resdateSpl[2]; 
+		alert(resDate);
+		
 		var res_timeSpl = null;
 		res_timeSpl = resTime.split(':');
 		var res_time=res_timeSpl[0]+res_timeSpl[1];
-		alert("합침"+res_time);
-		alert("r_name doc_name resTime "+r_name+","+doc_name+","+resTime);
-		alert("resDate "+resDate);
-/* 		$("#f_write").attr("method","post");
-		$("#f_write").attr("action","./boardINS.mvc3?cud=INS");
-		$("#f_write").submit(); */
+		
+		var hp_name="새움병원";
+		var hp_code="280HP";
+		//위에는 세션으로 받아오게 한다
+		//alert(resDate);
+		//alert(p_code+","+p_name+","+p_snum+","+p_phone+","+d_dept+","+d_deptno+","+doc_code+","+doc_name+","+res_time+","+resDate+","+resMemo);
+		//alert(typeof p_code+", "+typeof resCode);
+		var param= "mem_memcode="+p_code+
+				   "&dept_name="+d_dept+
+				   "&dept_code="+d_deptno+
+				   "&doc_code="+doc_code+
+				   "&doc_name="+doc_name+
+				   "&sch_code="+resCode+
+				   "&res_time="+res_time+
+				   "&sch_date="+resDate+
+				   "&res_memo="+resMemo+
+				   "&hp_code="+hp_code+
+				   "&hp_name="+hp_name+
+				   "&res_qrcode="+0;
+		alert("param"+param);
+	//	location.href="/manager/reserve/reserveINS.mgr?"+param
+	/*  $("#res_write_form").attr("method","post");
+		$("#res_write_form").attr("action","./reserveINS.mgr");
+		$("#res_write_form").submit(); */
+		
+	$.ajax({
+			url:"/manager/reserve/reserveINS.mgr?"+param
+			,success:function(data){
+				if(data.trim()=="성공"){
+					alert("입력에 성공했습니다.");
+					location.href="/manager/reserve/reserveList.mgr";
+				}else{
+					alert("입력에 실패했습니다.");
+					$("#UpdateModal").modal('hide');
+					location.href="/manager/reserve/mgr_reserveAdd.jsp";
+				}
+			}
+			
+		}) 
 	}
 
 </script>
 	<div class="container-fluid" id="sidebar">
 		<h1>예약 등록</h1>
 		<div class="container">
-			<h2>예약 추가</h2>
-			<!-- <button class="btn btn-default btn-primary">환자검색</button> -->
+<!-- 			<h2>예약 추가</h2>
+ -->			<!-- <button class="btn btn-default btn-primary">환자검색</button> -->
 			<!-- 담당자 검색 -->
-			<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#doctorSearch">
-					담당자 검색
-				</button>
-			<form role="form">
-			<div class="form-group">
+			
+			<form role="res_write_form">
+			  <div class="row">
+			<div class="form-group col-xs mr-2">
+					<label for="patientCode">환자코드</label>
+					<input type="number" class="form-control" style="width:100px;" id="patientCode" placeholder="환자코드" readonly>
+			</div>
+			<div class="form-group col-xs-2 mr-2">
 					<label for="patientName">성명</label>
-					<input type="text" class="form-control" id="patientName" placeholder="Enter patientName">
+					<input type="text" class="form-control" id="patientName" placeholder="환자 성명" readonly>
 				</div>
-				<div class="form-group">
+				<div class="form-group col-xs mr-2">
 					<label for="socialNum">주민등록번호</label>
-					<input type="text" class="form-control" id="socialNum"  placeholder="Enter patientName">
+					<input type="text" class="form-control" id="socialNum"  placeholder="주민등록 번호" readonly>
 				</div>
-				<div class="form-group">
+				<div class="form-group col-xs mr-2">
 					<label for="patientNumber">전화번호</label>
-					<input type="text" class="form-control" id="patientName" placeholder="Enter patientName">
+					<input type="text" class="form-control" id="phoneNum" placeholder="전화번호" readonly>
 				</div>
+				</div>
+				<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#patientSearch" style="margin-bottom:10px;">
+					환자 입력
+				</button>
 				
-				<div class="form-group">
+				
+				<p style="border: 1px solid gray;"></p>
+			<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#doctorSearch" style="margin-bottom:10px;">
+					담당의 검색
+				</button>
+				  <div class="row">
+				<div class="form-group  col-xs mr-2">
+					<label for="deptno">진료과</label>
+					<input type="text" class="form-control"style="width:150px;" id="deptno" placeholder="진료과 코드" readonly>
+				</div>
+				<div class="form-group  col-xs mr-2">
 					<label for="dept">진료과</label>
-					<input type="text" class="form-control" id="dept" placeholder="Enter dept">
+					<input type="text" class="form-control"style="width:150px;" id="dept" placeholder="진료과" readonly>
 				</div>
-				<div class="form-group">
+				<div class="form-group  col-xs mr-2">
+					<label for="doctorCode">의사 코드</label>
+					<input type="text" class="form-control" id="doctorCode" placeholder="의사 코드" readonly>
+				</div>
+				<div class="form-group  col-xs mr-2">
 					<label for="doctor">담당의</label>
-					<input type="text" class="form-control" id="doctor" placeholder="Enter doctor">
+					<input type="text" class="form-control" id="doctor" placeholder="담당의" readonly>
 				</div>
+				</div>
+				  <div class="row">
+			<div class="form-group col-xs mr-2">
+					<label for="reserveCode">예약 코드</label>
+					<input type="number" class="form-control" style="width:100px;" id="resCode" placeholder="예약 코드" readonly>
+			</div>
+				<div class="form-group  col-xs mr-2">
+				<label for="reserveDate">예약 날짜</label> 
+						<input type="text" id="resDate"
+							class="form-control mb-2" placeholder="0000/00/00" readonly>  
+				</div>
+				<div class="form-group  col-xs mr-2">
+				<label for="reserveDate">예약 시간</label> 
+				 <input type="text" id="resTime" class="form-control" placeholder="00:00" readonly>
+					<!-- 	<input type="text" id="resTime" class="form-control mb-2" placeholder="time input">  -->
+				</div>
+				</div>
+					
+				 <div class="row">
 				<div class="form-group">
 					<label for="memo">증상</label>
-					<input type="text" class="form-control" id="memo" placeholder="Enter doctor">
+					<input type="text" class="form-control" id="memo" placeholder="">
 				</div>
-				<div class="form-group">
-				<label for="reserveDate">예약 날짜</label> 
-						<input type="date" id="resDate"
-							class="form-control mb-2" placeholder="date input">  
-				</div>
-				<div class="form-group">
-				<label for="reserveDate">예약 시간</label> 
-				 <input type="time" id="resTime" class="form-control" placeholder="time input">
-					<!-- 	<input type="text" id="resTime" class="form-control mb-2" placeholder="time input">  -->
 				</div>
 			</form>
 				
@@ -125,11 +206,11 @@
 <!-- 담당자 검색 -->
 		<!-- 모달 -->		
 	
-				<div class="modal fade" id="doctorSearch" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal fade" id="patientSearch" tabindex="-1" role="dialog" aria-hidden="true">
 				  <div class="modal-dialog modal-lg" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="Search">담당자 검색</h5>
+				        <h5 class="modal-title" id="Search">환자 검색</h5>
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				          <span aria-hidden="true">&times;</span>
 				        </button>
@@ -137,7 +218,43 @@
 				      <div class="modal-body">
 				      <div>
 				      <div class='text-center'>
-							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="d_search()">담당자 검색</button>
+							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="p_search()">환자 검색</button>
+					</div>
+					<br>
+					<div class="my-custom-scrollbar table-wrapper-scroll-y">
+				      <table class="table table-hover" id="p_list" data-page-size="10" data-search="true">
+						<thead>
+						 	<tr>
+								 <th scope="col" data-field="MEM_MEMCODE">환자 코드</th>
+								 <th scope="col" data-field="MEM_NAME">환자 이름</th>
+					 			 <th scope="col" data-field="MEM_SOCIALNUM">주민번호</th> 	
+								 <th scope="col" data-field="MEM_PHONE">전화번호</th> 
+				  			</tr>
+						</thead>
+					 </table>
+					</div>
+				      </div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>	
+				
+				<div class="modal fade" id="doctorSearch" tabindex="-1" role="dialog" aria-hidden="true">
+				  <div class="modal-dialog modal-lg" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="Search">의사 정보 검색</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				      <div>
+				      <div class='text-center'>
+							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="d_search()">의사 검색</button>
 					</div>
 					<br>
 					<div class="my-custom-scrollbar table-wrapper-scroll-y">
@@ -166,7 +283,7 @@
 				  <div class="modal-dialog modal-lg" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="Search">스케쥴 검색</h5>
+				        <h5 class="modal-title" id="Search">선택 가능한 일정</h5>
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				          <span aria-hidden="true">&times;</span>
 				        </button>
@@ -174,7 +291,7 @@
 				      <div class="modal-body">
 				      <div>
 				      <div class='text-center'>
-						<div id="calendar"></div>
+						<!-- <div id="calendar"></div> -->
 					</div>
 					<br>
 					<div class="my-custom-scrollbar table-wrapper-scroll-y">
@@ -201,19 +318,22 @@
 	var doc_code=null;
 	
 $(document).ready(function(data){
-
 	$("#d_list").bootstrapTable({
-		onDblClickRow:function(row, $element, field)
-	     { 
-			
-			var jo = JSON.stringify(row);
-			var d = JSON.parse(jo);
- 			var DOC_NAME = d.DOC_NAME;
-			var DEPT_NAME = d.DEPT_NAME;
-			var DEPT_CODE = d.DEPT_CODE;
-			var HP_NAME = d.HP_NAME;
-			var DOC_CODE = d.DOC_CODE;
-			//$("#doctorSearch").modal('hide');
+		onDblClickRow:function(row, $element, field){
+			//의사검색
+	 	var jo = JSON.stringify(row);
+		var d = JSON.parse(jo);
+		var DOC_NAME = d.DOC_NAME;
+		var DEPT_NAME = d.DEPT_NAME;
+		var DEPT_CODE = d.DEPT_CODE;
+		var HP_NAME = d.HP_NAME;
+		var DOC_CODE = d.DOC_CODE;
+		$("#deptno").val(DEPT_CODE);
+		$("#dept").val(DEPT_NAME);
+		$("#doctor").val(DOC_NAME);
+		$("#doctorCode").val(DOC_CODE);
+		 var getDoc_code=$("#doctorCode").val();
+		 alert("의사코드"+getDoc_code);
 			$("#scheduleSearch").modal('show');
 			$("#sch_list").bootstrapTable('refreshOptions', {
 			    url:'/manager/reserve/reserveSchedule.mgr?doc_code='+DOC_CODE
@@ -226,85 +346,111 @@ $(document).ready(function(data){
 	$("#sch_list").bootstrapTable({
 		onDblClickRow:function(row, $element, field)
 	     { 
+			//예약일정검색
 			alert("호출");
-	/* 		var jo = JSON.stringify(row);
+	 		var jo = JSON.stringify(row);
 			var d = JSON.parse(jo);
 			var SCH_CODE= d.SCH_CODE;
 			var SCH_DATE = d.SCH_DATE;
 			var SCH_TIME = d.SCH_TIME;
-			var res_time= null;
-			hour =SCH_TIME.substring(0,2);
-			min =SCH_TIME.substring(2,4);
-			res_time=hour+":"+min;
-			$("#sch_code").val(SCH_CODE);
-			$("#sch_date").val(SCH_DATE);
-			$("#sch_time").val(res_time);
-			$("#scheduleSearch").modal('hide'); */
+			$("#resCode").val(SCH_CODE);
+			$("#resDate").val(SCH_DATE);
+			$("#resTime").val(SCH_TIME);
+			$("#doctorSearch").modal('hide');
+			$("#scheduleSearch").modal('hide');
 	     }
+
+
+	})
+	$("#p_list").bootstrapTable({
+		onDblClickRow:function(row, $element, field)
+	     { 
+			//환자검색
+			alert("호출");
+	 		var jo = JSON.stringify(row);
+			var d = JSON.parse(jo);
+			var MEM_MEMCODE = d.MEM_MEMCODE;
+			var MEM_NAME= d.MEM_NAME;
+			var MEM_SOCIALNUM = d.MEM_SOCIALNUM;
+			var MEM_PHONE = d.MEM_PHONE;
+			$("#patientCode").val(MEM_MEMCODE);
+			$("#patientName").val(MEM_NAME);
+			$("#socialNum").val(MEM_SOCIALNUM);
+			$("#phoneNum").val(MEM_PHONE);
+			$("#patientSearch").modal('hide');
+	     }
+
 	})
 	$("#sch_list").bootstrapTable('hideLoading');
 })
+	     var day=new Date();
+	     var year = day.getFullYear(); // 년도
+	     var month = day.getMonth() + 1;  // 월
+	     var date = day.getDate();  // 날짜
+	     var today = year+"-"+month+"-"+date;
 
+	  //   document.write(getDoc_code);
+	 //    document.write(today);
+	     //아이디에 닥코드 박힘?
+/* function openCalendar(){
+	     //document.addEventListener('DOMContentLoaded', function() {
+	         var calendarEl = document.getElementById('calendar');
+	         var calendar = new FullCalendar.Calendar(calendarEl, {
+	           plugins: [ 'dayGrid' ],
+	         	initialDate: today,
+	         	defaultView: 'dayGridMonth',
+	         	eventLimit: true, // 하루에 표시되는 이벤트 제한. +n more로 표시됨
+	         	events: [
+	         	  {
+	         		title: 'My Event',
+	         		textColor :"#000000",
+	          	   start: '2020-06-25T10:00',
+	          	  end: '2020-06-25T16:00',
+	           	  display: 'background'
+	          	 },
+	         	  {
+	         		title: 'My Event',
+	          	   start: '2020-06-25T10:00',
+	          	  end: '2020-06-25T16:00',
+	           	  display: 'background'
+	          	 },
+	         	  {
+	         		title: 'My Event',
+	          	   start: '2020-06-25T10:00',
+	          	  end: '2020-06-25T16:00',
+	           	  display: 'background'
+	          	 },
+	         	  {
+	         		title: 'My Event',
+	          	   start: '2020-06-25T10:00',
+	          	  end: '2020-06-25T16:00',
+	           	  display: 'background'
+	          	 },
+	         	  {
+	         		title: 'My Event',
+	          	   start: '2020-06-25T10:00',
+	          	  end: '2020-06-25T16:00',
+	           	  display: 'background'
+	          	 },
+	         	  {
+	         		title: 'My Event',
+	          	   start: '2020-06-26T10:00',
+	           	  display: 'background'
+	          	 }
+	         	]	
+	         });
+
+	         calendar.render();
+	     }; */
 function d_search(){
 	$("#d_list").bootstrapTable('refreshOptions', {
 	    url:'/manager/reserve/reserveDoctor.mgr'
   })
 } 
-
- var day=new Date();
- var year = day.getFullYear(); // 년도
- var month = day.getMonth() + 1;  // 월
- var date = day.getDate();  // 날짜
- var today = year+"-"+month+"-"+date;
- document.write(today);
- document.addEventListener('DOMContentLoaded', function() {
-     var calendarEl = document.getElementById('calendar');
-     var calendar = new FullCalendar.Calendar(calendarEl, {
-       plugins: [ 'dayGrid' ],
-     	initialDate: today,
-     	defaultView: 'dayGridMonth',
-     	eventLimit: true, // 하루에 표시되는 이벤트 제한. +n more로 표시됨
-     	events: [
-     	  {
-     		title: 'My Event',
-     		textColor :"#000000",
-      	   start: '2020-06-25T10:00',
-      	  end: '2020-06-25T16:00',
-       	  display: 'background'
-      	 },
-     	  {
-     		title: 'My Event',
-      	   start: '2020-06-25T10:00',
-      	  end: '2020-06-25T16:00',
-       	  display: 'background'
-      	 },
-     	  {
-     		title: 'My Event',
-      	   start: '2020-06-25T10:00',
-      	  end: '2020-06-25T16:00',
-       	  display: 'background'
-      	 },
-     	  {
-     		title: 'My Event',
-      	   start: '2020-06-25T10:00',
-      	  end: '2020-06-25T16:00',
-       	  display: 'background'
-      	 },
-     	  {
-     		title: 'My Event',
-      	   start: '2020-06-25T10:00',
-      	  end: '2020-06-25T16:00',
-       	  display: 'background'
-      	 },
-     	  {
-     		title: 'My Event',
-      	   start: '2020-06-26T10:00',
-       	  display: 'background'
-      	 }
-     	]	
-     });
-
-     calendar.render();
-   });
+function p_search(){
+	$("#p_list").bootstrapTable('refreshOptions', {
+	    url:'/manager/reserve/reservePatient.mgr'
+  })
+} 
 
  </script>	
