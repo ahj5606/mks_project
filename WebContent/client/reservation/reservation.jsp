@@ -86,26 +86,25 @@
             ddd2 = resList.get(i+1).get("res_date").toString();
             date2 = sdf.parse(ddd2);
             Calendar cal1 = Calendar.getInstance();
-              cal1.setTime(date1);
-              cal1.add(Calendar.DATE, +1);
-              date1 = cal1.getTime();
-              date1_str = sdf.format(date1);
-              
-              if(!date1.equals(date2)) {
-                 sb.append("end: "+"'"+date1_str+"',");
-               sb.append("rendering: 'background'");
-               sb.append("},{");
-               sb.append("start:"+"'"+ddd2+"',");
-              }
+            cal1.setTime(date1);
+            cal1.add(Calendar.DATE, +1);
+            date1 = cal1.getTime();
+            date1_str = sdf.format(date1);
+            if(!date1.equals(date2)) {
+           	  sb.append("end: "+"'"+date1_str+"',");
+           	  sb.append("rendering: 'background'");
+           	  sb.append("},{");
+           	  sb.append("start:"+"'"+ddd2+"',");
+            }
          }else {
-            Calendar cal1 = Calendar.getInstance();
-              cal1.setTime(date1);
-              cal1.add(Calendar.DATE, +1);
-              date1 = cal1.getTime();
-              date1_str = sdf.format(date1);
-              sb.append("end: "+"'"+date1_str+"',");
-            sb.append("rendering: 'background'");
-            sb.append("}]");
+        	 Calendar cal1 = Calendar.getInstance();
+        	 cal1.setTime(date1);
+        	 cal1.add(Calendar.DATE, +1);
+        	 date1 = cal1.getTime();
+        	 date1_str = sdf.format(date1);
+        	 sb.append("end: "+"'"+date1_str+"',");
+        	 sb.append("rendering: 'background'");
+        	 sb.append("}]");
          }
       } catch (ParseException e) {
       }

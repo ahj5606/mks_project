@@ -10,7 +10,6 @@
 		mem_name = (String)parameter;
 		mks_id = (String)obj;
 	}
-
 %>
 <!DOCTYPE html>
 <html>
@@ -31,23 +30,19 @@
 .container {
 	padding: 5px;
 }
-
 h5.card-header a, h6.card-header, .card-body {
 	color: #353535;
 }
-
 th, td {
 	height: 5px;
 	font-size: small;
 	/* padding:2px; ===> 왜 안먹지...?*/
 }
-
 a.page-link {
 	color: #4C4C4C;
 }
 </style>
 <script type="text/javascript">
-
 var marker;//5개가 출력(json으로 스캔-jsonMapList.jsp)
 var mArray=new Array();
 var dept_name="";
@@ -99,13 +94,9 @@ var sts =new Array();
 	
 	function login(){
 		alert("로그인 버튼!");
-
 		$("#f_login").attr("method","post");
 		$("#f_login").attr("action","/login/login.crm?requestName=login");//로그인 url ****
 		$("#f_login").submit();
-	
-
-		location.href='/client/login/loginpro.jsp'
 	}
 	
 	function search_addr() {
@@ -187,7 +178,6 @@ var sts =new Array();
 	
 				   var imsi = jsonDoc[i].DEPT_NAME.toString();
 					sts[i] =imsi.indexOf(dept_name);//-1이면 없는거 밑에 마커 없애기. 카테고리정한걸 예약리스트에  보내기
-
 					   marker = new daum.maps.Marker({
 						  id: i
 						 ,position: new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1)
@@ -200,7 +190,6 @@ var sts =new Array();
 						if (imsi.indexOf(dept_name) == -1) {
 							marker.setMap(null);
 			   			} else {
-
 				       daum.maps.event.addListener(marker, 'click',(function(marker,i){
 					   return function() {
 						   var content = '<b>병원이름 : '+jsonDoc[i].HP_NAME+'</b>';
@@ -217,7 +206,7 @@ var sts =new Array();
 %>
 									var imsi = jsonDoc[i].HP_NAME;
 									var imsi1 = jsonDoc[i].HP_CODE;
-									//alert(imsi1);
+									alert(imsi1);
 								   //content += '<a href="javascript:popup_reservation('+imsi+')">';																	
 								   //content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
 								   content += '<button class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+","+"'"+imsi1+"'"+')" style="width:46px;font-size:1px;">예약</button><br>'
@@ -226,11 +215,9 @@ var sts =new Array();
 %>
 													content += '<br>';
 													content += '<br>';
-
 													infowindow.setContent(content);
 													infowindow.open(map, marker);
 													map.setCenter(this.getPosition());
-
 												}//end of 반환함수
 											})(marker, i));////////////end of addLitener
 							//마커를 생성했을때 click이벤트 처리하기
@@ -382,24 +369,21 @@ var sts =new Array();
 					<div class="row mb-1">
 						<div class="col-md">
 							<!-- 정보 -->
-							<div class="card">
-								<h6 class="card-header"
-									style="height: 35px; background-color: #007bff; color: #FFFFFF;">예약정보</h6>
-								<div class="card-body pt-1"
-									style="background-color: #FAED7D; height: 110px;">
+					   		<div class="card">
+	  							<h6 class="card-header" style="height:35px;background-color:#007bff;color:#FFFFFF;">예약정보</h6>
+	  							<div class="card-body py-1" style="background-color:#FAED7D;">
 									<div class="row">
-										<div class="col-md py-1 px-3" style="height: 100px;">
+										<div class="col-md py-1 px-3">
 											<table>
 												<tr>
-													<td style="padding-right: 50px;">
+													<td style="padding-right:5px;">
 														<table id="t_my_resevation">
 														</table>
 													</td>
 													<td>
 														<table id="qr_img">
 															<tr>
-																<td><img src="./qrCode.jpg" class="rounded"
-																	alt="qr코드 이미지"></td>
+																<td><img src="./qrCode.jpg" class="rounded" alt="qr코드 이미지"></td>
 															</tr>
 														</table>
 													</td>
@@ -407,7 +391,7 @@ var sts =new Array();
 											</table>
 										</div>
 									</div>
-								</div>
+	  							</div>
 							</div>
 							<!-- 페이지네이션 -->
 							<ul class="pagination pagination-small justify-content-center mb-0">
@@ -511,47 +495,40 @@ var sts =new Array();
 				});
 		//************************* 즐겨찾기병원 목록 가져오기!! (hidden으로 병원코드 숨겨놓기)
 	<%}%>
-	$.ajax({
-		url: "/client/login/jsonMyReservList.jsp?num=0"
-		,dataType: "text"
-		,success: function(data){
-			var totalSize = Number(data.trim()); 
-			var mok = parseInt(totalSize);
-			if(mok<3){
-				$("#page_3").remove();
-				if(mok<2){
-					$("#page_2").remove();
-					if(mok<1){
-						$("#page_1").remove();
+		$.ajax({
+			url: "/client/login/jsonMyReservList.jsp?num=0"
+			,dataType: "text"
+			,success: function(data){
+				var totalSize = Number(data.trim()); 
+				var mok = parseInt(totalSize);
+				if(mok<3){
+					$("#page_3").remove();
+					if(mok<2){
+						$("#page_2").remove();
+						if(mok<1){
+							$("#page_1").remove();
+						}
 					}
 				}
+				res_pageGet(1);
 			}
-			//res_pageGet(1);
-		}
-	});
-	
-	$("#s_gwa").change(function(){
-		alert(this.value);
-	});
-});
-
-		$(document).ready(function() { //카테고리 선택
-			s_categori();//dept name 선택
-			categori_map();
-			
-			$("#s_gwa").change(function() {
-				alert(this.value);
-				dept_name = $('#s_gwa').val();
-				alert("dept_name: " + dept_name);
-				categori_map();
-			});
-
 		});
+	});
+	$(document).ready(function() { //카테고리 선택
+		s_categori();//dept name 선택
+		categori_map();
+		
+		$("#s_gwa").change(function() {
+			alert(this.value);
+			dept_name = $('#s_gwa').val();
+			alert("dept_name: " + dept_name);
+			categori_map();
+		});
+	});
 	</script>
 	<!-- 지도 API -->
 	<script>
 		var geocoder = new daum.maps.services.Geocoder();
-
 		var map = new daum.maps.Map(document.getElementById('map'), {
 			zoom : 20,
 			center : new daum.maps.LatLng(37.478513, 126.877800),
