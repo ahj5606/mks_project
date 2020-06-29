@@ -53,16 +53,16 @@ public class mgr_DoctorDao {
 		return dList;
 	}
 	public List<Map<String, Object>> doctorDetail(Map<String, Object> pMap) {
-		List<Map<String,Object>> dDetail= null;
+		List<Map<String,Object>> dList= null;
 		try {
 			SqlSession sqlSes = sqlMapper.openSession();
 			logger.info("다오 doctorDetail 호출");
-			dDetail=sqlSes.selectList("doctorDetail",pMap);
-			logger.info("doctorDetail: "+dDetail.size());
+			dList=sqlSes.selectList("doctorDetail",pMap);
+			logger.info("doctorDetail: "+dList.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return dDetail;
+		return dList;
 	}
 	public int doctorINS(Map<String, Object> pMap) {
 		logger.info("doctorINS호출 성공");
@@ -85,7 +85,6 @@ public class mgr_DoctorDao {
 		try {
 			SqlSession sqlSes = sqlMapper.openSession();
 			result = sqlSes.update("doctorUPD",pMap);
-			logger.info("result:"+result);
 			sqlSes.commit(true);
 		} catch (Exception e) {
 			e.printStackTrace();

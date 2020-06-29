@@ -33,19 +33,19 @@ public class mgr_DoctorLogic {
 		return dList;
 	}
 	public int doctorINS(Map<String, Object> pMap) {
-		logger.info("doctorINS");
+		logger.info("Logic doctorINS");
 		int result = 0;
 		result = mgr_dDao.doctorINS(pMap);
 		return result;
 	}
 	public int doctorUPD(Map<String, Object> pMap) {
-		logger.info("doctorUPD");
+		logger.info("Logic doctorUPD");
 		int result =0;
 		result=mgr_dDao.doctorUPD(pMap);
 		return result;
 	}
 	public int doctorDEL(Map<String, Object> pMap) {
-		logger.info("doctorDEL");
+		logger.info("Logic doctorDEL");
 		int result =0;
 		result=mgr_dDao.doctorDEL(pMap);
 		return result;
