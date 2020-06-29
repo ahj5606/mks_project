@@ -30,6 +30,8 @@ public class mgr_DoctorController implements mgr_Controller {
 			throws IOException, ServletException {
 		mgr_ModelAndView mav = new mgr_ModelAndView(req, res);
 		String path = "";
+		String dept_code = null;
+		String hp_code = "280HP";
 		if("doctorList".equals(requestName)) {
 			logger.info("requestName: "+requestName);
 			
@@ -47,7 +49,6 @@ public class mgr_DoctorController implements mgr_Controller {
 		}else if("doctorSEL".equals(requestName)) { 
 			 String doc_name = req.getParameter("doc_name");
 			 String doc_code = req.getParameter("doc_code");
-			 String hp_code = "280HP";
 			 
 			 List<Map<String,Object>> dList = null; 
 			 Map<String,Object> pMap = new HashMap<>(); 
@@ -82,11 +83,12 @@ public class mgr_DoctorController implements mgr_Controller {
 			Map<String,Object> pMap = new HashMap<>();
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(pMap);
-			
 			logger.info(pMap.get("dept_name"));
 			logger.info(pMap.get("doc_state"));
 			logger.info(pMap.get("doc_education"));
 			result = mgr_dLogic.doctorINS(pMap);
+			mav.cudResult(result);
+			
 			
 			
 		} else if("doctorUPD".equals(requestName)) {
@@ -95,7 +97,7 @@ public class mgr_DoctorController implements mgr_Controller {
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(pMap);
 			result = mgr_dLogic.doctorUPD(pMap);
-			
+			mav.cudResult(result);
 			
 		} else if("doctorDEL".equals(requestName)) {
 			int result =0;
@@ -103,7 +105,22 @@ public class mgr_DoctorController implements mgr_Controller {
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(pMap);
 			result = mgr_dLogic.doctorDEL(pMap);
-			
+			mav.IsForward(false);
+			if(result==1) {
+				path = "/doctor/doctorList.mgr?";
+			}else {
+				path = "/doctor/doctorDetail.mgr?hp_code="+hp_code+"&doc_code="+req.getParameter("doc_code")+"&"
+																  +"&hp_name="+req.getParameter("doc_name")+"&"
+																  +"&doc_name="+req.getParameter("doc_name")+"&"
+																  +"&dept_code="+req.getParameter("dept_code")+"&"
+																  +"&dept_name="+req.getParameter("dept_name")+"&"
+																  +"&doc_position="+req.getParameter("doc_position")+"&"
+																  +"&doc_education="+req.getParameter("doc_education")+"&"
+																  +"&doc_phone="+req.getParameter("doc_phone")+"&"
+																  +"&doc_offday="+req.getParameter("doc_offday")+"&"
+																  +"&doc_state="+req.getParameter("doc_state")+"&";
+			}
+			mav.setViewName(path);
 		}  
 		
 		return mav;

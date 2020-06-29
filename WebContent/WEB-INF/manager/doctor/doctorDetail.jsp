@@ -22,7 +22,7 @@
 <h2>의사추가</h2>
 </div>
 	<div class="container">
-	<form id="f_upd" method="get" action="/manager/doctor/doctorUPD.mgr">
+	<form id="f_upd">
 			<div>
 	     		<div class="form-group" style="margin-top: 30px">
 		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" value="<%=docList.get(0).get("DOC_CODE")%>" style="width: 245px">
@@ -140,11 +140,14 @@
 <script type="text/javascript">
 	function docIns() {
 		alert("저장");
+		$("#f_upd").attr("method","post");
+		$("#f_upd").attr("action","./doctorINS.mgr");
+		$("#f_upd").submit();
 	}
 	function docDel() {
 		alert("삭제함");
 		var doc_code = $("#doc_code").val();
-		alert(doc_code);
+		//alert(doc_code);
 		location.href="/manger/doctor/doctorDEL.mgr?doc_code="+doc_code
 	}
 	function docClose() {
@@ -153,6 +156,8 @@
 	}
 	function docUpd(){
 		alert("수정");
+		$("#f_upd").attr("method","get");
+		$("#f_upd").attr("action","./doctorUPD.mgr");
 		$("#f_upd").submit();
 		
 	}
