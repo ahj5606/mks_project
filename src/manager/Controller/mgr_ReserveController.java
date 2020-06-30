@@ -74,6 +74,7 @@ public class mgr_ReserveController implements mgr_Controller {
 				}
 			}
 			logger.info("담당의사 :"+pMap.get("doc_name"));
+			logger.info(pMap);
 			
 			List<Map<String,Object>> rList = null;
 			List<Map<String,Object>> dList = null;

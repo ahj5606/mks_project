@@ -36,7 +36,7 @@ if(sch_code==null){
 		alert("삭제");
 		var pCode = $("#patientCode").val();
 		var p_code = parseInt(pCode);
-		var r_Code =$("#resCode").val();
+		var r_Code =$("#sch_code").val();
 		var resCode = parseInt(r_Code);
 		var param= "mem_memcode="+p_code+"&sch_code="+resCode;
 		$.ajax({
@@ -55,9 +55,9 @@ if(sch_code==null){
 	}
 	function reserve_edit(){
 		alert("수정");
-		var pCode = $("#patientCode").val();
+		var pCode = $("#mem_memcode").val();
 		var p_code = parseInt(pCode);
-		var r_Code =$("#resCode").val();
+		var r_Code =$("#sch_code").val();
 		var resCode = parseInt(r_Code);
 		var mem_memcode=<%=mem_memcode%>//변경전
 		alert("변경전 회원코드:"+mem_memcode+", 변경된 회원코드:"+p_code);
@@ -90,24 +90,24 @@ if(sch_code==null){
 			<form role="form">
 			<input type="hidden" value="<%=rList.get(0).get("HP_NAME")%>" id="hp_name">
 			<input type="hidden" value="<%=rList.get(0).get("HP_CODE")%>" id="hp_code">
-			<input type="hidden" value="<%=rList.get(0).get("MEM_MEMCODE")%>" id="patientCode">
-			<input type="hidden" value="<%=rList.get(0).get("DOC_CODE")%>" id="doctorCode">
-			<input type="hidden" value="<%=rList.get(0).get("DEPT_CODE")%>" id="deptno">
-			<input type="hidden"  value="<%=rList.get(0).get("SCH_CODE")%>" id="resCode">
+			<input type="hidden" value="<%=rList.get(0).get("MEM_MEMCODE")%>" id="mem_memcode">
+			<input type="hidden" value="<%=rList.get(0).get("DOC_CODE")%>" id="doc_code">
+			<input type="hidden" value="<%=rList.get(0).get("DEPT_CODE")%>" id="dept_code">
+			<input type="hidden"  value="<%=rList.get(0).get("SCH_CODE")%>" id="sch_code">
 				<div class="row">
 				</div>
 				<div class="row">
 				<div class="form-group mr-2">
 					<label for="patientName">성명</label>
-					<input type="text" class="form-control" style="width:150px;"  id="patientName" value="<%=rList.get(0).get("MEM_NAME")%>" placeholder="Enter patientName" readonly>
+					<input type="text" class="form-control" style="width:150px;"  id="mem_name" value="<%=rList.get(0).get("MEM_NAME")%>" placeholder="Enter patientName" readonly>
 				</div>
 				<div class="form-group mr-2">
 					<label for="socialNum">주민등록번호</label>
-					<input type="text" class="form-control" style="width:160px;" id="socialNum" value="<%=rList.get(0).get("MEM_SOCIALNUM")%>" placeholder="Enter patientName" readonly>
+					<input type="text" class="form-control" style="width:160px;" id="mem_socialnum" value="<%=rList.get(0).get("MEM_SOCIALNUM")%>" placeholder="Enter patientName" readonly>
 				</div>
 				<div class="form-group align-self-end mr-2">
 					<label for="patientNumber">전화번호</label>
-					<input type="text" class="form-control"style="width:150px;" id="patientNum" value="<%=rList.get(0).get("MEM_PHONE")%>" placeholder="Enter patientName"readonly>
+					<input type="text" class="form-control"style="width:150px;" id="mem_phone" value="<%=rList.get(0).get("MEM_PHONE")%>" placeholder="Enter patientName"readonly>
 				</div>
 				<div class="form-group align-self-end mr-2">
 					<label for="patientEditButton"></label>
@@ -120,19 +120,19 @@ if(sch_code==null){
 				</button> -->
 				<div class="form-group">
 					<label for="dept">진료과</label>
-					<input type="text" class="form-control" id="dept" value="<%=rList.get(0).get("DEPT_NAME")%>" placeholder="Enter dept" readonly>
+					<input type="text" class="form-control" id="dept_name" value="<%=rList.get(0).get("DEPT_NAME")%>" placeholder="Enter dept" readonly>
 				</div>
 				<div class="form-group">
 					<label for="doctor">담당의</label>
-					<input type="text" class="form-control" id="doctor" value="<%=rList.get(0).get("DOC_NAME")%>" placeholder="Enter doctor" readonly>
+					<input type="text" class="form-control" id="doc_name" value="<%=rList.get(0).get("DOC_NAME")%>" placeholder="Enter doctor" readonly>
 				</div>
 				<div class="form-group">
 					<label for="memo">증상</label>
-					<input type="text" class="form-control" id="memo" value="<%=rList.get(0).get("RES_MEMO")%>" placeholder="Enter memo" >
+					<input type="text" class="form-control" id="res_memo" value="<%=rList.get(0).get("RES_MEMO")%>" placeholder="Enter memo" >
 				</div>
 				<div class="form-group">
 				<label for="reserveDate">예약 날짜</label> 
-						<input type="text" id="resDate" readonly value="<%=rList.get(0).get("SCH_DATE")%> "
+						<input type="text" id="sch_date" readonly value="<%=rList.get(0).get("SCH_DATE")%> "
 							class="form-control mb-2" placeholder="date input"> 
 <%-- 						<input type="date" id="resDate" value="<%=rList.get(0).get("SCH_DATE")%>"
 							class="form-control mb-2" placeholder="date input">  --%>
@@ -308,11 +308,11 @@ $(document).ready(function(data){
 		var DOC_CODE = d.DOC_CODE;
 		$("#hp_name").val(HP_NAME);
 		$("#hp_code").val(HP_CODE);
-		$("#deptno").val(DEPT_CODE);
-		$("#dept").val(DEPT_NAME);
-		$("#doctor").val(DOC_NAME);
-		$("#doctorCode").val(DOC_CODE);
-		 var getDoc_code=$("#doctorCode").val();
+		$("#dept_code").val(DEPT_CODE);
+		$("#dept_name").val(DEPT_NAME);
+		$("#doc_name").val(DOC_NAME);
+		$("#doc_code").val(DOC_CODE);
+		 var getDoc_code=$("#doc_code").val();
 		 alert("의사코드"+getDoc_code);
 			$("#scheduleSearch").modal('show');
 			$("#sch_list").bootstrapTable('refreshOptions', {
@@ -333,9 +333,9 @@ $(document).ready(function(data){
 			var SCH_CODE= d.SCH_CODE;
 			var SCH_DATE = d.SCH_DATE;
 			var SCH_TIME = d.SCH_TIME;
-			$("#resCode").val(SCH_CODE);
-			$("#resDate").val(SCH_DATE);
-			$("#resTime").val(SCH_TIME);
+			$("#sch_code").val(SCH_CODE);
+			$("#sch_date").val(SCH_DATE);
+			$("#sch_time").val(SCH_TIME);
 			$("#doctorSearch").modal('hide');
 			$("#scheduleSearch").modal('hide');
 			$("#modal_upd").modal('show');
@@ -352,10 +352,10 @@ $(document).ready(function(data){
 			var MEM_NAME= d.MEM_NAME;
 			var MEM_SOCIALNUM = d.MEM_SOCIALNUM;
 			var MEM_PHONE = d.MEM_PHONE;
-			$("#patientCode").val(MEM_MEMCODE);
-			$("#patientName").val(MEM_NAME);
-			$("#socialNum").val(MEM_SOCIALNUM);
-			$("#phoneNum").val(MEM_PHONE);
+			$("#mem_memcode").val(MEM_MEMCODE);
+			$("#mem_name").val(MEM_NAME);
+			$("#mem_socialnum").val(MEM_SOCIALNUM);
+			$("#mem_phone").val(MEM_PHONE);
 			$("#patientSearch").modal('hide');
 	     }
 
