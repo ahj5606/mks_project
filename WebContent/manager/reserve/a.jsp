@@ -5,7 +5,6 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%
 	//response.setCharacterEncoding("UTF-8");
 	String r_pname	=null;
@@ -71,7 +70,7 @@
 			<div class="container-fluid" id="sidebar">
 					<h1>예약</h1>
 					<div class="row" style="border: 0px solid #ccc;">
-						<div class="col-sm-2" id="sticky-sidebar">
+						<div class="col col-xs-4" id="sticky-sidebar">
 							<div class="text-center" id="calendar"></div>
 							<%-- <%@ include file="./test.jsp"%> --%>
 							<br>
