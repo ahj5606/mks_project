@@ -21,11 +21,7 @@
 		alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
 	}
-	function docSearch(){
-		alert("의사검색");
-		location.href="./docList.jsp"
-		
-	}
+	
 	
 </script>
 	
@@ -81,7 +77,6 @@
 					  <tbody>
 <%
 	for(int i=0;i<docList.size();i++){
-		
 %>
 					  	<tr>
 					  	  <td><%=docList.get(i).get("DEPT_NAME") %></td>

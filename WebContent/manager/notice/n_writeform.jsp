@@ -46,7 +46,7 @@
 	    </div>
 		<div class="col-md-4">
 		    <label>작성자</label>
-		    <input id="notice_writer" name="writer" type="text" class="form-control" value="<%=dept %>" readonly>
+		    <input id="notice_writer" name="writer" type="text" class="form-control" value="<%=dept_name %>" readonly>
 	   </div>
 	 </div>
 	  

@@ -96,7 +96,7 @@ public class mgr_NoticeController implements mgr_Controller {
 				nMap = new HashMap<String, Object>();
 				HashMapBinder hmb = new HashMapBinder(req);
 				hmb.binder(nMap);			
-				nMap.put("dept_name", dept_name);
+				nMap.put("dept_name", search);
 				nMap.put("dept_code", dept_code);
 				nMap.put("mks_id", mks_id);
 				nMap.put("hp_code", hp_code);
@@ -163,7 +163,7 @@ public class mgr_NoticeController implements mgr_Controller {
 			if(result==1) {
 				 mav.IsForward(false); 
 				 //mav.addObject("nMap", nMap);
-				 mav.setViewName("/notice/noticeSEL.mgr");
+				 mav.setViewName("/notice/noticeSEL.mgr?");
 				 
 				//res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
 			}
@@ -196,7 +196,7 @@ public class mgr_NoticeController implements mgr_Controller {
 			//mav.cudResult(result);
 			if(result==1) {
 				mav.IsForward(false);
-				mav.setViewName("/notice/noticeSEL.mgr");
+				mav.setViewName("/notice/noticeSEL.mgr?");
 				/*
 				 * res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
 				 */				
@@ -224,7 +224,7 @@ public class mgr_NoticeController implements mgr_Controller {
 			
 			if(result==1) {
 				mav.IsForward(false);
-				mav.setViewName("/notice/noticeSEL.mgr");
+				mav.setViewName("/notice/noticeSEL.mgr?");
 				/*
 				 * res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
 				 */				
