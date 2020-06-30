@@ -115,6 +115,7 @@ public class mgr_DoctorController implements mgr_Controller {
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(pMap);
 			result = mgr_dLogic.doctorUPD(pMap);
+			logger.info(result);
 			//mav.cudResult(result);
 			mav.IsForward(false);
 			if(result==1) {
