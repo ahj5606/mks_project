@@ -117,7 +117,12 @@
 	
 	<select id="doctorDEPT" parameterType="map" resultType="map">
 		select distinct dept_name
-            from mks_dept
+            from mks_doctor
+	</select>
+	
+	<select id="deptSearch" parameterType="map" resultType="map">
+		select dept_code, dept_name, hp_name, hp_code from MKS_DEPT 
+			where hp_code=#{hp_code}
 	</select>
 	
 	<select id="doctorDetail" parameterType="map" resultType="map">
@@ -133,6 +138,7 @@
         		,DOC_STATE,DOC_NAME,DOC_POSITION,DOC_EDUCATION
         		,DOC_PHONE,DOC_OFFDAY
 			from mks_doctor
+			where hp_code=#{hp_code} 
 			
 	</select>
 	
@@ -141,10 +147,13 @@
         , doc_name, doc_offday, hp_code, dept_name, dept_code, hp_name
 			from MKS_DOCTOR
 			WHERE hp_code =#{hp_code}
-				<if test="doc_code!=null and doc_code.length()">
-					And doc_code Like '%'||#{doc_code}||'%'
+				<if test="dept_name!=null">
+					And dept_name=#{dept_name}
 				</if>
-				<if test="doc_name!=null and doc_name.length()">
+				<if test="doc_code!=null">
+					And doc_code=#{doc_code}
+				</if>
+				<if test="doc_name!=null">
 					And doc_name=#{doc_name}
 				</if>
 	</select>

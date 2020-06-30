@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
+<%@page import="mks.util.PageBarManager"%>
 
 <%
 	String hp_code = "280HP";
@@ -15,7 +16,37 @@
 		if(deptList==null){
 			deptList = new ArrayList();
 		}
-		
+		/* String dept = request.getParameter("dept_name");
+		String mem_name = request.getParameter("mem_name");
+		String mem_memcode = request.getParameter("mem_memcode");
+		//String doc_name = request.getParameter("doc_name");
+		String sch_code = request.getParameter("sch_code");
+		if(mem_name==null){
+			mem_name="";
+		}
+		if(doc_name==null){
+			doc_name="";
+		}
+		if(sch_code==null){
+			sch_code="";
+		}
+		if(dept==null){
+			dept="";
+		} */ 
+		int tot=docList.size();
+		int numPerPage =10;
+		int nowPage =0;
+		if(request.getParameter("nowPage")!=null){
+			nowPage =Integer.parseInt(request.getParameter("nowPage"));
+		}
+		String doc_code = request.getParameter("doc_code");
+		String doc_name = request.getParameter("doc_name");
+		if(doc_code==null){
+			doc_code="";
+		}
+		if(doc_name==null){
+			doc_name="";
+		}
 %>
 <!DOCTYPE html>
 <html>
@@ -66,7 +97,7 @@
 			      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
 			      	<div style="margin-top: 25px">
 			      		<div class="float-right" style="margin-bottom: 10px">
-			      			<button type="button" class="btn btn-outline-success" onclick="docIns()">의사추가</button>
+			      			<button type="button" class="btn btn-outline-success" onclick="docIns()">의사관리</button>
 			      		</div>
 				
 			      	<table id="doc_list" class="table table-sm">
@@ -86,6 +117,7 @@
 					  <tbody>
 <%
 	for(int i=0;i<docList.size();i++){
+		if(i<numPerPage*(nowPage+1) && i>=numPerPage*nowPage){
 %>
 					  	<tr class='clickable-row' data-href='url://link-for-first-row/'> 
     					  <td><%=docList.get(i).get("DEPT_NAME") %></td>
@@ -100,17 +132,17 @@
 					  	<tr>
 <%
 	}
+	}
 %>					  	
 					  </tbody>
 					</table>
 					<div class="text-center">
-						<ul class="pagination">
-							  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-							  <li class="page-item"><a class="page-link" href="#">1</a></li>
-							  <li class="page-item"><a class="page-link" href="#">2</a></li>
-							  <li class="page-item"><a class="page-link" href="#">3</a></li>
-							  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-						</ul>
+<%
+ 		String pagePath ="/manager/doctor/doctorList.mgr?doc_code="+doc_code+"&doc_name="+doc_name;
+ 		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
+ 		String pagination = pb.getPageBar();
+ 		out.print(pagination);
+ %> 
 					</div>
 					</div>
 			      </div>
@@ -134,7 +166,15 @@ $(document).ready(function(data){
 	     }
 	})
 	$("#doc_list").bootstrapTable('hideLoading');
-})
+	})
+	var dept_name =null;
+	$('#deptDrop .dropdown-menu li > a').bind('click',function (e) {
+		alert("dept_name");
+	    dept_name = $(this).html();
+	    $('#deptDrop button.dropdown-toggle').html(dept_name);
+	    alert("진료과:"+dept_name);
+	    location.href='./doctorSEL.mgr?hp_code=<%=hp_code%>&dept_name='+dept_name
+	});
 	function docSearch(){
 		alert("의사검색");
 		var d_name = $("#d_name").val();
@@ -145,6 +185,7 @@ $(document).ready(function(data){
 		alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
 	}
+	
 	
 	
 </script>

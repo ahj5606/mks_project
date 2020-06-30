@@ -53,6 +53,17 @@ public class mgr_DoctorDao {
 		}
 		return deptList;
 	}
+	public List<Map<String, Object>> deptSearch(Map<String, Object> pMap) {
+		List<Map<String,Object>> deptList = null;
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			deptList=sqlSes.selectList("deptSearch",pMap);
+			logger.info(deptList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return deptList;
+	}
 	public List<Map<String, Object>> doctorDetail(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList= null;
 		try {

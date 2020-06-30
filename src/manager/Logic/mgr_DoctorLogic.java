@@ -27,6 +27,11 @@ public class mgr_DoctorLogic {
 		deptList=mgr_dDao.doctorDEPT(pMap);
 		return deptList;
 	}
+	public List<Map<String, Object>> deptSearch(Map<String, Object> pMap) {
+		List<Map<String,Object>> deptList=null;
+		deptList=mgr_dDao.deptSearch(pMap);
+		return deptList;
+	}
 	public List<Map<String, Object>> doctorDetail(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList=null;
 		dList=mgr_dDao.doctorDetail(pMap);
