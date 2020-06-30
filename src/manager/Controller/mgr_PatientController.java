@@ -34,24 +34,9 @@ public class mgr_PatientController implements mgr_Controller {
 		hmb.binder(pMap);
 		////////////////////////////////
 		
-		String hp_code = null;
-		String dept_code = null;
-		Cookie[] cookies = req.getCookies();
-		if(cookies!=null && cookies.length>0){
-			for(int i =0;i<cookies.length;i++){
-				String name = cookies[i].getName();
-				if(name.equals("dept_code")){
-					dept_code = cookies[i].getValue();
-					pMap.put("dept_code", dept_code);
-				}
-			}
-		}
-		HttpSession sess = req.getSession();
-		hp_code = (String)sess.getAttribute("hp_code");
-		pMap.put("hp_code", hp_code);
 		List<Map<String,Object>> pList = null;
-		
-		if(hp_code ==null || dept_code ==null) {
+		String hp_code =pMap.get("hp_code").toString();
+		if(pMap.get("hp_code") ==null) {
 			//로그인 정보가 만료되었습니다.
 			mav.IsForward(false);
 			mav.setViewName("/fail");

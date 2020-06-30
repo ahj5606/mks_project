@@ -43,7 +43,7 @@
 		
 		var search = $("#notice_input").val();
 		
-		location.href="/manager/notice/noticeSEARCH.mgr?hp_code=<%=hp_code%>&search="+search;
+		location.href="/manager/notice/noticeSEARCH.mgr?search="+search;
 		
 /* 		$.ajax({
 			url:'./memList.jsp'
@@ -146,9 +146,9 @@
 		</form>
 		</div>
 		</div>
-		<div class="row" style="margin-top:10px;justify-content: center;">
+		<div class="row" style="margin-top:10px;margin-left:-80px;justify-content: center;">
 <%
- 		String pagePath ="/manager/notice/noticeSEL.mgr?hp_code="+hp_code;
+ 		String pagePath ="/manager/notice/noticeSEL.mgr?";
  		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
  		String pagination = pb.getPageBar();
  		out.print(pagination);

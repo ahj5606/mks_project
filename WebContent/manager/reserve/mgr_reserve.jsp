@@ -32,7 +32,7 @@ display: block;
 }
 </style>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', function() {
+/* document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
   });
-
+ */
 </script>
 </head>
 
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/notice/noticeSEL.mgr">
           <i class="fas fa-clipboard-list"></i>
           <span>공지사항</span></a>
       </li>
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/reserve/reserveList.mgr">
           <i class="fas fa-notes-medical"></i>
           <span>예약</span>
         </a>
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/patient/patientList.mgr">
           <i class="fas fa-user"></i>
           <span>환자</span>
         </a>
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/doctor/doctorList.mgr">
           <i class="fa fa-stethoscope"></i>
           <span>의사</span>
         </a>
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- end of Topbar -->
         </nav>
         <!--====================================== 여기에 코드를 메인 코드를 넣어야 함  -->
-        <%@include file="reserve.jsp" %>
+        <%@include file="a.jsp" %>
         <!--======================================  -->
         <!-- end of Main Content -->
         </div>

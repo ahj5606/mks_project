@@ -119,13 +119,26 @@
 			<div class="bootstrap-filestyle input-group" style="margin-left:-15px;">
 			<div class="col">
 				<table class="table table-bordered" >
-				<tr><td style="background-color: #ffffff">
-				<a  href="downLoad.jsp?board_file=<%=nList.get(0).get("BOARD_FILE") %>"><input id="userfile" style="border:none"value="<%=nList.get(0).get("BOARD_FILE") %>"></a>
+				<%
+				if(nList.get(0).get("BOARD_FILE")!=null){
+				%>
+				<tr><td style="background-color: #ffffff" height="51px">
+				<a  href="downLoad.jsp?board_file=<%=nList.get(0).get("BOARD_FILE") %>"><input id="userfile" style="border:none;"value="<%=nList.get(0).get("BOARD_FILE") %>"></a>
 				</td></tr>
+				<%
+				}
+				%>
+				<%
+				if(nList.get(0).get("BOARD_FILE")==null){
+				%>
+				<input type="text" id="newfile" class="form-control" style="margin-top:8px;">
+				<%
+				}
+				%>
 				</table>
 				</div>
 				<span class="group-span-filestyle input-group-btn" tabindex="0">
-				<label for="fileInput" class="btn btn-default  btn-outline-primary" style="padding:12px;">
+				<label for="fileInput" class="btn btn-default  btn-outline-primary" style="padding:12px;border:none;">
 				<span class="glyphicon fa fa-upload"></span>
 				</label>
 				</span>
@@ -140,11 +153,13 @@
     </div>
 </div>
 </form>
+		<%
+		if(mks_id.equals(nList.get(0).get("MKS_ID"))){
+		%>
 <div class="row">
 	  <div class="col-md-12" style="text-align:right;">
-		
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal">수정</button>
-	
+
 		<!-- 수정모달창 시작  -->
 		<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
@@ -193,6 +208,9 @@
   <button type="button" class="btn btn-default btn-light btn-outline-secondary" onClick="javascript:back()">취소</button>
  </div>
   </div>
+  		<%
+		}
+		%>
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -202,7 +220,7 @@
 			}else{
 				var filename = $(this).val().split('/').pop().split('\\').pop();
 			}
-			$("#userfile").val(filename);
+			$("#newfile").val(filename);
 		});
 	});
 

@@ -15,12 +15,14 @@
   <title>병원관리시스템</title>
   <!-- Custom fonts for this template-->
 	<%@include file="/common/ManagerCommon.jsp" %>
+	<script src="../../js/bootstrap.bundle.min.js?5"></script>
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <!-- Custom styles for this template-->
 <style type="text/css">
 #sidebar {
-	margin-top: 100px;
+	margin-top: 70px;
 	margin-left: 30px;
+	height: 100%;
 }
 .my-custom-scrollbar {
 position: relative;
@@ -30,19 +32,15 @@ overflow: auto;
 .table-wrapper-scroll-y {
 display: block;
 }
+.fc-day-number.fc-sat.fc-past {
+ color:#0000FF; 
+}     /* 토요일 */
+ .fc-day-number.fc-sun.fc-past {
+ color:#FF0000; 
+}    /* 일요일 */
+
 </style>
-<script type="text/javascript">
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'dayGrid' ]
-    });
-
-    calendar.render();
-  });
-
-</script>
 </head>
 
 <body id="page-top">
@@ -67,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/notice/noticeSEL.mgr">
           <i class="fas fa-clipboard-list"></i>
           <span>공지사항</span></a>
       </li>
@@ -75,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/reserve/reserveList.mgr">
           <i class="fas fa-notes-medical"></i>
           <span>예약</span>
         </a>
@@ -84,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/patient/patientList.mgr">
           <i class="fas fa-user"></i>
           <span>환자</span>
         </a>
@@ -93,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
+        <a class="nav-link" href="/manager/doctor/doctorList.mgr">
           <i class="fa fa-stethoscope"></i>
           <span>의사</span>
         </a>
