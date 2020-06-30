@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	List<Map<String,Object>> nList = (List<Map<String,Object>>)request.getAttribute("nList");
+	String search = request.getParameter("search");
 
 	int tot=nList.size();
 	int numPerPage =5;
@@ -148,10 +149,18 @@
 		</div>
 		<div class="row" style="margin-top:10px;margin-left:-80px;justify-content: center;">
 <%
+		if(search!=null){
+	 		String pagePath ="/manager/notice/noticeSEARCH.mgr?search="+search;
+	 		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
+	 		String pagination = pb.getPageBar();
+	 		out.print(pagination);
+			
+		}else{
  		String pagePath ="/manager/notice/noticeSEL.mgr?";
  		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
  		String pagination = pb.getPageBar();
  		out.print(pagination);
+		}
  %>   
 
 		</div>

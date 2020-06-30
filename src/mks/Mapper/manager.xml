@@ -25,8 +25,8 @@
           WHERE b.mks_id = o.mks_id
            AND o.hp_code=#{hp_code}
            <if test="board_title!=null || dept_name!=null">
-	           AND b.board_title LIKE '%' || #{board_title} || '%'
-	           OR o.dept_name LIKE '%' || #{dept_name}|| '%'
+	           AND (b.board_title LIKE '%' || #{board_title} || '%'
+	           OR o.dept_name LIKE '%' || #{dept_name}|| '%')
            </if>
             ORDER BY b.board_no desc
 	</select>
