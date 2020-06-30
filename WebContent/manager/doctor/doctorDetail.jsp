@@ -13,40 +13,6 @@
 		$("#f_doctor").submit();
 		
 	}
-	function docUpd(){
-		var doc_code =$("#doc_code").val();
-		var doc_name =$("#doc_name").val();
-		var doc_phone =$("#doc_phone").val();
-		var dept_name =$("#dept_name").val();
-		var dept_code =$("#dept_code").val();
-		var doc_education =$("#doc_education").val();
-		var doc_offday =$("#doc_offday").val();
-		var hp_name =$("#hp_name").val();
-		var hp_code =$("#hp_code").val();
-		var doc_state =$("#doc_state").val();
-		var doc_position =$("#doc_position").val();
-		var param ="doc_code="+doc_code
-					+"&doc_name="+doc_name+"&doc_phone="+doc_phone
-					+"&dept_name="+dept_name+"&dept_code="+dept_code
-					+"&doc_education="+doc_education+"&doc_offday="+doc_offday
-					+"&hp_name="+hp_name+"&hp_code="+hp_code
-					+"&doc_state="+doc_state+"&doc_position="+doc_position;
-		$.ajax({
-			url:"/manager/doctor/doctorINS.mgr?"+param
-			,success:function(data){
-				if(data.trim()=="성공"){
-					alert("정보추가에 성공했습니다.");
-					location.href="/manager/doctor/doctorList.mgr?doc_code="+doc_code
-				}else{
-					alert("정보수정에 실패했습니다.");
-					$("#UpdateModal").modal('hide');
-				     }
-			    }
-			
-			  })
-	
-	}
-	
 	function docDel() {
 		alert("삭제호출 성공");
 		$("#f_doctor").attr("method","get");
@@ -95,52 +61,41 @@
 	<div class="container">
 	<form id="f_doctor">
   				<div>
+			    <div class="form-group">
+			        <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" style="width: 245px"readonly>
+			        <button style="margin-top: 10px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
+			    </div>
 	     		<div class="form-group" style="margin-top: 30px">
-	     		  
-		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" style="width: 245px">
+	     		    <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" style="width: 245px"readonly>
+			    </div>
+			    <div class="form-group">
+			    	<input type="text" class="form-control" id="dept_name" name="dept_name" placeholder="부서" style="width: 245px"readonly>
+			    </div>
+			    <div class="form-group">
+			        <input type="text" class="form-control" id="hp_name" name="hp_name" placeholder="병원이름" style="width: 245px" readonly>
+			    </div>
+			    <div class="form-group">
+		      	    <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" style="width: 245px">
 		    	</div>
 			    <div class="form-group">
-			   
-			      <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" style="width: 245px"readonly>
+			        <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			    
-			      <input type="text" class="form-control" id="dept_name" name="dept_name" placeholder="부서" style="width: 245px"readonly>
-			    </div>
-			    <div class="form-group">
-			    
-			      <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			    
-			      <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" style="width: 245px">
+			       <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" style="width: 245px">
 			    </div>
 			    </div>
-			    
-			   	<div>
+			    <div>
 		    	<div class="form-group">
-		    	
-			      <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="학력" style="width: 245px">
+		    	   <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="학력" style="width: 245px">
 			    </div>
 		    	<div class="form-group">
-		    	
-			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화"style="width: 245px">
+		    	   <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화"style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			    
-			      <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" style="width: 245px">
+			       <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" style="width: 245px">
 			    </div>
 			    <div class="form-group">
-			    
-			      <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			      <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" style="width: 245px"readonly>
-			      <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
-			    </div>
-			    <div class="form-group">
-			    
-			      <input type="text" class="form-control" id="hp_name" name="hp_name" placeholder="병원이름" style="width: 245px" readonly>
+			       <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
 			    </div>
 		    	</div>
 		    <div>

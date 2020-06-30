@@ -29,7 +29,7 @@ public class mgr_DoctorController implements mgr_Controller {
 	public mgr_ModelAndView mgrProcess(HttpServletRequest req, HttpServletResponse res)
 			throws IOException, ServletException {
 		mgr_ModelAndView mav = new mgr_ModelAndView(req, res);
-		String path = "";
+		String path = null;
 		String dept_code = null;
 		String hp_code = "280HP";
 		if("doctorList".equals(requestName)) {
@@ -100,14 +100,13 @@ public class mgr_DoctorController implements mgr_Controller {
 			logger.info(pMap.get("doc_state"));
 			logger.info(pMap.get("doc_education"));
 			result = mgr_dLogic.doctorINS(pMap);
-			String p=null;
 			mav.IsForward(false);
 			if(result==1) {
-				p="/doctor/doctorList.mgr?";
+				path="/doctor/doctorList.mgr?";
 			}else {
-				p="/doctor/mgr_doctorDetail";
+				path="/doctor/mgr_doctorDetail";
 			}
-			mav.setViewName(p);//form 태그 이용할 때
+			mav.setViewName(path);//form 태그 이용할 때
 			
 			
 		} else if("doctorUPD".equals(requestName)) {
@@ -116,7 +115,14 @@ public class mgr_DoctorController implements mgr_Controller {
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(pMap);
 			result = mgr_dLogic.doctorUPD(pMap);
-			mav.cudResult(result);
+			//mav.cudResult(result);
+			mav.IsForward(false);
+			if(result==1) {
+				path="/doctor/doctorList.mgr?";
+			}else {
+				path="/doctor/mgr_doctorDetail";
+			}
+			mav.setViewName(path);//form 태그 이용할 때
 			
 		}else if("deptSearch".equals(requestName)) {
 			logger.info("deptSearch 호출");
