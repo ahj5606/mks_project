@@ -5,7 +5,6 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%
 	//response.setCharacterEncoding("UTF-8");
 	String r_pname	=null;
@@ -71,7 +70,7 @@
 			<div class="container-fluid" id="sidebar">
 					<h1>예약</h1>
 					<div class="row" style="border: 0px solid #ccc;">
-						<div class="col-sm-2" id="sticky-sidebar">
+						<div class="col col-xs-4" id="sticky-sidebar">
 							<div class="text-center" id="calendar"></div>
 							<%-- <%@ include file="./test.jsp"%> --%>
 							<br>
@@ -220,6 +219,8 @@ s_date = "";
 if(e_date == null){
 e_date = "";
 }
+
+
  		String pagePath ="./reserveSEL.mgr?hp_code="+hp_code+"&dept_name="+dept
  				+"&mem_name="+mem_name+"&doc_name="+doc_name
  				+"&startDate="+s_date+"&endDate="+e_date;
@@ -234,6 +235,7 @@ e_date = "";
 					</div>
 				</div>
 <script type="text/javascript">
+
 $(document).ready(function(){
 	
 $("#res_list").bootstrapTable({
@@ -268,6 +270,8 @@ $("#res_list").bootstrapTable({
 	});		
 	$("#res_list").bootstrapTable('hideLoading');
 });
+
+
 var dept =null;
 $('#deptDrop .dropdown-menu li > a').bind('click',function (e) {
 	alert("눌");
@@ -347,11 +351,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			+"&startDate="+s_date+"&endDate="+e_date; 	
           
        }
+
     });
     calendar.render();
  });
+
 function reserveAdd(){
 	alert("추가");
 	location.href="/manager/reserve/mgr_reserveAdd.jsp";
 }
+
 </script>

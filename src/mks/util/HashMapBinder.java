@@ -102,16 +102,18 @@ public class HashMapBinder {
 
 		Enumeration<String> en = req.getParameterNames();
 		//enumeration에 값이 들어있는지 체크해 줌.
-		HangulConversion hc = new HangulConversion();
+		//HangulConversion hc = new HangulConversion();
 		while(en.hasMoreElements()) {
 			String key = en.nextElement();//name, address, pet
 			if(req.getParameter(key).equals("")) {
 				pMap.put(key,null);
 			}else {
 				pMap.put(key,req.getParameter(key));
+
 				logger.info("hashMapBinder  :  "+req.getParameter(key));
 
 			}
+			
 		}
 	}
 }

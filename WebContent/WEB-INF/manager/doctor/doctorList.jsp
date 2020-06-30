@@ -3,43 +3,91 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
+<%@page import="mks.util.PageBarManager"%>
+
 <%
 	String hp_code = "280HP";
 	List<Map<String,Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 		if(docList==null){
 			docList = new ArrayList();
 		}
+	
+	List<Map<String,Object>> deptList = (List<Map<String, Object>>)request.getAttribute("deptList");
+		if(deptList==null){
+			deptList = new ArrayList();
+		}
+		/* String dept = request.getParameter("dept_name");
+		String mem_name = request.getParameter("mem_name");
+		String mem_memcode = request.getParameter("mem_memcode");
+		//String doc_name = request.getParameter("doc_name");
+		String sch_code = request.getParameter("sch_code");
+		if(mem_name==null){
+			mem_name="";
+		}
+		if(doc_name==null){
+			doc_name="";
+		}
+		if(sch_code==null){
+			sch_code="";
+		}
+		if(dept==null){
+			dept="";
+		} */ 
+		int tot=docList.size();
+		int numPerPage =10;
+		int nowPage =0;
+		if(request.getParameter("nowPage")!=null){
+			nowPage =Integer.parseInt(request.getParameter("nowPage"));
+		}
+		String doc_code = request.getParameter("doc_code");
+		String doc_name = request.getParameter("doc_name");
+		if(doc_code==null){
+			doc_code="";
+		}
+		if(doc_name==null){
+			doc_name="";
+		}
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>환자 페이지 </title>
+<title>의사 페이지 </title>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
+  <script src="js/bootstrap.min.js"></script> -->
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
 	    <div class="row">
 	        <div class="col-sm-2" style="margin-top: 45px">
-	        <div class="dropdown" style="margin-bottom: 10px">
-		    <button class="btn btn-primary dropdown-toggle" style="margin-top: 30px;" data-toggle="dropdown">과</button>
-			    <div class="dropdown-menu">
-			      <a class="dropdown-item" href="#">원무과</a>
-			      <a class="dropdown-item" href="#">소아과</a>
-			      <a class="dropdown-item" href="#">신경과</a>
-			      <a class="dropdown-item" href="#">신경외과</a>
-			      <a class="dropdown-item" href="#">정형외과</a>
-			      <a class="dropdown-item" href="#">내과</a>
-			      <a class="dropdown-item" href="#">외과</a>
-			      <a class="dropdown-item" href="#">영상의학과</a>
-			      <a class="dropdown-item" href="#">마취통증의학과</a>
-			      <a class="dropdown-item" href="#">정신건강의학과</a>
-			    </div>
-		    </div>
+	       						<!-- 진료과 드롭다운 태그 -->
+							<div id="deptDrop"class="btn-group btn-default m-3" >
+								<button id="selDept"class="btn dropdown-toggle btn-primary" type="button"
+									data-toggle="dropdown">
+									진료과 전체
+									<!-- 버튼태그 우측 메뉴출력을 위한 화살표표시
+									(없어도 무관하나 메뉴버튼이라는것을 알려주기 위함) -->
+									<span class="caret"></span>
+								</button>
+								
+								<!--메뉴버튼 클릭시 하단 표출된 리스트 영역  -->
+								<ul class="dropdown-menu text-center">
+									
+							<%
+								for(int i=0;i<deptList.size();i++){
+									
+							%>
+									<li><a href="javascript:void(0)"><%=deptList.get(i).get("DEPT_NAME") %></a></li>
+							<%
+								}
+							%>
+								</ul>
+														
+								<!-- 진료과 드롭다운 태그 -->
+							</div>
 	        	 <input id="d_name" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사이름" aria-label="doctorName" aria-describedby="basic-addon1">
 	        	 <input id="d_code" type="text" class="form-control" style="margin-top: 30px;" placeholder="의사코드" aria-label="doctorCode" aria-describedby="basic-addon1">
 	        	 <button type="button" class="btn btn-success btn-lg btn-block" style="margin-top: 30px;" onclick="docSearch()">의사 검색</button>
@@ -49,7 +97,7 @@
 			      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
 			      	<div style="margin-top: 25px">
 			      		<div class="float-right" style="margin-bottom: 10px">
-			      			<button type="button" class="btn btn-outline-success" onclick="docIns()">의사추가</button>
+			      			<button type="button" class="btn btn-outline-success" onclick="docIns()">의사관리</button>
 			      		</div>
 				
 			      	<table id="doc_list" class="table table-sm">
@@ -69,6 +117,7 @@
 					  <tbody>
 <%
 	for(int i=0;i<docList.size();i++){
+		if(i<numPerPage*(nowPage+1) && i>=numPerPage*nowPage){
 %>
 					  	<tr class='clickable-row' data-href='url://link-for-first-row/'> 
     					  <td><%=docList.get(i).get("DEPT_NAME") %></td>
@@ -83,17 +132,17 @@
 					  	<tr>
 <%
 	}
+	}
 %>					  	
 					  </tbody>
 					</table>
 					<div class="text-center">
-						<ul class="pagination">
-							  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-							  <li class="page-item"><a class="page-link" href="#">1</a></li>
-							  <li class="page-item"><a class="page-link" href="#">2</a></li>
-							  <li class="page-item"><a class="page-link" href="#">3</a></li>
-							  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-						</ul>
+<%
+ 		String pagePath ="/manager/doctor/doctorList.mgr?doc_code="+doc_code+"&doc_name="+doc_name;
+ 		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
+ 		String pagination = pb.getPageBar();
+ 		out.print(pagination);
+ %> 
 					</div>
 					</div>
 			      </div>
@@ -117,7 +166,15 @@ $(document).ready(function(data){
 	     }
 	})
 	$("#doc_list").bootstrapTable('hideLoading');
-})
+	})
+	var dept_name =null;
+	$('#deptDrop .dropdown-menu li > a').bind('click',function (e) {
+		alert("dept_name");
+	    dept_name = $(this).html();
+	    $('#deptDrop button.dropdown-toggle').html(dept_name);
+	    alert("진료과:"+dept_name);
+	    location.href='./doctorSEL.mgr?hp_code=<%=hp_code%>&dept_name='+dept_name
+	});
 	function docSearch(){
 		alert("의사검색");
 		var d_name = $("#d_name").val();
@@ -128,6 +185,7 @@ $(document).ready(function(data){
 		alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
 	}
+	
 	
 	
 </script>
