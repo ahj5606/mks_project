@@ -109,7 +109,7 @@
 						alert('입력실패');
 					}else{
 						alert('입력성공');
-						location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+mks_id+"&sch_code="+sch_code;
+						location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+id+"&sch_code="+sch_code;
 					}
 				}
 			});
@@ -119,7 +119,7 @@
 		alert("수정모드로!");
 		var u_eva_code = $(el).children("input").val();
 		location.href = location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code
-											+'&mks_id='+mks_id+"&sch_code="+sch_code+"&u_eva_code="+u_eva_code;
+											+'&mks_id='+id+"&sch_code="+sch_code+"&u_eva_code="+u_eva_code;
 	}
 	function reply_upd(){
 		alert("수정!");
@@ -138,7 +138,7 @@
 						alert('댓글수정실패');
 					}else{
 						alert('댓글수정성공');
-						location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+mks_id+"&sch_code="+sch_code;
+						location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+id+"&sch_code="+sch_code;
 					}
 				}
 			});
@@ -156,10 +156,10 @@
 				if(res=='불일치'){
 					alert('비밀번호가 일치하지 않습니다.');
 				}else if(res=='실패'){
-					alert('삭제실패');
+					alert('댓글삭제실패');
 				}else{
-					alert('삭제성공');
-					location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+mks_id+"&sch_code="+sch_code;
+					alert('댓글삭제성공');
+					location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+id+"&sch_code="+sch_code;
 				}
 			}
 		});
@@ -246,7 +246,8 @@
 				<div class="border my-3 pb-4 px-3 pt-2">
 					<div class="row mb-0">
 						<div class="col-md">
-							<label style="font-size:large;font-color:#4C4C4C;margin-left:5px;">댓글목록</label>
+							<label style="font-size:large;font-color:#4C4C4C;margin-left:5px;">
+									댓글&nbsp;&nbsp;<span id="reply_size">reply_size</span></label>
 						</div>
 					</div>
 					<hr style="margin-top:0px;margin-bottom:15px;">
@@ -333,6 +334,7 @@
 				,success: function(data){
 					var res = JSON.parse(data);
 					alert("댓글사이즈: "+res.length);
+					$("#reply_size").html(res.length);
 					var imsi = "";
 					if(res.length>0){
 						for(var i=0; i<res.length; i++){
@@ -375,6 +377,7 @@
 					$("#reply_content").val(res[0].EVA_CONTENT);
 				}
 			});
+			<%}%>
 		});
 	</script>
 </body>
