@@ -15,7 +15,7 @@ public class crm_HospitalDao {
 		Logger logger = Logger.getLogger(crm_HospitalDao.class);
 		SqlSessionFactory sqlMapper = null;
 		SqlSession sqlSes = null;
-		public crm_HospitalDao() {
+	public crm_HospitalDao() {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}

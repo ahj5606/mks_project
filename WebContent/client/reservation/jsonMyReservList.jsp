@@ -5,30 +5,32 @@
 
 <%
 
-String imsi = request.getParameter("num");
-int num = Integer.parseInt(imsi);
-
-List<Map<String,Object>> list = new ArrayList<>();
+List<Map<String, Object>> resList = new ArrayList<Map<String,Object>>();
 Map<String,Object> map = null;
-
-int fNum = 0;
-int eNum = 0;
-int recodeNum = 1;// 한 페이지에 담길 행의 갯수!!
-
-fNum = (num-1)*recodeNum+1;
-eNum = num*recodeNum;
-
-for(int i=fNum; i<=eNum; i++){
-map = new HashMap<>();
-map.put("GAW","내과"+i);
-map.put("DOC","고길동"+i);
-map.put("DATE","2020/06/"+i);
-map.put("TIME","13:1"+i);
-list.add(map);
-}
+map = new HashMap<String, Object>();
+map.put("res_date", "2020-06-19");
+resList.add(map);
+map = new HashMap<String, Object>();
+map.put("res_date", "2020-06-20");
+resList.add(map);
+map = new HashMap<String, Object>();
+map.put("res_date", "2020-06-26");
+resList.add(map);
+map = new HashMap<String, Object>();
+map.put("res_date", "2020-06-27");
+resList.add(map);
+map = new HashMap<String, Object>();
+map.put("res_date", "2020-06-28");
+resList.add(map);
+map = new HashMap<String, Object>();
+map.put("res_date", "2020-07-05");
+resList.add(map);
+map = new HashMap<String, Object>();
+map.put("res_date", "2020-07-06");
+resList.add(map);
 
 Gson gson = new Gson();
-String imsi2 = gson.toJson(list);
-out.print(imsi2);
+String imsi = gson.toJson(resList);
+out.print(imsi);
 
 %>

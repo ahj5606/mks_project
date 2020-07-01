@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	Object parameter = session.getAttribute("mem_name");
-	String mem_name = null;
+	Object parameter = session.getAttribute("mks_id");
+	String mks_id = null;
 	if(parameter!=null){
-		mem_name = (String)parameter;
+		mks_id = (String)parameter;
 	}
 	
 %>
@@ -38,10 +38,18 @@
 	}
 </style>
 <script type="text/javascript">
+	var h_order ="날짜별";
+	var i_title = "";
 	function res_pageGet(num){
-		$('#t_healthInfoList').bootstrapTable('refreshOptions', {
-			 url: "/client/board/jsonBoardList.jsp?num="+num
-		});
+		if(h_order=="날짜별"){
+			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
+				 url: "/health/healthList.jsp?crm="+num+"&i_title="+i_title
+			});
+		}else{
+			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
+				url: "/health/healthList.jsp?crm="+num+"&h_order="+h_order+"&i_title="+i_title
+			});
+		}
 		$("div.fixed-table-loading").remove(); 
 	}
 	function pageMove(click){
@@ -50,7 +58,7 @@
 			previous();
 		}else if(imsi=="Next"){
 			$.ajax({
-				url: "/client/board/jsonBoardList.jsp?num=0"
+				url: "/health/healthList.crm?crm=0"
 				,dataType: "text"
 				,success: function(data){
 					next(data, 5);
@@ -58,13 +66,47 @@
 			});
 		}
 	}
+	function page_btn(){
+		$.ajax({
+			url: "/health/healthList.crm?num=0&i_title="+i_title
+			,dataType: "text"
+			,success: function(data){
+				var totalSize = Number(data.trim()); 
+				var mok = Math.ceil(totalSize/5);
+				alert("page_btn*mok: "+mok);
+				$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+				$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+				$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+				if(mok<3){
+					$("#page_3").remove();
+					if(mok<2){
+						$("#page_2").remove();
+						if(mok<1){
+							$("#page_1").remove();
+						}
+					}
+				}
+			}
+		});
+	}
 	function info_write(){
 		 location.href= '/client/healthInfo/healthInfoForm.jsp';
 	}
 	function search_h_title(){
 		alert("제목 검색");
-		var i_title = $("#h_title").val();
-		alert("i_title: "+i_title);
+		i_title = $("#h_title").val();
+		alert("i_title: "+i_title+", h_order: "+h_order);
+		if(h_order=="날짜별"){
+			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
+				 url: "/health/healthList.crm?num=1&i_title="+i_title
+			});
+		}else{
+			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
+				 url: "/health/healthList.crm?num=1&h_order="+h_order+"&i_title="+i_title
+			});
+		}
+		page_btn();
+		$("div.fixed-table-loading").remove(); 
 	}
 </script>
 </head>
@@ -93,7 +135,15 @@
 		      						</div>
 		   						</div>
 	    					</div>
-	    					<div class="col-md-9"></div>
+	    					<div class="col-md-5">
+	    					</div>
+	    					<!-- 카테고리 검색 -->
+	    					<div class="col-md mb-2">
+	      						<select class="form-control" id="h_order">
+	      							<option value="날짜별">날짜별</option>
+	      							<option value="조회수별">조회수별</option>
+								</select>
+	    					</div>
 	  					</div>
    					</div>
 				</div>
@@ -104,10 +154,11 @@
 							<table class="table" id="t_healthInfoList" data-toggle="table">
 								<thead class="thead-light">
 									<tr>
+										<th class="d-none" data-field="BOARD_NO">글번호</th>
 										<th data-field="BOARD_TITLE">제목</th>
 										<th data-field="MKS_ID">작성자</th>
 										<th data-field="BOARD_DATE">작성날짜</th>
-										<th class="d-none" data-field="BOARD_NO">글번호</th>
+										<th data-field="HIT">조회수</th>
 									</tr>
 								</thead>
 							</table>
@@ -117,14 +168,13 @@
 				<!-- 버튼 -->
 				<div class="row mb-2">
 					<div class="col-md" style="text-align:right">
-					<%if(mem_name!=null&&"이진아".equals(mem_name)) {//로그인이 된 상태에서만 글쓰기 가능!!%>
+					<%if(mks_id!=null&&"jinaseebabo".equals(mks_id)) {//로그인이 된 상태에서만 글쓰기 가능!!%>
 						<button class="btn btn-md btn-dark" onClick="info_write()">글쓰기</button>
 					<%}else{%>
 						<div class="container"></div>
 					<%} %>
 					</div>
 				</div>
-				
 				<!-- 페이지네이션 -->
 				<div class="row mb-4">
 					<div class="col-md">
@@ -156,33 +206,30 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
-		          url: "/client/board/jsonBoardList.jsp?num="+1
+		          url: "/health/healthList.crm?num=1&&i_title="+i_title
 				  ,onClickRow : function(row,element,field){
-					  var board_no = row.BOARD_NO;
-					  var id = row.MKS_ID;
-					  alert("글쓴이 id: "+id);
-					  location.href= '/client/healthInfo/healthInfoDetail.jsp';
-					  //==> board_no를 넘겨주면 해당 게시글을  select!!
+					   var board_no = row.BOARD_NO;
+					   $.ajax({
+							url: '/health/healthHit.crm?board_no='+board_no
+							,success: function(data){
+								var res = data.trim();
+								alert(res);
+								if(res=='실패'){
+									alert('조회수 올리기 실패');
+								}else{
+									alert('조회수 올리기 성공');
+									location.href= '/client/healthInfo/healthInfoDetail.jsp?board_no='+board_no;
+								}
+							}
+					  });
 				  }
 			});
 			$("div.fixed-table-loading").remove();
-			$.ajax({
-				url: "/client/board/jsonBoardList.jsp?num=0"
-				,dataType: "text"
-				,success: function(data){
-					var totalSize = Number(data.trim()); 
-					var mok = parseInt(totalSize/5);
-					if(mok<3){
-						$("#page_3").remove();
-						if(mok<2){
-							$("#page_2").remove();
-							if(mok<1){
-								$("#page_1").remove();
-							}
-						}
-					}
-					res_pageGet(1);
-				}
+			page_btn();
+			$("#h_order").change(function() {
+				alert(this.value);
+				h_order = this.value;
+				search_h_title();
 			});
 		});
 	</script>

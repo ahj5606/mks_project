@@ -9,6 +9,7 @@
 <%@ page import ="java.util.List"              %>
 <%@ page import ="java.util.Map"               %>
 <%
+
    String hp_name = null;// 페이지 이동하면서 파라미터로 넘어온 **** 병원이름 
    if( request.getParameter("hp_name")!=null){
       hp_name =  request.getParameter("hp_name");
@@ -26,88 +27,6 @@
    String mem_name = null;// 세션에 저장되어있는 **** 회원이름
    if(session.getAttribute("mem_name")!=null){
       mem_name = (String)session.getAttribute("mem_name");
-   };
-   
-   /*************************************************************************
-   * 불규칙한 예약시간 목록 리스트를 가지고 아래와 같은 형식으로 뽑아야함!!!!!!!!!
-      [{
-            start: '2020-06-01',
-          end: '2020-06-10',
-          rendering: 'background'
-      },{
-         start: '2020-06-15',
-          end: '2020-06-24',
-          rendering: 'background'
-      },{
-         start: '2020-06-27',
-          end: '2020-07-05',
-          rendering: 'background'
-      }]
-      
-   */
-   List<Map<String, Object>> resList = new ArrayList<Map<String,Object>>();
-   Map<String,Object> map = null;
-   map = new HashMap<String, Object>();
-   map.put("res_date", "2020-06-19");
-   resList.add(map);
-   map = new HashMap<String, Object>();
-   map.put("res_date", "2020-06-20");
-   resList.add(map);
-   map = new HashMap<String, Object>();
-   map.put("res_date", "2020-06-26");
-   resList.add(map);
-   map = new HashMap<String, Object>();
-   map.put("res_date", "2020-06-27");
-   resList.add(map);
-   map = new HashMap<String, Object>();
-   map.put("res_date", "2020-06-28");
-   resList.add(map);
-   map = new HashMap<String, Object>();
-   map.put("res_date", "2020-07-05");
-   resList.add(map);
-   map = new HashMap<String, Object>();
-   map.put("res_date", "2020-07-06");
-   resList.add(map);
-   
-   StringBuilder sb = new StringBuilder();
-   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-   for(int i=0; i<resList.size(); i++){
-      try {
-         String ddd1 = resList.get(i).get("res_date").toString();
-         String ddd2 = null;
-         Date date1 = sdf.parse(ddd1);
-         Date date2 = null;
-         String date1_str = null;
-         if(i!=resList.size()-1) {
-            if(i==0) {
-               sb.append("[{");
-               sb.append("start: "+"'"+ddd1+"',");
-            }
-            ddd2 = resList.get(i+1).get("res_date").toString();
-            date2 = sdf.parse(ddd2);
-            Calendar cal1 = Calendar.getInstance();
-            cal1.setTime(date1);
-            cal1.add(Calendar.DATE, +1);
-            date1 = cal1.getTime();
-            date1_str = sdf.format(date1);
-            if(!date1.equals(date2)) {
-           	  sb.append("end: "+"'"+date1_str+"',");
-           	  sb.append("rendering: 'background'");
-           	  sb.append("},{");
-           	  sb.append("start:"+"'"+ddd2+"',");
-            }
-         }else {
-        	 Calendar cal1 = Calendar.getInstance();
-        	 cal1.setTime(date1);
-        	 cal1.add(Calendar.DATE, +1);
-        	 date1 = cal1.getTime();
-        	 date1_str = sdf.format(date1);
-        	 sb.append("end: "+"'"+date1_str+"',");
-        	 sb.append("rendering: 'background'");
-        	 sb.append("}]");
-         }
-      } catch (ParseException e) {
-      }
    }
    
 %>
@@ -360,31 +279,45 @@
       });
       $("#dept_name").html("일반내과");
       $("#dept_name").css('color','red');
-      document.addEventListener('DOMContentLoaded', function() {
-         var calendarEl = document.getElementById('calendar');
-         var calendar = new FullCalendar.Calendar(calendarEl, {
-             plugins: [ 'interaction', 'dayGrid' ]
-            ,defaultView: 'dayGridMonth'
-            ,selectable: true
-            ,dateClick: function(info) {
-               var day = info.dateStr;
-               alert("선택: "+day);
-               //전변에 클릭한 날짜 저장해놓고 저장되어 있다면 이벤트가 일어나지 않게....
-               <%for(int i=0; i<resList.size(); i++){
-                  Date date = sdf.parse(resList.get(i).get("res_date").toString());
-                  String date_str = sdf.format(date);%>
-                  if(day=='<%=date_str%>'){
-                     day_of_choice = info.dateStr;
-                     $("#res_date").html(day_of_choice);
-                     $("#res_date").css('color','red');
-                     return;
-                  }
-               <%}%>
-            }
-            ,events:<%=sb.toString()%>
-            ,dragOpacity: 1
-         });
-         calendar.render();
+		/* $.ajax({
+			url:'./jsonMyReservList.jsp'
+			,success: function (data){
+				var res = JSON.parse(data);
+				for(var i=0; i<res.length; i++){
+					$('.fc-day[data-date="' + res[i].res_date + '"]').css('background', "#CEF279");
+				}
+			}
+		}); */
+		document.addEventListener('DOMContentLoaded', function() {
+	         var calendarEl = document.getElementById('calendar');
+	         var calendar = new FullCalendar.Calendar(calendarEl, {
+	             plugins: [ 'interaction', 'dayGrid' ]
+	            ,defaultView: 'dayGridMonth'
+	            ,selectable: true
+	            ,dateClick: function(info) {
+	               var day = info.dateStr;
+	               alert("선택: "+day);
+	               //전변에 클릭한 날짜 저장해놓고 저장되어 있다면 이벤트가 일어나지 않게....
+	               $.ajax({
+						url:'./jsonMyReservList.jsp'
+						,success: function (data){
+							var res = JSON.parse(data);
+							for(var i=0; i<res.length; i++){
+								if(day==res[i].res_date){
+									alert("day: "+day);
+									day_of_choice = day;
+				                    $("#res_date").html(day_of_choice);
+				                    $("#res_date").css('color','red');
+				                    return;
+								}
+							}
+						}
+	               });
+	            }
+	            ,dragOpacity: 1
+	            //,events: "./test2.jsp"
+	         });
+	         calendar.render();
       });
    </script>
 </body>

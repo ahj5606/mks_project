@@ -4,10 +4,7 @@
 <%@ page import="java.util.List, java.util.ArrayList, java.util.Map, java.util.HashMap"%>
 <%
 	//************ 1) 상세읽기에서 수정버튼을 누르고 들어왔을 때....
-String b_title = request.getParameter("board_title");
-String b_writer = request.getParameter("board_writer");
-String b_date = request.getParameter("board_date");
-String b_content = request.getParameter("content");
+	String board_no = request.getParameter("board_no");
 	
 	//************ 2) 글쓰기 버튼 누르고 왔을 때
 	Object parmeter = session.getAttribute("mks_id");
@@ -17,10 +14,16 @@ String b_content = request.getParameter("content");
 	} 
 	
 	Calendar cal = Calendar.getInstance();
-	int day = cal.get(Calendar.DAY_OF_MONTH);
-	int month = cal.get(Calendar.MONTH)+1;
-	int year = cal.get(Calendar.YEAR);
-	String today = year+"/"+month+"/"+day;
+	String day = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
+	if(day.length()==1){
+		day = "0"+day;
+	}
+	String month = Integer.toString(cal.get(Calendar.MONTH)+1);
+	if(month.length()==1){
+		month = "0"+month;
+	}
+	String year = Integer.toString(cal.get(Calendar.YEAR));
+	String today = year+"-"+month+"-"+day;
 	
 %>
 <!DOCTYPE html>
@@ -57,6 +60,8 @@ String b_content = request.getParameter("content");
 	}
 </style>
 <script type="text/javascript">
+	var mks_id = '<%=mks_id%>'
+	var board_no = '<%=board_no%>'
 	function res_pageGet(num){
 		$('#t_hospitalList').bootstrapTable('refreshOptions', {
 			 url: "/client/board/jsonBoardList.jsp?num="+num
@@ -68,6 +73,45 @@ String b_content = request.getParameter("content");
 	}
 	function board_ins(){
 		alert("저장");
+		var board_content = $("#content").val();
+		var board_date = $("#board_date").val();
+		var board_title = $("#board_title").val();
+		var param = 'board_content='+board_content+'&board_date='+board_date+'&board_title='+board_title;
+		alert("param: "+param);
+		$.ajax({
+			url: '/health/healthIns.crm'
+			,data: param
+			,success:function(data){
+				var res = data.trim();
+				alert(res);
+				if(res=='실패'){
+					alert('입력실패');
+				}else{
+					alert('입력성공');
+					location.href="/client/healthInfo/healthInfoList.jsp"
+				}
+			}
+		}); 
+	}
+	function board_upd(){
+		var board_content = $("#content").val();
+		var board_title = $("#board_title").val();
+		var param = 'board_content='+board_content+'&board_title='+board_title+'&board_no='+board_no;
+		alert("param: "+param);
+		$.ajax({
+			url: '/health/healthUpd.crm'
+			,data: param
+			,success:function(data){
+				var res = data.trim();
+				alert(res);
+				if(res=='실패'){
+					alert('수정실패');
+				}else{
+					alert('수정성공');
+					location.href="/client/healthInfo/healthInfoDetail.jsp?board_no="+board_no;
+				}
+			}
+		}); 
 	}
 	function board_list(){
 		alert("목록으로!");
@@ -100,7 +144,7 @@ String b_content = request.getParameter("content");
 	    				<div class="form-group row mb-2">
 							<label for="board_writer" style="width:50px;margin-left:12px;">작성자</label>
 	    					<div class="col-md">
-	      						<input type="text" class="form-control" id="board_writer" style="width:400px;">
+	      						<input type="text" readonly class="form-control" id="board_writer" value='<%=mks_id%>' style="width:400px;">
 	    					</div>
 	    				</div>
 	    				<div class="form-group row mb-4">
@@ -146,7 +190,11 @@ String b_content = request.getParameter("content");
      			</div>
      			<!-- footer -->
      			<div class="modal-footer">
-        			<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_ins();">저장</button>
+					<%if(board_no!=null) {%>
+        				<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_upd();">저장</button>
+					<%}else{ %>
+        				<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_ins();">저장</button>
+					<%}%>
         			<button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">닫기</button>
       			</div>
     		</div>
@@ -156,13 +204,19 @@ String b_content = request.getParameter("content");
 	<!-- 돔구성 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			if('<%=b_title%>'!=null){
-				alert("");
-				$("#board_title").val('<%=b_title%>');
-				$("#board_writer").val('<%=b_writer%>');
-				$("#board_date").val('<%=b_date%>');
-				$("#content").val('<%=b_content%>');
-			}
+			<%if(board_no!=null) {%>
+			$.ajax({
+				url: "/health/healthList.crm?num=1&board_no=+"+board_no
+				,success: function(data){
+					var res = JSON.parse(data);
+					alert("본문사이즈: "+res.length);
+					$("#board_title").val(res[0].BOARD_TITLE);
+					$("#board_writer").val(res[0].MKS_ID);
+					$("#board_date").val(res[0].BOARD_DATE);
+					$("#content").val(res[0].BOARD_CONTENT);
+				}
+			});
+			<%}%>
 		});
 	</script>
 </body>

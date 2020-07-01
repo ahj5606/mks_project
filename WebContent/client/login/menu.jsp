@@ -79,7 +79,7 @@
 	    	<div class="collapse navbar-collapse" id="navbarsExample04">
 		       	<ul class="navbar-nav ml-auto">
 		        	 <li class="nav-item">
-		          	 	 <a class="nav-link " href="/client/mypage/myReservationList.jsp" style="font-size:large;">내정보</a>
+		          	 	 <a class="nav-link " href="/client/myPage/myReservationList.jsp" style="font-size:large;">내정보</a>
 		         	 </li>
 		         	 <li class="nav-item">
 		          		  <a class="nav-link" href="/client/login/logout.jsp" style="font-size:large;">로그아웃</a>
