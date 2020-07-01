@@ -168,7 +168,6 @@ public class crm_BoardController implements crm_Controller{
 		else if("boardDel".equals(requestName)) {
 			//1) pMap 셋팅
 			Map<String, Object> pMap = new HashMap<String, Object>();
-			List<Map<String, Object>> boardPwCheck = null;
 			String mks_id = req.getParameter("mks_id");
 			String mks_pw = req.getParameter("mks_pw");
 			String eva_code = req.getParameter("eva_code");
@@ -177,20 +176,11 @@ public class crm_BoardController implements crm_Controller{
 			pMap.put("eva_code", eva_code);
 			//2) Logic 메소드 호출
 			int result = 0;
-			boardPwCheck = crm_bLogic.boardPwCheck(pMap);
-			logger.info("boardPwCheck 사이즈: "+boardPwCheck.size());
-			Object obj = boardPwCheck.get(0).get("MKS_ID");
-			if(obj!=null) {
-				String pwCheck = (String)obj;
-				if(pwCheck.length()==0) {// 비밀번호가 일치하지 않아!
-					mav.addObject("result", -1);
-				}else {// 비밀번호가 일차한다면 delete 하러 go ~!!
-					result = crm_bLogic.boardDel(pMap);
-					mav.addObject("result", result);
-				}
-			}
+			result = crm_bLogic.boardDel(pMap);
 			//3) ModelAndView 셋팅
+			mav.addObject("result", result);
 			mav.setViewName("/board/boardList");
+			mav.IsForward(true);
 		}
 		return mav;
 	}

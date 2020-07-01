@@ -61,6 +61,7 @@
 	var mks_id = '<%=mks_id%>'
 	function modal_ins(){
 		var sch_code;
+		var u_sch_code;
 		var eva_title = $("#eva_title").val().length;
 		var eva_content = $("#eva_content").val().length;
 		<%if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?%>
@@ -116,7 +117,7 @@
 					alert('수정실패');
 				}else{
 					alert('수정성공');
-					location.href="/client/board/boardList.jsp"
+					location.href="/client/board/boardDetail.jsp?mks_id="+mks_id+"&eva_code="+eva_code+"&sch_code="+u_sch_code;
 				}
 			}
 		});
@@ -258,6 +259,7 @@
 						$("#eva_content").val(res[0].EVA_CONTENT);
 						$("#eva_writer").attr('readonly',true);
 						$("#eva_date").attr('readonly', true);
+						u_sch_code = res[0].SCH_CODE;
 					}
 				});
 				

@@ -23,13 +23,9 @@ public class crm_HealthDao {
 		logger.info("[crm_HealthDao] healthList 호출성공");
 		List<Map<String, Object>> healthList = null;
 		healthList = sqlSes.selectList("healthList", pMap);
+		logger.info("healthList 사이즈: " + healthList.size());
 		return healthList;
 	}
-	
-//	public List<Map<String, Object>> healthSel(Map<String, Object> pMap) {
-//		logger.info("[crm_HealthDao] healthSel 호출성공");
-//		return null;
-//	}
 	
 	public int healthIns(Map<String, Object> pMap) {
 		logger.info("[crm_HealthDao] healthIns 호출성공");
@@ -49,6 +45,24 @@ public class crm_HealthDao {
 		return result;
 	}
 	
+	public int healthHit(Map<String, Object> pMap) {
+		logger.info("[crm_HealthDao] healthHit 호출성공");
+		int result = 0;
+		result = sqlSes.update("healthHit", pMap);
+		logger.info("result: " + result);
+		sqlSes.commit(true);
+		return result;
+	}
+	
+	public int healthLike(Map<String, Object> pMap) {
+		logger.info("[crm_HealthDao] healthLike 호출성공");
+		int result = 0;
+		result = sqlSes.update("healthLike", pMap);
+		logger.info("result: " + result);
+		sqlSes.commit(true);
+		return result;
+	}
+	
 	public int healthDel(Map<String, Object> pMap) {
 		logger.info("[crm_HealthDao] healthDel 호출성공");
 		int result = 0;
@@ -57,4 +71,5 @@ public class crm_HealthDao {
 		sqlSes.commit(true);
 		return result;
 	}
+
 }

@@ -62,7 +62,6 @@
 				url: "/board/boardList.crm?num="+num+"&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name+"&b_order="+b_order
 			});
 		}
-		page_btn();
 		$("div.fixed-table-loading").remove(); 
 	} 
 	function pageMove(click){
@@ -178,6 +177,7 @@
 	    					</div>
 	    					<div class="col-md-2">
 	    					</div>
+	    					<!-- 카테고리 검색 -->
 	    					<div class="col-md mb-2">
 	      						<select class="form-control" id="b_order">
 	      							<option value="날짜별">날짜별</option>
@@ -277,22 +277,8 @@
 			$("div.fixed-table-loading").remove();
 			page_btn();
 			$("#b_order").change(function() {
-				b_order = this.value;
-				b_title = $("#b_title").val();
-				b_writer = $("#b_writer").val();
-				hp_name = $("#hp_name").val();
-				if(b_order=="날짜별"){
-					$('#t_boardList').bootstrapTable('refreshOptions', {
-						 url: "/board/boardList.crm?num=1&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name
-					});
-				}else{
-					alert(b_order);
-					$('#t_boardList').bootstrapTable('refreshOptions', {
-						 url: "/board/boardList.crm?num=1&b_title="+b_title+"&b_writer="+b_writer+"&hp_name="+hp_name+"&b_order="+b_order
-					});
-				}
-				page_btn();
-				$("div.fixed-table-loading").remove();
+				alert(this.value);
+				con_search();
 			});
 		});
 	</script>

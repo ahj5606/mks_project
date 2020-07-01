@@ -13,12 +13,18 @@
 <style type="text/css">
    th, td{
       height:40px;
-      font-size:large;
+      font-size: medium;
       color:#353535;
       /* padding:2px; ===> 왜 안먹지...?*/
    }
    a.page-link{
       color:#4C4C4C;
+   }
+   .thead-light > tr > th.width1{
+		width:150px;
+   }
+   .thead-light > tr > th.width2{
+		width:350px;
    }
 </style>
 <script type="text/javascript">
@@ -57,7 +63,7 @@
    <!-- 메뉴바 -->
    <jsp:include page="../login/menu.jsp"/>
    <!-- 본문 -->
-   <div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
+   <div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top: 15px;">
         <div class="row pt-4">
            <div class="col-md">
             <div class="row mb-0">
@@ -101,11 +107,11 @@
                      <table class="table" id="t_hospitalList" data-toggle="table" style="text-align: center;">
                         <thead class="thead-light">
                            <tr>
-                              <th data-field="HP_NAME">병원이름</th>
-                              <th data-field="HP_ADDRESS">주소</th>
+                              <th class="width1" data-field="HP_NAME">병원이름</th>
+                              <th class="width2" data-field="HP_ADDRESS">주소</th>
                               <th data-field="HP_OPEN">오픈시간</th>
                               <th data-field="HP_CLOSE">마감시간</th>
-                              <th data-field="HP_PHONE">전화번호</th>
+                              <th class="width1" data-field="HP_PHONE">전화번호</th>
                               <th data-field="DEPT_NAME">진료과</th>
                            </tr>
                         </thead>

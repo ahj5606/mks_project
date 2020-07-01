@@ -24,26 +24,11 @@
 		text-align: center;
 		font-family:'Do Hyeon';
 		margin-top:30px;
+        height: auto;
 	}
-	/* 
-	.footerAlign {
-	    position:absolute;
-	    bottom:0;
-	    width:99%;
-	    height:70px;   
-	    background:#ccc;
-	}
-
-	html,body {
-	    margin:0;
-	    padding:0;
-	    height:100%;
-	} 
-	*/
 </style>
 </head>
 <body>
-<!-- <div class="footerAlign"> -->
 	<footer>
 		<div class="row bg-light pt-3" id="f_row" style="justify-content:center;">
 			<ul>

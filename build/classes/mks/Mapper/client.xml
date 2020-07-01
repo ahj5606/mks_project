@@ -310,12 +310,12 @@
 	
 	<select id="boardResList" parameterType="map" resultType="map">
 		SELECT a.sch_code, a.sch_date, a.hp_name, a.dept_name, a.doc_name
- 		  FROM mks_reserve a
- 		 WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id=#{mks_id})
-    	   AND (SELECT sch_code
-        		  FROM mks_eva
-    			 WHERE sch_code = a.sch_code) IS NULL 
-    	   AND (SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM DUAL) > TO_DATE(a.sch_date)
+          FROM mks_reserve a
+         WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id=#{mks_id})
+           AND (SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM DUAL) > TO_DATE(a.sch_date)
+           AND (SELECT count(sch_code)
+                  FROM mks_eva
+                 WHERE sch_code = a.sch_code) =0
 	</select>
 	
 	<select id="boardReplyList" parameterType="map" resultType="map">
@@ -391,5 +391,79 @@
    					    AND mks_pw = #{mks_pw}), '') mks_id 
    		  FROM DUAL
 	</select>
-
+	
+	
+	<!-- crm_HealthInfoDao -->
+	<select id="healthList" parameterType="map" resultType="map">
+		SELECT rnum, board_no, board_content, board_date, board_title, hit, mks_id, good, bad
+  		  FROM (
+			        SELECT rownum rnum, board_no, board_content, board_date, board_title, hit, mks_id, good, bad
+			          FROM mks_board
+			         WHERE board_type=1
+			        <if test="i_title!=null and i_title.length()>0">
+			           AND board_title LIKE '%'||#{i_title}||'%'
+			        </if>
+			        <if test="board_no!=null">
+			           AND board_no = #{board_no}
+			        </if>
+			        <if test="h_order!=null">
+				      ORDER BY hit desc, board_no desc
+				    </if>
+				    <if test="h_order==null">
+				      ORDER BY board_no desc
+				    </if>
+                )
+         <if test="fnum!=null">
+ 		 WHERE rnum BETWEEN #{fnum} AND #{enum}
+         </if>
+    
+	</select>
+	
+	<insert id="healthIns" parameterType="map">
+		INSERT INTO mks_board values(
+		    1,
+		    (SELECT NVL(MAX(BOARD_NO),0)+1 FROM mks_board),
+		    #{board_content},
+		    #{board_date},
+		    'jinaseebabo',
+		    #{board_title},
+		    null,
+		    0,
+		    0,
+		    0
+		)
+	</insert>
+	
+	<update id="healthHit" parameterType="map">
+		UPDATE mks_board 
+		   SET 
+		       hit = (SELECT hit+1 FROM mks_board WHERE board_no = #{board_no})
+	     WHERE board_no =#{board_no}
+	</update>
+	
+	<update id="healthLike" parameterType="map">
+		UPDATE mks_board 
+           SET 
+           	<if test="good!=null">
+               good = (SELECT good+1 FROM mks_board WHERE board_no = #{board_no})
+           	</if>
+           	<if test="good==null">
+               bad = (SELECT bad+1 FROM mks_board WHERE board_no = #{board_no})
+           	</if>
+         WHERE board_no = #{board_no}
+	</update>
+	
+	<update id="healthUpd" parameterType="map">
+		UPDATE mks_board 
+		   SET 
+		   	   board_content=#{board_content}, 
+		   	   board_title = #{board_title}
+         WHERE board_no = #{board_no}
+	</update>
+	
+	<delete id="healthDel" parameterType="map">
+		DELETE 
+		  FROM mks_board 
+		 WHERE board_no = #{board_no}
+	</delete> 
 </mapper>

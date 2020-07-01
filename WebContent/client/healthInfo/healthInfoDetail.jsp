@@ -3,9 +3,13 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList, java.util.Map, java.util.HashMap"%>
 <%
-	//************ 글을 선택하고 들어왔을 때
-	List<Map<String,Object>> bList = new ArrayList<>();//화면에 뿌릴 내용이 담김
-	
+	String board_no = request.getParameter("board_no");
+
+	Object parmeter = session.getAttribute("mks_id");//회원의 아이디
+	String mks_id = null;
+	if(parmeter!=null){
+		mks_id = (String)parmeter;
+	} 
 %>
 <!DOCTYPE html>
 <html>
@@ -41,6 +45,8 @@
 	}
 </style>
 <script type="text/javascript">
+	var mks_id = '<%=mks_id%>';
+	var board_no = '<%=board_no%>'
 	function res_pageGet(num){
 		$('#t_hospitalList').bootstrapTable('refreshOptions', {
 			 url: "/client/board/jsonBoardList.jsp?num="+num
@@ -55,19 +61,62 @@
 		alert("삭제!");
 		var i_pw = $("#i_pw").val();
 		alert("입력한 비번: "+i_pw);
+		var param = "mks_id="+mks_id+"&mks_pw="+i_pw+"&board_no="+board_no;
+		$.ajax({
+			url: '/health/healthDel.crm'
+			,data: param
+			,success:function(data){
+				var res = data.trim();
+				if(res=='불일치'){
+					alert('비밀번호가 일치하지 않습니다.');
+				}else if(res=='실패'){
+					alert('삭제실패');
+				}else{
+					alert('삭제성공');
+					location.href="/client/healthInfo/healthInfoList.jsp"
+				}
+			}
+		});
 	}
 	function board_upd(){
-		alert("수정모드로!");
-		var board_title = $("#board_title").val();
-		var board_writer = $("#board_writer").val();
-		var board_date = $("#board_date").val();
-		var content = $("#content").val();
-		location.href = "/client/healthInfo/healthInfoForm.jsp?board_title="+board_title
-									+"&board_writer="+board_writer+"&board_date="+board_date+"&content="+content;
+		alert("수정모드로!");//@@@@@@@@@@
+		location.href = "/client/healthInfo/healthInfoForm.jsp?board_no="+board_no;
 	}
 	function board_list(){
 		alert("목록으로!");
 		location.href="/client/healthInfo/healthInfoList.jsp"
+	}
+	function good(){
+		alert("공감");
+		var good = Number($("#good").html())+1;
+		$.ajax({
+			url: "/health/healthLike.crm?board_no="+board_no+"&good=1"
+			,success: function(data){
+				var res = data.trim();
+				if(res=='실패'){
+					alert('공감실패');
+				}else{
+					alert('공감성공');
+					$("#good").html(good);
+				}
+			}
+		});
+	}
+	function bad(){
+		alert("비공감");
+		var bad = Number($("#bad").html())+1;
+		$.ajax({
+			url: "/health/healthLike.crm?board_no="+board_no+"&bad=1"
+			,success: function(data){
+				var res = data.trim();
+				if(res=='실패'){
+					alert('비공감실패');
+				}else{
+					alert('비공감성공');
+					$("#bad").html(bad);
+				}
+			}
+		});
 	}
 </script>
 </head>
@@ -90,34 +139,46 @@
 						<div class="form-group row mb-2 mt-3">
 							<label for="board_title" style="width:50px;margin-left:12px;">제목</label>
 	    					<div class="col-md">
-	      						<input type="text" readonly class="form-control" id="board_title" value="글작성합니다" style="width:400px;">
+	      						<input type="text" readonly class="form-control" id="board_title" style="width:400px;">
 	    					</div>
 	    				</div>
 	    				<div class="form-group row mb-2">
 							<label for="board_writer" style="width:50px;margin-left:12px;">작성자</label>
 	    					<div class="col-md">
-	      						<input type="text" readonly class="form-control" id="board_writer" value="관리자" style="width:400px;">
+	      						<input type="text" readonly class="form-control" id="board_writer" value='<%=mks_id%>' style="width:400px;">
 	    					</div>
 	    				</div>
 	    				<div class="form-group row mb-4">
 							<label for="board_date" style="width:50px;margin-left:12px;">작성날짜</label>
 	    					<div class="col-md">
-	      						<input type="text" readonly class="form-control" id="board_date" value="2020/06/22" style="width:400px;">
+	      						<input type="text" readonly class="form-control" id="board_date" style="width:400px;">
 	    					</div>
 	    				</div>
 	    				<div class="form-group row">
 							<textarea readonly class="form-control ml-1" rows="10" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
 	    				</div>
+	    				<!-- 공감, 비공감 -->
+	    				<div class="row mb-0">
+							<div style="width:80px; text-align:center;">
+								<div style="text-align:center;"><img src="./good.png" onClick="good()"></div>
+								<div style="text-align:center;">유익해</div>
+								<div id="good" style="text-align:center;"></div>
+							</div>
+							<div style="width:80px; text-align:center;">
+								<div style="text-align:center;"><img src="./bad.png" onClick="bad()"></div>
+								<div style="text-aling:center;">비공감</div>
+								<div id="bad" style="text-align:center;"></div>
+							</div>
+						</div>
 					</form>
-				</div>
-				<!-- 바디:내용 -->
-				<div class="row mb-0" >
 				</div>
 				<!-- 버튼 -->
 				<div class="row mb-2">
 					<div class="col-md" style="text-align:right">
+					<%if("jinaseebabo".equals(mks_id)){ //자신의 글일때만 삭제, 수정 가능!!!%>
 						<button class="btn btn-md btn-dark" onClick="modal_del()">삭제</button>
 						<button class="btn btn-md btn-dark" onClick="board_upd()">수정</button>
+					<%}%>
 						<button class="btn btn-md btn-dark" onClick="board_list()">목록</button>
 					</div>
 				</div>
@@ -154,5 +215,23 @@
     		</div>
   		</div>
 	</div>
+	<!-- 돔구성 완료 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$.ajax({
+				url: "/health/healthList.crm?num=1&board_no=+"+board_no
+				,success: function(data){
+					var res = JSON.parse(data);
+					alert("본문사이즈: "+res.length);
+					$("#board_title").val(res[0].BOARD_TITLE);
+					$("#board_writer").val(res[0].MKS_ID);
+					$("#board_date").val(res[0].BOARD_DATE);
+					$("#content").val(res[0].BOARD_CONTENT);
+					$("#good").html(res[0].GOOD);
+					$("#bad").html(res[0].BAD);
+				}
+			});
+		});
+	</script>
 </body>
 </html>
