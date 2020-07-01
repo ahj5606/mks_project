@@ -50,15 +50,20 @@
 </style>
 <script type="text/javascript">
 	function res_pageGet(num){
-		$('#t_hospitalList').bootstrapTable('refreshOptions', {
-			 url: "/client/board/jsonBoardList.jsp?num="+num
+		$('#t_noticeList').bootstrapTable('refreshOptions', {
+			 url: "/notice/noticeList.crm?num="+num+"&mode=0"
 		});
 		$("div.fixed-table-loading").remove(); 
 	}
-	function search_b_title(){
+	function search_n_title(){
 		alert("제목검색");
-		var i_title = $("#b_title").val();
+		var i_title = $("#n_title").val();
 		alert("i_title: "+i_title);
+		$('#t_noticeList').bootstrapTable('refreshOptions', {
+			 url: "/notice/noticeList.crm?num=1"+"&mode=0"+"&title="+i_title
+		});
+		$("div.fixed-table-loading").remove(); 
+		
 	}
 </script>
 </head>
@@ -83,9 +88,9 @@
 						<div class="form-group row">
 	    					<div class="col-md mb-2">
 		    					<div class="input-group">
-		      						<input type="text" class="form-control" id="b_title" name="b_title" type="search" placeholder="제목">
+		      						<input type="text" class="form-control" id="n_title" name="n_title" type="search" placeholder="제목">
 		      						<div class="input-group-prepend">
-		      							<button class="btn btn-dark btn-block" onClick="search_b_title()">검색</button>
+		      							<button class="btn btn-dark btn-block" onClick="search_n_title()">검색</button>
 		      						</div>
 		   						</div>
 	    					</div>
@@ -97,7 +102,7 @@
 				<div class="row mb-0" >
 					<div class="col-md">
 						<div class="table-responsive-md">
-							<table class="table" id="t_hospitalList" data-toggle="table">
+							<table class="table" id="t_noticeList" data-toggle="table">
 								<thead class="thead-light">
 									<tr>
 										<th data-field="BOARD_TITLE">제목</th>
@@ -190,8 +195,8 @@
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('#t_hospitalList').bootstrapTable('refreshOptions', {
-		          url: "/client/board/jsonBoardList.jsp?num="+1
+			$('#t_noticeList').bootstrapTable('refreshOptions', {
+		          url: "/notice/noticeList.crm?num=1&mode=0"
 				  ,onClickRow : function(row,element,field){
 					  var board_no = row.BOARD_NO;
 					  var id = row.MKS_ID;

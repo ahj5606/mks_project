@@ -25,6 +25,8 @@ public class crm_ControllerMapper {
 			controller = new crm_BoardController(requestName);
 		}else if("health".equals(work)) {
 			controller = new crm_HealthController(requestName);
+		}else if("notice".equals(work)) {
+			controller = new crm_NoticeController(requestName);
 		}
 		return controller;
 	}

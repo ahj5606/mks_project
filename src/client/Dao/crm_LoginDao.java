@@ -38,7 +38,7 @@ public class crm_LoginDao {
       logger.info("id: " + id);
       login.add(pMap);
       logger.info(login.size());
-      sqlSes.commit();
+      sqlSes.commit(true);
       return login;
    }
    

@@ -28,37 +28,12 @@ public class crm_ReservationDao {
 		List<Map<String, Object>> proc_reservelist = null;
 		pMap.put("u_hp_code","647HP");
 		pMap.put("u_dept_name","소아과");
-//		pMap.put("u_doc_name","조하윤");
+		pMap.put("u_doc_name","조");
 		pMap.put("fnum",1);
 		pMap.put("enum",5);
 		sqlSes.selectList("proc_reservelist", pMap);
 		proc_reservelist = (List<Map<String, Object>>)pMap.get("res_list");
 		return proc_reservelist;
-	}
-	
-	public List<Map<String, Object>> noticeNew(Map<String, Object> pMap) {
-		//공지사항 최신순 2가지 보여주기.
-		logger.info("[crm_ReservationDao] noticeNew 호출성공");
-		List<Map<String, Object>> noticeNew = null;
-		noticeNew = sqlSes.selectList("noticeNew", pMap);
-		return noticeNew;
-	}
-	
-	public List<Map<String, Object>> noticeList(Map<String, Object> pMap) {
-		//공지사항 리스트 보기.
-		logger.info("[crm_ReservationDao] noticeList 호출성공");
-		List<Map<String, Object>> noticeList = null;
-		noticeList = sqlSes.selectList("noticeList", pMap);
-		return noticeList;
-	}
-	
-	public List<Map<String, Object>> noticeDetail(Map<String, Object> pMap) {
-		//공지사항 세부사항 보기.
-		logger.info("[crm_ReservationDao] noticeDetail 호출성공");
-		List<Map<String, Object>> noticeDetail = null;
-		pMap.put("board_no", 1);
-		noticeDetail = sqlSes.selectList("noticeDetail", pMap);
-		return noticeDetail;
 	}
 	
 	public List<Map<String, Object>> deptCategory(Map<String, Object> pMap) {
@@ -84,7 +59,7 @@ public class crm_ReservationDao {
 		//의사선생님을 클릭하면 보이는 의사선생님 상세정보.
 		logger.info("[crm_ReservationDao] docSel 호출성공");
 		List<Map<String, Object>> docSel = null;
-		pMap.put("doc_name", "이서연");
+		pMap.put("doc_code", "10-6830-6829");
 		docSel = sqlSes.selectList("docSel", pMap);
 		return docSel;
 	}
@@ -140,9 +115,9 @@ public class crm_ReservationDao {
 //		res.noticeNew(pMap);
 //		res.noticeList(pMap);
 //		res.noticeDetail(pMap);
-		res.deptCategory(pMap);
+//		res.deptCategory(pMap);
 //		res.waitCheck(pMap);
-//		res.docSel(pMap);
+		res.docSel(pMap);
 //		res.calender(pMap);
 //		res.docCategory(pMap);
 //		res.reservation(pMap);
