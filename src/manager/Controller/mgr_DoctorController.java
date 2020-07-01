@@ -11,7 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.Spring;
 
 import org.apache.log4j.Logger;
 
@@ -31,43 +30,47 @@ public class mgr_DoctorController implements mgr_Controller {
 	public mgr_ModelAndView mgrProcess(HttpServletRequest req, HttpServletResponse res)
 			throws IOException, ServletException {
 		mgr_ModelAndView mav = new mgr_ModelAndView(req, res);
-		
+		logger.info("1+++++++++++++++++++++++++");
 		//////
-//			Map<String,Object> pMap = new HashMap<>(); 
-//			HashMapBinder hmb = new HashMapBinder(req); 
-//			hmb.binder(pMap);
+			Map<String,Object> pMap = new HashMap<>(); 
+			HashMapBinder hmb = new HashMapBinder(req); 
+			hmb.binder(pMap);
 		///////
-		
 		String path = null;
+		
 		
 		String dept_code = null;
 		String hp_code = "280HP";
 //		String hp_code = null;
 		/////
 //			Cookie[] cookies = req.getCookies();
+//			logger.info("cookies:"+cookies);
 //			if(cookies!=null && cookies.length>0){
 //				for(int i =0;i<cookies.length;i++){
 //					String name = cookies[i].getName();
+//					logger.info("name:"+name);
 //					if(name.equals("dept_code")){
-//						Map<String,Object> pMap = new HashMap<>();
+////						Map<String,Object> pMap = new HashMap<>();
 //						dept_code = cookies[i].getValue();
+//						logger.info("dept_code:"+dept_code);
 //						pMap.put("dept_code", dept_code);
 //					}
 //				}
 //			}
-		 
-		 ////////
+//		 
+//		 ////////
 //			   HttpSession sess = req.getSession(); 
 //			   hp_code = (String)sess.getAttribute("hp_code"); 
-			   
+//			   logger.info("hp_code:"+ hp_code);
+//			   
 //			   pMap.put("hp_code", hp_code);
-//			   List<Map<String,Object>> dList = null;
-//			  
+////			   List<Map<String,Object>> dList = null;
+////			  
 //			   if(hp_code ==null || dept_code ==null) { //로그인 정보가 만료되었습니다.
 //					  mav.IsForward(false); 
 //					  mav.setViewName("/fail"); 
 //					  return mav;
-//					  
+////					  
 //			   }
 		///////	 
 		
@@ -76,7 +79,7 @@ public class mgr_DoctorController implements mgr_Controller {
 			logger.info("requestName: "+requestName);
 			List<Map<String,Object>> dList = null;
 			List<Map<String,Object>> deptList = null;//진료과
-			Map<String, Object> pMap = new HashMap<>();
+//			Map<String, Object> pMap = new HashMap<>();
 			pMap.put("hp_code", hp_code);
 //				
 			dList = mgr_dLogic.doctorList(pMap);
@@ -102,8 +105,8 @@ public class mgr_DoctorController implements mgr_Controller {
 			 */
 			 List<Map<String,Object>> dList = null; 
 			 List<Map<String,Object>> deptList = null;//진료과
-			 Map<String,Object> pMap = new HashMap<>(); 
-			 HashMapBinder hmb = new HashMapBinder(req);
+//			 Map<String,Object> pMap = new HashMap<>(); 
+//			 HashMapBinder hmb = new HashMapBinder(req);
 			 hmb.binder(pMap);
 			 
 			 dList = mgr_dLogic.doctorSEL(pMap); 
@@ -118,7 +121,7 @@ public class mgr_DoctorController implements mgr_Controller {
 		else if("doctorDetail".equals(requestName)) {
 			String doc_code = null;
 			List<Map<String,Object>> dList = null;
-			Map<String, Object> pMap = new HashMap<>();
+//			Map<String, Object> pMap = new HashMap<>();
 			doc_code=req.getParameter("doc_code");
 			pMap.put("doc_code", doc_code);
 			logger.info(pMap.get("doc_code"));
@@ -132,9 +135,9 @@ public class mgr_DoctorController implements mgr_Controller {
 		} else if("doctorINS".equals(requestName)) {
 			logger.info("의사 등록 호출 시작");
 			int result = 0;//1이면 등록 성공, 0이면 실패
-			Map<String,Object> pMap = new HashMap<>();
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.binder(pMap);
+//			Map<String,Object> pMap = new HashMap<>();
+//			HashMapBinder hmb = new HashMapBinder(req);
+//			hmb.binder(pMap);
 			logger.info(pMap.get("dept_name"));
 			logger.info(pMap.get("doc_state"));
 			logger.info(pMap.get("doc_education"));
@@ -150,9 +153,9 @@ public class mgr_DoctorController implements mgr_Controller {
 			
 		} else if("doctorUPD".equals(requestName)) {
 			int result =0;
-			Map<String,Object> pMap = new HashMap<>();
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.binder(pMap);
+//			Map<String,Object> pMap = new HashMap<>();
+//			HashMapBinder hmb = new HashMapBinder(req);
+//			hmb.binder(pMap);
 			result = mgr_dLogic.doctorUPD(pMap);
 			logger.info(result);
 			mav.cudResult(result);
@@ -167,22 +170,36 @@ public class mgr_DoctorController implements mgr_Controller {
 		}else if("deptSearch".equals(requestName)) {
 			logger.info("deptSearch 호출");
 			List<Map<String,Object>> deptList = null;//진료과
-			Map<String,Object> pMap = new HashMap<>(); 
+//			Map<String,Object> pMap = new HashMap<>(); 
 			pMap.put("hp_code",hp_code);
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.binder(pMap);
-			logger.info(pMap.get("hp_code"));
+//			HashMapBinder hmb = new HashMapBinder(req);
+//			hmb.binder(pMap);
+//			logger.info(pMap.get("hp_code"));
 			deptList = mgr_dLogic.deptSearch(pMap);
 			logger.info(deptList);
 			mav.addObject("deptList", deptList);
 			mav.IsForward(true);
 			mav.setViewName("/doctor/deptJson");
 			
+		}else if("reserveDay".equals(requestName)) {
+			logger.info("reserveDay 호출");
+			List<Map<String,Object>> resDay = null;//진료과
+//			Map<String,Object> pMap = new HashMap<>(); 
+			pMap.put("hp_code",hp_code);
+//			HashMapBinder hmb = new HashMapBinder(req);
+//			hmb.binder(pMap);
+//			logger.info(pMap.get("hp_code"));
+			resDay = mgr_dLogic.reserveDay(pMap);
+			logger.info(resDay);
+			mav.addObject("resDay", resDay);
+			mav.IsForward(true);
+			mav.setViewName("/doctor/resJson");
+			
 		} else if("doctorDEL".equals(requestName)) {
 			int result =0;
-			Map<String,Object> pMap = new HashMap<>();
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.binder(pMap);
+//			Map<String,Object> pMap = new HashMap<>();
+//			HashMapBinder hmb = new HashMapBinder(req);
+//			hmb.binder(pMap);
 			result = mgr_dLogic.doctorDEL(pMap);
 			mav.IsForward(false);
 			if(result==1) {

@@ -125,6 +125,11 @@
 			where hp_code=#{hp_code}
 	</select>
 	
+	<select id="reserveDay" parameterType="map" resultType="map">
+		select sch_code,sch_time, sch_date, hp_code,hp_name from MKS_SCHEDULE 
+			where hp_code=#{hp_code} AND doc_code =#{doc_code}
+	</select>
+	
 	<select id="doctorDetail" parameterType="map" resultType="map">
 		select dept_name, doc_code, hp_code,hp_name
         		,DOC_STATE,DOC_NAME,DOC_POSITION,DOC_EDUCATION
@@ -184,6 +189,11 @@
 			</if>
 		</where>  
 	</update>
+	<update id="resUPD" parameterType="map">
+		UPDATE mks_schedule SET sch_time=#{sch_time} ,sch_date=#{sch_date} where sch_code=#{sch_code}
+	</update>
+	
+	
 	
 	<delete id="doctorDEL" parameterType="map">
 		DELETE FROM mks_doctor WHERE doc_code=#{doc_code}

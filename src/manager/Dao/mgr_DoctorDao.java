@@ -64,6 +64,17 @@ public class mgr_DoctorDao {
 		}
 		return deptList;
 	}
+	public List<Map<String, Object>> reserveDay(Map<String, Object> pMap) {
+		List<Map<String,Object>> resDay = null;
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			resDay=sqlSes.selectList("reserveDay",pMap);
+			logger.info(resDay);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resDay;
+	}
 	public List<Map<String, Object>> doctorDetail(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList= null;
 		try {
@@ -97,6 +108,18 @@ public class mgr_DoctorDao {
 		try {
 			SqlSession sqlSes = sqlMapper.openSession();
 			result = sqlSes.update("doctorUPD",pMap);
+			sqlSes.commit(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public int resUPD(Map<String, Object> pMap) {
+		logger.info("resUPD호출 성공");
+		int result = 0;
+		try {
+			SqlSession sqlSes = sqlMapper.openSession();
+			result = sqlSes.update("resUPD",pMap);
 			sqlSes.commit(true);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -172,7 +172,7 @@ $(document).ready(function(data){
 		//alert("dept_name");
 	    dept_name = $(this).html();
 	    $('#deptDrop button.dropdown-toggle').html(dept_name);
-	    alert("진료과:"+dept_name);
+	    //alert("진료과:"+dept_name);
 	    location.href='./doctorSEL.mgr?hp_code=<%=hp_code%>&dept_name='+dept_name
 	});
 	function docSearch(){

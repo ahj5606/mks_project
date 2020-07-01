@@ -51,6 +51,31 @@
 	}
 	
 	
+	$(document).ready(function(data){
+		$("#res_day").bootstrapTable({
+			onDblClickRow:function(row, $element, field)
+		     { 
+				var jo = JSON.stringify(row);
+				var d = JSON.parse(jo);
+				var SCH_TIME = d.SCH_TIME;
+				var SCH_DATE = d.SCH_DATE;
+				var HP_CODE = d.HP_CODE;
+				$("#sch_time").val(SCH_TIME);
+				$("#sch_date").val(SCH_DATE);
+				$("#hp_code").val(HP_CODE);
+				$("#reserveDay").modal('hide');
+		     }
+		})
+		$("#res_day").bootstrapTable('hideLoading');
+	})
+	function reserveSearch(){
+		var hp_code= "280HP";
+		$("#res_day").bootstrapTable('refreshOptions', {
+			    url:'/manager/doctor/reserveDay.mgr?hp_code='+hp_code
+		  })
+	}
+	
+	
 </script>
 	 <%@include file="../../common/ManagerCommon.jsp" %> 
 <body>
@@ -64,6 +89,7 @@
 			    <div class="form-group">
 			        <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" style="width: 245px"readonly>
 			        <button style="margin-top: 10px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
+			        
 			    </div>
 	     		<div class="form-group" style="margin-top: 30px">
 	     		    <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" style="width: 245px"readonly>
@@ -207,7 +233,8 @@
 				      </div>
 				    </div>
 				  </div>
-				</div>   
+				</div> 
+			 
 	</div>
 </body>
 </html>

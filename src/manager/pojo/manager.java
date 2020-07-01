@@ -30,7 +30,7 @@ public class manager extends HttpServlet {
 			logger.info("1+++++++++++++++++++++++++");
 			controller = mgr_ControllerMapper.getController(commands);
 			logger.info("1+++++++++++++++++++++++++");
-			logger.info(controller);
+			logger.info("doService controller:"+controller);
 			
 		}
 		
