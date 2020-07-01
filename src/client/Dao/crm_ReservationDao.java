@@ -26,6 +26,7 @@ public class crm_ReservationDao {
 		//병원만 선택후  모든과, 의사T, 대기시간 찾기 or 진료과목 및 의사T 조건검색 으로 목록 확인
 		logger.info("[crm_ReservationDao] proc_reservelist 호출성공");
 		List<Map<String, Object>> proc_reservelist = null;
+
 	//pMap.put("u_hp_code","647HP");
 	//pMap.put("u_dept_name","소아과");
 	//pMap.put("u_doc_name","조하윤");
@@ -43,11 +44,13 @@ public class crm_ReservationDao {
 		return proc_reservelist;
 	}
 	
-	public List<Map<String, Object>> noticeList(Map<String, Object> pMap) {
-		logger.info("[crm_ReservationDao] noticeList 호출성공");
-		List<Map<String, Object>> noticeList = null;
-		noticeList = sqlSes.selectList("noticeList", pMap);
-		return noticeList;
+	public List<Map<String, Object>> deptCategory(Map<String, Object> pMap) {
+		//과 카테고리 중복제거. 
+		logger.info("[crm_ReservationDao] deptCategory 호출성공");
+		List<Map<String, Object>> deptCategory = null;
+		pMap.put("hp_code", "647HP");
+		deptCategory = sqlSes.selectList("deptCategory", pMap);
+		return deptCategory;
 	}
 	public List<Map<String, Object>> noticeNew(Map<String, Object> pMap) {
 		//공지사항 최신순 2가지 보여주기.
@@ -78,16 +81,9 @@ public class crm_ReservationDao {
 		waitCheck = sqlSes.selectList("waitCheck", pMap);
 		return waitCheck;
 	}
-	public List<Map<String, Object>> deptCategory(Map<String, Object> pMap) {
-		//과 카테고리 중복제거. 
-		logger.info("[crm_ReservationDao] deptCategory 호출성공");
-		List<Map<String, Object>> deptCategory = null;
-		//pMap.put("hp_code", "647HP");
-		deptCategory = sqlSes.selectList("deptCategory", pMap);
-		return deptCategory;
-	}
 	
 	public List<Map<String, Object>> docSel(Map<String, Object> pMap) {
+		//의사선생님을 클릭하면 보이는 의사선생님 상세정보.
 		logger.info("[crm_ReservationDao] docSel 호출성공");
 		List<Map<String, Object>> docSel = null;
 		//pMap.put("doc_code", "10-7846-7845");
@@ -96,19 +92,17 @@ public class crm_ReservationDao {
 	}
 	
 	public List<Map<String, Object>> calender(Map<String, Object> pMap) {
+		//예약 가능한 시간표 Select
 		logger.info("[crm_ReservationDao] calender 호출성공");
 		List<Map<String, Object>> calender = null;
+		//pMap.put("hp_code", "647HP");
+		//pMap.put("dept_code", "39");
+		//pMap.put("doc_code", "10-6830-6829");
+		//pMap.put("sch_date", "2020/07/23");
+		//pMap.put("sch_time", "1200");
 		calender = sqlSes.selectList("calender", pMap);
 		return calender;
 	}
-	
-	public List<Map<String, Object>> time(Map<String, Object> pMap) {
-		logger.info("[crm_ReservationDao] time 호출성공");
-		List<Map<String, Object>> time = null;
-		time = sqlSes.selectList("time", pMap);
-		return time;
-	}
-	
 	public int reservation(Map<String, Object> pMap) { //예약하기
 		logger.info("[crm_ReservationDao] reservation 호출성공");
 		int result = 0;
@@ -144,12 +138,13 @@ public class crm_ReservationDao {
 		crm_ReservationDao res = new crm_ReservationDao();
 		Map<String, Object> pMap = new HashMap<String, Object>();
 		List<Map<String, Object>> list = res.proc_reservelist(pMap);
-
 //		res.proc_reservelist(pMap);
-//		res.waitCheck(pMap);
 //		res.docSel(pMap);
 		//res.deptCategory(pMap);
 //		res.docCategory(pMap);
+//		res.calender(pMap);
+//		res.docCategory(pMap);
+//		res.reservation(pMap);
 		System.out.println(list);
 		System.out.println(list.size());
 		

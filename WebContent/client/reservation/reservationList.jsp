@@ -227,7 +227,7 @@ function s_categori(){
 //------------------------의사 검색 끝---------------------------	
 	function popup_board(){
 		alert("공지사항목록 팝업!");
-		cmm_window_popup('/client/reservation/h_boardList.jsp?hp_name='+'<%=hp_name%>','1000','700','공지사항');
+		cmm_window_popup('/client/notice/noticeList.jsp?hp_name='+'<%=hp_name%>','1000','700','공지사항');
 	}
 	function board_detail(b_choice){
 		//*** input 태그 안에 공지사항 b_no(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..

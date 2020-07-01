@@ -15,11 +15,15 @@ public class crm_HospitalDao {
 		Logger logger = Logger.getLogger(crm_HospitalDao.class);
 		SqlSessionFactory sqlMapper = null;
 		SqlSession sqlSes = null;
-		public crm_HospitalDao() {
+	public crm_HospitalDao() {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}
 	public List<Map<String, Object>> hospitalList(Map<String, Object> pMap) {
+
+		//제휴병원 리스트
+		logger.info("[crm_HospitalDao] hospitalList호출 성공");
+
 		List<Map<String, Object>> hpList = null;
 		//logger.info("sqlMapper: "+sqlMapper);
 		//logger.info("sqlSes: "+sqlSes);

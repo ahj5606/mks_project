@@ -13,7 +13,7 @@
 <style type="text/css">
    th, td{
       height:40px;
-      font-size:medium;
+      font-size: medium;
       color:#353535;
       /* padding:2px; ===> 왜 안먹지...?*/
    }
@@ -21,10 +21,10 @@
       color:#4C4C4C;
    }
    .thead-light > tr > th.width1{
-      width:150px;
+		width:150px;
    }
    .thead-light > tr > th.width2{
-      width:350px;
+		width:350px;
    }
 </style>
 <script type="text/javascript">
@@ -63,7 +63,7 @@
    <!-- 메뉴바 -->
    <jsp:include page="../login/menu.jsp"/>
    <!-- 본문 -->
-   <div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:20px;">
+   <div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top: 15px;">
         <div class="row pt-4">
            <div class="col-md">
             <div class="row mb-0">

@@ -28,11 +28,13 @@
    String mem_name = null;// 세션에 저장되어있는 **** 회원이름
    if(session.getAttribute("mem_name")!=null){
       mem_name = (String)session.getAttribute("mem_name");
+
    }
    
    String hp_code = null;// 파라미터로 넘어온 hp_code
    if(request.getParameter("hp_code")!=null){
 	   hp_code = request.getParameter("hp_code");
+
    }
    
 %>
@@ -346,8 +348,9 @@
          $("#cal_space").html("<div id=calendar></div>");
          cal_paint();
       });
-   
+
       document.addEventListener('DOMContentLoaded', cal_paint); 
+
    </script>
 </body>
 </html>

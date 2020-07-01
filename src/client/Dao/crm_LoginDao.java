@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import mks.util.MyBatisConnction;
 
 public class crm_LoginDao {
+
    static Logger logger = Logger.getLogger(crm_LoginDao.class);
    SqlSessionFactory sqlMapper = null;
    SqlSession sqlSes = null;
@@ -37,7 +38,7 @@ public class crm_LoginDao {
       logger.info("id: " + id);
       login.add(pMap);
       logger.info(login.size());
-      sqlSes.commit();
+      sqlSes.commit(true);
       return login;
    }
    
@@ -54,3 +55,4 @@ public class crm_LoginDao {
    }
    
 }
+
