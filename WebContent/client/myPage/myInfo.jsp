@@ -155,7 +155,7 @@
 					<div class="row mb-3 mr-2">
 						<div class="col-md" style="text-align:right">
 							<button class="btn btn-md btn-dark" onClick="modal_ins()">수정</button>
-							<button class="btn btn-md btn-dark" onClick="location.href='/client/mypage/pwInput.jsp'">닫기</button>
+							<button class="btn btn-md btn-dark" onClick="location.href='/client/myPage/pwInput.jsp'">닫기</button>
 						</div>
 					</div>
 				</div><!-- 개인정보 입력폼 -->

@@ -41,4 +41,11 @@ public class crm_ReservationLogic {
 		//logger.info(hpList.size());
 		return docSel;
 	}
+	public List<Map<String,Object>> calender(Map<String, Object> pMap) {
+		logger.info("달력로직");
+		List<Map<String,Object>> calender=null;
+		calender=crm_rsDao.calender(pMap);
+		//logger.info(hpList.size());
+		return calender;
+	}
 }

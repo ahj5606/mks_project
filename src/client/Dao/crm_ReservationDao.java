@@ -73,8 +73,8 @@ public class crm_ReservationDao {
 		//대기표 발급화면 - 대기인원 현황
 		logger.info("[crm_ReservationDao] waitCheck 호출성공");
 		List<Map<String, Object>> waitCheck = null;
-		pMap.put("hp_code", "647HP");
-		pMap.put("dept_name", "원무과");
+		//pMap.put("hp_code", "647HP");
+		//pMap.put("dept_name", "원무과");
 		waitCheck = sqlSes.selectList("waitCheck", pMap);
 		return waitCheck;
 	}
@@ -90,7 +90,7 @@ public class crm_ReservationDao {
 	public List<Map<String, Object>> docSel(Map<String, Object> pMap) {
 		logger.info("[crm_ReservationDao] docSel 호출성공");
 		List<Map<String, Object>> docSel = null;
-		pMap.put("doc_code", "10-7846-7845");
+		//pMap.put("doc_code", "10-7846-7845");
 		docSel = sqlSes.selectList("docSel", pMap);
 		return docSel;
 	}
@@ -112,18 +112,18 @@ public class crm_ReservationDao {
 	public int reservation(Map<String, Object> pMap) { //예약하기
 		logger.info("[crm_ReservationDao] reservation 호출성공");
 		int result = 0;
-//		pMap.put("mem_memcode", 95);
-//		pMap.put("res_memo", "오니");
-//		pMap.put("sch_code", 22);
-//		pMap.put("res_qrcode", "");
-//		pMap.put("doc_name", "이시현");
-//		pMap.put("res_time", "1200");
-//		pMap.put("doc_code", "10-6830-6829");
-//		pMap.put("hp_code", "647HP");
-//		pMap.put("dept_name", "신경과");
-//		pMap.put("dept_code", "39");
-//		pMap.put("sch_date", "2020/07/23");
-//		pMap.put("hp_name", "위대항병원");
+	//	pMap.put("mem_memcode", 95);
+	//	pMap.put("res_memo", "오니");
+	//	pMap.put("sch_code", 22);
+	//	pMap.put("res_qrcode", "");
+	//	pMap.put("doc_name", "이시현");
+	//	pMap.put("res_time", "1200");
+	//	pMap.put("doc_code", "10-6830-6829");
+	//	pMap.put("hp_code", "647HP");
+	//	pMap.put("dept_name", "신경과");
+	//	pMap.put("dept_code", "39");
+	//	pMap.put("sch_date", "2020/07/23");
+	//	pMap.put("hp_name", "위대항병원");
 		result = sqlSes.insert("reservation", pMap);
 		logger.info("result: " + result);
 		sqlSes.commit(true);
@@ -144,8 +144,10 @@ public class crm_ReservationDao {
 		crm_ReservationDao res = new crm_ReservationDao();
 		Map<String, Object> pMap = new HashMap<String, Object>();
 		List<Map<String, Object>> list = res.proc_reservelist(pMap);
+
+//		res.proc_reservelist(pMap);
 //		res.waitCheck(pMap);
-		res.docSel(pMap);
+//		res.docSel(pMap);
 		//res.deptCategory(pMap);
 //		res.docCategory(pMap);
 		System.out.println(list);

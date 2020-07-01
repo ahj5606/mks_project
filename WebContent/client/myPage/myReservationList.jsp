@@ -30,7 +30,7 @@
 <script type="text/javascript">
 	function res_pageGet(num){
 		$('#t_myReList').bootstrapTable('refreshOptions', {
-	          url: "/client/mypage/jsonMyReservationList.jsp?num="+num
+	          url: "/client/myPage/jsonMyReservationList.jsp?num="+num
 		});
 		$("div.fixed-table-loading").remove();
 	}
@@ -115,7 +115,7 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#t_myReList').bootstrapTable('refreshOptions', {
-		          url: "/client/mypage/jsonMyReservationList.jsp?num="+1
+		          url: "/client/myPage/jsonMyReservationList.jsp?num="+1
 				  ,onClickRow : function(row,element,field){
 				  }
 			});

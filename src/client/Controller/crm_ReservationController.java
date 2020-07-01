@@ -70,6 +70,7 @@ public class crm_ReservationController implements crm_Controller {
 			logger.info("proc_reservelist...!!!!");
 			logger.info(proc_reservelist);
 			mav.setViewName("/reservation/proc_reservelist");
+			
 		}else if("deptCategory".equals(requestName)) {
 			List<Map<String,Object>> deptCategory= null;
 			String hp_code = req.getParameter("hp_code");
@@ -80,18 +81,30 @@ public class crm_ReservationController implements crm_Controller {
 			mav.IsForward(true);
 			logger.info("deptCategory");
 			mav.setViewName("/reservation/deptCategory");
+			
 		}else if("docCategory".equals(requestName)) {
 			List<Map<String,Object>> docCategory= null;
 			String hp_code = req.getParameter("hp_code");
 			String dept_code = req.getParameter("dept_code");
+			String doc_code = req.getParameter("doc_code");
+			if("null".equals(dept_code)) {
+				pMap.put("dept_code", null);
+			}else {
+				pMap.put("dept_code", dept_code);
+			}
+			if("null".equals(doc_code)) {
+				pMap.put("doc_code", null);
+			}else {
+				pMap.put("doc_code", doc_code);
+			}
 			pMap.put("hp_code", hp_code);
-			pMap.put("dept_code", dept_code);
 			docCategory=crm_rsLogic.docCategory(pMap);
 			logger.info("hospitalcontroller"+docCategory.size());
 			mav.addObject("docCategory", docCategory);
 			mav.IsForward(true);
 			logger.info("docCategory");
 			mav.setViewName("/reservation/docCategory");
+			
 		}else if("noticeSel".equals(requestName)) {
 				
 		} else if("noticeList".equals(requestName)) {
@@ -100,16 +113,44 @@ public class crm_ReservationController implements crm_Controller {
 			
 		}else if("reservation".equals(requestName)) {
 			
-		}else if("time".equals(requestName)) {
-			
-		}else if("check".equals(requestName)) {
+		}else if("calender".equals(requestName)) {
+			List<Map<String,Object>> calender= null;
+		    String hp_code = req.getParameter("hp_code");
+			String dept_code = req.getParameter("dept_code");
+			String sch_date = req.getParameter("sch_date");
+			String doc_code = req.getParameter("doc_code");
+			String mode = req.getParameter("mode");
+			logger.info("hp_code: "+hp_code);
+			logger.info("dept_code: "+dept_code);
+			logger.info("doc_code: "+doc_code);
+			logger.info("sch_date: "+sch_date);
+				if("null".equals(dept_code)) {
+					dept_code = "";
+				}
+				if("null".equals(doc_code)) {
+					doc_code = "";
+				}
+				pMap.put("hp_code",hp_code);
+				pMap.put("dept_code",dept_code);
+				pMap.put("doc_code",doc_code);
+				pMap.put("sch_date: ",sch_date);
+			calender=crm_rsLogic.calender(pMap);
+			logger.info("reservationcontroller"+calender.size());
+			if(mode!=null) {
+				mav.addObject("calender1", calender);
+			}else {
+				mav.addObject("calender", calender);
+			}
+			mav.IsForward(true);
+			logger.info("calender");
+			mav.setViewName("/reservation/calender");
 			
 		}else if("docSel".equals(requestName)) {
 			List<Map<String,Object>> docSel= null;
 			String doc_code = req.getParameter("doc_code");
 			pMap.put("doc_code", doc_code);
-			docSel=crm_rsLogic.docCategory(pMap);
-			logger.info("hospitalcontroller"+docSel.size());
+			docSel=crm_rsLogic.docSel(pMap);
+			logger.info("reservationcontroller"+docSel.size());
 			mav.addObject("docSel", docSel);
 			mav.IsForward(true);
 			logger.info("docSel");

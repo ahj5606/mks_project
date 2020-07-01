@@ -105,7 +105,7 @@ function res_pageGet(num){
 		  			imsi += "<td><button class='btn btn-dark btn-small' onClick='waiting()'>대기</button></td>"
 		  		}else{
 		  			if(jsonDoc[i].DOC_CODE==null){				  		
-		  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
+		  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_CODE+"'>예약</button></td>";
 		  			}else{
 		  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
 		  			}
@@ -212,7 +212,7 @@ function s_categori(){
 					  			imsi += "<td><button class='btn btn-dark btn-small' onClick='waiting()'>대기</button></td>"
 					  		}else{
 					  			if(jsonDoc[i].DOC_CODE==null){				  		
-					  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_NAME+"'>예약</button></td>";
+					  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_no' type='hidden' value="+"'"+jsonDoc[i].DEPT_CODE+"'>예약</button></td>";
 					  			}else{
 					  			imsi +="<td><button class='btn btn-dark btn-small' onClick=reservation_detail(this)><input class='doc_yes' type='hidden' value="+"'"+jsonDoc[i].DOC_CODE+"'>예약</button></td>";
 					  			}
@@ -247,25 +247,25 @@ function s_categori(){
 	           url:'/reservation/docSel.crm?doc_code='+doc_code
 		});
 		$("div.fixed-table-loading").remove();	 
-		
 		$('#modal_doc').modal('show');
+		
 	}
 	//예약버튼을 눌렀을 때 *******************************************************************************
 	function reservation_detail(doc_choice){//상세예약하는 화면 열기!
 		//*** input 태그 안에  doc_code & dept_code(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
 		var doc_code = $(doc_choice).children("input").val();
-		
+		alert(doc_code);
 		var imsi = $(doc_choice).children("input").attr('class');
 		alert(imsi);
 		if(imsi=='doc_yes'){//만약 의사이름이 없다면 == 일반내과 전체
 			alert("의사 코드: "+doc_code);
-			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_code="+'<%=hp_code%>','1200','950','상세예약');
+			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_code="+'<%=hp_code%>'+"&hp_name="+'<%=hp_name%>'+"&dept_name="+'<%=dept_name%>','1200','950','상세예약');
 			/* ****과 코드를 넘겨서 상세예약화면에서 dept_code로 
 					1)해당 과의 전체 의사 목록 뽑아서 카테고리완성, dept_name 전달   2)과전체 의사의 예약가능 날짜 List로 전달
 			*/
 		}else{
 			alert("전체"+doc_code);
-			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_code="+'<%=hp_code%>','1200','950','상세예약');
+			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_code="+'<%=hp_code%>'+"&hp_name="+'<%=hp_name%>'+"&dept_name="+'<%=dept_name%>','1200','950','상세예약');
 			/* ****의사 코드를 넘겨서 상세예약화면에서 doc_code로		
 					1)해당 의사의 dept_code를 뽑아서 의사 카테고리완성, dept_name 전달   2)해당의사의 예약가능날짜  List로 전달
 			}); 
@@ -358,7 +358,7 @@ function s_categori(){
 										<th scope="col">진료 과목</th>
 										<th scope="col">의사선생님</th>
 										<th scope="col">대기 시간</th>
-										<th scope="col">대기 및 예약</th>
+										<th scope="col">대기 및 예약</th>	
 									</tr>
 								</thead>
 						<tbody id="tbody">
@@ -434,13 +434,15 @@ function s_categori(){
       			</div>
       			<!-- body -->
       			<div class="modal-body">
-       				<table class="table table-hover" id="doc_detail" style="text-align:center;">
+       				<table class="table table-hover" id="doc_detail" style="text-align:center;" data-toggle="table">
 						<thead class="thead-light">
 							<tr>
-								<th scope="col">이름</th>
-								<th scope="col">진료과목</th>
-								<th scope="col">전공</th>
-								<th scope="col">직급</th>
+								<th  scope="col" data-field="DOC_NAME">이름</th>
+								<th  scope="col" data-field="DEPT_NAME">진료과목</th>
+								<th  scope="col" data-field="DOC_EDUCATION">전공</th>
+								<th  scope="col" data-field="DOC_POSITION">직급</th>
+								
+	
 							</tr>
 						</thead>
 					</table>

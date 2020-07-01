@@ -29,7 +29,7 @@
 		alert("비밀번호 확인!");
 		var i_pw = $("#i_pw").val();
 		alert("i_pw: "+i_pw);
-		location.href="/client/mypage/myInfo.jsp"//비밀번호가 일치하면 해당 아이디로 정보 sel하여 전달
+		location.href="/client/myPage/myInfo.jsp"//비밀번호가 일치하면 해당 아이디로 정보 sel하여 전달
 	}
 </script>
 </head>

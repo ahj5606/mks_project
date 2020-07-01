@@ -167,10 +167,10 @@
 		    hp_code, hp_name, doc_code, doc_name, dept_code, dept_name, sch_code, sch_time, to_char(to_date(sch_date), 'YYYY-MM-DD') sch_date 
 		  FROM mks_schedule   
 		 WHERE hp_code = #{hp_code}
-		   <if test="dept_code != null">
+		   <if test="dept_code != null and dept_code.length()>0">
 		   	   AND dept_code = #{dept_code} 
 		   </if>
-		   <if test="doc_code != null">
+		   <if test="doc_code != null and doc_code.length()>0">
 			   AND doc_code = #{doc_code}   
 		   </if>
 		   <if test="sch_date != null">
@@ -181,14 +181,21 @@
 		   </if>
 		 ORDER BY sch_date, sch_time asc
 	</select>
-	<select id="docCategory" parameterType="map" resultType="map">
-		SELECT
-		    doc_code, doc_name, dept_code, dept_name
-		  FROM mks_schedule 
-		 WHERE dept_code = #{dept_code}
-		   AND hp_code = #{hp_code}	
-		   GROUP BY doc_code, doc_name, dept_code, dept_name
-	</select>
+   <select id="docCategory" parameterType="map" resultType="map">
+   <!-- 의사 카테고리 -->
+      SELECT
+          doc_code, doc_name, dept_code, dept_name
+        FROM mks_schedule
+       WHERE 1 = 1 
+        <if test="dept_code != null">
+            AND dept_code = #{dept_code}
+        </if>
+        <if test="dept_code ==  null">
+            AND dept_code = (SELECT dept_code FROM mks_doctor WHERE doc_code = #{doc_code})
+        </if>
+         AND hp_code = #{hp_code}   
+       GROUP BY doc_code, doc_name, dept_code, dept_name
+   </select>
 	<insert id="reservation" parameterType="map">
 	<!-- 예약하기. -->
 		INSERT 
