@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.Spring;
 
 import org.apache.log4j.Logger;
@@ -29,12 +31,49 @@ public class mgr_DoctorController implements mgr_Controller {
 	public mgr_ModelAndView mgrProcess(HttpServletRequest req, HttpServletResponse res)
 			throws IOException, ServletException {
 		mgr_ModelAndView mav = new mgr_ModelAndView(req, res);
+		
+		//////
+//			Map<String,Object> pMap = new HashMap<>(); 
+//			HashMapBinder hmb = new HashMapBinder(req); 
+//			hmb.binder(pMap);
+		///////
+		
 		String path = null;
+		
 		String dept_code = null;
 		String hp_code = "280HP";
+//		String hp_code = null;
+		/////
+//			Cookie[] cookies = req.getCookies();
+//			if(cookies!=null && cookies.length>0){
+//				for(int i =0;i<cookies.length;i++){
+//					String name = cookies[i].getName();
+//					if(name.equals("dept_code")){
+//						Map<String,Object> pMap = new HashMap<>();
+//						dept_code = cookies[i].getValue();
+//						pMap.put("dept_code", dept_code);
+//					}
+//				}
+//			}
+		 
+		 ////////
+//			   HttpSession sess = req.getSession(); 
+//			   hp_code = (String)sess.getAttribute("hp_code"); 
+			   
+//			   pMap.put("hp_code", hp_code);
+//			   List<Map<String,Object>> dList = null;
+//			  
+//			   if(hp_code ==null || dept_code ==null) { //로그인 정보가 만료되었습니다.
+//					  mav.IsForward(false); 
+//					  mav.setViewName("/fail"); 
+//					  return mav;
+//					  
+//			   }
+		///////	 
+		
+		
 		if("doctorList".equals(requestName)) {
 			logger.info("requestName: "+requestName);
-			
 			List<Map<String,Object>> dList = null;
 			List<Map<String,Object>> deptList = null;//진료과
 			Map<String, Object> pMap = new HashMap<>();
@@ -115,7 +154,8 @@ public class mgr_DoctorController implements mgr_Controller {
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(pMap);
 			result = mgr_dLogic.doctorUPD(pMap);
-			//mav.cudResult(result);
+			logger.info(result);
+			mav.cudResult(result);
 			mav.IsForward(false);
 			if(result==1) {
 				path="/doctor/doctorList.mgr?";

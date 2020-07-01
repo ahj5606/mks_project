@@ -18,7 +18,7 @@
 
 <script type="text/javascript">
 	function docIns(){
-		alert("의사추가");
+		//alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
 	}
 	
