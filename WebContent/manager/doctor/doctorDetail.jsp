@@ -7,20 +7,20 @@
 <title>의사 상세</title>
 <script type="text/javascript">
 	function docIns() {
-		alert("저장호출 성공");
+		//alert("저장호출 성공");
 		$("#f_doctor").attr("method","get");
 		$("#f_doctor").attr("action","./doctorINS.mgr");
 		$("#f_doctor").submit();
 		
 	}
 	function docDel() {
-		alert("삭제호출 성공");
+		//alert("삭제호출 성공");
 		$("#f_doctor").attr("method","get");
 		$("#f_doctor").attr("action","./doctorDEL.mgr");
 		$("#f_doctor").submit();
 	}
 	function docClose() {
-		alert("닫기");
+		//alert("닫기");
 		location.href="./doctorList.mgr";
 	}
 	$(document).ready(function(data){
