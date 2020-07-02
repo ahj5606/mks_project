@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String hp_code = "280HP";
+	//String hp_code = "280HP";
 	List<Map<String, Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 	if(docList==null){
 		docList = new ArrayList();
@@ -17,7 +17,6 @@
 	if(resDay==null){
 		resDay = new ArrayList();
 	}
-	
 	
 %>
 <!DOCTYPE html>
@@ -96,9 +95,9 @@
 		   	</form>
 		    <div>
 		    <!--버튼시작  -->
-		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
+		    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
 					저장
-				</button>
+				</button> -->
 				<!-- Modal -->
 				<div class="modal fade" id="InsertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
@@ -261,9 +260,9 @@
 	})
 	
 	function d_search(){
-		var hp_code= "280HP";
+		//var hp_code= "280HP";
 		$("#d_list").bootstrapTable('refreshOptions', {
-			    url:'/manager/doctor/deptSearch.mgr?hp_code='+hp_code
+			    url:'/manager/doctor/deptSearch.mgr'
 		  })
 	}
 	
@@ -288,19 +287,13 @@
 		$("#res_day").bootstrapTable('hideLoading');
 	})
 	function reserveSearch(){
-		var hp_code= "280HP";
+		//var hp_code= "280HP";
 		var doc_code = $("#doc_code").val();
 		$("#res_day").bootstrapTable('refreshOptions', {
-			    url:'/manager/doctor/reserveDay.mgr?hp_code='+hp_code+"&doc_code="+doc_code
+			    url:'/manager/doctor/reserveDay.mgr?doc_code='+doc_code
 		  })
 	}
 
-	function docIns() {
-		//alert("저장");
-		$("#f_upd").attr("method","post");
-		$("#f_upd").attr("action","./doctorINS.mgr");
-		$("#f_upd").submit();
-	}
 	function docDel() {
 		//alert("삭제함");
 		var doc_code = $("#doc_code").val();

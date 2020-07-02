@@ -22,9 +22,6 @@
 	HttpSession sess = request.getSession();
 	hp_code = (String)sess.getAttribute("hp_code");
 	
-	
-	
-	
 %>
 <!DOCTYPE html>
 <head>

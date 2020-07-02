@@ -13,12 +13,7 @@
 		$("#f_doctor").submit();
 		
 	}
-	function docDel() {
-		//alert("삭제호출 성공");
-		$("#f_doctor").attr("method","get");
-		$("#f_doctor").attr("action","./doctorDEL.mgr");
-		$("#f_doctor").submit();
-	}
+	
 	function docClose() {
 		//alert("닫기");
 		location.href="./doctorList.mgr";
@@ -127,34 +122,12 @@
 		    <div>
 		    
 		    <!--버튼시작  -->
-		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
-					저장
-				</button>
-				<!-- Modal -->
-				<div class="modal fade" id="InsertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				  <div class="modal-dialog" role="document">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <h5 class="modal-title" id="exampleModalLabel">확인</h5>
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      <div class="modal-body">
-				       			 저장 하시겠습니까?
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docIns()">저장</button>
-				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal">
+		    
+		    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal">
 					수정
 				</button>
 				
-				<!-- Modal -->
+				Modal
 				<div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
@@ -174,11 +147,11 @@
 				    </div>
 				  </div>
 				</div>
-		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DeleteModal">
+				
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DeleteModal">
 					삭제
 				</button>
-				
-				<!-- Modal -->
+				Modal
 				<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
@@ -197,7 +170,31 @@
 				      </div>
 				    </div>
 				  </div>
-				</div>
+				</div> -->
+				
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
+					저장
+				</button>
+				<!-- Modal -->
+					<div class="modal fade" id="InsertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="exampleModalLabel">확인</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					       			 저장 하시겠습니까?
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-primary" onclick="docIns()">저장</button>
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
 		    <button type="button" class="btn btn-primary" onclick="docClose()">닫기</button>
 		    <!--버튼 끝 -->
 		    </div>

@@ -38,50 +38,47 @@ public class mgr_DoctorController implements mgr_Controller {
 		///////
 		String path = null;
 		
-		
 		String dept_code = null;
-		String hp_code = "280HP";
-//		String hp_code = null;
+//		String hp_code = "280HP";
+		String hp_code = null;
 		/////
-//			Cookie[] cookies = req.getCookies();
-//			logger.info("cookies:"+cookies);
-//			if(cookies!=null && cookies.length>0){
-//				for(int i =0;i<cookies.length;i++){
-//					String name = cookies[i].getName();
-//					logger.info("name:"+name);
-//					if(name.equals("dept_code")){
-////						Map<String,Object> pMap = new HashMap<>();
-//						dept_code = cookies[i].getValue();
-//						logger.info("dept_code:"+dept_code);
-//						pMap.put("dept_code", dept_code);
-//					}
-//				}
-//			}
-//		 
-//		 ////////
-//			   HttpSession sess = req.getSession(); 
-//			   hp_code = (String)sess.getAttribute("hp_code"); 
-//			   logger.info("hp_code:"+ hp_code);
-//			   
-//			   pMap.put("hp_code", hp_code);
-////			   List<Map<String,Object>> dList = null;
-////			  
-//			   if(hp_code ==null || dept_code ==null) { //로그인 정보가 만료되었습니다.
-//					  mav.IsForward(false); 
-//					  mav.setViewName("/fail"); 
-//					  return mav;
-////					  
-//			   }
-		///////	 
+			Cookie[] cookies = req.getCookies();
+			logger.info("cookies:"+cookies);
+			if(cookies!=null && cookies.length>0){
+			for(int i =0;i<cookies.length;i++){
+				String name = cookies[i].getName();
+				logger.info("name:"+name);
+				if(name.equals("dept_code")){
+//						Map<String,Object> pMap = new HashMap<>();
+					dept_code = cookies[i].getValue();
+					logger.info("dept_code:"+dept_code);
+					}
+				}
+			}
+	 
+	 ////////
+		   HttpSession sess = req.getSession(); 
+		   hp_code = (String)sess.getAttribute("hp_code"); 
+		   logger.info("hp_code:"+ hp_code);
+		   
+		   pMap.put("hp_code", hp_code);
+			   List<Map<String,Object>> dList = null;
+			  
+		   if(hp_code ==null || dept_code ==null) { //로그인 정보가 만료되었습니다.
+				  mav.IsForward(false); 
+				  mav.setViewName("/fail"); 
+				  return mav;
+					  
+		   }
+	///////	 
 		
 		
 		if("doctorList".equals(requestName)) {
 			logger.info("requestName: "+requestName);
-			List<Map<String,Object>> dList = null;
+//			List<Map<String,Object>> dList = null;
 			List<Map<String,Object>> deptList = null;//진료과
 //			Map<String, Object> pMap = new HashMap<>();
-			pMap.put("hp_code", hp_code);
-//				
+			//pMap.put("hp_code", hp_code);
 			dList = mgr_dLogic.doctorList(pMap);
 			deptList = mgr_dLogic.doctorDEPT(pMap);//드롭다운
 			logger.info("docList: "+dList.size());
@@ -94,20 +91,11 @@ public class mgr_DoctorController implements mgr_Controller {
 			mav.setViewName("/doctor/mgr_doctor");	
 			
 		}else if("doctorSEL".equals(requestName)) { 
-			/*
-			 * String doc_name = req.getParameter("doc_name"); String doc_code =
-			 * req.getParameter("doc_code"); String dept_name =
-			 * req.getParameter("dept_name");
-			 */
-			/*
-			 * pMap.put("doc_name",doc_name); pMap.put("doc_code",doc_code);
-			 * pMap.put("hp_code",hp_code); pMap.put("dept_name", dept_name);
-			 */
-			 List<Map<String,Object>> dList = null; 
+//			 List<Map<String,Object>> dList = null; 
 			 List<Map<String,Object>> deptList = null;//진료과
 //			 Map<String,Object> pMap = new HashMap<>(); 
 //			 HashMapBinder hmb = new HashMapBinder(req);
-			 hmb.binder(pMap);
+			// hmb.binder(pMap);
 			 
 			 dList = mgr_dLogic.doctorSEL(pMap); 
 			 deptList = mgr_dLogic.doctorDEPT(pMap);//드롭다운
@@ -120,10 +108,10 @@ public class mgr_DoctorController implements mgr_Controller {
 		}
 		else if("doctorDetail".equals(requestName)) {
 			String doc_code = null;
-			List<Map<String,Object>> dList = null;
+//			List<Map<String,Object>> dList = null;
 //			Map<String, Object> pMap = new HashMap<>();
-			doc_code=req.getParameter("doc_code");
-			pMap.put("doc_code", doc_code);
+			//doc_code=req.getParameter("doc_code");
+			//pMap.put("doc_code", doc_code);
 			logger.info(pMap.get("doc_code"));
 			dList = mgr_dLogic.doctorDetail(pMap);
 			logger.info("doctorDetail dList: "+dList.size());
@@ -185,7 +173,7 @@ public class mgr_DoctorController implements mgr_Controller {
 			logger.info("reserveDay 호출");
 			List<Map<String,Object>> resDay = null;//진료과
 //			Map<String,Object> pMap = new HashMap<>(); 
-			pMap.put("hp_code",hp_code);
+			//pMap.put("hp_code",hp_code);
 //			HashMapBinder hmb = new HashMapBinder(req);
 //			hmb.binder(pMap);
 //			logger.info(pMap.get("hp_code"));

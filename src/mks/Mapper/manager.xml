@@ -193,8 +193,6 @@
 		UPDATE mks_schedule SET sch_time=#{sch_time} ,sch_date=#{sch_date} where sch_code=#{sch_code}
 	</update>
 	
-	
-	
 	<delete id="doctorDEL" parameterType="map">
 		DELETE FROM mks_doctor WHERE doc_code=#{doc_code}
 	</delete>
