@@ -22,3 +22,4 @@
 <script src='<%=path.toString()%>fullcalendar/core/main.js'></script>
 <script src='<%=path.toString()%>fullcalendar/daygrid/main.js'></script>
 <script src='<%=path.toString()%>fullcalendar/interaction/main.js'></script>
+<script src='<%=path.toString()%>js/marker_icon.js'></script>

@@ -11,6 +11,9 @@
 <title>제휴병원</title>
 <%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
+	.container{
+		padding:5px;
+	}
    th, td{
       height:40px;
       font-size: medium;
@@ -28,9 +31,12 @@
    }
 </style>
 <script type="text/javascript">
+	var hp_name = "";
+	var timeNum1 = 0;
+	var timeNum2 = 0;
    function res_pageGet(num){
       $('#t_hospitalList').bootstrapTable('refreshOptions', {
-    	  url: "/hospital/hospitalList.crm?num="+num
+    	  url: "/hospital/hospitalList.crm?num="+num+"&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
       });
       $("div.fixed-table-loading").remove();
    }
@@ -40,7 +46,7 @@
 			previous();
 		}else if(imsi=="Next"){
 			$.ajax({
-				url: "/hospital/hospitalList.crm?num=0"//
+				url: "/hospital/hospitalList.crm?num=0"
 				,dataType: "text"
 				,success: function(data){
 					next(data, 5);
@@ -48,11 +54,38 @@
 			});
 		}
 	}
+   function page_btn(){
+		$.ajax({
+			url: "/hospital/hospitalList.crm?num=0&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
+			,dataType: "text"
+			,success: function(data){
+				var totalSize = Number(data.trim()); 
+				var mok = Math.ceil(totalSize/5);
+				alert("page_btn*mok: "+mok);
+				$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+				$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+				$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+				if(mok<3){
+					$("#page_3").remove();
+					if(mok<2){
+						$("#page_2").remove();
+						if(mok<1){
+							$("#page_1").remove();
+						}
+					}
+				}
+			}
+		});
+		$("#page_1").focus();
+	}
+   
    function search_h_name(){
       alert("입력한 병원이름: "+$("#h_name").val());
+      hp_name = $("#h_name").val();
       $('#t_hospitalList').bootstrapTable('refreshOptions', {
-              url:  "/hospital/hospitalList.crm?hp_name="+$("#h_name").val()
+              url:  "/hospital/hospitalList.crm?num=1&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
       });
+      page_btn();
       $("div.fixed-table-loading").remove(); 
      
    }
@@ -90,14 +123,14 @@
             </div>
             <!-- 운영시간 선택 -->
              <div class="row mb-2 pb-2">
-                <label class="form-check-label ml-4" for="exampleCheck1">운영시간 &nbsp;&nbsp;&nbsp;&nbsp;:</label>
+               <label class="form-check-label ml-4" for="exampleCheck1">운영시간 &nbsp;&nbsp;&nbsp;&nbsp;:</label>
                <div class="form-check ml-4">
-                    <input class="form-check-input" type="checkbox" value="" id="timeCheck1">
-                   <label class="form-check-label" for="timeCheck1">오전 9:00 이전</label>
+                    <input class="form-check-input" type="checkbox" value="hp_open" id="timeCheck1">
+                    <label class="form-check-label" for="timeCheck1">오전 9:00 이전</label>
                </div>
                <div class="form-check ml-4">
-                    <input class="form-check-input" type="checkbox" value="" id="timeCheck2">
-                   <label class="form-check-label" for="timeCheck2">오후 18:00 이후</label>
+                    <input class="form-check-input" type="checkbox" value="hp_close" id="timeCheck2">
+                    <label class="form-check-label" for="timeCheck2">오후 18:00 이후</label>
                </div>
             </div> 
             <!-- 테이블 -->
@@ -148,33 +181,21 @@
    <jsp:include page="../login/footer.jsp"/>
    <!-- 돔 구성이 완료되었을 때 -->
    <script type="text/javascript">
-   	  
-      $(document).ready(function(){
-         $('#t_hospitalList').bootstrapTable('refreshOptions', {
-                 url: "/hospital/hospitalList.crm?num="+1
-         });
-         $("div.fixed-table-loading").remove();
-         $.ajax({
-				url: "/hospital/hospitalList.crm?num=0"//
-				,dataType: "text"
-				,success: function(data){
-		
-					var totalSize = Number(data.trim()); 
-					var mok = parseInt(totalSize/5);
-					if(mok<3){
-						$("#page_3").remove();
-						if(mok<2){
-							$("#page_2").remove();
-							if(mok<1){
-								$("#page_1").remove();
-							}
-						}
-					}
-					res_pageGet(1);
-				}
-			});
-      });
- 
+		$(document).ready(function(){
+         	$('#t_hospitalList').bootstrapTable('refreshOptions', {
+                 url: "/hospital/hospitalList.crm?num=1&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
+         	});
+         	$("div.fixed-table-loading").remove();
+         	page_btn();
+     		$("#timeCheck1").on('click', function(){
+     			timeNum1 ++;
+     			search_h_name();
+     		})
+     		$("#timeCheck2").on('click', function(){
+     			timeNum2 ++;
+     			search_h_name()
+     		})
+		});
    </script>
 </body>
 </html>

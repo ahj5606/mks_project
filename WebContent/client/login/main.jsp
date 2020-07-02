@@ -47,7 +47,8 @@ a.page-link {
 }
 </style>
 <script type="text/javascript">
-
+var mks_id = '<%=mks_id%>';
+var sch_code = 0;
 var marker;//5개가 출력(json으로 스캔-jsonMapList.jsp)
 var mArray=new Array();
 var dept_name="";
@@ -64,20 +65,55 @@ var sts =new Array();
 		alert("popup_reservation 호출!");
 		cmm_window_popup('/client/reservation/reservationList.jsp?hp_name='+hp_name+'&dept_name='+dept_name+'&hp_code='+hp_code,'1200','700','병원 대기&예약 화면');
 	}
+	
+	function qr_modal(){
+		$("#qr_img").remove();
+		$("#qr_space").html("<div class='row' id='qr_img'></div>");
+		var qrcode = new QRCode(document.getElementById("qr_img"), {
+	         text: sch_code,
+	         width: 128,
+	         height: 128,
+	         colorDark : "#000000",
+	         colorLight : "#ffffff",
+	         correctLevel : QRCode.CorrectLevel.H
+	     });
+		$('#modal_qr').modal('show')
+	 }
+	 
 	function res_pageGet(num){
 		$.ajax({
-			url:"/client/reservation/jsonMyReservList.jsp?num="+num
+			url: "/mypage/mypageList.crm?num="+num+"&mks_id="+mks_id+"&mode=1"
 			,success:function(data){
 				var imsi = data.trim();
 				var res = JSON.parse(imsi);
 				var inner = "";
+				var inner2 = "";
 				for(var i=0; i<res.length; i++){
-					inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].GAW+"</td></tr>";
-				    inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC+"</td></tr>";
-				    inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].DATE+"</td></tr>";
-				    inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].TIME+"</td></tr>";
+					inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].DEPT_NAME+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC_NAME+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].SCH_DATE+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].RES_TIME+"</td></tr>";
 				}
 				$("#t_my_resevation").html(inner);
+				if(res.length>0){
+					for(var i=0; i<res.length; i++){
+						inner2 += "<tr>";
+						inner2 += "<td><a id='qr' href='#' onClick='qr_modal()'></a></td>";
+						inner2 += "</tr>";
+					}
+					$("#qr_table").html(inner2);
+					//sch_code = Number(res[0].SCH_CODE+"");
+					sch_code = res[0].SCH_CODE+"";
+					alert(sch_code);
+					var qrcode = new QRCode(document.getElementById("qr"), {
+				         text: sch_code,
+				         width: 100,
+				         height: 100,
+				         colorDark : "#000000",
+				         colorLight : "#ffffff",
+				         correctLevel : QRCode.CorrectLevel.H
+				    });
+				}
 			}
 		});
 	}
@@ -88,13 +124,37 @@ var sts =new Array();
 			previous();
 		}else if(imsi=="Next"){
 			$.ajax({
-				url: "/client/login/jsonMyReservList.jsp?num=0"
+				url: "/mypage/mypageList.crm?num=0&mks_id="+mks_id+"&mode=1"
 				,dataType: "text"
 				,success: function(data){
 					next(data, 1);
 				}
 			});
 		}
+	}
+	function page_btn(){
+		$.ajax({
+			url: "/mypage/mypageList.crm?num=0&mks_id="+mks_id+"&mode=1"
+			,dataType: "text"
+			,success: function(data){
+				var totalSize = Number(data.trim()); 
+				var mok = Math.ceil(totalSize);
+				alert("page_btn*mok: "+mok);
+				$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+				$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+				$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+				if(mok<3){
+					$("#page_3").remove();
+					if(mok<2){
+						$("#page_2").remove();
+						if(mok<1){
+							$("#page_1").remove();
+						}
+					}
+				}
+			}
+		});
+		$("#page_1").focus();
 	}
 	
 	function login(){
@@ -179,6 +239,14 @@ var sts =new Array();
 				   mArray[i].setMap(null);
 				   mArray[i] = null;
 			   }
+			   /****************************************************************************************************
+			   */
+			   var imageSrc = img_src, // 마커이미지의 주소입니다    
+			    imageSize = new kakao.maps.Size(54, 57), // 마커이미지의 크기입니다
+			    imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			      
+				// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+				var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 			   
 			   for(var i=0;i<jsonDoc.length;i++){ 
 	
@@ -190,6 +258,7 @@ var sts =new Array();
 						 ,position: new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1)
 					     ,map: map//지도는 하나
 					     ,title: jsonDoc[i].HP_NAME// 마커가 5개이므로 식당이름 5개 분류
+					     ,image: markerImage
 					   });////////////////end of marker
 					   
 					   mArray[i] = marker;
@@ -200,30 +269,28 @@ var sts =new Array();
 
 				       daum.maps.event.addListener(marker, 'click',(function(marker,i){
 					   return function() {
-						   var content = '<b>병원이름 : '+jsonDoc[i].HP_NAME+'</b>';
-						   content += '<br>';
-						   content += '<b>전화번호 :<br>  '+jsonDoc[i].HP_PHONE+'</b>';
-						   content += '<br>';
-						   content += '<br>';
-						   content += '<b>진료과 : </b>'+jsonDoc[i].DEPT_NAME+'</b>';
-						   content += '<b>진료과 : </b>'+dept_name+'</b>';
-						   //content += '<b>진료과 : </b>'+array[i]+'</b>';		  
-								  
-<%
-				if(parameter!=null){ 				
-%>
-									var imsi = jsonDoc[i].HP_NAME;
-									var imsi1 = jsonDoc[i].HP_CODE;
-									alert(imsi1);
-								   //content += '<a href="javascript:popup_reservation('+imsi+')">';																	
-								   //content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
-								   content += '<button class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+","+"'"+imsi1+"'"+')" style="width:46px;font-size:1px;">예약</button><br>'
-<%
-				}
-%>
-													content += '<br>';
-													content += '<br>';
-
+						   
+						   
+						   var content =    '<div class="card" style="width: 18rem; font-size:small">';
+						   content += '<div class="card-body p-2">';
+						   content +=   '<h5 class="card-title"><b>'+jsonDoc[i].HP_NAME+'</b></h5>';
+						   content +=   '<p class="card-text">친절한 서비스를 제공합니다.</p>';
+						   content += '</div>';
+						   content += '<ul class="list-group list-group-flush">';
+						   content +=   '<li class="list-group-item p-0"></li>';
+						   content +=   '<li class="list-group-item p-2">'+jsonDoc[i].HP_PHONE+'</li>';
+						   content +=   '<li class="list-group-item p-2">'+jsonDoc[i].DEPT_NAME+'</li>';
+						   content += '</ul>';
+						   <%if(parameter!=null){%>
+						   		var imsi = jsonDoc[i].HP_NAME;
+						   		var imsi1 = jsonDoc[i].HP_CODE;
+						   	 content += '<div class="card-body p-2">';
+						   	content += '<div class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+","+"'"+imsi1+"'"+')">예약</div>'
+						   	 content += '</div>';
+						  <%}else{ %>
+						  	content += '<div class="card-body p-2">';
+						  	content += '</div>';
+						  <%}%>
 													infowindow.setContent(content);
 													infowindow.open(map, marker);
 													map.setCenter(this.getPosition());
@@ -259,7 +326,7 @@ var sts =new Array();
 				<div class="row mb-2 mt-4">
 					<div class="col-md">
 						<select class="form-control" id="s_gwa">
-
+							
 						</select>
 					</div>
 				</div>
@@ -391,10 +458,7 @@ var sts =new Array();
 														</table>
 													</td>
 													<td>
-														<table id="qr_img">
-															<tr>
-																<td><img src="./qrCode.jpg" class="rounded" alt="qr코드 이미지"></td>
-															</tr>
+														<table id="qr_table">
 														</table>
 													</td>
 												</tr>
@@ -480,51 +544,34 @@ var sts =new Array();
 	</div>
 	<!-- footer -->
 	<jsp:include page="./footer.jsp" />
+	<!-- qr 모달 -->
+   <div class="modal fade bd-example-modal-sm" id="modal_qr" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+               <!-- head -->
+               <div class="modal-header">
+                 <h5 class="modal-title">예약 qr코드</h5>
+               </div>
+               <!-- body -->
+               <div class="modal-body">
+                  <div class="row" style="justify-content: center" id="qr_space">
+                     <div class="row" id="qr_img"></div>
+                 </div>
+              </div>
+              <!-- footer -->
+              <div class="modal-footer">
+                 <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="self.close();">닫기</button>
+               </div>
+          </div>
+        </div>
+   </div>
 	<!-- 돔 구성 완료되었을 떄 -->
 	<script type="text/javascript">
-	$(document).ready(function(){
-	<%if (mem_name != null) {%>
-			$.ajax({
-					url : "/client/reservation/jsonMyReservList.jsp?num=" + 1,
-					success : function(data) {
-						var imsi = data.trim();
-						var res = JSON.parse(imsi);
-						var inner = "";
-						for (var i = 0; i < res.length; i++) {
-							inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"
-									+ res[i].GAW + "</td></tr>";
-							inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"
-									+ res[i].DOC + "</td></tr>";
-							inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"
-									+ res[i].DATE + "</td></tr>";
-							inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"
-									+ res[i].TIME + "</td></tr>";
-						}
-						$("#t_my_resevation").html(inner);
-					}
-				});
-		//************************* 즐겨찾기병원 목록 가져오기!! (hidden으로 병원코드 숨겨놓기)
-	<%}%>
-		$.ajax({
-			url: "/client/login/jsonMyReservList.jsp?num=0"
-			,dataType: "text"
-			,success: function(data){
-				var totalSize = Number(data.trim()); 
-				var mok = parseInt(totalSize);
-				if(mok<3){
-					$("#page_3").remove();
-					if(mok<2){
-						$("#page_2").remove();
-						if(mok<1){
-							$("#page_1").remove();
-						}
-					}
-				}
-				res_pageGet(1);
-			}
-		});
-	});
 	$(document).ready(function() { //카테고리 선택
+		<%if (mem_name != null) {%>
+		res_pageGet(1);
+		page_btn();
+		<%}%>
 		s_categori();//dept name 선택
 		categori_map();
 		
@@ -534,6 +581,7 @@ var sts =new Array();
 			alert("dept_name: " + dept_name);
 			categori_map();
 		});
+		
 	});
 	</script>
 	<!-- 지도 API -->
