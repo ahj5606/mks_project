@@ -18,13 +18,7 @@ public class crm_HospitalLogic {
 		//logger.info(hpList.size());
 		return hpList;
 	}
-	public List<Map<String,Object>> deptList(Map<String, Object> pMap) {
-		logger.info("병원리스트");
-		List<Map<String,Object>> deptList=null;
-		deptList=crm_hpDao.deptList(pMap);
-		//logger.info(hpList.size());
-		return deptList;
-	}
+	
 	public List<Map<String,Object>> categori(Map<String, Object> pMap) {
 		logger.info("카테고리");
 		List<Map<String,Object>> categori=null;
@@ -32,6 +26,21 @@ public class crm_HospitalLogic {
 		//logger.info(hpList.size());
 		return categori;
 	}
+	
+	public String proc_favoriteIns(Map<String, Object> pMap) {
+		logger.info("[crm_HospitalLogic] favoriteIns 호출 성공.");
+		String proc_favoriteIns = null;
+		proc_favoriteIns = crm_hpDao.proc_favoriteIns(pMap);
+		return proc_favoriteIns;
+	}
+
+	public List<Map<String, Object>> favoriteList(Map<String, Object> pMap) {
+		logger.info("[crm_HospitalLogic] favoriteList 호출 성공.");
+		List<Map<String, Object>> favoriteList = null;
+		favoriteList = crm_hpDao.favoriteList(pMap);
+		return favoriteList;
+	}
+	
 	/*public static void main(String[] args) {
 		crm_HospitalLogic cl=new crm_HospitalLogic();
 		List<Map<String,Object>> hplist=cl.hospialList(pMap);

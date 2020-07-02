@@ -49,29 +49,67 @@
 	}
 </style>
 <script type="text/javascript">
-	function res_pageGet(num){
+var i_title = "";
+	function res_pageGet(num){ //페이지 네이션 할때 필요.
+		alert("페이지이동: "+num);
 		$('#t_noticeList').bootstrapTable('refreshOptions', {
-			 url: "/notice/noticeList.crm?num="+num+"&mode=0"
+			 url: "/notice/noticeList.crm?num="+num+"&mode=0&title="+i_title
 		});
 		$("div.fixed-table-loading").remove(); 
 	}
+	 function pageMove(click){
+	      var imsi = $(click).children(".sr-only").text();
+	      if(imsi=="Previous"){
+	    	  alert("Previous");
+	         previous();
+	      }else if(imsi=="Next"){
+	         $.ajax({
+	            url: "/notice/noticeList.crm?num=0&mode=0&title="+i_title
+	            ,dataType: "text"
+	            ,success: function(data){
+	               next(data, 5);
+	            }
+	         });
+	      }
+	}
+	   function page_btn(){
+	      $.ajax({
+	         url: "/notice/noticeList.crm?num=0&mode=0&title="+i_title
+	         ,dataType: "text"
+	         ,success: function(data){
+	            var totalSize = Number(data.trim()); 
+	            var mok = Math.ceil(totalSize/5);
+	            alert("page_btn*mok: "+mok);
+	            $("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+	            $("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+	            $("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+	            if(mok<3){
+	               $("#page_3").remove();
+	               if(mok<2){
+	                  $("#page_2").remove();
+	                  if(mok<1){
+	                     $("#page_1").remove();
+	                  }
+	               }
+	            }
+	         }
+	      });
+	   }
 	function search_n_title(){
 		alert("제목검색");
-		var i_title = $("#n_title").val();
+		i_title = $("#n_title").val();
 		alert("i_title: "+i_title);
 		$('#t_noticeList').bootstrapTable('refreshOptions', {
 			 url: "/notice/noticeList.crm?num=1"+"&mode=0"+"&title="+i_title
 		});
+		page_btn();
 		$("div.fixed-table-loading").remove(); 
-		
 	}
 </script>
 </head>
 <body>
-	<!-- 네이게이션 -->
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#007bff;">
-	    <a class="navbar-brand" href="#"><%=hp_name%><input type="hidden" value="12345"></a><!-- 병원코드 숨겨두기 -->
-    </nav>
+	<!-- 메뉴바 -->
+	<jsp:include page="../login/menu.jsp"/>
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:15px;">
 	  	<div class="row pt-4">
@@ -131,9 +169,9 @@
 									<span class="sr-only">Previous</span>
 								</a>
 							</li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
-							<li class="page-item mr-1"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
+							<li class="page-item mr-1" id="p_1"><a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a></li>
+							<li class="page-item mr-1" id="p_2"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
+							<li class="page-item mr-1" id="p_3"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
 							<li class="page-item mr-1">
 								<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
@@ -201,14 +239,11 @@
 					  var board_no = row.BOARD_NO;
 					  var id = row.MKS_ID;
 					  alert("글쓴이 id: "+id);
-					  /* 
-					  $.ajax({
-						  board_no를 넘겨주면 해당 게시글을  select!!
-					  }); 
-					  */
-					  $("#modal_detail").modal('show');
+					  location.href="/client/notice/noticeDetail.jsp?board_no="+board_no;
+					  alert("상세보기 로 이동하는 중 !")
 				  }
 			});
+			page_btn();
 			$("div.fixed-table-loading").remove();
 		});
 	</script>
