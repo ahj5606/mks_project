@@ -219,111 +219,95 @@ var sts =new Array();
         });
   	}
 	
-	function categori_map() {
-		var i;//마커 생성시 부여한 인덱스값 0~4   
-		$.ajax({
-			url: '/login/hospitalList.crm'
-		   ,dataType: 'json'
-		   ,success:function(data){
-			   result = JSON.stringify(data);//직관적인 정보로 변환(구조체-덩어리)-알아봄.
-			   //$("#d_map").text(result);
-			   jsonDoc = JSON.parse(result);//배열로 전환-다시 객체화처리됨.(배열)
-//			   alert(jsonDoc.length);
-			   
-			   for (var i = 0; i < mArray.length; i++) {
-				   mArray[i].setMap(null);
-				   mArray[i] = null;
-			   }
-			   /****************************************************************************************************
-			   */
-			   var imageSrc = img_src, // 마커이미지의 주소입니다    
-			    imageSize = new kakao.maps.Size(54, 57), // 마커이미지의 크기입니다
-			    imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-			      
-				// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-				var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-			   
-			   for(var i=0;i<jsonDoc.length;i++){ 
-					if(dept_name=="전체"){
-						dept_name = "";
-					}
-				   var imsi = jsonDoc[i].DEPT_NAME.toString();
-					sts[i] =imsi.indexOf(dept_name);//-1이면 없는거 밑에 마커 없애기. 카테고리정한걸 예약리스트에  보내기
-					   marker = new daum.maps.Marker({
-						  id: i
-						 ,position: new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1)
-					     ,map: map//지도는 하나
-					     ,title: jsonDoc[i].HP_NAME// 마커가 5개이므로 식당이름 5개 분류
-					     ,image: markerImage
-					   });////////////////end of marker
-					   
-					   mArray[i] = marker;
-					   
-						if (imsi.indexOf(dept_name) == -1) {
-							marker.setMap(null);
-			   			} else {
-				       daum.maps.event.addListener(marker, 'click',(function(marker,i){
-					   return function() {
-<<<<<<< HEAD
-						   
-						   
-						   var content =    '<div class="card" style="width: 18rem; font-size:small">';
-						   content += '<div class="card-body p-2">';
-						   content +=   '<h5 class="card-title"><b>'+jsonDoc[i].HP_NAME+'</b></h5>';
-						   content +=   '<p class="card-text">친절한 서비스를 제공합니다.</p>';
-						   content += '</div>';
-						   content += '<ul class="list-group list-group-flush">';
-						   content +=   '<li class="list-group-item p-0"></li>';
-						   content +=   '<li class="list-group-item p-2">'+jsonDoc[i].HP_PHONE+'</li>';
-						   content +=   '<li class="list-group-item p-2">'+jsonDoc[i].DEPT_NAME+'</li>';
-						   content += '</ul>';
-						   <%if(parameter!=null){%>
-						   		var imsi = jsonDoc[i].HP_NAME;
-						   		var imsi1 = jsonDoc[i].HP_CODE;
-						   	 content += '<div class="card-body p-2">';
-						   	content += '<div class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+","+"'"+imsi1+"'"+')">예약</div>'
-						   	 content += '</div>';
-						  <%}else{ %>
-						  	content += '<div class="card-body p-2">';
-						  	content += '</div>';
-						  <%}%>
-=======
-						   var content = '<b>병원이름 : '+jsonDoc[i].HP_NAME+'</b>';
-						   content += '<br>';
-						   content += '<b>전화번호 :<br>  '+jsonDoc[i].HP_PHONE+'</b>';
-						   content += '<br>';
-						   content += '<br>';
-						   content += '<b>진료과 : </b>'+jsonDoc[i].DEPT_NAME+'</b>';
-						   content += '<b>진료과 : </b>'+dept_name+'</b>';
-						   //content += '<b>진료과 : </b>'+array[i]+'</b>';		  
-								  
-<%
-				if(parameter!=null){ 				
-%>
-									var imsi = jsonDoc[i].HP_NAME;
-									var imsi1 = jsonDoc[i].HP_CODE;
-									alert(imsi1);
-								   //content += '<a href="javascript:popup_reservation('+imsi+')">';																	
-								   //content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
-								   content += '<button class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+","+"'"+imsi1+"'"+')" style="width:46px;font-size:1px;">예약</button><br>'
-<%
-				}
-%>
-													content += '<br>';
-													content += '<br>';
->>>>>>> branch 'client' of https://github.com/ahj5606/mks_project.git
-													infowindow.setContent(content);
-													infowindow.open(map, marker);
-													map.setCenter(this.getPosition());
-												}//end of 반환함수
-											})(marker, i));////////////end of addLitener
-							//마커를 생성했을때 click이벤트 처리하기
-							}//indexof else end
-						}///////////////end of for
-					}///////////////////end of success
-				});////////////////////end of ajax
-		map.relayout();
-	}
+	 function categori_map() {
+         var i;//마커 생성시 부여한 인덱스값 0~4   
+         $.ajax({
+            url: '/login/hospitalList.crm'
+            ,dataType: 'json'
+            ,success:function(data){
+               result = JSON.stringify(data);//직관적인 정보로 변환(구조체-덩어리)-알아봄.
+               //$("#d_map").text(result);
+               jsonDoc = JSON.parse(result);//배열로 전환-다시 객체화처리됨.(배열)
+//               alert(jsonDoc.length);
+               
+               for (var i = 0; i < mArray.length; i++) {
+                  mArray[i].setMap(null);
+                  mArray[i] = null;
+               }
+               /****************************************************************************************************
+               */
+               var imageSrc = img_src, // 마커이미지의 주소입니다    
+                imageSize = new kakao.maps.Size(54, 57), // 마커이미지의 크기입니다
+                imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                  
+               // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+               
+               for(var i=0;i<jsonDoc.length;i++){ 
+      
+                  var imsi = jsonDoc[i].DEPT_NAME.toString();
+                  sts[i] =imsi.indexOf(dept_name);//-1이면 없는거 밑에 마커 없애기. 카테고리정한걸 예약리스트에  보내기
+
+                     marker = new daum.maps.Marker({
+                       id: i
+                      ,position: new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1)
+                       ,map: map//지도는 하나
+                       ,title: jsonDoc[i].HP_NAME// 마커가 5개이므로 식당이름 5개 분류
+                       ,image: markerImage
+                     });////////////////end of marker
+                     
+                     mArray[i] = marker;
+                     
+                     if (imsi.indexOf(dept_name) == -1) {
+                        marker.setMap(null);
+                        } else {
+
+                      daum.maps.event.addListener(marker, 'click',(function(marker,i){
+                     return function() {
+                        var content =    '<div class="card" style="width: 18rem; font-size:small">';
+                        content += '<div class="card-body p-2">';
+                        content +=   '<h5 class="card-title"><b>'+jsonDoc[i].HP_NAME;
+                        content += '<a href="#" onClick="star_click(this)" style="color: #353535;">';
+                        
+                        /**************************************************************************************
+                        * ajax로 해당 병원의 jsonDoc[i].HP_CODE가 즐겨찾기 병원에 있는지 확인!
+                        * 있다면:   content += '<img src="./star_full.png"class="rounded"><input type="hidden" value="blank"></a>'
+                        * 없다면:   content += '<img src="./star_blank.png"class="rounded"><input type="hidden" value="blank"></a>'
+                        */
+                        content += '<img src="./star_blank.png"class="rounded" style="padding-left:175px;"><input type="hidden" value="blank"></a>'
+                          
+                        
+                        content += '</b></h5>';
+                        content +=   '<p class="card-text">친절한 서비스를 제공합니다.</p>';
+                        content += '</div>';
+                        content += '<ul class="list-group list-group-flush">';
+                        content +=   '<li class="list-group-item p-0"></li>';
+                        content +=   '<li class="list-group-item p-2">'+jsonDoc[i].HP_PHONE+'</li>';
+                        content +=   '<li class="list-group-item p-2">'+jsonDoc[i].DEPT_NAME+'</li>';
+                        content += '</ul>';
+                        <%if(parameter!=null){%>
+                              var imsi = jsonDoc[i].HP_NAME;
+                              var imsi1 = jsonDoc[i].HP_CODE;
+                            content += '<div class="card-body p-2">';
+                           content += '<div class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+","+"'"+imsi1+"'"+')">예약</div>'
+                            content += '</div>';
+                       <%}else{ %>
+                          content += '<div class="card-body p-2">';
+                          content += '</div>';
+                       <%}%>
+                                          infowindow.setContent(content);
+                                          infowindow.open(map, marker);
+                                          map.setCenter(this.getPosition());
+
+                                       }//end of 반환함수
+                                    })(marker, i));////////////end of addLitener
+                        //마커를 생성했을때 click이벤트 처리하기
+                        }//indexof else end
+                     }///////////////end of for
+                  }///////////////////end of success
+               });////////////////////end of ajax
+         map.relayout();
+      }
 </script>
 </head>
 <body>
