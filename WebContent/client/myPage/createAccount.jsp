@@ -83,7 +83,6 @@
 	          	var res = data.trim();
 	          	alert(res);
 	          	location.href = "../login/main.jsp";
-
 	          	}//succseefunction
 	          	});//ajax	
 	          	

@@ -10,7 +10,6 @@
 		mem_name = (String)parameter;
 		mks_id = (String)obj;
 	}
-
 %>
 <!DOCTYPE html>
 <html>
@@ -31,17 +30,14 @@
 .container {
 	padding: 5px;
 }
-
 h5.card-header a, h6.card-header, .card-body {
 	color: #353535;
 }
-
 th, td {
 	height: 5px;
 	font-size: small;
 	/* padding:2px; ===> 왜 안먹지...?*/
 }
-
 a.page-link {
 	color: #4C4C4C;
 }
@@ -159,7 +155,6 @@ var sts =new Array();
 	
 	function login(){
 		alert("로그인 버튼!");
-
 		$("#f_login").attr("method","post");
 		$("#f_login").attr("action","/login/login.crm?requestName=login");//로그인 url ****
 		$("#f_login").submit();
@@ -249,10 +244,11 @@ var sts =new Array();
 				var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 			   
 			   for(var i=0;i<jsonDoc.length;i++){ 
-	
+					if(dept_name=="전체"){
+						dept_name = "";
+					}
 				   var imsi = jsonDoc[i].DEPT_NAME.toString();
 					sts[i] =imsi.indexOf(dept_name);//-1이면 없는거 밑에 마커 없애기. 카테고리정한걸 예약리스트에  보내기
-
 					   marker = new daum.maps.Marker({
 						  id: i
 						 ,position: new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1)
@@ -266,9 +262,9 @@ var sts =new Array();
 						if (imsi.indexOf(dept_name) == -1) {
 							marker.setMap(null);
 			   			} else {
-
 				       daum.maps.event.addListener(marker, 'click',(function(marker,i){
 					   return function() {
+<<<<<<< HEAD
 						   
 						   
 						   var content =    '<div class="card" style="width: 18rem; font-size:small">';
@@ -291,10 +287,34 @@ var sts =new Array();
 						  	content += '<div class="card-body p-2">';
 						  	content += '</div>';
 						  <%}%>
+=======
+						   var content = '<b>병원이름 : '+jsonDoc[i].HP_NAME+'</b>';
+						   content += '<br>';
+						   content += '<b>전화번호 :<br>  '+jsonDoc[i].HP_PHONE+'</b>';
+						   content += '<br>';
+						   content += '<br>';
+						   content += '<b>진료과 : </b>'+jsonDoc[i].DEPT_NAME+'</b>';
+						   content += '<b>진료과 : </b>'+dept_name+'</b>';
+						   //content += '<b>진료과 : </b>'+array[i]+'</b>';		  
+								  
+<%
+				if(parameter!=null){ 				
+%>
+									var imsi = jsonDoc[i].HP_NAME;
+									var imsi1 = jsonDoc[i].HP_CODE;
+									alert(imsi1);
+								   //content += '<a href="javascript:popup_reservation('+imsi+')">';																	
+								   //content +='<img src=./bookbutton.png width=20 height=20/></a><br>';
+								   content += '<button class="btn btn-dark btn-block" onClick="popup_reservation('+"'"+imsi+"'"+","+"'"+imsi1+"'"+')" style="width:46px;font-size:1px;">예약</button><br>'
+<%
+				}
+%>
+													content += '<br>';
+													content += '<br>';
+>>>>>>> branch 'client' of https://github.com/ahj5606/mks_project.git
 													infowindow.setContent(content);
 													infowindow.open(map, marker);
 													map.setCenter(this.getPosition());
-
 												}//end of 반환함수
 											})(marker, i));////////////end of addLitener
 							//마커를 생성했을때 click이벤트 처리하기
@@ -587,7 +607,6 @@ var sts =new Array();
 	<!-- 지도 API -->
 	<script>
 		var geocoder = new daum.maps.services.Geocoder();
-
 		var map = new daum.maps.Map(document.getElementById('map'), {
 			zoom : 20,
 			center : new daum.maps.LatLng(37.478513, 126.877800),

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.clientMapper">
-  <select id="categori"  parameterType="map" resultType="map">
-           select dept_name from mks_dept
+
+	<!-- 지도 진료과 카테고리 -->
+	<select id="categori"  parameterType="map" resultType="map">
+	        select dept_name from mks_dept
         group by dept_name
         </select>
-<!-- crm_HospitalDao 부분 -->
+
 	<select resultType="map" parameterType="map" id="hospitalList">
 		SELECT 
 		    r, hp_code, hp_name , hp_lat, hp_lng, hp_detail, hp_address, hp_open, hp_close, hp_phone, dept_name
@@ -25,12 +27,12 @@
 		                )
 		                WHERE 1 = 1
 		                <if test="hp_open != null">
-			                AND (SELECT SIGN((TO_DATE(hp_open, 'HH24:MI') - TO_DATE('9:00','HH24:MI'))) FROM dual) = -1
+			                AND hp_open = #{hp_open}
 		                </if>
 		                <if test="hp_close != null">
-			                AND (SELECT SIGN((TO_DATE(hp_close, 'HH24:MI') - TO_DATE('18:00','HH24:MI'))) FROM dual) = 1
+			                AND hp_close = #{hp_close}
 		                </if>
-		                <if test="hp_name != null and hp_name.length()>0">
+		                <if test="hp_name != null">
 		                 	AND hp_name LIKE '%'||#{hp_name}||'%' 
 		                </if>
 		        )
@@ -52,8 +54,8 @@
 			                                   , javaType=java.sql.ResultSet
 			                                   , resultMap=rmap1}
 	                                    ,#{u_hp_code, mode=IN, jdbcType=VARCHAR}
-	                                    ,#{fnum, mode=IN, jdbcType=INTEGER}
-	                                    ,#{enum, mode=IN, jdbcType=INTEGER}			
+		                                ,#{fnum, mode=IN, jdbcType=INTEGER}
+		                                ,#{enum, mode=IN, jdbcType=INTEGER}			
 								   )}
 		</if>
 		<if test="u_dept_name == null and u_doc_name != null">
@@ -80,6 +82,7 @@
 	                                    ,#{enum, mode=IN, jdbcType=INTEGER}			
 								   )}
 		</if>
+		<!--  -->
 		<if test="u_dept_name != null and u_doc_name != null"> 
 			{call proc_reservelist_fourth (
 	                                   #{res_list,jdbcType=CURSOR
@@ -91,35 +94,59 @@
 	                                    ,#{u_doc_name, mode=IN, jdbcType=VARCHAR}
 	                                    ,#{fnum, mode=IN, jdbcType=INTEGER}
 	                                    ,#{enum, mode=IN, jdbcType=INTEGER}			
+						
 								   )}
 		 </if>
 	</select>
-	<select id="noticeList" parameterType="map" resultType="map">
-	<!-- 공지사항 리스트, 조건하에 예약회면에서 최신 공시사항 2가지 제목 보여주기. -->
-		SELECT
-		    r, board_no, board_title, board_date, mks_id
+<!-- crm_LoginDao 부분 -->
+   <select id="proc_mem_login" parameterType="map" statementType="CALLABLE">
+      {call proc_mem_login (
+         #{u_id, mode=IN, jdbcType=VARCHAR}
+         ,#{u_pw, mode=IN, jdbcType=VARCHAR}                  
+         ,#{msg, mode=OUT, jdbcType=VARCHAR}                  
+         ,#{msg_id, mode=OUT, jdbcType=VARCHAR}                  
+      )}
+   </select>
+   <select id="noticeNew" parameterType="map" resultType="map">
+	<!-- 예약회면에서 최신 공시사항 2가지 제목 보여주기. -->
+		SELECT 
+		    board_no, board_title, board_date
 		  FROM (
-		        SELECT 
-		            ROWNUM r, board_no, board_title, board_date, mks_id
-		          FROM (
-		                SELECT
-		                    board_no, board_title, board_date, mks_id
-		                  FROM mks_board
-		                 WHERE board_type = 0
-		                 <if test="board_title != null and board_title.length() > 0">
-		                   AND board_title LIKE '%'||#{board_title}||'%'
-		                 </if>
-		                 ORDER BY board_date desc  
-		               )
-				 <if test="mode == 1">
-			         WHERE ROWNUM <![CDATA[<=]]> 2  
-				 </if>		               
-		       )
-		 <if test="fnum!=null">
-		 WHERE r BETWEEN #{fnum} AND #{enum}
-		 </if>
+		        SELECT
+		            board_no, board_title, board_date
+		          FROM mks_board	
+		         WHERE board_type = 0
+		         ORDER BY board_date desc  
+		       ) 
+		 WHERE ROWNUM <![CDATA[<=]]> 2 
 		 <!-- <![CDATA[<=]]> 는 <, > 같은 부등호가 xml에는 올 수 없으므로 단독으로 사용할때는 <![CDATA[여기 안에다 부등호 넣자.]]> --> 	
 	</select>
+	<select id="noticeList" parameterType="map" resultType="map">
+<!-- 공지사항 리스트, 조건하에 예약회면에서 최신 공시사항 2가지 제목 보여주기. -->
+SELECT
+r, board_no, board_title, board_date, mks_id
+FROM (
+SELECT
+ROWNUM r, board_no, board_title, board_date, mks_id
+FROM (
+SELECT
+board_no, board_title, board_date, mks_id
+FROM mks_board
+WHERE board_type = 0
+<if test="board_title != null and board_title.length() > 0">
+AND board_title LIKE '%'||#{board_title}||'%'
+</if>
+ORDER BY board_date desc
+)
+<if test="mode == 1">
+WHERE ROWNUM <![CDATA[<=]]> 2
+</if>
+)
+<if test="fnum!=null">
+WHERE r BETWEEN #{fnum} AND #{enum}
+</if>
+<!-- <![CDATA[<=]]> 는 <, > 같은 부등호가 xml에는 올 수 없으므로 단독으로 사용할때는 <![CDATA[여기 안에다 부등호 넣자.]]> -->
+</select>
 	<select id="noticeDetail" parameterType="map" resultType="map">
 	<!-- 공지사항 세부사항 보기. -->
 		SELECT 
@@ -134,6 +161,7 @@
 		    hp_code, dept_name
 		  FROM mks_dept
 		 WHERE hp_code = #{hp_code}
+		 
 	</select>
 	<select id="waitCheck" parameterType="map" resultType="map">
 	<!-- 대기시간, 대기인원 보여주기. -->
@@ -146,9 +174,10 @@
 	<select id="docSel" parameterType="map" resultType="map">
 	<!-- 의사 선생님 상세정보. -->
 		SELECT 
-		    doc_code, doc_name, dept_name, doc_position, doc_education
+		    doc_code,doc_name, dept_name, doc_position, doc_education
 		  FROM mks_doctor
 		  WHERE doc_code = #{doc_code}
+
 	</select>
 	<select id="calender" parameterType="map" resultType="map">
 	<!-- 예약 가능한 시간표 Select -->
@@ -156,10 +185,10 @@
 		    hp_code, hp_name, doc_code, doc_name, dept_code, dept_name, sch_code, sch_time, to_char(to_date(sch_date), 'YYYY-MM-DD') sch_date 
 		  FROM mks_schedule   
 		 WHERE hp_code = #{hp_code}
-		   <if test="dept_code != null">
+		   <if test="dept_code != null and dept_code.length()>0">
 		   	   AND dept_code = #{dept_code} 
 		   </if>
-		   <if test="doc_code != null">
+		   <if test="doc_code != null and doc_code.length()>0">
 			   AND doc_code = #{doc_code}   
 		   </if>
 		   <if test="sch_date != null">
@@ -170,21 +199,21 @@
 		   </if>
 		 ORDER BY sch_date, sch_time asc
 	</select>
-	<select id="docCategory" parameterType="map" resultType="map">
-	<!-- 의사 카테고리 -->
-		SELECT
-		    doc_code, doc_name, dept_code, dept_name
-		  FROM mks_schedule
-		 WHERE 1 = 1 
-		  <if test="dept_code != null">
-			   AND dept_code = #{dept_code}
-		  </if>
-		  <if test="dept_code ==  null">
-			   AND dept_code = (SELECT dept_code FROM mks_doctor WHERE doc_code = #{dept_code})
-		  </if>
-		   AND hp_code = #{hp_code}	
-		 GROUP BY doc_code, doc_name, dept_code, dept_name
-	</select>
+   <select id="docCategory" parameterType="map" resultType="map">
+   <!-- 의사 카테고리 -->
+      SELECT
+          doc_code, doc_name, dept_code, dept_name
+        FROM mks_schedule
+       WHERE 1 = 1 
+        <if test="dept_code != null">
+            AND dept_code = #{dept_code}
+        </if>
+        <if test="dept_code ==  null">
+            AND dept_code = (SELECT dept_code FROM mks_doctor WHERE doc_code = #{doc_code})
+        </if>
+         AND hp_code = #{hp_code}   
+       GROUP BY doc_code, doc_name, dept_code, dept_name
+   </select>
 	<insert id="reservation" parameterType="map">
 	<!-- 예약하기. -->
 		INSERT 
@@ -192,79 +221,43 @@
 		    (mem_memcode, res_memo, sch_code, res_qrcode, doc_name, res_time, doc_code, hp_code, dept_name, dept_code, sch_date, hp_name) 
 		  VAlUES (#{mem_memcode},#{res_memo},#{sch_code},#{res_qrcode},#{doc_name},#{res_time},#{doc_code},#{hp_code},#{dept_name},#{dept_code},#{sch_date},#{hp_name})	
 	</insert>
-	
-<!-- crm_LoginDao 부분 -->
-	<select id="proc_mem_login" parameterType="map" statementType="CALLABLE">
-		{call proc_mem_login (
-			#{u_id, mode=IN, jdbcType=VARCHAR}
-			,#{u_pw, mode=IN, jdbcType=VARCHAR}						
-			,#{msg, mode=OUT, jdbcType=VARCHAR}						
-			,#{msg_id, mode=OUT, jdbcType=VARCHAR}						
-		)}
-	</select>
-	
-<!-- crm_MypageDao 부분 -->
+	<!-- crm_MypageDao 부분 -->	
 	<select id="mypageList" parameterType="map" resultType="map">
 	<!-- 예약목록화면 리스트 -->
-		SELECT rnum, mem_memcode, hp_name, dept_name, doc_name, TO_CHAR(TO_DATE(sch_date),'YYYY-MM-DD') sch_date, res_qrcode, res_time, sch_code
-          FROM (
-                SELECT rownum rnum, mem_memcode, hp_name, dept_name, doc_name, res_qrcode, sch_date, res_time, sch_code
-                  FROM mks_reserve
-                 WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})    
-		         <if test="doc_name!=null and doc_name.length()>0">
-		           AND doc_name LIKE '%'||#{doc_name}||'%'
-		         </if>
-		         <if test="now != null and pre==null">
-				   AND (SELECT SIGN(TO_DATE(sch_date,'YYYY-MM-DD') - TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD'),'YYYY-MM-DD')) FROM dual) = 1 
-				 </if>
-				 <if test="pre != null and now==null">
-				   AND (SELECT SIGN(TO_DATE(sch_date,'YYYY-MM-DD') - TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD'),'YYYY-MM-DD')) FROM dual) = -1
-				 </if>
-                )
-         WHERE 1 = 1
-         <if test="fnum!=null">
-           AND rnum BETWEEN #{fnum} and #{enum}	
-         </if>
+		SELECT
+		    mem_memcode, hp_name, dept_name, doc_name, sch_date, res_qrcode
+		  FROM mks_reserve
+		 WHERE mem_memcode = #{mem_memcode}	
 	</select>
 	<select id="mypagePassword" parameterType="map" resultType="map">
-	<!-- 비밀번호 입력 화면 - 비밀번호 일치. 불일치. -->
-		SELECT NVL(
-		            (SELECT
-		                mks_pw
-		              FROM mks_online 
-		             WHERE mks_id = #{mks_id}
-		               AND mks_pw = #{mks_pw}
-		            ), ''
-		          ) mks_pw
-		  FROM dual
-	</select>
-	
-	
-	<select id="mypageSel" parameterType="map" resultType="map">
-		SELECT a.mks_id, a.mks_email, b.mem_name, b.mem_socialnum, b.mem_phone, b.mem_address
-          FROM mks_online a, mks_member b
-         WHERE a.mem_memcode = b.mem_memcode
-           AND a.mks_id = #{mks_id}
-	</select>
-	
-	
-	<select id="mypageUpd_Member" parameterType="map" resultType="map">
-	<!-- 개인 정보 수정. - 맴버테이블 -->
-		UPDATE mks_member
-		   SET
-		        mem_address = #{mem_address}
-		       ,mem_phone = #{mem_phone}
-		 WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
-	</select>
-	<select id="mypageUpd_Online" parameterType="map" resultType="map">
-	<!-- 개인 정보 수정. - 온라인테이블 -->
-		UPDATE mks_online
-		   SET
-		        mks_pw = #{mks_pw}
-		       ,mks_email = #{mks_email}
-		 WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
-	</select>
-	<select id="idCheck" parameterType="map" resultType="map">
+<!-- 비밀번호 입력 화면 - 비밀번호 일치. 불일치. -->
+SELECT NVL(
+(SELECT
+mks_pw
+FROM mks_online
+WHERE mks_id = #{mks_id}
+AND mks_pw = #{mks_pw}
+), ''
+) mks_pw
+FROM dual
+</select>
+<select id="mypageUpd_Member" parameterType="map" resultType="map">
+<!-- 개인 정보 수정. - 맴버테이블 -->
+UPDATE mks_member
+SET
+mem_address = #{mem_address}
+,mem_phone = #{mem_phone}
+WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
+</select>
+<select id="mypageUpd_Online" parameterType="map" resultType="map">
+<!-- 개인 정보 수정. - 온라인테이블 -->
+UPDATE mks_online
+SET
+mks_pw = #{mks_pw}
+,mks_email = #{mks_email}
+WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
+</select>
+	<select id="idCheck" parameterType="map" resultType="String">
 	<!-- id중복 검사  -->
 		SELECT NVL(
 		(SELECT
@@ -301,7 +294,7 @@
 			)}
 	</select>
 	
-	<!-- crm_boardDao -->
+	<!-- crm_boadDao -->
 	<select id="boardList" parameterType="map" resultType="map">
 	SELECT rnum, eva_code, sch_code, mks_id, eva_title, eva_date, hp_name, step, pos, group_no, eva_content, hit
        FROM (
@@ -337,14 +330,14 @@
     </select>
 	
 	<select id="boardResList" parameterType="map" resultType="map">
-		SELECT a.sch_code, a.sch_date, a.hp_name, a.dept_name, a.doc_name
+      SELECT a.sch_code, a.sch_date, a.hp_name, a.dept_name, a.doc_name
           FROM mks_reserve a
          WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id=#{mks_id})
            AND (SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM DUAL) > TO_DATE(a.sch_date)
            AND (SELECT count(sch_code)
                   FROM mks_eva
                  WHERE sch_code = a.sch_code) =0
-	</select>
+   </select>
 	
 	<select id="boardReplyList" parameterType="map" resultType="map">
 		SELECT a.eva_code, b.mks_id, a.eva_date, a.step, a.pos, a.group_no ,a.eva_content
@@ -419,79 +412,77 @@
    					    AND mks_pw = #{mks_pw}), '') mks_id 
    		  FROM DUAL
 	</select>
-	
-	
-	<!-- crm_HealthInfoDao -->
-	<select id="healthList" parameterType="map" resultType="map">
-		SELECT rnum, board_no, board_content, board_date, board_title, hit, mks_id, good, bad
-  		  FROM (
-			        SELECT rownum rnum, board_no, board_content, board_date, board_title, hit, mks_id, good, bad
-			          FROM mks_board
-			         WHERE board_type=1
-			        <if test="i_title!=null and i_title.length()>0">
-			           AND board_title LIKE '%'||#{i_title}||'%'
-			        </if>
-			        <if test="board_no!=null">
-			           AND board_no = #{board_no}
-			        </if>
-			        <if test="h_order!=null">
-				      ORDER BY hit desc, board_no desc
-				    </if>
-				    <if test="h_order==null">
-				      ORDER BY board_no desc
-				    </if>
-                )
-         <if test="fnum!=null">
- 		 WHERE rnum BETWEEN #{fnum} AND #{enum}
-         </if>
-    
-	</select>
-	
-	<insert id="healthIns" parameterType="map">
-		INSERT INTO mks_board values(
-		    1,
-		    (SELECT NVL(MAX(BOARD_NO),0)+1 FROM mks_board),
-		    #{board_content},
-		    #{board_date},
-		    'jinaseebabo',
-		    #{board_title},
-		    null,
-		    0,
-		    0,
-		    0
-		)
-	</insert>
-	
-	<update id="healthHit" parameterType="map">
-		UPDATE mks_board 
-		   SET 
-		       hit = (SELECT hit+1 FROM mks_board WHERE board_no = #{board_no})
-	     WHERE board_no =#{board_no}
-	</update>
-	
-	<update id="healthLike" parameterType="map">
-		UPDATE mks_board 
-           SET 
-           	<if test="good!=null">
-               good = (SELECT good+1 FROM mks_board WHERE board_no = #{board_no})
-           	</if>
-           	<if test="good==null">
-               bad = (SELECT bad+1 FROM mks_board WHERE board_no = #{board_no})
-           	</if>
-         WHERE board_no = #{board_no}
-	</update>
-	
-	<update id="healthUpd" parameterType="map">
-		UPDATE mks_board 
-		   SET 
-		   	   board_content=#{board_content}, 
-		   	   board_title = #{board_title}
-         WHERE board_no = #{board_no}
-	</update>
-	
-	<delete id="healthDel" parameterType="map">
-		DELETE 
-		  FROM mks_board 
-		 WHERE board_no = #{board_no}
-	</delete> 
+<!-- crm_HealthInfoDao -->
+<select id="healthList" parameterType="map" resultType="map">
+SELECT rnum, board_no, board_content, board_date, board_title, hit, mks_id, good, bad
+FROM (
+SELECT rownum rnum, board_no, board_content, board_date, board_title, hit, mks_id, good, bad
+FROM mks_board
+WHERE board_type=1
+<if test="i_title!=null and i_title.length()>0">
+AND board_title LIKE '%'||#{i_title}||'%'
+</if>
+<if test="board_no!=null">
+AND board_no = #{board_no}
+</if>
+<if test="h_order!=null">
+ORDER BY hit desc, board_no desc
+</if>
+<if test="h_order==null">
+ORDER BY board_no desc
+</if>
+)
+<if test="fnum!=null">
+WHERE rnum BETWEEN #{fnum} AND #{enum}
+</if>
+
+</select>
+
+<insert id="healthIns" parameterType="map">
+INSERT INTO mks_board values(
+1,
+(SELECT NVL(MAX(BOARD_NO),0)+1 FROM mks_board),
+#{board_content},
+#{board_date},
+'jinaseebabo',
+#{board_title},
+null,
+0,
+0,
+0
+)
+</insert>
+
+<update id="healthHit" parameterType="map">
+UPDATE mks_board
+SET
+hit = (SELECT hit+1 FROM mks_board WHERE board_no = #{board_no})
+WHERE board_no =#{board_no}
+</update>
+
+<update id="healthLike" parameterType="map">
+UPDATE mks_board
+SET
+<if test="good!=null">
+good = (SELECT good+1 FROM mks_board WHERE board_no = #{board_no})
+</if>
+<if test="good==null">
+bad = (SELECT bad+1 FROM mks_board WHERE board_no = #{board_no})
+</if>
+WHERE board_no = #{board_no}
+</update>
+
+<update id="healthUpd" parameterType="map">
+UPDATE mks_board
+SET
+board_content=#{board_content},
+board_title = #{board_title}
+WHERE board_no = #{board_no}
+</update>
+
+<delete id="healthDel" parameterType="map">
+DELETE
+FROM mks_board
+WHERE board_no = #{board_no}
+</delete>
 </mapper>
