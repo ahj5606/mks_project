@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+
+Object parmeter = session.getAttribute("mks_id");
+String mks_id = null;
+if(parmeter!=null){
+	mks_id = (String)parmeter;
+} 
+
+%>  
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +21,9 @@
 <title>내 정보</title>
 <%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
+	.container{
+		padding:5px;
+	}
 	footer {
 		left: 0;
 		bottom: 0;
@@ -25,11 +38,27 @@
 	}
 </style>
 <script type="text/javascript">
+	var mks_id = '<%=mks_id%>';
 	function pw_input(){
 		alert("비밀번호 확인!");
 		var i_pw = $("#i_pw").val();
 		alert("i_pw: "+i_pw);
-		location.href="/client/mypage/myInfo.jsp"//비밀번호가 일치하면 해당 아이디로 정보 sel하여 전달
+		$.ajax({
+			url: "/mypage/mypagePassword.crm"
+			,data: "mks_pw="+i_pw+"&mks_id="+mks_id
+			,success: function(data){
+				var res = data.trim();
+				alert(res);
+				if(res=='실패'){
+					 alert('불일치');
+					 $("#emailFail").html("비밀번호가 일치하지 않습니다.");
+			         $("#emailFail").attr('class','text-danger');
+				}else{
+					alert('일치!');
+					location.href="/client/myPage/myInfo.jsp"
+				}
+			}
+		});
 	}
 </script>
 </head>
@@ -64,7 +93,7 @@
 									<div class="form-group w-45">
 	    								<label for="i_pw">비밀번호</label>
 	    								<input type="password" class="form-control mb-1" id="i_pw">
-	    								<small id="pwFail" class="text-danger ml-1">비밀번호가 일치하지 않습니다.</small>
+	    								<small id="pwFail" class="text-muted ml-1">가입된 비밀번호를 입력해주세요.</small>
 	    								<div class="row mt-2">
 	    									<div class="col-md-5">
 	    									</div>

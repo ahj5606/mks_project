@@ -29,13 +29,18 @@ public class crm_MypageDao {
 		mypageList = sqlSes.selectList("mypageList", pMap);
 		return mypageList;
 	}
+	
+	public List<Map<String, Object>> mypageSel(Map<String, Object> pMap) {
+		logger.info("[crm_MypageDao] mypageSel 호출성공");
+		List<Map<String, Object>> mypageSel = null;
+		mypageSel = sqlSes.selectList("mypageSel", pMap);
+		return mypageSel;
+	}
 		
 	public List<Map<String, Object>> mypagePassword(Map<String, Object> pMap) {
 		//비밀번호 입력 화면 - 비밀번호 일치. 불일치.
 		logger.info("[crm_MypageDao] mypagePassword 호출성공");
 		List<Map<String, Object>> mypagePassword = null;
-		pMap.put("mks_id", "test1");
-		pMap.put("mks_pw", "1234");
 		mypagePassword = sqlSes.selectList("mypagePassword", pMap);
 		return mypagePassword;
 	}
@@ -44,9 +49,6 @@ public class crm_MypageDao {
 		//개인정보 수정 - 회원테이블.
 		logger.info("[crm_MypageDao] mypageUpd_Member 호출성공");
 		int result = 0;
-		pMap.put("mem_address", "경기");
-		pMap.put("mem_phone", "010-2222-2222");
-		pMap.put("mks_id", "test1");
 		result = sqlSes.update("mypageUpd_Member", pMap);
 		logger.info("result: " + result);
 		sqlSes.commit(true);
@@ -57,9 +59,6 @@ public class crm_MypageDao {
 		//개인정보 수정 - 온라인테이블.
 		logger.info("[crm_MypageDao] mypageUpd_Online 호출성공");
 		int result = 0;
-		pMap.put("mks_pw", "1234");
-		pMap.put("mks_email", "test1@naver.com");
-		pMap.put("mks_id", "test1");
 		result = sqlSes.update("mypageUpd_Online", pMap);
 		logger.info("result: " + result);
 		sqlSes.commit(true);
@@ -127,5 +126,6 @@ public class crm_MypageDao {
 //		result = my.socialnumCheck(pMap);
 //		logger.info("result: "+result);
 	}
+
     
 }

@@ -3,7 +3,6 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList, java.util.Map, java.util.HashMap"%>
 <%
-
 	String id = request.getParameter("mks_id");//선택한 글의 아이디
 	String eva_code = request.getParameter("eva_code");//선택한 글의 번호
 	String sch_code = request.getParameter("sch_code");//선택한 글의 스케줄코드
