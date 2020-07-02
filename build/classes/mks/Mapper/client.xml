@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.clientMapper">
+  <select id="categori"  parameterType="map" resultType="map">
+           select dept_name from mks_dept
+        group by dept_name
+        </select>
 <!-- crm_HospitalDao 부분 -->
 	<select resultType="map" parameterType="map" id="hospitalList">
 		SELECT 
@@ -21,12 +25,12 @@
 		                )
 		                WHERE 1 = 1
 		                <if test="hp_open != null">
-			                AND hp_open = #{hp_open}
+			                AND (SELECT SIGN((TO_DATE(hp_open, 'HH24:MI') - TO_DATE('9:00','HH24:MI'))) FROM dual) = -1
 		                </if>
 		                <if test="hp_close != null">
-			                AND hp_close = #{hp_close}
+			                AND (SELECT SIGN((TO_DATE(hp_close, 'HH24:MI') - TO_DATE('18:00','HH24:MI'))) FROM dual) = 1
 		                </if>
-		                <if test="hp_name != null">
+		                <if test="hp_name != null and hp_name.length()>0">
 		                 	AND hp_name LIKE '%'||#{hp_name}||'%' 
 		                </if>
 		        )
@@ -189,7 +193,6 @@
 		  VAlUES (#{mem_memcode},#{res_memo},#{sch_code},#{res_qrcode},#{doc_name},#{res_time},#{doc_code},#{hp_code},#{dept_name},#{dept_code},#{sch_date},#{hp_name})	
 	</insert>
 	
-<!-- crm_HealthDao 부분 -->
 <!-- crm_LoginDao 부분 -->
 	<select id="proc_mem_login" parameterType="map" statementType="CALLABLE">
 		{call proc_mem_login (
@@ -203,10 +206,25 @@
 <!-- crm_MypageDao 부분 -->
 	<select id="mypageList" parameterType="map" resultType="map">
 	<!-- 예약목록화면 리스트 -->
-		SELECT
-		    mem_memcode, hp_name, dept_name, doc_name, sch_date, res_qrcode
-		  FROM mks_reserve
-		 WHERE mem_memcode = #{mem_memcode}	
+		SELECT rnum, mem_memcode, hp_name, dept_name, doc_name, TO_CHAR(TO_DATE(sch_date),'YYYY-MM-DD') sch_date, res_qrcode, res_time, sch_code
+          FROM (
+                SELECT rownum rnum, mem_memcode, hp_name, dept_name, doc_name, res_qrcode, sch_date, res_time, sch_code
+                  FROM mks_reserve
+                 WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})    
+		         <if test="doc_name!=null and doc_name.length()>0">
+		           AND doc_name LIKE '%'||#{doc_name}||'%'
+		         </if>
+		         <if test="now != null and pre==null">
+				   AND (SELECT SIGN(TO_DATE(sch_date,'YYYY-MM-DD') - TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD'),'YYYY-MM-DD')) FROM dual) = 1 
+				 </if>
+				 <if test="pre != null and now==null">
+				   AND (SELECT SIGN(TO_DATE(sch_date,'YYYY-MM-DD') - TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD'),'YYYY-MM-DD')) FROM dual) = -1
+				 </if>
+                )
+         WHERE 1 = 1
+         <if test="fnum!=null">
+           AND rnum BETWEEN #{fnum} and #{enum}	
+         </if>
 	</select>
 	<select id="mypagePassword" parameterType="map" resultType="map">
 	<!-- 비밀번호 입력 화면 - 비밀번호 일치. 불일치. -->
@@ -220,6 +238,16 @@
 		          ) mks_pw
 		  FROM dual
 	</select>
+	
+	
+	<select id="mypageSel" parameterType="map" resultType="map">
+		SELECT a.mks_id, a.mks_email, b.mem_name, b.mem_socialnum, b.mem_phone, b.mem_address
+          FROM mks_online a, mks_member b
+         WHERE a.mem_memcode = b.mem_memcode
+           AND a.mks_id = #{mks_id}
+	</select>
+	
+	
 	<select id="mypageUpd_Member" parameterType="map" resultType="map">
 	<!-- 개인 정보 수정. - 맴버테이블 -->
 		UPDATE mks_member
@@ -273,7 +301,7 @@
 			)}
 	</select>
 	
-	<!-- crm_boadDao -->
+	<!-- crm_boardDao -->
 	<select id="boardList" parameterType="map" resultType="map">
 	SELECT rnum, eva_code, sch_code, mks_id, eva_title, eva_date, hp_name, step, pos, group_no, eva_content, hit
        FROM (

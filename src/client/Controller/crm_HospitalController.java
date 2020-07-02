@@ -62,6 +62,20 @@ public class crm_HospitalController implements crm_Controller{
 			List<Map<String,Object>> hpList= null;
 			List<Map<String,Object>> nav= null;
 			String imsi = req.getParameter("num");
+			String hp_open = req.getParameter("hp_open");
+			String hp_close = req.getParameter("hp_close");
+			if(hp_open!=null) {
+				int h_open = Integer.parseInt(hp_open);
+				if(h_open%2==1) {//홀수일때 == 선택
+					pMap.put("hp_open", h_open);
+				}
+			}
+			if(hp_close!=null) {
+				int h_close = Integer.parseInt(hp_close);
+				if(h_close%2==1) {//홀수일때 == 선택
+					pMap.put("hp_close", h_close);
+				}
+			}
 			int end = 0;
 			int first = 0;
 			pMap.put("hp_name", hp_name);

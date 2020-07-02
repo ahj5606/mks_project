@@ -100,6 +100,7 @@
 				}
 			}
 		});
+		$("#page_1").focus();
 	}
 	function board_write(){
 		var mks_id = '<%=mks_id%>'

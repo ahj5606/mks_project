@@ -10,7 +10,10 @@
 	function previous(){
 		if($("#page_1").text()=="1"){
 			alert("이동불가!");
+			res_pageGet(Number($("#page_1").text()));//
+			$("#page_1").focus();//
 		}else{
+			alert("이동가능!");
 			var fist = Number($("#page_1").text())-3;
 			var sec = 0;
 			var third = 0;
@@ -30,8 +33,8 @@
 			$("#page_1").html(fist);
 			$("#page_2").html(sec);
 			$("#page_3").html(third);
-			res_pageGet(fist);
-			$("#page_1").focus();
+			res_pageGet(third);
+			$("#page_3").focus();
 		}
 	}
 	
@@ -50,6 +53,16 @@
 		alert("totalNum: "+totalNum);
 		if(totalSize<=totalNum){//총 예약리스트 사이즈보다 크거나 같다면
 			alert("이동불가!");
+			if($("#page_3").length){
+				res_pageGet(Number($("#page_3").text()));
+				$("#page_3").focus();
+			}else if($("#page_2").length){
+				res_pageGet(Number($("#page_2").text()));
+				$("#page_2").focus();
+			}else if($("#page_1").length){
+				res_pageGet(Number($("#page_1").text()));
+				$("#page_1").focus();
+			}
 		}else{
 			var mok = Math.ceil(totalSize/num);
 			var fist = Number($("#page_1").text())+3;
