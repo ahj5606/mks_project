@@ -90,21 +90,36 @@ public class crm_HospitalController implements crm_Controller{
 		} 
 		else if("favoriteIns".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<>();
-			String mks_id = req.getParameter("u_mks_id");
-			String hp_code = req.getParameter("u_hp_code");
-			String hp_name = req.getParameter("u_hp_name");
+			String mks_id = req.getParameter("mks_id");
+			String hp_code = req.getParameter("hp_code");
+			String hp_name = req.getParameter("hp_name");
 			logger.info("mks_id: "+mks_id);
 			logger.info("hp_code: "+hp_code);
 			logger.info("hp_name: "+hp_name);
-			pMap.put("u_mks_id", mks_id);
-			pMap.put("u_hp_code", hp_code);
-			pMap.put("u_hp_name", hp_name);
+			pMap.put("mks_id", mks_id);
+			pMap.put("hp_code", hp_code);
+			pMap.put("hp_name", hp_name);
 			String proc_favoriteIns = null;
 			proc_favoriteIns = crm_hpLogic.proc_favoriteIns(pMap);
 			logger.info("proc_favoriteIns: " + proc_favoriteIns);
 			mav.addObject("proc_favoriteIns", proc_favoriteIns);
 			mav.IsForward(true);
 			mav.setViewName("/hospital/jsonFavoriteIns");
+		}
+		else if("favoriteDel".equals(requestName)) {
+			Map<String, Object> pMap = new HashMap<>();
+			String mks_id = req.getParameter("mks_id");
+			String hp_code = req.getParameter("hp_code");
+			logger.info("mks_id: "+mks_id);
+			logger.info("hp_code: "+hp_code);
+			pMap.put("mks_id", mks_id);
+			pMap.put("hp_code", hp_code);
+			int result = 0;
+			result = crm_hpLogic.favoriteDel(pMap);
+			logger.info("result: " + result);
+			mav.addObject("result", result);
+			mav.IsForward(true);
+			mav.setViewName("/hospital/jsonFavoriteDel");
 		}
 		else if("favoriteList".equals(requestName)) {
 			List<Map<String, Object>> favoriteList = null;

@@ -20,7 +20,6 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>건강정보 상세 화면</title>
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
 	.container{
@@ -164,52 +163,12 @@
 								<div style="text-aling:center;">비공감</div>
 								<div id="bad" style="text-align:center;"></div>
 							</div>
+							<div style="width:80px; text-align:center;">
 							<a href="javascript:;" id="kakao-link-btn"> 
-								<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" />
+								<img style="width:50px;height:50px;" src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" />
 							</a>
-							<script type="text/javascript">
-								Kakao.init("265447647e1cb17951a10eb622ba9fbc");
-								Kakao.Link.createDefaultButton({
-									  container: '#kakao-link-btn',
-									  objectType: 'feed',
-									  content: {
-									    title: '디저트 사진',
-									    description: '아메리카노, 빵, 케익',
-									    imageUrl:
-									      'http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
-									    link: {
-									      mobileWebUrl: 'http://192.168.0.237:5000/client/healthInfo/healthInfoDetail.jsp?board_no=31',
-									      androidExecParams: 'test'
-									    }
-									  },
-									  social: {
-									    likeCount: 10,
-									    commentCount: 20,
-									    sharedCount: 30,
-									  },
-									  buttons: [
-									    {
-									      title: '웹으로 이동',
-									      link: {
-										      webUrl: 'http://192.168.0.237:5000/client/healthInfo/healthInfoDetail.jsp?board_no=31'
-									      },
-									    }
-									    ,
-									    {
-									      title: '앱으로 이동',
-									      link: {
-										      mobileWebUrl: 'http://192.168.0.237:5000/client/healthInfo/healthInfoDetail.jsp?board_no=31'
-									      },
-									    }, 
-									  ],
-									  success: function(response) {
-									    console.log(response);
-									  },
-									  fail: function(error) {
-									    console.log(error);
-									  }
-									});
-							</script>
+							<div style="text-aling:center;">공유하기</div>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -270,6 +229,45 @@
 					$("#content").val(res[0].BOARD_CONTENT);
 					$("#good").html(res[0].GOOD);
 					$("#bad").html(res[0].BAD);
+					var url = 'http://192.168.0.237:5000/client/healthInfo/healthInfoDetail.jsp?'+board_no;
+					var b_title = $("#board_title").val();
+					alert(b_title);
+					Kakao.init("265447647e1cb17951a10eb622ba9fbc");
+					Kakao.Link.createDefaultButton({
+						  container: '#kakao-link-btn',
+						  objectType: 'feed',
+						  content: {
+						    title: "mks 코스모 병원",
+						    description: b_title,
+						    imageUrl:
+						      './health_96630.png',
+						    link: {
+						      mobileWebUrl: url,
+						      androidExecParams: 'test'
+						    }
+						  },
+						  buttons: [
+						    {
+						      title: '웹으로 이동',
+						      link: {
+							      webUrl: url
+						      },
+						    }
+						    ,
+						    {
+						      title: '앱으로 이동',
+						      link: {
+							      mobileWebUrl: url
+						      },
+						    }, 
+						  ],
+						  success: function(response) {
+						    console.log(response);
+						  },
+						  fail: function(error) {
+						    console.log(error);
+						  }
+						});
 				}
 			});
 		});

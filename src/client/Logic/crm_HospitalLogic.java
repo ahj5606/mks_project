@@ -40,6 +40,13 @@ public class crm_HospitalLogic {
 		favoriteList = crm_hpDao.favoriteList(pMap);
 		return favoriteList;
 	}
+
+	public int favoriteDel(Map<String, Object> pMap) {
+		logger.info("[crm_HospitalLogic] favoriteDel 호출 성공.");
+		int result = 0;
+		result = crm_hpDao.favoriteDel(pMap);
+		return result;
+	}
 	
 	/*public static void main(String[] args) {
 		crm_HospitalLogic cl=new crm_HospitalLogic();

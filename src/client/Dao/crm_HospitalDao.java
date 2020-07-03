@@ -64,5 +64,13 @@ public class crm_HospitalDao {
 //		hos.proc_favoriteIns(pMap);
 //		hos.favoriteList(pMap);
 	}
+	public int favoriteDel(Map<String, Object> pMap) {
+		logger.info("[crm_HospitalDao] favoriteDel 호출성공.");
+		int result = 0;
+		result = sqlSes.delete("favoriteDel", pMap);
+		logger.info("result: " + result);
+		sqlSes.commit(true);
+		return result;
+	}
 
 }

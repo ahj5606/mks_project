@@ -228,19 +228,49 @@ var sts =new Array();
         });
      }
    
-      function star_click(el){
+      function star_click(el, name, code){
             alert("즐겨찾기");
+            var hp_name = name+'';
+            var hp_code = code+'';
             var star = $(el).children("input").val();
             if(star=="blank"){
                alert("추가해야함!");
                /********************************************************************
                * 아작스로 insert => 성공하면! => 즐겨찾기 목록 리프레시!!! star_list()
                */
+               $.ajax({
+            	   url: '/hospital/favoriteIns.crm?hp_name='+hp_name+"&hp_code="+hp_code+"&mks_id="+mks_id
+            	   ,success: function(data){
+            		   var res = data.trim();
+            		   if(res=="1"){
+            			   alert("즐겨찾기 등록 성공");
+            			   star_list();
+            			   $(el).children("img").attr("src","./star_full.png");
+            			   $(el).children("input").val("full");
+            		   }else{
+            			   alert("즐겨찾기 등록 실패");
+            		   }
+            	   }
+               });
             }else if(star=="full"){
                alert("해제해야함!");
                /********************************************************************
                * 아작스로 delete => 성공하면! => 즐겨찾기 목록 리프레시!!! star_list()
                */
+               $.ajax({
+            	   url: '/hospital/favoriteDel.crm?hp_code='+hp_code+"&mks_id="+mks_id
+            	   ,success: function(data){
+            		   var res = data.trim();
+            		   if(res=="1"){
+            			   alert("즐겨찾기 해제 성공");
+            			   star_list();
+            			   $(el).children("img").attr("src","./star_blank.png");
+            			   $(el).children("input").val("blank");
+            		   }else{
+            			   alert("즐겨찾기 해제 실패");
+            		   }
+            	   }
+               });
             }
          }
          
@@ -253,7 +283,7 @@ var sts =new Array();
                   alert("res:");
                   var inner = "";
                   for(var i=0; i<res.length; i++){
-                	  s_list.push(res[i].HP_CODE);//@@@@@@@@@@
+                	  s_list.push(res[i].HP_CODE);
                      if(i==0||i==2){
                         inner += '<div class="row">';
                      }
@@ -266,18 +296,17 @@ var sts =new Array();
                         inner += '</div>';
                      }
                   }
-                  if(res.length<=2){
-                        inner += '<div class="row pt-3 pb-2 px-3">';
-                     inner += '<div class="col-md">';
-                        inner += '</div>';
-                        inner += '</div>';
-                     
+                  if(res.length==1){
+                        inner += '<div class="row pt-3 pb-2 px-3"><div class="col-md">&nbsp;&nbsp;';
+                        inner += '</div></div>';
+                  }else if(res.length==2){
+                        inner += '<div class="row pt-0 pb-0 px-3"><div class="col-md">&nbsp;&nbsp;';
+                        inner += '</div></div>';
                   }
                   $("#star_table").html(inner);
                }
             });    
          }
-         
    
     function categori_map() {
          var i;//마커 생성시 부여한 인덱스값 0~4   
@@ -327,7 +356,8 @@ var sts =new Array();
                         var content =    '<div class="card" style="width: 18rem; font-size:small">';
                         content += '<div class="card-body p-2">';
                         content +=   '<h5 class="card-title"><b>'+jsonDoc[i].HP_NAME;
-                        content += '<a href="#" onClick="star_click(this)" style="color: #353535;">';
+                        content += '<a href="#" onClick="star_click(this,'+"'"+jsonDoc[i].HP_NAME+"','"+jsonDoc[i].HP_CODE+"'";
+                        content +=		')" style="color: #353535;">';
                         
                         <%if(mks_id!=null){%>
                         var ctn = 0;
@@ -337,7 +367,7 @@ var sts =new Array();
                         	}
                         }
                         if(ctn>0){
-		                        content += '<img src="./star_full.png"class="rounded" style="padding-left:10px;"><input type="hidden" value="blank"></a>';
+		                        content += '<img src="./star_full.png"class="rounded" style="padding-left:10px;"><input type="hidden" value="full"></a>';
                         }else{
 		                        content += '<img src="./star_blank.png"class="rounded" style="padding-left:10px;"><input type="hidden" value="blank"></a>';
                         }
@@ -613,6 +643,7 @@ var sts =new Array();
               <!-- footer -->
               <div class="modal-footer">
                  <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="self.close();">닫기</button>
+                 <!-- <button type="button" id="kakao-link-btn" class="btn btn-warning">공유하기</button> -->
                </div>
           </div>
         </div>

@@ -43,9 +43,9 @@
 	<select id="proc_favoriteIns" parameterType="map" statementType="CALLABLE">
 	<!-- 즐겨찾기 병원 추가하기. -->
 		{ call proc_favoriteIns (
-									#{u_mks_id, mode=IN, jdbcType=VARCHAR}
-								   ,#{u_hp_code, mode=IN, jdbcType=VARCHAR}
-								   ,#{u_hp_name, mode=IN, jdbcType=VARCHAR}
+									#{mks_id, mode=IN, jdbcType=VARCHAR}
+								   ,#{hp_code, mode=IN, jdbcType=VARCHAR}
+								   ,#{hp_name, mode=IN, jdbcType=VARCHAR}
 								   ,#{msg, mode=OUT, jdbcType=VARCHAR}
 		                        )}
 	</select>
@@ -55,6 +55,13 @@
 		  FROM mks_favorites
 		 WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
 	</select>
+	
+	<delete id="favoriteDel" parameterType="map">
+		DELETE 
+		  FROM mks_favorites
+		 WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
+		   AND hp_code = #{hp_code}
+	</delete>
 	
 <!-- crm_ReservationDao 부분 -->	
 	<resultMap id="rmap1" type="java.util.Map"/>	
@@ -200,18 +207,17 @@ WHERE r BETWEEN #{fnum} AND #{enum}
 		    hp_code, hp_name, doc_code, doc_name, dept_code, dept_name, sch_code, sch_time, to_char(to_date(sch_date), 'YYYY-MM-DD') sch_date 
 		  FROM mks_schedule   
 		 WHERE hp_code = #{hp_code}
-		   <if test="dept_code != null and dept_code.length()>0">
-		   	   AND dept_code = #{dept_code} 
-		   </if>
-		   <if test="doc_code != null and doc_code.length()>0">
-			   AND doc_code = #{doc_code}   
-		   </if>
-		   <if test="sch_date != null">
-			   AND sch_date = #{sch_date}
-		   </if>
-		   <if test="sch_time != null">
-			   AND sch_time = #{sch_time}
-		   </if>
+		   AND dept_code = #{dept_code} 
+		   AND doc_code = #{doc_code}   
+		   AND sch_date = #{sch_date}
+		   AND sch_code NOT IN (
+		                        SELECT sch_code
+		                          FROM mks_reserve
+		                         WHERE hp_code = #{hp_code}
+		                           AND dept_code = #{dept_code} 
+		                           AND doc_code = #{doc_code}   
+		                           AND sch_date = #{sch_date}
+		                          )
 		 ORDER BY sch_date, sch_time asc
 	</select>
    <select id="docCategory" parameterType="map" resultType="map">
