@@ -15,17 +15,6 @@
 	String r_phone	=null;
 	String r_code	=null;
 	
-	//병원 이름 받아오기창
-	String hName = request.getParameter("hName");
-	String hDept = request.getParameter("hDept");
-	if (hName == null) {
-		hName = "가산병원";
-	}
-	if (hDept == null) {
-		hDept = "원무과";
-	}
-	//db연결
-	String hp_code = "280HP";//실제론쿠키로 가져올 값임.
 	List<Map<String, Object>> rList = (List<Map<String, Object>>)request.getAttribute("rList");
 	if(rList==null){
 		rList = new ArrayList();
@@ -34,7 +23,11 @@
 	if(dList==null){
 		dList = new ArrayList();
 	}
-	
+	List<Map<String, Object>> transList = (List<Map<String, Object>>)request.getAttribute("transList");
+	if(transList==null){
+		transList = new ArrayList();
+	} 
+
 	String dept = request.getParameter("dept_name");
 	String mem_name = request.getParameter("mem_name");
 	String mem_memcode = request.getParameter("mem_memcode");
@@ -43,6 +36,7 @@
 	String s_date = request.getParameter("startDate");
 	String e_date = request.getParameter("endDate");
 	
+
 	if(mem_name==null){
 		mem_name="";
 	}
@@ -69,15 +63,18 @@
 	}
 %>
 			<div class="container-fluid" id="sidebar">
-					<h1>예약</h1>
+					<h1>예약 목록</h1>
+					
 					<div class="row" style="border: 0px solid #ccc;">
-						<div class="col-sm-2" id="sticky-sidebar">
+						<div class="col-sm-3" id="sticky-sidebar">
+						<div style="height: 40px;"></div>
 							<div class="text-center" id="calendar"></div>
 							<%-- <%@ include file="./test.jsp"%> --%>
 							<br>
-							
+						<!-- 	<button class="btn btn-primary m-3" onclick="testFun()">
+									확인용 함수 버튼</button> -->
 							<div style="text-align:center;">
-							<button  class="btn btn-outline-success text-center" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">날짜 조건 검색</button>
+							<button  class="btn btn-outline-success text-center" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">날짜 구간 입력</button>
 							</div>
 								<div style="text-align:center;">
 							<div style="border: 0px solid green;">
@@ -100,9 +97,9 @@
 								var sdate = document.getElementById('startDate').value;
 								var edate = document.getElementById('endDate').value;
 								var dept = document.getElementById('selDept').value;
-								alert("진료과 "+dept);
-								alert("시작날짜" + sdate);
-								alert("종료날짜" + edate);
+								//alert("진료과 "+dept);
+								//alert("시작날짜" + sdate);
+								//alert("종료날짜" + edate);
 							}
 							</script>
 							
@@ -113,13 +110,13 @@
 						<div name="세로여백" style="width: 20px;">
 						</div>
 						<!-- =========================테이블쪽 col 시작======================= -->
-						<div class="col-sm-8">
-							<!-- 테이블 위쪽 검색바 -->
+						<div class="col-sm-7">
+						<div class="row" style="margin:20px;"></div>
 						<div class="row">
 							<div class="col">
 										<!-- 진료과 드롭다운 태그 -->
-									<div id="deptDrop"class="btn-group btn-default m-3" >
-										<button type="button" id="selDept"class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+									<div id="deptDrop" class="btn-group btn-default m-3" >
+										<button type="button" id="selDept"class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">
 											<%= dept %>
 											<!-- 버튼태그 우측 메뉴출력을 위한 화살표표시
 											(없어도 무관하나 메뉴버튼이라는것을 알려주기 위함) -->
@@ -145,11 +142,6 @@
 							</div>		
 							<div class="col">
 								<div class="row" style="width:700px;">
-									<div class="col-xs-4 form-group m-3">
-										<label class="sr-only" for="exampleInputEmail2">담당의 검색</label>
-										<input type="search" id="docSearch" class="form-control"
-											placeholder="담당의 검색">
-									</div>
 									
 									<div class="col-xs-4 form-group m-3">
 										<label class="sr-only" for="exampleInputPassword2">환자검색</label>
@@ -157,10 +149,15 @@
 											placeholder="환자검색">
 									</div>
 								
-									<button class="text-center btn btn-default btn-primary m-3" onClick="r_search()">검색</button>
-								</div>
+									<div class="col-xs-4 form-group m-3">
+										<label class="sr-only" for="exampleInputEmail2">담당의 검색</label>
+										<input type="search" id="docSearch" class="form-control"
+											placeholder="담당의 검색">
+									</div>
+									<button class="text-center btn btn-default btn-outline-success m-3" onClick="r_search()">검색</button>
 								<button class="btn btn-primary m-3" onclick="reserveAdd()">
 									예약 등록</button>
+								</div>
 							</div>	
 						</div>
 						<!-- 테이블 위쪽 검색바 끝 -->
@@ -193,7 +190,7 @@
 					<td><%=rList.get(i).get("MEM_NAME") %></td>
 					<td><%=rList.get(i).get("MEM_PHONE") %></td>
 					<td><%=rList.get(i).get("DOC_NAME") %></td>
-					<td><%=rList.get(i).get("SCH_DATE") %></td>
+					<td id="schdate"><%=rList.get(i).get("SCH_DATE") %></td>
 	</tr>
 <%
 		}
@@ -201,13 +198,6 @@
 %>
 								</tbody>
 							</table>
-			<!-- 	<ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-               </ul> -->
 						</div>
 									
 						</div>			
@@ -215,14 +205,12 @@
 		<div class="row" style="margin-top:10px;justify-content: center;">
 <%
 if(s_date == null){
-s_date = "";	
+	s_date = "";	
 }
 if(e_date == null){
-e_date = "";
+	e_date = "";
 }
-
-
- 		String pagePath ="./reserveSEL.mgr?hp_code="+hp_code+"&dept_name="+dept
+ 		String pagePath ="./reserveSEL.mgr?&dept_name="+dept
  				+"&mem_name="+mem_name+"&doc_name="+doc_name
  				+"&startDate="+s_date+"&endDate="+e_date;
  		PageBarManager pb = new PageBarManager(numPerPage,tot,nowPage,pagePath);
@@ -237,8 +225,20 @@ e_date = "";
 				</div>
 <script type="text/javascript">
 
-$(document).ready(function(){
-	
+$(document).ready(function(){	
+
+	 $("#docSearch").keydown(function(key) {
+        if (key.keyCode == 13) {
+           // alert("엔터키를 눌렀습니다.");
+            r_search();
+        }
+    });
+	 $("#patiSearch").keydown(function(key) {
+        if (key.keyCode == 13) {
+           // alert("엔터키를 눌렀습니다.");
+            r_search();
+        }
+    });
 $("#res_list").bootstrapTable({
 	onDblClickRow:function(row, $element, field)
      { 
@@ -258,13 +258,13 @@ $("#res_list").bootstrapTable({
 		r_dept = JSON.parse(imsi);
 		
 		var imsi = JSON.stringify(row.MEM_PHONE)
-		r_phone = JSON.parse(imsi);
+		r_phone = JSON.parse(imsi);	
 		
 		var imsi = JSON.stringify(row.DOC_NAME)
 		r_doc = JSON.parse(imsi);
 		
-		alert("예약코드 " + r_schcode + " | 환자 " + r_pname +" | 환자코드 " + r_pcode+ " | 연락처 " + r_phone);
-		alert("의사 " + r_doc + " | 진료과 " + r_dept);
+		//alert("예약코드 " + r_schcode + " | 환자 " + r_pname +" | 환자코드 " + r_pcode+ " | 연락처 " + r_phone);
+		//alert("의사 " + r_doc + " | 진료과 " + r_dept);
 		
 		location.href="./reserveDetail.mgr?sch_code="+r_schcode+"&mem_memcode="+r_pcode;
      }
@@ -275,11 +275,12 @@ $("#res_list").bootstrapTable({
 
 var dept =null;
 $('#deptDrop .dropdown-menu li > a').bind('click',function (e) {
-	alert("눌");
+	//alert("눌");
     dept = $(this).html();
     $('#deptDrop button.dropdown-toggle').html(dept +' <span class="caret"></span>');
-    alert("진료과:"+dept);
+   // alert("진료과:"+dept);
 });
+
 function r_search(){
 	var r_name = $("#patiSearch").val();
 	var doc_name =$("#docSearch").val();
@@ -289,16 +290,16 @@ function r_search(){
 	if(dept==null) {
 		dept="진료과 전체";
 	}
-	alert ("날짜들:"+st_date+", "+en_date);
+	//alert ("날짜들:"+st_date+", "+en_date);
 	var s_date="";
 	var e_date="";
 	
 	if(st_date!="" && en_date!=""){
 		if(st_date>en_date){
-			alert("시작날짜가 끝 날짜보다 빠릅니다.");
+			alert("시작 날짜가 종료 날짜보다 빠릅니다.");
 		}else{
 			
-		alert ("둘다 들어감 - if 실행");
+		//alert ("둘다 들어감 - if 실행");
 		var getS_date = null;//검색 시작 날짜
 		var getE_date = null;//검색 종료 날짜
 		getS_date = st_date.split('-');
@@ -306,14 +307,14 @@ function r_search(){
 		s_date = getS_date[0]+"/"+getS_date[1]+"/"+getS_date[2]; 
 		e_date = getE_date[0]+"/"+getE_date[1]+"/"+getE_date[2]; 
 	//	alert(s_date+"  |  "+e_date);
-		location.href="./reserveSEL.mgr?hp_code=<%=hp_code%>&dept_name="+dept
+		location.href="./reserveSEL.mgr?&dept_name="+dept
 										+"&mem_name="+r_name+"&doc_name="+doc_name
 										+"&startDate="+s_date+"&endDate="+e_date;		
 		}
 	}
 	else if(st_date=="" && en_date==""){
-		alert("둘 다 안 들어감");
-		location.href="./reserveSEL.mgr?hp_code=<%=hp_code%>&dept_name="+dept
+		// alert("둘 다 안 들어감");
+		location.href="./reserveSEL.mgr?&dept_name="+dept
 										+"&mem_name="+r_name+"&doc_name="+doc_name
 										+"&startDate="+s_date+"&endDate="+e_date;		
 	}else{
@@ -321,44 +322,59 @@ function r_search(){
 	} 
 	
 }
+
+		var r_name = $("#patiSearch").val();
+		var doc_name =$("#docSearch").val();
 document.addEventListener('DOMContentLoaded', function() {
+	var dept = null;
+	$('#deptDrop .dropdown-menu li > a').bind('click',function (e) {
+	   //	alert("눌");
+	       dept = $(this).html();
+	       $('#deptDrop button.dropdown-toggle').html(dept +' <span class="caret"></span>');
+	     //  alert("진료과:"+dept);
+	   });
+	   if(dept==null) {
+	   	dept="진료과 전체";
+	}
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'interaction', 'dayGrid' ]
+     	aspectRatio: 10,
+    	height: "auto"
+    	,handleWindowResize: false
+       ,plugins: [ 'interaction', 'dayGrid' ]
        ,defaultView: 'dayGridMonth'
+       ,eventLimit: false
        ,selectable: true
        ,dateClick: function(info) {
-   		var r_name = $("#patiSearch").val();
-   		var doc_name =$("#docSearch").val();
-   		var dept = null;
-   		$('#deptDrop .dropdown-menu li > a').bind('click',function (e) {
-   			alert("눌");
-   		    dept = $(this).html();
-   		    $('#deptDrop button.dropdown-toggle').html(dept +' <span class="caret"></span>');
-   		    alert("진료과:"+dept);
-   		});
-   		if(dept==null) {
-   			dept="진료과 전체";
-   		}
+
         var day = info.dateStr;
-         alert("선택: "+day);
+    //     alert("선택: "+day);
   		getday = day.split('-');
 		days = getday[0]+"/"+getday[1]+"/"+getday[2]; 
           s_date = days;
           e_date = days;
-          alert("days:"+days);
-         location.href="./reserveSEL.mgr?hp_code=<%=hp_code%>&dept_name="+dept
+      //    alert("days:"+days);
+         
+         location.href="./reserveSEL.mgr?&dept_name="+dept
 			+"&mem_name="+r_name+"&doc_name="+doc_name
 			+"&startDate="+s_date+"&endDate="+e_date; 	
-          
-       }
-
+         
+   /*       $.ajax({
+             url:"./reserveSEL.mgr?&dept_name="+dept+"&mem_name="+r_name+"&doc_name="+doc_name+"&startDate="+s_date+"&endDate="+e_date            
+            ,success: function (data){        
+            	 alert("ajax의 data:"+data);//calendarJSON.jsp
+             }
+         });///////////////end of ajax
+           */
+       }///////////////////end of dateClick
+        , events: 
+        	'./transList.mgr?&dept_name='+dept+'&mem_name='+r_name+'&doc_name='+doc_name
     });
     calendar.render();
  });
 
 function reserveAdd(){
-	alert("추가");
+	//alert("추가");
 	location.href="/manager/reserve/mgr_reserveAdd.jsp";
 }
 

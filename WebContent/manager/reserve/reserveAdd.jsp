@@ -7,7 +7,13 @@
 
 %>
  <style type="text/css">
-
+.form-control {
+	text-align: center;
+	margin-right: 5px;
+}
+.row {
+	margin: 10px;
+}
 #calendar {
     max-width : 900px;
     margin : 0 auto;
@@ -21,11 +27,9 @@
 <script type="text/javascript">
 
 	function back(){
-		alert("취소");
 		location.href="/manager/reserve/reserveList.mgr";
 	}
 	function reserve_save(){
-		alert("저장");
 		var pCode = $("#patientCode").val();
 		var p_code = parseInt(pCode);
 		var p_name = $("#patientName").val();
@@ -40,12 +44,11 @@
 		var resTime =$("#resTime").val();
 		var resdate =$("#resDate").val();
 		var resMemo =$("#memo").val();
-		
+	if(pCode!="" && r_Code!=""){
 		var resdateSpl=null;
 		resdateSpl = resdate.split('/');
 		//alret(resdateSpl[0]+"//"+resdateSpl[1]+"//"+resdateSpl[2]);
 		var resDate = resdateSpl[0]+"/"+resdateSpl[1]+"/"+resdateSpl[2]; 
-		alert(resDate);
 		
 		var res_timeSpl = null;
 		res_timeSpl = resTime.split(':');
@@ -54,7 +57,7 @@
 		var hp_name="새움병원";
 		var hp_code="280HP";
 		//위에는 세션으로 받아오게 한다
-		//alert(resDate);
+		//(resDate);
 		//alert(p_code+","+p_name+","+p_snum+","+p_phone+","+d_dept+","+d_deptno+","+doc_code+","+doc_name+","+res_time+","+resDate+","+resMemo);
 		//alert(typeof p_code+", "+typeof resCode);
 		var param= "mem_memcode="+p_code+
@@ -69,7 +72,7 @@
 				   "&hp_code="+hp_code+
 				   "&hp_name="+hp_name+
 				   "&res_qrcode="+0;
-		alert("param"+param);
+	//	alert("param"+param);
 	//	location.href="/manager/reserve/reserveINS.mgr?"+param
 	/*  $("#res_write_form").attr("method","post");
 		$("#res_write_form").attr("action","./reserveINS.mgr");
@@ -88,17 +91,20 @@
 				}
 			}
 			
-		}) 
+		}) //end of ajax
+		}//end of if
+		else{
+			//alert("필수정보가 모두 입력되어야합니다.");
+			$("#alert").show();
+		}
 	}
 
 </script>
 	<div class="container-fluid" id="sidebar">
-		<h1>예약 등록</h1>
 		<div class="container">
-<!-- 			<h2>예약 추가</h2>
- -->			<!-- <button class="btn btn-default btn-primary">환자검색</button> -->
-			<!-- 담당자 검색 -->
-			
+		<h1>예약 등록</h1>
+			<div class="row" style="margin-bottom: 20px;">
+			</div>
 			<form role="res_write_form">
 			  <div class="row">
 			<div class="form-group col-xs mr-2">
@@ -117,20 +123,21 @@
 					<label for="patientNumber">전화번호</label>
 					<input type="text" class="form-control" id="phoneNum" placeholder="전화번호" readonly>
 				</div>
+					<div class="form-group align-self-end mr-2">
+					<label for="patientEditButton"></label>
+					<button  type="button" class="btn btn-secondary" onClick="p_search()" data-toggle="modal" data-target="#patientSearch">환자 정보 입력</button>
 				</div>
-				<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#patientSearch" style="margin-bottom:10px;">
-					환자 입력
-				</button>
+				<span class="caret"></span>
+					<span class="text-secondary" style="font-size: 0.8em;"> 환자 정보는  <a href="/manager/patient/mgr_patientWrite.jsp" class="alert-link">여기</a>에서 추가할 수 있습니다.</span>
+				</div>
 				
-				
-				<p style="border: 1px solid gray;"></p>
-			<button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#doctorSearch" style="margin-bottom:10px;">
-					담당의 검색
-				</button>
+				  <div class="row" style="margin-top: 30px;">
+				  </div>
+			
 				  <div class="row">
 				<div class="form-group  col-xs mr-2">
-					<label for="deptno">진료과</label>
-					<input type="text" class="form-control"style="width:150px;" id="deptno" placeholder="진료과 코드" readonly>
+					<label for="deptno">진료과 코드</label>
+					<input type="text" class="form-control"style="width:100px;" id="deptno" placeholder="과 코드" readonly>
 				</div>
 				<div class="form-group  col-xs mr-2">
 					<label for="dept">진료과</label>
@@ -142,7 +149,7 @@
 				</div>
 				<div class="form-group  col-xs mr-2">
 					<label for="doctor">담당의</label>
-					<input type="text" class="form-control" id="doctor" placeholder="담당의" readonly>
+					<input type="text" class="form-control"style="width:100px;" id="doctor" placeholder="담당의" readonly>
 				</div>
 				</div>
 				  <div class="row">
@@ -160,23 +167,35 @@
 				 <input type="text" id="resTime" class="form-control" placeholder="00:00" readonly>
 					<!-- 	<input type="text" id="resTime" class="form-control mb-2" placeholder="time input">  -->
 				</div>
+				<div class="form-group align-self-end mr-2">
+					<label for="patientEditButton"></label>
+					<button  type="button" class="btn btn-secondary" style="margin-bottom:12px;" onClick="d_search()" data-toggle="modal" data-target="#doctorSearch">예약 상세 입력</button>
 				</div>
+				</div>
+				<div class="alert alert-danger alert-dismissible fade show" id="alert" style="display: none;" role="alert">
+				  <strong>환자 정보</strong>와 <strong>예약 일정</strong>이 모두 입력되어야합니다.
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<p style="border: 1px solid gray;"></p>
 					
 				 <div class="row">
 				<div class="form-group">
 					<label for="memo">증상</label>
-					<input type="text" class="form-control" id="memo" placeholder="">
+					<input type="text" class="form-control" style="text-align: left;" id="memo" placeholder="">
 				</div>
+				
 				</div>
 			</form>
 				
 			
 
 				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modal_ins">
+				<button type="button" class="btn btn-primary btn-lg mr-3" data-toggle="modal" data-target="#modal_ins">
 				  저장
 				</button>
-				<button class="text-center btn btn-default btn-outline-secondary" onclick="back()">
+				<button class="text-center btn btn-danger btn-lg" onclick="back()">
 						취소
 				</button>
 		</div>
@@ -218,7 +237,6 @@
 				      <div class="modal-body">
 				      <div>
 				      <div class='text-center'>
-							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="p_search()">환자 검색</button>
 					</div>
 					<br>
 					<div class="my-custom-scrollbar table-wrapper-scroll-y">
@@ -254,7 +272,6 @@
 				      <div class="modal-body">
 				      <div>
 				      <div class='text-center'>
-							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="d_search()">의사 검색</button>
 					</div>
 					<br>
 					<div class="my-custom-scrollbar table-wrapper-scroll-y">
@@ -318,6 +335,7 @@
 	var doc_code=null;
 	
 $(document).ready(function(data){
+	$("#memo").focus();
 	$("#d_list").bootstrapTable({
 		onDblClickRow:function(row, $element, field){
 			//의사검색
@@ -333,7 +351,6 @@ $(document).ready(function(data){
 		$("#doctor").val(DOC_NAME);
 		$("#doctorCode").val(DOC_CODE);
 		 var getDoc_code=$("#doctorCode").val();
-		 alert("의사코드"+getDoc_code);
 			$("#scheduleSearch").modal('show');
 			$("#sch_list").bootstrapTable('refreshOptions', {
 			    url:'/manager/reserve/reserveSchedule.mgr?doc_code='+DOC_CODE
@@ -347,7 +364,6 @@ $(document).ready(function(data){
 		onDblClickRow:function(row, $element, field)
 	     { 
 			//예약일정검색
-			alert("호출");
 	 		var jo = JSON.stringify(row);
 			var d = JSON.parse(jo);
 			var SCH_CODE= d.SCH_CODE;
@@ -366,7 +382,6 @@ $(document).ready(function(data){
 		onDblClickRow:function(row, $element, field)
 	     { 
 			//환자검색
-			alert("호출");
 	 		var jo = JSON.stringify(row);
 			var d = JSON.parse(jo);
 			var MEM_MEMCODE = d.MEM_MEMCODE;

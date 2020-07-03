@@ -84,6 +84,13 @@ public class mgr_ReserveDao {
 		logger.info("dList:"+dList.size());
 		return dList;
 	}
+	public List<Map<String, Object>> transDate(Map<String, Object> pMap) {
+		logger.info("달력용 변환날짜 호출 성공");
+		List<Map<String,Object>> transList = null;
+		transList=sqlSes.selectList("transDate",pMap);
+		logger.info("transList:"+transList.size());
+		return transList;
+	}
 
 
 }
