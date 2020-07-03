@@ -60,7 +60,7 @@ var sts =new Array();
       var hp_code = code;
       //dept_name=dept;
       alert("popup_reservation 호출!");
-      cmm_window_popup('/client/reservation/reservationList.jsp?hp_name='+hp_name+'&dept_name='+dept_name+'&hp_code='+hp_code,'1200','700','병원 대기&예약 화면');
+      cmm_window_popup('/client/reservation/reservationList.jsp?hp_name='+hp_name+'&dept_name='+dept_name+'&hp_code='+hp_code,'1200','750','병원 대기&예약 화면');
    }
    
    function popup_star_reservation(el){
@@ -68,7 +68,7 @@ var sts =new Array();
 	   var hp_name = $(el).text();
 	   alert("hp_code: "+hp_code+", hp_name: "+hp_name);
 	   alert("popup_star_reservation 호출!");
-	   cmm_window_popup('/client/reservation/reservationList.jsp?hp_code='+hp_code+'&hp_name='+hp_name,'1200','700','병원 대기&예약 화면');
+	   cmm_window_popup('/client/reservation/reservationList.jsp?hp_code='+hp_code+'&hp_name='+hp_name,'1200','750','병원 대기&예약 화면');
    }
    
    function qr_modal(){
