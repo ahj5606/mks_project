@@ -1,5 +1,9 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +15,8 @@
 		$("#f_doctor").attr("method","get");
 		$("#f_doctor").attr("action","./doctorINS.mgr");
 		$("#f_doctor").submit();
-		
 	}
+	
 	
 	function docClose() {
 		//alert("닫기");
@@ -39,14 +43,14 @@
 	})
 	
 	function d_search(){
-		var hp_code= "280HP";
+		//var hp_code= "280HP";
 		$("#d_list").bootstrapTable('refreshOptions', {
-			    url:'/manager/doctor/deptSearch.mgr?hp_code='+hp_code
+			    url:'/manager/doctor/deptSearch.mgr'
 		  })
 	}
 	
 	
-	$(document).ready(function(data){
+	/* $(document).ready(function(data){
 		$("#res_day").bootstrapTable({
 			onDblClickRow:function(row, $element, field)
 		     { 
@@ -68,7 +72,8 @@
 		$("#res_day").bootstrapTable('refreshOptions', {
 			    url:'/manager/doctor/reserveDay.mgr?hp_code='+hp_code
 		  })
-	}
+	} */
+	
 	
 	
 </script>
@@ -80,47 +85,58 @@
 
 	<div class="container">
 	<form id="f_doctor">
-  				<div>
-			    <div class="form-group">
-			        <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" style="width: 245px"readonly>
-			        <button style="margin-top: 10px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
-			        
-			    </div>
-	     		<div class="form-group" style="margin-top: 30px">
-	     		    <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" style="width: 245px"readonly>
-			    </div>
-			    <div class="form-group">
-			    	<input type="text" class="form-control" id="dept_name" name="dept_name" placeholder="부서" style="width: 245px"readonly>
-			    </div>
-			    <div class="form-group">
-			        <input type="text" class="form-control" id="hp_name" name="hp_name" placeholder="병원이름" style="width: 245px" readonly>
-			    </div>
-			    <div class="form-group">
-		      	    <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" style="width: 245px">
+  				<div class="span4">
+				    <div class="form-group">
+				        <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" style="width: 245px"readonly>
+				        <button style="margin-top: 10px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
+				        
+				    </div>
+		     		<div class="form-group" style="margin-top: 30px">
+		     		    <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" style="width: 245px"readonly>
+				    </div>
+				    <div class="form-group">
+				    	<input type="text" class="form-control" id="dept_name" name="dept_name" placeholder="부서" style="width: 245px"readonly>
+				    </div>
+				    <div class="form-group">
+				        <input type="text" class="form-control" id="hp_name" name="hp_name" placeholder="병원이름" style="width: 245px" readonly>
+				    </div>
+				    <div class="form-group">
+			      	    <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" style="width: 245px">
+			    	</div>
 		    	</div>
-			    <div class="form-group">
-			        <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			       <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" style="width: 245px">
-			    </div>
-			    </div>
-			    <div>
-		    	<div class="form-group">
-		    	   <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="학력" style="width: 245px">
-			    </div>
-		    	<div class="form-group">
-		    	   <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화"style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			       <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			       <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
-			    </div>
-		    	</div>
-		    <div>
+		    		<div class="span4">
+					    <div class="form-group">
+					        <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" style="width: 245px">
+					    </div>
+					    <div class="form-group">
+					       <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" style="width: 245px">
+					    </div>
+					    <div class="form-group">
+				    	   <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="학력" style="width: 245px">
+					    </div>
+				    	<div class="form-group">
+				    	   <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화"style="width: 245px">
+					    </div>
+					    <div class="form-group">
+					       <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" style="width: 245px">
+					    </div>
+					    <div class="form-group">
+					       <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
+					    </div>
+				    </div>
+				    <div class="span4">
+					    <div class="form-group">
+					       <input type="text" class="form-control" id="sch_date" name="sch_date" placeholder="예약일정" style="width: 245px">
+					    </div>
+					    <div class="form-group">
+					       <input type="text" class="form-control" id="sch_time" name="sch_time" placeholder="예약시간" style="width: 245px">
+					    </div>
+					    <div class="form-group">
+					       <input type="text" class="form-control" id="sch_code" name="sch_code" placeholder="예약번호" style="width: 245px" readonly>
+					    </div>
+		    		</div>
 		    
+		    <div>
 		    <!--버튼시작  -->
 		    
 		    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal">

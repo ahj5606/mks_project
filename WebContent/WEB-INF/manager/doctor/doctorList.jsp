@@ -143,7 +143,7 @@ $(document).ready(function(data){
 			var d = JSON.parse(jo);
 			var doc_code = d.DOC_CODE;
 			location.href="/manager/doctor/doctorDetail.mgr?doc_code="+doc_code;
-			alert("클릭"+doc_code);
+			//alert("클릭"+doc_code);
 	     }
 	})
 	$("#doc_list").bootstrapTable('hideLoading');
@@ -165,6 +165,7 @@ $(document).ready(function(data){
 	function docIns(){
 		//alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
+		
 	}
 	
 	

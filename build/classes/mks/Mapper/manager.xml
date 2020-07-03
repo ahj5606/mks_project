@@ -130,6 +130,15 @@
 			where hp_code=#{hp_code} AND doc_code =#{doc_code}
 	</select>
 	
+	<select id="getSchCode" parameterType="int" resultType="int">
+		SELECT NVL((
+                     SELECT /*+index_desc(mks_schedule XPK예약일정)*/ sch_code
+                          FROM mks_schedule
+                       WHERE rownum = 1
+                 ),0)+1 sch_code
+           FROM dual
+	</select>
+	
 	<select id="doctorDetail" parameterType="map" resultType="map">
 		select dept_name, doc_code, hp_code,hp_name
         		,DOC_STATE,DOC_NAME,DOC_POSITION,DOC_EDUCATION
@@ -168,6 +177,13 @@
                        ,doc_position,doc_name,doc_offday,dept_name,hp_code,dept_code,hp_name)
 			values(#{doc_code},#{doc_state},#{doc_education},#{doc_phone},#{doc_position}
 					,#{doc_name},#{doc_offday},#{dept_name},#{hp_code},#{dept_code},#{hp_name})
+	</insert>
+	
+	<insert id="resINS" parameterType="map">
+		insert into MKS_SCHEDULE(doc_code, hp_name, doc_name, hp_code
+						,dept_name, dept_code, sch_date,sch_code, sch_time)
+			values(#{doc_code},#{hp_name},#{doc_name},#{hp_code},#{dept_name}
+					,#{dept_code},#{sch_date},#{sch_code},#{dept_name})
 	</insert>
 	
 	<update id="doctorUPD" parameterType="map">

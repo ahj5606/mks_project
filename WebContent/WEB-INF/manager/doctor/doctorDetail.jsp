@@ -32,73 +32,78 @@
 </div>
 	<div class="container">
 	<form id="f_upd">
-			<div>
-			    <div class="form-group">
-			    <label>부서코드</label>
-			      <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" value="<%=docList.get(0).get("DEPT_CODE")%>"style="width: 245px" readonly>
+				<div>
+				    <div class="form-group">
+				    <label>부서코드</label>
+				      <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" value="<%=docList.get(0).get("DEPT_CODE")%>"style="width: 245px" readonly>
+				    </div>
+				    <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
+				    <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#reserveDay">예약일정</button>
+				    <div class="form-group">
+				    <label>병원코드</label>
+				      <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" value="<%=docList.get(0).get("HP_CODE")%>" style="width: 245px"readonly>
+				    </div>
+				    <div class="form-group">
+				    <label>부서</label>
+				      <input type="text" class="form-control" id="dept_name" name="dept_name" placeholder="부서" value="<%=docList.get(0).get("DEPT_NAME")%>" style="width: 245px"readonly>
+				    </div>
+				    <div class="form-group">
+				    <label>병원이름</label>
+				      <input type="text" class="form-control" id="hp_name" name="hp_name" placeholder="병원이름" value="<%=docList.get(0).get("HP_NAME")%>"style="width: 245px"readonly>
+				    </div>
+		     		<div class="form-group">
+		     		  <label>의사코드</label>
+			      	  <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" value="<%=docList.get(0).get("DOC_CODE")%>" style="width: 245px"readonly>
+			    	</div>
 			    </div>
-			    <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
-			    <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#reserveDay">예약일정</button>
-			    <div class="form-group">
-			    <label>병원코드</label>
-			      <input type="text" class="form-control" id="hp_code" name="hp_code" placeholder="병원코드" value="<%=docList.get(0).get("HP_CODE")%>" style="width: 245px"readonly>
+			    <div>	
+				    <div class="form-group">
+			   		<label>이름</label>
+				      <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" value="<%=docList.get(0).get("DOC_NAME")%>" style="width: 245px">
+				    </div>
+				    <div class="form-group">
+				    <label>직급</label>
+				      <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" value="<%=docList.get(0).get("DOC_POSITION")%>"style="width: 245px">
+				    </div>
+				    <div class="form-group">
+				    <label>학력</label>
+				      <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="학력" value="<%=docList.get(0).get("DOC_EDUCATION")%>"style="width: 245px">
+				    </div>
+			    	<div class="form-group">
+			    	<label>전화</label>
+				      <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화" value="<%=docList.get(0).get("DOC_PHONE")%>" style="width: 245px">
+				    </div>
+				    <div class="form-group">
+				    <label>휴무일</label>
+				      <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" value="<%=docList.get(0).get("DOC_OFFDAY")%>"style="width: 245px">
+				    </div>
+				    <div class="form-group">
+				    <label>상태</label>
+				      <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" value="<%=docList.get(0).get("DOC_STATE")%>"style="width: 245px">
+				    </div>
 			    </div>
-			    <div class="form-group">
-			    <label>부서</label>
-			      <input type="text" class="form-control" id="dept_name" name="dept_name" placeholder="부서" value="<%=docList.get(0).get("DEPT_NAME")%>" style="width: 245px"readonly>
+			    
+			    <div>
+				    <div class="form-group">
+				    <label>예약일정</label>
+				      <input type="text" class="form-control" id="sch_date" name="sch_date" placeholder="예약일정" style="width: 245px">
+				    </div>
+				    <div class="form-group">
+				    <label>예약시간</label>
+				      <input type="text" class="form-control" id="sch_time" name="sch_time" placeholder="예약시간" style="width: 245px">
+				    </div>
+				    <div class="form-group">
+				    <label>예약번호</label>
+				      <input type="text" class="form-control" id="sch_code" name="sch_code" placeholder="예약번호" style="width: 245px" readonly>
+				    </div>
 			    </div>
-			    <div class="form-group">
-			    <label>병원이름</label>
-			      <input type="text" class="form-control" id="hp_name" name="hp_name" placeholder="병원이름" value="<%=docList.get(0).get("HP_NAME")%>"style="width: 245px"readonly>
-			    </div>
-	     		<div class="form-group" style="margin-top: 30px">
-	     		  <label>의사코드</label>
-		      	  <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" value="<%=docList.get(0).get("DOC_CODE")%>" style="width: 245px"readonly>
-		    	</div>
-			    <div class="form-group">
-			    <label>이름</label>
-			      <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" value="<%=docList.get(0).get("DOC_NAME")%>" style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			    <label>직급</label>
-			      <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" value="<%=docList.get(0).get("DOC_POSITION")%>"style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			    <label>학력</label>
-			      <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="학력" value="<%=docList.get(0).get("DOC_EDUCATION")%>"style="width: 245px">
-			    </div>
-		    	<div class="form-group">
-		    	<label>전화</label>
-			      <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화" value="<%=docList.get(0).get("DOC_PHONE")%>" style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			    <label>휴무일</label>
-			      <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" value="<%=docList.get(0).get("DOC_OFFDAY")%>"style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			    <label>상태</label>
-			      <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" value="<%=docList.get(0).get("DOC_STATE")%>"style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			    <label>예약일정</label>
-			      <input type="text" class="form-control" id="sch_date" name="sch_date" placeholder="예약일정" style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			    <label>예약시간</label>
-			      <input type="text" class="form-control" id="sch_time" name="sch_time" placeholder="예약시간" style="width: 245px">
-			    </div>
-			    <div class="form-group">
-			    <label>예약번호</label>
-			      <input type="text" class="form-control" id="sch_code" name="sch_code" placeholder="예약번호" style="width: 245px" readonly>
-			    </div>
-		   	</div>
-		   	</form>
-		    <div>
+		    </form>
+		    <div> <!-- =====================================버튼 시작 div====================================================== -->
 		    <!--버튼시작  -->
-		    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
+		     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
 					저장
-				</button> -->
-				<!-- Modal -->
+				</button> 
+				Modal
 				<div class="modal fade" id="InsertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
@@ -117,7 +122,7 @@
 				      </div>
 				    </div>
 				  </div>
-				</div>
+				</div> -->
 		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal">
 					수정
 				</button>
@@ -168,7 +173,7 @@
 				</div>
 		    <button type="button" class="btn btn-primary" onclick="docClose()">닫기</button>
 		    <!--버튼 끝 -->
-		    </div>
+		    </div><!-- ==================================버튼 div========================================================= -->
 		    
 	</div>
 	<!-- 부서검색 모달창 -->
@@ -237,6 +242,8 @@
 				    </div>
 				  </div>
 				</div>
+				
+				
 <script type="text/javascript">
 	$(document).ready(function(data){
 		$("#d_list").bootstrapTable({
@@ -299,6 +306,7 @@
 		var doc_code = $("#doc_code").val();
 		//alert(doc_code);
 		location.href="/manger/doctor/doctorDEL.mgr?doc_code="+doc_code
+				
 	}
 	function docClose() {
 		//alert("닫기");

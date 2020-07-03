@@ -46,8 +46,23 @@ public class mgr_DoctorLogic {
 		logger.info("Logic doctorINS");
 		int result = 0;
 		result = mgr_dDao.doctorINS(pMap);
+		
+		if(result==1 && pMap.get("sch_code")!=null) {
+			
+			result=mgr_dDao.resINS(pMap);
+			if(result==1) {
+				return result;
+			}else {
+				return -1;
+			}
+		}else if(result!=1&&pMap.get("sch_code")==null) {
+			return -1;
+		}
+		
 		return result;
 	}
+	
+	
 	public int doctorUPD(Map<String, Object> pMap) {
 		logger.info("Logic doctorUPD");
 		int result =0;
@@ -66,9 +81,10 @@ public class mgr_DoctorLogic {
 		
 	}
 	public int doctorDEL(Map<String, Object> pMap) {
-		logger.info("Logic doctorDEL");
+		logger.info("Logic doctorDEL 호출성공");
 		int result =0;
 		result=mgr_dDao.doctorDEL(pMap);
 		return result;
 	}
+	
 }

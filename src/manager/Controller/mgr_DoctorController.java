@@ -64,7 +64,7 @@ public class mgr_DoctorController implements mgr_Controller {
 		   pMap.put("hp_code", hp_code);
 			   List<Map<String,Object>> dList = null;
 			  
-		   if(hp_code ==null || dept_code ==null) { //로그인 정보가 만료되었습니다.
+		   if(hp_code ==null) { //로그인 정보가 만료되었습니다.
 				  mav.IsForward(false); 
 				  mav.setViewName("/fail"); 
 				  return mav;
@@ -103,10 +103,8 @@ public class mgr_DoctorController implements mgr_Controller {
 			 mav.addObject("deptList",deptList);
 			 mav.IsForward(true);
 			 mav.setViewName("/doctor/mgr_doctor");
-			
 			 
-		}
-		else if("doctorDetail".equals(requestName)) {
+		}else if("doctorDetail".equals(requestName)) {
 			String doc_code = null;
 //			List<Map<String,Object>> dList = null;
 //			Map<String, Object> pMap = new HashMap<>();
@@ -137,6 +135,7 @@ public class mgr_DoctorController implements mgr_Controller {
 				path="/doctor/mgr_doctorDetail";
 			}
 			mav.setViewName(path);//form 태그 이용할 때
+			
 			
 			
 		} else if("doctorUPD".equals(requestName)) {
@@ -184,6 +183,8 @@ public class mgr_DoctorController implements mgr_Controller {
 			mav.setViewName("/doctor/resJson");
 			
 		} else if("doctorDEL".equals(requestName)) {
+			logger.info("doctorDEL호출성공");
+			logger.info(pMap.get("doc_code"));
 			int result =0;
 //			Map<String,Object> pMap = new HashMap<>();
 //			HashMapBinder hmb = new HashMapBinder(req);
