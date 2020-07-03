@@ -45,7 +45,23 @@ public class crm_ReservationLogic {
 		logger.info("달력로직");
 		List<Map<String,Object>> calender=null;
 		calender=crm_rsDao.calender(pMap);
+		pMap.remove("doc_code");
+		if(calender.size()==0) {
+			calender=crm_rsDao.calender(pMap);
+		}
 		//logger.info(hpList.size());
 		return calender;
+	}
+	public int pro_reservation(Map<String, Object> pMap) {
+		logger.info("예약로직");
+		int pro_reservation=0;
+		pro_reservation=crm_rsDao.pro_reservation(pMap);
+		if(pro_reservation==1) {
+			String res_qrcode=(String)crm_rsDao.res_qrcode(pMap).get(0).get("RES_QRCODE");
+			logger.info("res_qrcode: "+res_qrcode+"############################################");
+			pro_reservation=Integer.parseInt(res_qrcode);
+			logger.info("pro_reservation: "+pro_reservation+"############################################");
+		}
+		return pro_reservation;
 	}
 }

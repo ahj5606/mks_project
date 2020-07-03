@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -111,7 +112,28 @@ public class crm_ReservationController implements crm_Controller {
 					
 		}else if("watiCheck".equals(requestName)) {
 			
-		}else if("reservation".equals(requestName)) {
+		}else if("pro_reservation".equals(requestName)) {
+			HttpSession session = req.getSession();
+
+			String mks_id = (String)session.getAttribute("mks_id");//?	
+			String res_memo = req.getParameter("res_memo");
+			String sch_code = req.getParameter("sch_code");
+			String res_time = req.getParameter("res_time");
+					
+			pMap.put("res_memo",res_memo);		
+			pMap.put("mks_id",mks_id);				
+			pMap.put("sch_code",sch_code);		
+			pMap.put("res_time",res_time);	
+			logger.info("res_memo: "+res_memo);	
+			logger.info("mks_id: "+mks_id);	
+			logger.info("sch_code: "+sch_code);	
+			logger.info("res_time: "+res_time);	
+			int pro_reservation= 0;
+			pro_reservation=crm_rsLogic.pro_reservation(pMap);
+			mav.addObject("pro_reservation", pro_reservation);
+			mav.IsForward(true);
+			logger.info("pro_reservation"+ pro_reservation);	
+			mav.setViewName("/reservation/pro_reservation");
 			
 		}else if("calender".equals(requestName)) {
 			List<Map<String,Object>> calender= null;
@@ -120,6 +142,7 @@ public class crm_ReservationController implements crm_Controller {
 			String sch_date = req.getParameter("sch_date");
 			String doc_code = req.getParameter("doc_code");
 			String mode = req.getParameter("mode");
+			String sch_code = req.getParameter("sch_code");
 			logger.info("hp_code: "+hp_code);
 			logger.info("dept_code: "+dept_code);
 			logger.info("doc_code: "+doc_code);
@@ -130,10 +153,14 @@ public class crm_ReservationController implements crm_Controller {
 				if("null".equals(doc_code)) {
 					doc_code = "";
 				}
+				if("null".equals(sch_date)) {
+					sch_date = "";
+				}
 				pMap.put("hp_code",hp_code);
 				pMap.put("dept_code",dept_code);
 				pMap.put("doc_code",doc_code);
-				pMap.put("sch_date: ",sch_date);
+				pMap.put("sch_date", sch_date);
+				
 			calender=crm_rsLogic.calender(pMap);
 			logger.info("reservationcontroller"+calender.size());
 			if(mode!=null) {
