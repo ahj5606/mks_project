@@ -43,11 +43,11 @@
 	function res_pageGet(num){
 		if(h_order=="날짜별"){
 			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
-				 url: "/health/healthList.jsp?crm="+num+"&i_title="+i_title
+				 url: "/health/healthList.crm?num="+num+"&i_title="+i_title
 			});
 		}else{
 			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
-				url: "/health/healthList.jsp?crm="+num+"&h_order="+h_order+"&i_title="+i_title
+				url: "/health/healthList.crm?num="+num+"&h_order="+h_order+"&i_title="+i_title
 			});
 		}
 		$("div.fixed-table-loading").remove(); 
@@ -58,7 +58,7 @@
 			previous();
 		}else if(imsi=="Next"){
 			$.ajax({
-				url: "/health/healthList.crm?crm=0"
+				url: "/health/healthList.crm?num=0"
 				,dataType: "text"
 				,success: function(data){
 					next(data, 5);
@@ -88,6 +88,7 @@
 				}
 			}
 		});
+		$("#page_1").focus();
 	}
 	function info_write(){
 		 location.href= '/client/healthInfo/healthInfoForm.jsp';
@@ -180,7 +181,7 @@
 					<div class="col-md">
 						<ul class="pagination pagination-small justify-content-center mb-0">
 							<li class="page-item">
-								<a class="page-link py-1 px-2 my-1 mr-1" href="#" onClick="pageMove(this)" aria-label="Previous">
+								<a class="page-link py-1 px-2 my-1 mr-1" href="#" id="pre" onClick="pageMove(this)" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 									<span class="sr-only">Previous</span>
 								</a>
@@ -189,7 +190,7 @@
 							<li class="page-item mr-1" id="p_2"><a class="page-link p-1 px-2 my-1" href="#" id="page_2"  onClick="page(this)" >2</a></li>
 							<li class="page-item mr-1" id="p_3"><a class="page-link p-1 px-2 my-1" href="#" id="page_3"  onClick="page(this)" >3</a></li>
 							<li class="page-item mr-1">
-								<a class="page-link p-1 px-2 my-1" href="#" onClick="pageMove(this)" aria-label="Next">
+								<a class="page-link p-1 px-2 my-1" href="#" id="next" onClick="pageMove(this)" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 									<span class="sr-only">Next</span>
 								</a>

@@ -42,13 +42,6 @@ public class crm_ReservationDao {
 		proc_reservelist = (List<Map<String, Object>>)pMap.get("res_list");
 		return proc_reservelist;
 	}
-	public List<Map<String, Object>> res_qrcode(Map<String, Object> pMap) {
-		      //진료 예약화면 - 의사 선생님 카테고리
-		      logger.info("[crm_ReservationDao] res_qrcode 호출성공");
-		      List<Map<String, Object>> res_qrcode = null;
-		      res_qrcode = sqlSes.selectList("res_qrcode", pMap);
-		      return res_qrcode;
-	}
 	
 	public List<Map<String, Object>> deptCategory(Map<String, Object> pMap) {
 		//과 카테고리 중복제거. 
@@ -129,6 +122,14 @@ public class crm_ReservationDao {
 		logger.info("result: " + result);
 		sqlSes.commit(true);
 		return result;
+	}
+	
+	public List<Map<String, Object>> res_qrcode(Map<String, Object> pMap) {
+		//진료 예약화면 - 의사 선생님 카테고리
+		logger.info("[crm_ReservationDao] res_qrcode 호출성공");
+		List<Map<String, Object>> res_qrcode = null;
+		res_qrcode = sqlSes.selectList("res_qrcode", pMap);
+		return res_qrcode;
 	}
 	
 	public List<Map<String, Object>> docCategory(Map<String, Object> pMap) {

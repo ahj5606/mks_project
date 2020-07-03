@@ -47,12 +47,6 @@
 <script type="text/javascript">
 	var mks_id = '<%=mks_id%>';
 	var board_no = '<%=board_no%>'
-	function res_pageGet(num){
-		$('#t_hospitalList').bootstrapTable('refreshOptions', {
-			 url: "/client/board/jsonBoardList.jsp?num="+num
-		});
-		$("div.fixed-table-loading").remove(); 
-	}
 	function modal_del(){
 		alert("삭제할까?");
 		$("#modal_del").modal('show');
@@ -169,6 +163,12 @@
 								<div style="text-aling:center;">비공감</div>
 								<div id="bad" style="text-align:center;"></div>
 							</div>
+							<div style="width:80px; text-align:center;">
+							<a href="javascript:;" id="kakao-link-btn"> 
+								<img style="width:50px;height:50px;" src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" />
+							</a>
+							<div style="text-aling:center;">공유하기</div>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -219,7 +219,7 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$.ajax({
-				url: "/health/healthList.crm?num=1&board_no=+"+board_no
+				url: "/health/healthList.crm?num=1&board_no="+board_no
 				,success: function(data){
 					var res = JSON.parse(data);
 					alert("본문사이즈: "+res.length);
@@ -229,6 +229,45 @@
 					$("#content").val(res[0].BOARD_CONTENT);
 					$("#good").html(res[0].GOOD);
 					$("#bad").html(res[0].BAD);
+					var url = 'http://192.168.0.237:5000/client/healthInfo/healthInfoDetail.jsp?'+board_no;
+					var b_title = $("#board_title").val();
+					alert(b_title);
+					Kakao.init("265447647e1cb17951a10eb622ba9fbc");
+					Kakao.Link.createDefaultButton({
+						  container: '#kakao-link-btn',
+						  objectType: 'feed',
+						  content: {
+						    title: "mks 코스모 병원",
+						    description: b_title,
+						    imageUrl:
+						      './health_96630.png',
+						    link: {
+						      mobileWebUrl: url,
+						      androidExecParams: 'test'
+						    }
+						  },
+						  buttons: [
+						    {
+						      title: '웹으로 이동',
+						      link: {
+							      webUrl: url
+						      },
+						    }
+						    ,
+						    {
+						      title: '앱으로 이동',
+						      link: {
+							      mobileWebUrl: url
+						      },
+						    }, 
+						  ],
+						  success: function(response) {
+						    console.log(response);
+						  },
+						  fail: function(error) {
+						    console.log(error);
+						  }
+						});
 				}
 			});
 		});

@@ -22,3 +22,6 @@
 <script src='<%=path.toString()%>fullcalendar/core/main.js'></script>
 <script src='<%=path.toString()%>fullcalendar/daygrid/main.js'></script>
 <script src='<%=path.toString()%>fullcalendar/interaction/main.js'></script>
+<script src='<%=path.toString()%>js/marker_icon.js'></script>
+<script src='<%=path.toString()%>js/kakao_img.js'></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>

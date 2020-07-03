@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.*"%>
 <% 
-	String wait_num = request.getParameter("wait_num");
+	String sch_code = request.getParameter("sch_code");
 %>
 <!DOCTYPE html>
 <html>
@@ -11,16 +11,16 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/js/qrcode.js">
 </script>
+<style type="text/css">
+</style>
 </head>
 <body>
-<div style="border: 2px solid #000;width:500px"> 
-        <div id="qrcode"></div>
-        </div>
+	<div id="qrcode"></div>
 <script type="text/javascript">
     var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "<%=wait_num%>",
-        width: 128,
-        height: 128,
+        text: "<%=sch_code%>",
+        width: 120,
+        height: 120,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H

@@ -13,16 +13,13 @@
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
 <%@ include file="/common/bootStrap4UI.jsp"%>
 <style type="text/css">
-   label{
-      margin:8px;
-   }
-   .col-4, .col{
-      padding-right:10px;
-      padding-left:10px;
-   } 
    .container{
       padding:5px;
    }
+   /* .col-4, .col{
+      padding-right:10px;
+      padding-left:10px;
+   } */ 
    body{
         font-family: 'Do Hyeon', sans-serif;
    }
@@ -71,7 +68,7 @@
          
          if(id==$("#i_id").val() && email==$("#i_email").val() && reg==imsi ){
             alert("회원가입하러 go~!!!");
-            var addr=$("#i_addr").val()+" "+$("#i_addr2").val()
+            var addr=$("#i_addr").val()+","+$("#i_addr2").val()
             
             alert(addr);
             
@@ -89,9 +86,11 @@
 	          	}//succseefunction
 	          	});//ajax	
 	          	
+         }else{
+    	  alert("기준미달");
          }
       }else{
-    	  alert("회원가입 실패");
+    	  alert("기준미달");
       }
    }
    function check_id(){
@@ -227,7 +226,7 @@
             <div class="border mb-0 mt-3">
                <div class="row m-2 my-0 mb-4" style="justify-content: center">
                   <form id="check">
-                     <!-- 이름 -->
+                      <!-- 이름 -->
                        <div class="form-group row mb-1 mt-3">
                          <label for="i_name" style="width:80px;">이름</label>
                          <div class="col-md">
@@ -253,10 +252,10 @@
                        <div class="form-group row mb-1">
                          <label for="i_pw" style="width:80px;">비밀번호</label>
                          <div class="col-md">
-                            <div class="input-group">
+                             <div class="input-group">
                                  <input type="password" class="form-control" id="i_pw">
-                              </div>
-                              <small id="pwFail" class="text-muted">7~12자이어야 하며 공백은 불가합니다.</small>
+                             </div>
+                             <small id="pwFail" class="text-muted">7~12자이어야 하며 공백은 불가합니다.</small>
                          </div>
                        </div>
                        <!-- 주민번호 -->
@@ -265,7 +264,7 @@
                          <div class="col-md">
                               <div class="input-group">
                                  <input type="text" class="form-control" id="i_reg1">
-                                 <label>-</label>
+                                 <label>&nbsp;-&nbsp;</label>
                                  <input type="password" class="form-control" id="i_reg2">
                                  <label></label>
                                  <input type="button" onclick="check_reg()" value="가입 확인" 
