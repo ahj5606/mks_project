@@ -64,7 +64,7 @@
 	    	<div class="collapse navbar-collapse" id="navbarsExample04" >
 		       	<ul class="navbar-nav ml-auto"><!-- ml-auto: 왼쪽에 마진이 자동으로 생김 -->
 		        	 <li class="nav-item">
-		          	 	 <a class="nav-link " href="/client/myPage/createAccount.jsp" style="font-size:large;">회원가입</a>
+		          	 	 <a class="nav-link " href="/client/mypage/createAccount.jsp" style="font-size:large;">회원가입</a>
 		         	 </li>
 		         	 <li class="nav-item">
 		          		  <a class="nav-link" href="/client/login/main.jsp" style="font-size:large;">로그인</a>
@@ -79,7 +79,7 @@
 	    	<div class="collapse navbar-collapse" id="navbarsExample04">
 		       	<ul class="navbar-nav ml-auto">
 		        	 <li class="nav-item">
-		          	 	 <a class="nav-link " href="/client/myPage/myReservationList.jsp" style="font-size:large;">내정보</a>
+		          	 	 <a class="nav-link " href="/client/mypage/myReservationList.jsp" style="font-size:large;">내정보</a>
 		         	 </li>
 		         	 <li class="nav-item">
 		          		  <a class="nav-link" href="/client/login/logout.jsp" style="font-size:large;">로그아웃</a>

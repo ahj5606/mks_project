@@ -80,7 +80,7 @@ public class crm_MypageController implements crm_Controller{
 					mav.addObject("mList_size", mypageList.size());
 				}
 			}
-			mav.setViewName("/myPage/jsonMypageList");
+			mav.setViewName("/mypage/jsonMypageList");
 			mav.IsForward(true);
 	    } else if("mypageSel".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();
@@ -93,7 +93,7 @@ public class crm_MypageController implements crm_Controller{
 			logger.info("mypageSel: "+mypageSel.size());
 			//3) ModelAndView 셋팅
 			mav.addObject("mypageSel", mypageSel);
-			mav.setViewName("/myPage/jsonMypageSel");
+			mav.setViewName("/mypage/jsonMypageSel");
 			mav.IsForward(true);
 		} else if("mypagePassword".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();
@@ -109,7 +109,7 @@ public class crm_MypageController implements crm_Controller{
 			logger.info("result: "+result);
 			//3) ModelAndView 셋팅
 			mav.addObject("result", result);
-			mav.setViewName("/myPage/jsonMypageResult");
+			mav.setViewName("/mypage/jsonMypageResult");
 			mav.IsForward(true);	
 		} else if("mypageUpd".equals(requestName)) {
 			//1) pMap 셋팅
@@ -135,7 +135,7 @@ public class crm_MypageController implements crm_Controller{
 			logger.info("result: "+result);
 			//3) ModelAndView 셋팅
 			mav.addObject("result", result);
-			mav.setViewName("/myPage/jsonMypageResult");
+			mav.setViewName("/mypage/jsonMypageResult");
 			mav.IsForward(true);			
 		}else if("proc_mem_Add".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();

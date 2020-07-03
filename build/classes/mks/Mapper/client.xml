@@ -201,27 +201,43 @@
 		  WHERE doc_code = #{doc_code}
 
 	</select>
-
-	  	<select id="calender" parameterType="map" resultType="map">
-	<!-- 예약 가능한 시간표 Select -->
-		SELECT
-		    hp_code, hp_name, doc_code, doc_name, dept_code, dept_name, sch_code, sch_time, to_char(to_date(sch_date), 'YYYY-MM-DD') sch_date 
-		  FROM mks_schedule
-		   WHERE hp_code = #{hp_code}
-		   <if test="dept_code != null and dept_code.length()>0">
+	   <select id="calender" parameterType="map" resultType="map">
+   <!-- 예약 가능한 시간표 Select -->
+      SELECT
+          hp_code, hp_name, doc_code, doc_name, dept_code, dept_name, sch_code, sch_time, to_char(to_date(sch_date), 'YYYY-MM-DD') sch_date 
+        FROM mks_schedule   
+       WHERE hp_code = #{hp_code}
+          <if test="dept_code != null and dept_code.length()>0">
 		   	   AND dept_code = #{dept_code} 
 		   </if>
-		   <if test="doc_code != null and doc_code.length()>0">
+           <if test="doc_code != null and doc_code.length()>0">
 			   AND doc_code = #{doc_code}   
 		   </if>
-		   <if test="sch_date != null and sch_date.length()>0">
-			   AND to_char(to_date(sch_date), 'YYYY-MM-DD')  = #{sch_date}
+		     <if test="sch_date != null and sch_date.length()>0">
+          AND to_char(to_date(sch_date), 'YYYY-MM-DD')= #{sch_date}
+          </if>
+            <if test="sch_time != null and sch_time.length()>0">
+			  AND sch_time = #{sch_time}
 		   </if>
-		   <if test="sch_time != null">
+         AND sch_code NOT IN (
+                              SELECT sch_code
+                                FROM mks_reserve
+                               WHERE hp_code = #{hp_code}
+                                <if test="dept_code != null">
+		   	   AND dept_code = #{dept_code} 
+		   </if>
+           <if test="doc_code != null">
+			   AND doc_code = #{doc_code}   
+		   </if>
+		     <if test="sch_date != null">
+          AND to_char(to_date(sch_date), 'YYYY-MM-DD')= #{sch_date}
+          </if>
+            <if test="sch_time != null">
 			   AND sch_time = #{sch_time}
 		   </if>
-		       ORDER BY  doc_name ,SCH_TIME asc
-	</select>
+                                )
+		       ORDER BY doc_name, sch_time asc
+   </select> 
    <select id="docCategory" parameterType="map" resultType="map">
    <!-- 의사 카테고리 -->
       SELECT
@@ -246,7 +262,7 @@
           (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id}), 
           #{res_memo}, 
           (SELECT sch_code FROM mks_schedule WHERE sch_code = #{sch_code}), 
-          (SELECT NVL(MAX(res_qrcode),0)+1 FROM mks_reserve), 
+          (SELECT NVL(MAX(TO_NUMBER (res_qrcode)),0)+1 FROM mks_reserve), 
           (SELECT doc_name FROM mks_schedule WHERE sch_code = #{sch_code}), 
           #{res_time}, 
           (SELECT doc_code FROM mks_schedule WHERE sch_code = #{sch_code}), 
@@ -280,6 +296,7 @@
 				 <if test="pre != null and now==null">
 				   AND (SELECT SIGN(TO_DATE(sch_date,'YYYY-MM-DD') - TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD'),'YYYY-MM-DD')) FROM dual) = -1
 				 </if>
+				  ORDER BY sch_date desc
                 )
          WHERE 1 = 1
          <if test="fnum!=null">

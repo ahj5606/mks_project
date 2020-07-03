@@ -112,7 +112,6 @@
 	   doc_code=doc_code2;
 		$("#doc_name").html(doc_name);
     	$("#doc_name").css('color','red');
-    	alert(doc_name+"="+doc_code);
     	time();
     	$("#sel_doc").modal('hide');
     	 $("#calendar").remove();
@@ -133,36 +132,82 @@
         	,method:'post'
         	,data:'res_memo='+$("#res_memo").val()+'&sch_code='+sch_code+'&res_time='+$("#sch_time").html()
         	,success:function(data){
-        		alert(data);
 	        	var res = data.trim();
 	        	alert(res);
 	        	if(res==0){
 	        		alert("실패");
 	        	}else{
-				      var qrcode = new QRCode(document.getElementById("qr_img"), {
-				          text: res+"",
-				         width: 128,
-				         height: 128,
-				         colorDark : "#000000",
-				         colorLight : "#ffffff",
-				         correctLevel : QRCode.CorrectLevel.H
-				      });
-				      $('#modal_qr').modal('show')       		
+	        		qr_modal(res);
 	        	}
         	}//succseefunction
     });//ajax	
    }
+   
+   function qr_modal(qr_code){
+	      $("#qr_img").remove();
+	      $("#qr_space").html("<div class='row' id='qr_img'></div>");
+	      var qrcode = new QRCode(document.getElementById("qr_img"), {
+	            text: qr_code,
+	            width: 128,
+	            height: 128,
+	            colorDark : "#000000",
+	            colorLight : "#ffffff",
+	            correctLevel : QRCode.CorrectLevel.H
+	        });
+	      share();
+	      $('#modal_qr').modal('show')
+	    }
+   
+   function share(qr_code){
+	      var url = 'http://192.168.0.237:5000/client/qrCodeCreation.jsp?qr_code='+qr_code;
+	       Kakao.init("265447647e1cb17951a10eb622ba9fbc");
+	       Kakao.Link.createDefaultButton({
+	            container: '#kakao-link-btn',
+	            objectType: 'feed',
+	            content: {
+	              title: "mks 코스모 병원",
+	              description: "예약 qr 코드",
+	              imageUrl:
+	                './health_96630.png',
+	              link: {
+	                mobileWebUrl: url,
+	                androidExecParams: 'test'
+	              }
+	            },
+	            buttons: [
+	              {
+	                title: '웹으로 이동',
+	                link: {
+	                   webUrl: url
+	                },
+	              }
+	              ,
+	              {
+	                title: '앱으로 이동',
+	                link: {
+	                   mobileWebUrl: url
+	                },
+	              }, 
+	            ],
+	            success: function(response) {
+	              console.log(response);
+	            },
+	            fail: function(error) {
+	              console.log(error);
+	            }
+	          });
+	   }
+   
+   
+   
  function time(){
 	   $('#t_reservationlList').bootstrapTable('refreshOptions', {
 			 url: '/reservation/calender.crm?hp_code='+'<%=hp_code%>'+'&dept_code='+dept_code+'&sch_date='+sch_date+'&doc_code='+doc_code+'&sch_date='+sch_date 
 			 ,onClickRow : function(row,element,field){
-				 alert("hi");
-				 alert(sch_date);
 				 var jo = JSON.stringify(row);
 					var d = JSON.parse(jo);
 					sch_time = d.SCH_TIME;
 					sch_code=d.SCH_CODE;
-					alert("sch_code : "+sch_code);
 				    $("#sch_time").html(sch_time);
                     $("#sch_time").css('color','red');
               }
@@ -179,13 +224,10 @@
                	 		 imsi =new Array();
                	 		 imsicode =new Array();
            		for(var i=0; i<res.length; i++){       
-                 	total_doc[i]=res[i].DOC_NAME;
-                 	// $("#res_date").html(sch_date);
-                 	// $("#res_date").css('color','red');  	
+                 	total_doc[i]=res[i].DOC_NAME; 	
            			 	 if(total_doc[i]==total_doc[i-1]){
            			 		 
            				}else{
-           					alert("doc2: "+total_doc[i]); //중복제거 된 의사선생 이름	
            					doc_name=res[i].DOC_NAME;
            					cnt++;			
            			 	imsi +=total_doc[i]+","
@@ -198,17 +240,14 @@
        			var imsi2code = imsicode.replace(/,\s*$/, "");//끝에 ,없애주기
        			imsi3=imsi2.split(',');//한글자씩 나눠진 배열 ,기준으로 합치기
        			imsi3code=imsi2code.split(',');//한글자씩 나눠진 배열 ,기준으로 합치기
-       			alert(imsicode);
 			 		if(cnt>1){
 			 		alert("0보다큼");
 			 				var data = "";
 			 				for(var i= 0; i<imsi3.length; i++){			 	
-			 					data += "<tr>"
-			 					data += '<td value="i" onClick="test('+"'"+imsi3[i]+"'"+","+"'"+imsi3code[i]+"'"+')" >'+imsi3[i]
-			 					data += "</td>"
-			 					data += "</tr>"
-			 					//doc_name=imsi3[i]
-			 					alert("imsi의 "+doc_name);
+			 					data += "<tr>";
+			 					data += '<td value="i" onClick="test('+"'"+imsi3[i]+"'"+","+"'"+imsi3code[i]+"'"+')" >'+imsi3[i];
+			 					data += "</td>";
+			 					data += "</tr>";
 			 				};
 							$("#data").html(data);	
      			 	    	$("#sel_doc").modal('show'); 						
@@ -218,16 +257,12 @@
 							alert("time호출");
 							time();
 						}
-           			 //time();
-                 	// alert("time함수 실행");
            }
         });
 
  }
  function cal_paint(){
-        	   sch_date=null;
-        	   
-	    alert("dept_code 설마??: "+dept_code);
+        	   sch_date=null;       	   
          var calendarEl = document.getElementById('calendar');
          var calendar = new FullCalendar.Calendar(calendarEl, {
              plugins: [ 'interaction', 'dayGrid' ]
@@ -249,8 +284,7 @@
                     }
 						doc2();
                     }
-                 });
-              
+                 });              
             } 
             ,dragOpacity: 1
             ,events: 
@@ -274,10 +308,6 @@
             <div class="row">
                <div class="col-md">
                   <select class="form-control" id="s_doc" name="s_doc">
-                   <!--   <option value="담당의사">담당의사</option>
-                     <option value="고길동">고길동</option>
-                     <option value="김유신">김유신</option>
-                     <option value="강감찬">강감찬</option> -->
                   </select>
                </div>
                <div class="col-md-7"></div>
@@ -349,36 +379,30 @@
             </div>
            </div>
       </div>
-   </div>
-   <!-- footer -->
-   <!-- <footer>
-      <div class="row bg-light pt-3">
-      </div>
-   </footer> -->
-   
+   </div>  
    <!-- qr 모달 -->
    <div class="modal fade bd-example-modal-sm" id="modal_qr" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                <!-- head -->
                <div class="modal-header">
-                 <h5 class="modal-title">발급된 예약 qr코드</h5>
+                 <h5 class="modal-title">예약 qr코드</h5>
                </div>
                <!-- body -->
                <div class="modal-body">
-                  <div class="row" style="justify-content: center">
+                  <div class="row" style="justify-content: center" id="qr_space">
                      <div class="row" id="qr_img"></div>
                  </div>
               </div>
               <!-- footer -->
               <div class="modal-footer">
                  <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="self.close();">닫기</button>
+                 <button type="button" id="kakao-link-btn" class="btn btn-warning">공유하기</button>
                </div>
           </div>
         </div>
    </div>
    <!-- 전체일경우 의사선택 모달 생성 -->
-      <!-- qr 모달 -->
    <div class="modal fade bd-example-modal-sm" id="sel_doc" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -425,6 +449,7 @@
      	          
      	          var out_doc_code= "";
      	          out_doc_code ='<%=doc_code%>';
+     	          
      	          dept_name = res2[0].DEPT_NAME;
      	          dept_code = res2[0].DEPT_CODE;
 
@@ -438,7 +463,7 @@
      	          for(var i=0; i<res2.length; i++){	
      	       			  if(out_doc_code==res2[i].DOC_CODE){
      	       				imsi += '<option value="'+res2[i].DOC_CODE+'">'+res2[i].DOC_NAME+'</option>';  
-     	       			imsi += '<option value="'+dept_code+'">전체</option>';
+     	       				imsi += '<option value="'+dept_code+'">전체</option>';
      	       				$("#doc_name").html(res2[i].DOC_NAME);
      	       			    $("#doc_name").css('color','red');
      	       			  }else{
@@ -481,11 +506,8 @@
 		         $("#cal_space").html("<div id=calendar></div>");
 		         cal_paint();
 		      });
-      });
-      
+      });     
 			document.addEventListener('DOMContentLoaded', cal_paint); 
-
-
    </script>
 </body>
 </html>

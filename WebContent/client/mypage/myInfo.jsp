@@ -92,7 +92,7 @@ if(parmeter!=null){
 							alert('수정실패');
 						}else{
 							alert('수정성공');
-							location.href="/client/myPage/pwInput.jsp"
+							location.href="/client/mypage/pwInput.jsp"
 						}
 					}
 				});
@@ -275,7 +275,7 @@ if(parmeter!=null){
 					<div class="row mb-3 mr-2">
 						<div class="col-md" style="text-align:right">
 							<button class="btn btn-md btn-dark" onClick="modal_ins()">수정</button>
-							<button class="btn btn-md btn-dark" onClick="location.href='/client/myPage/pwInput.jsp'">닫기</button>
+							<button class="btn btn-md btn-dark" onClick="location.href='/client/mypge/pwInput.jsp'">닫기</button>
 						</div>
 					</div>
 				</div><!-- 개인정보 입력폼 -->

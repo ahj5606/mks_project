@@ -55,7 +55,7 @@ if(parmeter!=null){
 			         $("#emailFail").attr('class','text-danger');
 				}else{
 					alert('일치!');
-					location.href="/client/myPage/myInfo.jsp"
+					location.href="/client/mypage/myInfo.jsp"
 				}
 			}
 		});
@@ -117,7 +117,7 @@ if(parmeter!=null){
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('#t_myReList').bootstrapTable('refreshOptions', {
-		          url: "/client/myPage/jsonMyReservationList.jsp?num="+1
+		          url: "/client/mypage/jsonMyReservationList.jsp?num="+1
 				  ,onClickRow : function(row,element,field){
 				  }
 			});
