@@ -9,10 +9,7 @@
 	if(docList==null){
 		docList = new ArrayList();
 	}
-	/* List<Map<String, Object>> deptList = (List<Map<String, Object>>)request.getAttribute("deptList");
-	if(deptList==null){
-		deptList = new ArrayList();
-	} */
+	
 	List<Map<String, Object>> resDay = (List<Map<String, Object>>)request.getAttribute("resDay");
 	if(resDay==null){
 		resDay = new ArrayList();
@@ -32,9 +29,9 @@
 </div>
 	<div class="container">
 	<form id="f_upd">
-				<div>
-				    <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
-				    <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#reserveDay">예약일정</button>
+				<div style="position: absolute; left: 400px; top: 180px;">
+				    <button style="margin-bottom: 10px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
+				    <button style="margin-bottom: 10px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#reserveDay">예약일정</button>
 				    <div class="form-group">
 				      <label>부서코드</label>
 				      <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" value="<%=docList.get(0).get("DEPT_CODE")%>"style="width: 245px" readonly>
@@ -56,7 +53,7 @@
 			      	  <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" value="<%=docList.get(0).get("DOC_CODE")%>" style="width: 245px"readonly>
 			    	</div>
 			    </div>
-			    <div>	
+			    <div style="position: absolute; left: 700px; top: 226px;">	
 				    <div class="form-group">
 			   		  <label>이름</label>
 				      <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" value="<%=docList.get(0).get("DOC_NAME")%>" style="width: 245px">
@@ -77,13 +74,13 @@
 				      <label>휴무일</label>
 				      <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" value="<%=docList.get(0).get("DOC_OFFDAY")%>"style="width: 245px">
 				    </div>
+			    </div>
+			    
+			    <div style="position: absolute; left: 1000px; top: 226px;">
 				    <div class="form-group">
 				      <label>상태</label>
 				      <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" value="<%=docList.get(0).get("DOC_STATE")%>"style="width: 245px">
 				    </div>
-			    </div>
-			    
-			    <div>
 				    <div class="form-group">
 				      <label>예약일정</label>
 				      <input type="text" class="form-control" id="sch_date" name="sch_date" placeholder="예약일정" style="width: 245px">
@@ -96,7 +93,7 @@
 				      <label>예약번호</label>
 				      <input type="text" class="form-control" id="sch_code" name="sch_code" placeholder="예약번호" style="width: 245px" readonly>
 				    </div>
-			    </div>
+			    
 		    </form>
 		    <div> <!-- =====================================버튼 시작 div====================================================== -->
 		    <!--버튼시작  -->
@@ -173,9 +170,9 @@
 				</div>
 		    <button type="button" class="btn btn-primary" onclick="docClose()">닫기</button>
 		    <!--버튼 끝 -->
-		    </div><!-- ==================================버튼 div========================================================= -->
-		    
-	</div>
+		    </div><!-- ==================================버튼끝 div========================================================= -->
+		</div>    
+	
 	<!-- 부서검색 모달창 -->
 	<div class="modal" id="deptSearch" aria-hidden="true" style="display: none; z-index: 1060;">
 				  <div class="modal-dialog modal-lg">
@@ -284,7 +281,7 @@
 				var HP_CODE = d.HP_CODE;
 				var HP_NAME = d.HP_NAME;
 				var SCH_CODE =d.SCH_CODE;
-				alert(SCH_CODE);
+				//alert(SCH_CODE);
 				$("#sch_time").val(SCH_TIME);
 				$("#sch_date").val(SCH_DATE);
 				$("#sch_code").val(SCH_CODE);
@@ -294,7 +291,6 @@
 		$("#res_day").bootstrapTable('hideLoading');
 	})
 	function reserveSearch(){
-		//var hp_code= "280HP";
 		var doc_code = $("#doc_code").val();
 		$("#res_day").bootstrapTable('refreshOptions', {
 			    url:'/manager/doctor/reserveDay.mgr?doc_code='+doc_code
