@@ -124,6 +124,14 @@ public class crm_ReservationDao {
 		return result;
 	}
 	
+	public List<Map<String, Object>> res_qrcode(Map<String, Object> pMap) {
+		//진료 예약화면 - 의사 선생님 카테고리
+		logger.info("[crm_ReservationDao] res_qrcode 호출성공");
+		List<Map<String, Object>> res_qrcode = null;
+		res_qrcode = sqlSes.selectList("res_qrcode", pMap);
+		return res_qrcode;
+	}
+	
 	public List<Map<String, Object>> docCategory(Map<String, Object> pMap) {
 		//진료 예약화면 - 의사 선생님 카테고리
 		logger.info("[crm_ReservationDao] docCategory 호출성공");
