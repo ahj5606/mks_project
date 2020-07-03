@@ -1,8 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String h_name = "가산사랑병원";
-	String h_dept = "원무과";
+	String hp_code = "";
+	String h_name = "";
+	String h_dept = "";
+	
+	Cookie[] cookies = request.getCookies();
+	if(cookies!=null && cookies.length>0){
+		for(int i =0;i<cookies.length;i++){
+			String name = cookies[i].getName();
+			if(name.equals("hp_name")){
+				h_name = cookies[i].getValue();
+			}
+			if(name.equals("dept_name")){
+				h_dept = cookies[i].getValue();
+			}
+		}
+	}
+	HttpSession sess = request.getSession();
+	hp_code = (String)sess.getAttribute("hp_code");
+	
 %>
 <!DOCTYPE html>
 <head>
@@ -71,6 +88,7 @@
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link" href="/manager/doctor/doctorList.mgr">
+        <a class="nav-link" href="/doctor/doctorList.mgr">
           <i class="fa fa-stethoscope"></i>
           <span>의사</span>
         </a>
