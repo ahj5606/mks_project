@@ -26,7 +26,6 @@ public class crm_ReservationDao {
 		//병원만 선택후  모든과, 의사T, 대기시간 찾기 or 진료과목 및 의사T 조건검색 으로 목록 확인
 		logger.info("[crm_ReservationDao] proc_reservelist 호출성공");
 		List<Map<String, Object>> proc_reservelist = null;
-
 	//pMap.put("u_hp_code","647HP");
 	//pMap.put("u_dept_name","소아과");
 	//pMap.put("u_doc_name","조하윤");
@@ -42,6 +41,13 @@ public class crm_ReservationDao {
 		sqlSes.selectList("proc_reservelist", pMap);
 		proc_reservelist = (List<Map<String, Object>>)pMap.get("res_list");
 		return proc_reservelist;
+	}
+	public List<Map<String, Object>> res_qrcode(Map<String, Object> pMap) {
+		      //진료 예약화면 - 의사 선생님 카테고리
+		      logger.info("[crm_ReservationDao] res_qrcode 호출성공");
+		      List<Map<String, Object>> res_qrcode = null;
+		      res_qrcode = sqlSes.selectList("res_qrcode", pMap);
+		      return res_qrcode;
 	}
 	
 	public List<Map<String, Object>> deptCategory(Map<String, Object> pMap) {
@@ -95,30 +101,31 @@ public class crm_ReservationDao {
 		//예약 가능한 시간표 Select
 		logger.info("[crm_ReservationDao] calender 호출성공");
 		List<Map<String, Object>> calender = null;
-		//pMap.put("hp_code", "647HP");
-		//pMap.put("dept_code", "39");
-		//pMap.put("doc_code", "10-6830-6829");
-		//pMap.put("sch_date", "2020/07/23");
+	//pMap.put("hp_code", "647HP");
+	//pMap.put("dept_code", "39");
+	//pMap.put("doc_code", "10-6830-6829");
+	//pMap.put("sch_date", "2020-07-23");
 		//pMap.put("sch_time", "1200");
+		logger.info("sch_date" + pMap.get("sch_date"));
 		calender = sqlSes.selectList("calender", pMap);
 		return calender;
 	}
-	public int reservation(Map<String, Object> pMap) { //예약하기
-		logger.info("[crm_ReservationDao] reservation 호출성공");
+	public int pro_reservation(Map<String, Object> pMap) { //예약하기
+		logger.info("[crm_ReservationDao] pro_reservation 호출성공");
 		int result = 0;
-	//	pMap.put("mem_memcode", 95);
-	//	pMap.put("res_memo", "오니");
-	//	pMap.put("sch_code", 22);
-	//	pMap.put("res_qrcode", "");
-	//	pMap.put("doc_name", "이시현");
-	//	pMap.put("res_time", "1200");
-	//	pMap.put("doc_code", "10-6830-6829");
-	//	pMap.put("hp_code", "647HP");
-	//	pMap.put("dept_name", "신경과");
-	//	pMap.put("dept_code", "39");
-	//	pMap.put("sch_date", "2020/07/23");
-	//	pMap.put("hp_name", "위대항병원");
-		result = sqlSes.insert("reservation", pMap);
+		//pMap.put("mem_memcode", 95);
+		//pMap.put("res_memo", "오니");
+		//pMap.put("sch_code", 21);
+		//pMap.put("res_qrcode", "");
+		//pMap.put("doc_name", "이시현");
+		//pMap.put("res_time", "1100");
+		//pMap.put("doc_code", "10-6830-6829");
+		//pMap.put("hp_code", "647HP");
+		//pMap.put("dept_name", "신경과");
+		//pMap.put("dept_code", "39");
+		//pMap.put("sch_date", "2020/07/23");
+		//pMap.put("hp_name", "위대항병원");
+		result = sqlSes.insert("pro_reservation", pMap);
 		logger.info("result: " + result);
 		sqlSes.commit(true);
 		return result;

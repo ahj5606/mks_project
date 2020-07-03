@@ -30,6 +30,11 @@
       mem_name = (String)session.getAttribute("mem_name");
 
    }
+   String mks_id = null;// 세션에 저장되어있는 **** 회원이름
+   if(session.getAttribute("mks_id")!=null){
+      mks_id = (String)session.getAttribute("mks_id");
+
+   }
    
    String hp_code = null;// 파라미터로 넘어온 hp_code
    if(request.getParameter("hp_code")!=null){
@@ -37,6 +42,12 @@
 
    }
    
+   String sch_code = null;// 파라미터로 넘어온 hp_code
+   if(request.getParameter("sch_code")!=null){
+	   sch_code = request.getParameter("sch_code");
+
+   }
+  
 %>
 <!DOCTYPE html>
 <html>
@@ -82,39 +93,76 @@
    }
 </style>
 <script type="text/javascript">
+  // var total_doc=new ArrayList<>();
+   var total_doc=new Array();
    var doc_name="";
    var dept_name ="";
    var hp_name = '<%=hp_name%>';
    var hp_code = '<%=hp_code%>';
-   var dept_code ="";
+   var dept_code ='<%=dept_code%>';
    var doc_code = '<%=doc_code%>';
    var sch_time="";
    var sch_date="";
+   var imsi3="";
+   var imsi3code="";
+   var res_memo="";
+   var sch_code = '<%=sch_code%>';
+   function test(va,doc_code2){
+	   doc_name=va;
+	   doc_code=doc_code2;
+		$("#doc_name").html(doc_name);
+    	$("#doc_name").css('color','red');
+    	alert(doc_name+"="+doc_code);
+    	time();
+    	$("#sel_doc").modal('hide');
+    	 $("#calendar").remove();
+         $("#cal_space").html("<div id=calendar></div>");
+    	 cal_paint();
+    	 $('select[name=s_doc]').val(doc_code);
+    	 $('.selectpicker').selectpicker('refresh')
+   }
    function make_reservation(){//예약 정보 qr코드 생성 **************************************************
       alert("예약 정보 QR코드 DB에 저장하고 전송해야함!");
       var imsi = document.getElementById("dept_name").innerHTML;
       imsi += "/ "+document.getElementById("doc_name").innerHTML;
       imsi += "/ "+document.getElementById("res_date").innerHTML;
       imsi += "/ "+document.getElementById("sch_time").innerHTML;
-      var qrcode = new QRCode(document.getElementById("qr_img"), {
-          text: imsi,
-         width: 128,
-         height: 128,
-         colorDark : "#000000",
-         colorLight : "#ffffff",
-         correctLevel : QRCode.CorrectLevel.H
-      });
-      $('#modal_qr').modal('show')
+      
+      $.ajax({
+        	url:'/reservation/pro_reservation.crm'
+        	,method:'post'
+        	,data:'res_memo='+$("#res_memo").val()+'&sch_code='+sch_code+'&res_time='+$("#sch_time").html()
+        	,success:function(data){
+        		alert(data);
+	        	var res = data.trim();
+	        	alert(res);
+	        	if(res==0){
+	        		alert("실패");
+	        	}else{
+				      var qrcode = new QRCode(document.getElementById("qr_img"), {
+				          text: res+"",
+				         width: 128,
+				         height: 128,
+				         colorDark : "#000000",
+				         colorLight : "#ffffff",
+				         correctLevel : QRCode.CorrectLevel.H
+				      });
+				      $('#modal_qr').modal('show')       		
+	        	}
+        	}//succseefunction
+    });//ajax	
    }
  function time(){
 	   $('#t_reservationlList').bootstrapTable('refreshOptions', {
-			 url: '/reservation/calender.crm?hp_code='+'<%=hp_code%>'+'&dept_code='+dept_code+'&sch_date='+sch_date+'&doc_code='+doc_code
+			 url: '/reservation/calender.crm?hp_code='+'<%=hp_code%>'+'&dept_code='+dept_code+'&sch_date='+sch_date+'&doc_code='+doc_code+'&sch_date='+sch_date 
 			 ,onClickRow : function(row,element,field){
 				 alert("hi");
 				 alert(sch_date);
 				 var jo = JSON.stringify(row);
 					var d = JSON.parse(jo);
 					sch_time = d.SCH_TIME;
+					sch_code=d.SCH_CODE;
+					alert("sch_code : "+sch_code);
 				    $("#sch_time").html(sch_time);
                     $("#sch_time").css('color','red');
               }
@@ -122,7 +170,64 @@
 		});
 	   
    } 
+ function doc2(){
+	    $.ajax({
+	         url:'/reservation/calender.crm?hp_code='+'<%=hp_code%>'+'&dept_code='+dept_code+'&doc_code='+doc_code+'&sch_date='+sch_date               
+	        ,success: function (data){
+           var res = JSON.parse(data);
+       		var cnt=0;
+               	 		 imsi =new Array();
+               	 		 imsicode =new Array();
+           		for(var i=0; i<res.length; i++){       
+                 	total_doc[i]=res[i].DOC_NAME;
+                 	// $("#res_date").html(sch_date);
+                 	// $("#res_date").css('color','red');  	
+           			 	 if(total_doc[i]==total_doc[i-1]){
+           			 		 
+           				}else{
+           					alert("doc2: "+total_doc[i]); //중복제거 된 의사선생 이름	
+           					doc_name=res[i].DOC_NAME;
+           					cnt++;			
+           			 	imsi +=total_doc[i]+","
+               		    imsicode+=res[i].DOC_CODE+",";
+           				} 
+       				
+           	 	}
+
+       			var imsi2 = imsi.replace(/,\s*$/, "");//끝에 ,없애주기
+       			var imsi2code = imsicode.replace(/,\s*$/, "");//끝에 ,없애주기
+       			imsi3=imsi2.split(',');//한글자씩 나눠진 배열 ,기준으로 합치기
+       			imsi3code=imsi2code.split(',');//한글자씩 나눠진 배열 ,기준으로 합치기
+       			alert(imsicode);
+			 		if(cnt>1){
+			 		alert("0보다큼");
+			 				var data = "";
+			 				for(var i= 0; i<imsi3.length; i++){			 	
+			 					data += "<tr>"
+			 					data += '<td value="i" onClick="test('+"'"+imsi3[i]+"'"+","+"'"+imsi3code[i]+"'"+')" >'+imsi3[i]
+			 					data += "</td>"
+			 					data += "</tr>"
+			 					//doc_name=imsi3[i]
+			 					alert("imsi의 "+doc_name);
+			 				};
+							$("#data").html(data);	
+     			 	    	$("#sel_doc").modal('show'); 						
+						}else{
+						    $("#doc_name").html(doc_name);
+				    	    $("#doc_name").css('color','red');
+							alert("time호출");
+							time();
+						}
+           			 //time();
+                 	// alert("time함수 실행");
+           }
+        });
+
+ }
  function cal_paint(){
+        	   sch_date=null;
+        	   
+	    alert("dept_code 설마??: "+dept_code);
          var calendarEl = document.getElementById('calendar');
          var calendar = new FullCalendar.Calendar(calendarEl, {
              plugins: [ 'interaction', 'dayGrid' ]
@@ -130,28 +235,26 @@
             ,selectable: true
            ,dateClick: function(info) {
                var day = info.dateStr;
-               alert("선택: "+day);
-               time();
-               alert("time함수 실행");
-               $.ajax({
-         	         url:'/reservation/calender.crm?hp_code='+'<%=hp_code%>'+'&dept_code='+dept_code+'&doc_code='+doc_code                
+ 				var imsi = "";
+              	 $.ajax({
+         	         url:'/reservation/calender.crm?hp_code='+'<%=hp_code%>'+'&dept_code='+dept_code+'&doc_code='+doc_code          
          	        ,success: function (data){
                     var res = JSON.parse(data);
                     for(var i=0; i<res.length; i++){
-                       if(day==res[i].SCH_DATE){
-                          alert("day: "+day);
                           sch_date = day;
-                          $("#res_date").html(sch_date);
-                          $("#res_date").css('color','red');
-                        }
+                          if(sch_date==res[i].SCH_DATE){
+                          	$("#res_date").html(sch_date);
+                          	$("#res_date").css('color','red');
+                          }
                     }
+						doc2();
                     }
                  });
               
             } 
             ,dragOpacity: 1
             ,events: 
-      	         '/reservation/calender.crm?hp_code='+'<%=hp_code%>'+'&dept_code='+dept_code+'&doc_code='+doc_code+"&mode=1"
+      	         '/reservation/calender.crm?hp_code='+'<%=hp_code%>'+'&dept_code='+dept_code+'&doc_code='+doc_code+"&mode=1"+'&sch_date='+sch_date 
          });
          calendar.render();
  }
@@ -170,7 +273,7 @@
               <!-- 검색 -->
             <div class="row">
                <div class="col-md">
-                  <select class="form-control" id="s_doc">
+                  <select class="form-control" id="s_doc" name="s_doc">
                    <!--   <option value="담당의사">담당의사</option>
                      <option value="고길동">고길동</option>
                      <option value="김유신">김유신</option>
@@ -203,7 +306,7 @@
                         </div>
                         <div class="row mb-2">
                            <div class="col-md">
-                                 <input type="text" class="form-control" id="i_sym" name="i_sym" type="search" placeholder="(선택) 증상을 입력해주세요.">
+                                 <input type="text" class="form-control" id="res_memo" name="res_memo" type="search" placeholder="(선택) 증상을 입력해주세요.">
                            </div>
                         </div>
                         <div class="row">
@@ -274,13 +377,44 @@
           </div>
         </div>
    </div>
+   <!-- 전체일경우 의사선택 모달 생성 -->
+      <!-- qr 모달 -->
+   <div class="modal fade bd-example-modal-sm" id="sel_doc" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+               <!-- head -->
+               <div class="modal-header">
+                 <h5 class="modal-title">의사 선택하기</h5>
+               </div>
+               <!-- body -->
+           <!--  <div class="modal-body">  -->
+                  <div class="row" style="justify-content: center">
+                 <!-- <input type="text" id ="doc_sel"> -->
+				 <table class="modal-body" id="doc" data-toggle="table">
+                        <thead class="thead-light">
+                           <tr>
+                              <th data-field="doc_sel">의사선택</th>
+                           </tr>
+                        </thead>
+                        <tbody id="data">
+                        </tbody>
+                  </table>	
+                 </div>
+             <!--  </div> -->
+              <!-- footer -->
+              <div class="modal-footer">
+                 <button type="button" class="btn btn-primary" data-dismiss="modal">닫기</button>
+               </div>
+          </div>
+        </div>
+   </div>
    
    <!-- 돔 구성이 완료되었을 때 -->
    <script type="text/javascript">
    var doc_code;
       $(document).ready(function(){
     	  $.ajax({
-     	       url:'/reservation/docCategory.crm?hp_code='+'<%=hp_code%>'+"&dept_code="+'<%=dept_code%>'+"&doc_code="+'<%=doc_code%>'
+     	       url:'/reservation/docCategory.crm?hp_code='+'<%=hp_code%>'+"&dept_code="+'<%=dept_code%>'+"&doc_code="+'<%=doc_code%>'+'&sch_date='+sch_date 
      	       ,dataType: 'json'
      	       ,success:function(data){
 				
@@ -292,20 +426,19 @@
      	          var out_doc_code= "";
      	          out_doc_code ='<%=doc_code%>';
      	          dept_name = res2[0].DEPT_NAME;
+     	          dept_code = res2[0].DEPT_CODE;
+
      	        <%if(doc_code==null){ %>
-     	         		imsi += '<option value="전체">전체</option>';
-     	    				
+     	         		imsi += '<option value="'+dept_code+'">전체</option>';
 	     	          	for(var i=0; i<res2.length; i++){
 	     		             imsi += '<option value="'+res2[i].DOC_CODE+'">'+res2[i].DOC_NAME+'</option>'; 
 	     	          	}
      	          <%} else {%>
      	          var cnt= 0;
-     	          for(var i=0; i<res2.length; i++){
-     	         		  alert("여기!!!!!"+out_doc_code+"/"+res2[i].DOC_CODE);		
+     	          for(var i=0; i<res2.length; i++){	
      	       			  if(out_doc_code==res2[i].DOC_CODE){
      	       				imsi += '<option value="'+res2[i].DOC_CODE+'">'+res2[i].DOC_NAME+'</option>';  
-     	         			imsi += '<option value="전체">전체</option>';
-     	         			alert(res2[i].DOC_NAME+"@@@@@@@@@@@@@@@@@@@@");
+     	       			imsi += '<option value="'+dept_code+'">전체</option>';
      	       				$("#doc_name").html(res2[i].DOC_NAME);
      	       			    $("#doc_name").css('color','red');
      	       			  }else{
@@ -313,10 +446,9 @@
      	       			  }
      	          }
      	          if(cnt==res2.length){
-     	        	 imsi += '<option value="전체">전체</option>';
+     	        	 imsi += '<option value="'+dept_code+'">전체</option>';
      	          }    	          
-		     	          for(var i=0; i<res2.length; i++){
-		     	         		  alert(out_doc_code+"/"+res2[i].DOC_CODE);		
+		     	          for(var i=0; i<res2.length; i++){	
 		     	       			  if(out_doc_code!=res2[i].DOC_CODE){
 		     	       				imsi += '<option value="'+res2[i].DOC_CODE+'">'+res2[i].DOC_NAME+'</option>'; 
 		     	       			  }	     	       			  
@@ -326,30 +458,33 @@
      	         	  $("#s_doc").html(imsi);
      	         	  $("#dept_name").html(dept_name);
      	              alert("일반내과"+dept_name);    	            
-     	              $("#dept_name").css('color','red');    	              
+     	              $("#dept_name").css('color','red');   
+     	             $("#calendar").remove();
+    		         $("#cal_space").html("<div id=calendar></div>");
+     	             cal_paint();
      	        }
      	    });
+		      $("#s_doc").change(function(){
+		         alert("코드: "+this.value);
+		         var val = $("#s_doc option:selected").text();
+		         alert("값: "+val);
+		         if("전체"==val){
+		        	 alert("전체, 전변에 저장된 부서코드: "+ dept_code);
+		        	 doc_code="";
+		         }else{
+			    	 doc_code = this.value;
+			    	 doc_name = val;
+			         $("#doc_name").html(doc_name);
+		    	     $("#doc_name").css('color','red');
+		         }
+		         $("#calendar").remove();
+		         $("#cal_space").html("<div id=calendar></div>");
+		         cal_paint();
+		      });
       });
-      $("#s_doc").change(function(){
-         alert("이건뭐냐"+this.value);
-         var val = $("#s_doc option:selected").text();
-         alert("값뭐냐"+val);
-         if("전체"==val){
-        	 dept_code = <%=dept_code%>;
-        	 alert("전체일떄"+ dept_code);
-        	 doc_code=null;
-         }else{
-	    	 doc_code = this.value;
-	    	 doc_name = val;
-	         $("#doc_name").html(doc_name);
-    	     $("#doc_name").css('color','red');
-         }
-         $("#calendar").remove();
-         $("#cal_space").html("<div id=calendar></div>");
-         cal_paint();
-      });
+      
+			document.addEventListener('DOMContentLoaded', cal_paint); 
 
-      document.addEventListener('DOMContentLoaded', cal_paint); 
 
    </script>
 </body>
