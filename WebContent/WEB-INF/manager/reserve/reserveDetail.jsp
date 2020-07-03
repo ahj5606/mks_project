@@ -27,13 +27,24 @@ if(sch_code==null){
 	out.print("안됨");
 }
 %>
+<style type="text/css">
+.calender{
+	margin-bottom: 500px;
+}
+.form-control {
+	text-align: center;
+}
+.row {
+	margin: 10px;
+}
+</style>
 <script type="text/javascript">
 
 	function back(){
 		location.href="/manager/reserve/reserveList.mgr";
 	}
 	function reserve_remove(){
-		alert("삭제");
+		//alert("삭제");
 		var pCode = $("#patientCode").val();
 		var p_code = parseInt(pCode);
 		var r_Code =$("#sch_code").val();
@@ -54,19 +65,19 @@ if(sch_code==null){
 		})  
 	}
 	function reserve_edit(){
-		alert("수정");
+		//alert("수정");
 		var pCode = $("#mem_memcode").val();
 		var p_code = parseInt(pCode);
 		var r_Code =$("#sch_code").val();
 		var resCode = parseInt(r_Code);
 		var mem_memcode=<%=mem_memcode%>//변경전
-		alert("변경전 회원코드:"+mem_memcode+", 변경된 회원코드:"+p_code);
+		//alert("변경전 회원코드:"+mem_memcode+", 변경된 회원코드:"+p_code);
 		/* var hp_name="새움병원";
 		var hp_code="280HP"; */
 		var param= "mem_memcode="+p_code+
 				   "&sch_code="+resCode;
 		//alert("param : "+param);
-	alert("원래 회원번호:"+mem_memcode+", 바뀔 회원번호"+p_code);
+	//alert("원래 회원번호:"+mem_memcode+", 바뀔 회원번호"+p_code);
 		
 	$.ajax({
 			url:"/manager/reserve/reserveUPD.mgr?"+param
@@ -85,7 +96,6 @@ if(sch_code==null){
 	}
 </script>
 	<div class="container-fluid" id="sidebar">
-			<h1>예약 정보</h1>
 		<div class="container">
 			<form role="form">
 			<input type="hidden" value="<%=rList.get(0).get("HP_NAME")%>" id="hp_name">
@@ -95,6 +105,12 @@ if(sch_code==null){
 			<input type="hidden" value="<%=rList.get(0).get("DEPT_CODE")%>" id="dept_code">
 			<input type="hidden"  value="<%=rList.get(0).get("SCH_CODE")%>" id="sch_code">
 				<div class="row">
+			<h1>예약 정보</h1>
+				</div>
+				<div class="row mb-4">
+					<div class="col-1"></div>
+					<div class="text-center col-6" id="calendar"></div>
+					<div class="col-5"></div>
 				</div>
 				<div class="row">
 				<div class="form-group mr-2">
@@ -118,41 +134,54 @@ if(sch_code==null){
 				<!-- <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#doctorSearch" style="margin-bottom:10px;">
 					예약 담당의 변경
 				</button> -->
-				<div class="form-group">
+				<div class="row">
+				<div class="form-group mr-2">
 					<label for="dept">진료과</label>
-					<input type="text" class="form-control" id="dept_name" value="<%=rList.get(0).get("DEPT_NAME")%>" placeholder="Enter dept" readonly>
+					<input type="text" class="form-control res" style="width:170px; text-align:center;" id="dept_name" value="<%=rList.get(0).get("DEPT_NAME")%>" placeholder="Enter dept" readonly>
 				</div>
-				<div class="form-group">
+				<div class="form-group mr-2">
 					<label for="doctor">담당의</label>
-					<input type="text" class="form-control" id="doc_name" value="<%=rList.get(0).get("DOC_NAME")%>" placeholder="Enter doctor" readonly>
+					<input type="text" class="form-control res" style="width:90px;" id="doc_name" value="<%=rList.get(0).get("DOC_NAME")%>" placeholder="Enter doctor" readonly>
 				</div>
-				<div class="form-group">
-					<label for="memo">증상</label>
-					<input type="text" class="form-control" id="res_memo" value="<%=rList.get(0).get("RES_MEMO")%>" placeholder="Enter memo" >
-				</div>
-				<div class="form-group">
+				<div class="form-group mr-2">
 				<label for="reserveDate">예약 날짜</label> 
 						<input type="text" id="sch_date" readonly value="<%=rList.get(0).get("SCH_DATE")%> "
-							class="form-control mb-2" placeholder="date input"> 
+							class="form-control mb-2 res" placeholder="date input"> 
 <%-- 						<input type="date" id="resDate" value="<%=rList.get(0).get("SCH_DATE")%>"
 							class="form-control mb-2" placeholder="date input">  --%>
 				</div>
-				<div class="form-group">
+				<div class="form-group mr-2">
 				<label for="reserveDate">예약 시간</label> 
-						<input type="text" id="resTime" value="<%=res_time%>" class="form-control mb-2" placeholder="time input" readonly> 
+						<input type="text" id="resTime" value="<%=res_time%>" class="form-control mb-2 res" placeholder="time input" readonly> 
+				</div>
+				</div>
+				<div class="alert alert-danger alert-dismissible fade show" id="alert" style="display: none;" role="alert">
+				  <strong>환자 정보만 수정 할 수 있습니다. </strong> 예약 일정 추가는 <a href="/manager/doctor/doctorDetail.mgr?doc_code=<%=rList.get(0).get("DOC_CODE")%>" class="alert-link">해당 의사정보 페이지</a>에서 할 수 있습니다.
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				
+				<div class="row">
+				<div class="form-group">
+					<label for="memo">증상</label>
+					<input type="text" style="width:170px; text-align:left;" class="form-control mb-2" id="res_memo" value="<%=rList.get(0).get("RES_MEMO")%>" placeholder="Enter memo" >
+				</div>
 				</div>
 				
 
 			</form>
-				<button class="text-center btn btn-primary" onclick="reserve_edit()">
+			<div class="row">
+				<button class="text-center btn btn-primary mr-2" onclick="reserve_edit()">
 						수정
 				</button>
-				<button class="text-center btn btn-danger" onclick="reserve_remove()">
+				<button class="text-center btn btn-danger mr-2" onclick="reserve_remove()">
 						삭제
 						</button>
-				<button class="text-center btn btn-default btn-outline-secondary" onclick="back()">
+				<button class="text-center btn btn-default btn-outline-secondary mr-2" onclick="back()">
 						닫기
 				</button>
+			</div>
 		</div>
 </div>
 
@@ -295,6 +324,13 @@ if(sch_code==null){
 	var doc_code=null;
 	
 $(document).ready(function(data){
+
+	$("#res_memo").focus();
+	$(".res").dblclick(function() {
+		$("#alert").show();
+	});
+
+	
 	$("#d_list").bootstrapTable({
 		onDblClickRow:function(row, $element, field){
 			//의사검색
@@ -313,7 +349,7 @@ $(document).ready(function(data){
 		$("#doc_name").val(DOC_NAME);
 		$("#doc_code").val(DOC_CODE);
 		 var getDoc_code=$("#doc_code").val();
-		 alert("의사코드"+getDoc_code);
+		 //alert("의사코드"+getDoc_code);
 			$("#scheduleSearch").modal('show');
 			$("#sch_list").bootstrapTable('refreshOptions', {
 			    url:'/manager/reserve/reserveSchedule.mgr?doc_code='+DOC_CODE
@@ -327,7 +363,7 @@ $(document).ready(function(data){
 		onDblClickRow:function(row, $element, field)
 	     { 
 			//예약일정검색
-			alert("호출");
+			//alert("호출");
 	 		var jo = JSON.stringify(row);
 			var d = JSON.parse(jo);
 			var SCH_CODE= d.SCH_CODE;
@@ -345,7 +381,7 @@ $(document).ready(function(data){
 		onDblClickRow:function(row, $element, field)
 	     { 
 			//환자검색
-			alert("호출");
+			//alert("호출");
 	 		var jo = JSON.stringify(row);
 			var d = JSON.parse(jo);
 			var MEM_MEMCODE = d.MEM_MEMCODE;
@@ -378,5 +414,20 @@ function p_search(){
 	    url:'/manager/reserve/reservePatient.mgr'
   })
 } 
-
+document.addEventListener('DOMContentLoaded', function() {
+	var sch_code=$("#sch_code").val();
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    	aspectRatio: 7
+    	,height:500
+    	,handleWindowResize: false
+       ,plugins: [ 'interaction', 'dayGrid' ]
+       ,defaultView: 'dayGridMonth'
+       ,eventLimit: false
+       ,selectable: true
+       ,events: 
+        	'./transList.mgr?sch_code='+sch_code
+    });
+    calendar.render();
+ });
  </script>	

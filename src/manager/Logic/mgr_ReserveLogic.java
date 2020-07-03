@@ -84,11 +84,10 @@ public class mgr_ReserveLogic {
 		rList=rDao.reservePatient(pMap);
 		return rList;
 	}
-
-
-
-
-
-
+	public List<Map<String, Object>> transDate(Map<String, Object> pMap) {
+		List<Map<String,Object>> transList=null;
+		transList=rDao.transDate(pMap);
+		return transList;
+	}
 
 }

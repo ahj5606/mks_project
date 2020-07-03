@@ -30,8 +30,6 @@ public class mgr_ReserveController implements mgr_Controller {
 		rlogic = new mgr_ReserveLogic();
 		mgr_ReserveDao mrDao = new mgr_ReserveDao();
 		Map<String,Object> pMap = new HashMap<>();
-		tot = mrDao.getResTotal(pMap);
-		logger.info("tot:"+tot);
 	}
 	
 	@Override
@@ -39,16 +37,45 @@ public class mgr_ReserveController implements mgr_Controller {
 		mgr_ModelAndView mav = new mgr_ModelAndView(req, res);
 		logger.info("mgrProcess호출 : "+requestName);
 		HttpSession session = req.getSession();
-		session.setAttribute("s_tot", tot);
 		
+		Map<String,Object> pMap = new HashMap<>();
+		HashMapBinder hmb = new HashMapBinder(req);
+		hmb.binder(pMap);
+		String hp_code =pMap.get("hp_code").toString();
+		if(pMap.get("hp_code") ==null) {
+			//로그인 정보가 만료되었습니다.
+			mav.IsForward(false);
+			mav.setViewName("/fail");
+			return mav;
+		}
+		if("transList".equals(requestName)) {
+			logger.info("transList 호출");
+			String sch_code = req.getParameter("sch_code");
+			String dept = null;
+			List<Map<String,Object>> transList = null;
+			logger.info("pMap->"+pMap);
+			if(sch_code!=null) {
+				pMap.put("sch_code", sch_code);
+			}
+			if(pMap.get("dept_name")!=null) {
+				dept=pMap.get("dept_name").toString();
+				logger.info(dept);
+				if(dept.equals("진료과 전체")) {
+					pMap.put("dept_name", null);
+					logger.info(pMap);
+				}
+			}
+			transList = rlogic.transDate(pMap);
+			mav.addObject("transList", transList);
+			mav.IsForward(true);
+			mav.setViewName("/reserve/calendarJSON");
+		}
 		if("reserveList".equals(requestName)){		
 			logger.info("mgrProcess reserveList호출");
 			//예약 메인
-			String hp_code = req.getParameter("hp_code");
 			logger.info("hp_code :"+hp_code);
 			List<Map<String,Object>> dList = null;
 			List<Map<String,Object>> rList = null;
-			Map<String,Object> pMap = new HashMap<>();
 			rList = rlogic.reserveList(pMap);
 			dList = rlogic.reserveDEPT(pMap);//진료과 드롭다운에 넣을 것
 			mav.addObject("rList", rList);
@@ -62,8 +89,6 @@ public class mgr_ReserveController implements mgr_Controller {
 		if("reserveSEL".equals(requestName)){
 			logger.info("reserveSEL 호출");
 			
-			Map<String,Object> pMap = new HashMap<>();
-			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(pMap);
 			String dept = null;
 			logger.info(dept);
@@ -94,7 +119,6 @@ public class mgr_ReserveController implements mgr_Controller {
 			String mem_memcode = req.getParameter("mem_memcode");
 			
 			List<Map<String,Object>> rList = null;
-			Map<String,Object> pMap = new HashMap<>();
 			logger.info("sch_code:"+sch_code);
 			if("".equals(req.getParameter("sch_code"))) {
 				sch_code=null;
@@ -107,14 +131,11 @@ public class mgr_ReserveController implements mgr_Controller {
 			mav.IsForward(true);
 			logger.info(rList);
 			mav.setViewName("/reserve/mgr_reserveDetail");
-
 			
 			
 		}else if("reservePatient".equals(requestName)) {
-			String hp_code ="280HP";			
 			/* hp_code = req.getParameter("hp_code"); */
 			List<Map<String,Object>> rList = null;
-			Map<String, Object> pMap = new HashMap();
 			pMap.put("hp_code", hp_code);
 			rList = rlogic.reservePatient(pMap);
 			mav.addObject("rList", rList);
@@ -123,10 +144,8 @@ public class mgr_ReserveController implements mgr_Controller {
 			
 			//위아래 연계됨
 		}else if("reserveDoctor".equals(requestName)) {
-			String hp_code ="280HP";			
 			/* hp_code = req.getParameter("hp_code"); */
 			List<Map<String,Object>> rList = null;
-			Map<String, Object> pMap = new HashMap();
 			pMap.put("hp_code", hp_code);
 			rList = rlogic.reserveDoctor(pMap);
 			mav.addObject("rList", rList);
@@ -135,13 +154,11 @@ public class mgr_ReserveController implements mgr_Controller {
 			
 			//위아래 연계됨
 		}else if("reserveSchedule".equals(requestName)) {
-			String hp_code ="280HP";	
 			String doc_code =null;
 			/* hp_code = req.getParameter("hp_code"); */
 			doc_code = req.getParameter("doc_code");
 			
 			List<Map<String,Object>> rList = null;
-			Map<String, Object> pMap = new HashMap();
 			pMap.put("hp_code", hp_code);
 			pMap.put("doc_code", doc_code);
 			rList = rlogic.reserveSchedule(pMap);
@@ -154,9 +171,6 @@ public class mgr_ReserveController implements mgr_Controller {
 			logger.info("예약 등록 호출 성공");
 			//예약 추가할때
 			int result = 0;
-			Map<String,Object> pMap = new HashMap<>();
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.binder(pMap);
 			logger.info("담당의사 :"+pMap.get("doc_name"));
 			String res_qrcode="0";
 			pMap.put("res_qrcode", res_qrcode);
@@ -167,9 +181,6 @@ public class mgr_ReserveController implements mgr_Controller {
 		}else if("reserveUPD".equals(requestName)){
 			//예약 수정
 			int result = 0;
-			Map<String,Object> pMap = new HashMap<>();
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.binder(pMap);
 			logger.info("환자번호 :"+pMap.get("mem_memcode"));
 			logger.info("예약번호 :"+pMap.get("sch_code"));
 			result = rlogic.reserveUPD(pMap);
@@ -181,9 +192,6 @@ public class mgr_ReserveController implements mgr_Controller {
 		}else if("reserveDEL".equals(requestName)){
 			//예약 삭제
 			int result = 0;
-			Map<String,Object> pMap = new HashMap<>();
-			HashMapBinder hmb = new HashMapBinder(req);
-			hmb.binder(pMap);
 			logger.info("환자번호 :"+pMap.get("mem_memcode"));
 			logger.info("예약번호 :"+pMap.get("sch_code"));
 			result = rlogic.reserveDEL(pMap);

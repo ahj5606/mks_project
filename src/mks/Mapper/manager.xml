@@ -268,8 +268,24 @@
 		ORDER BY res.sch_date
 	</select>
 	
+	<select id="transDate" parameterType="map" resultType="map">
+	   select TRANSLATE(sch_date,'/','-') TRANS_DATE 
+	   from mks_reserve
+			where hp_code=#{hp_code}
+	<if test="sch_code!=null">
+		AND sch_code=#{sch_code}
+	</if>
+	<if test="dept_name!=null">
+		AND dept_name=#{dept_name}
+	</if>
+	<if test="doc_name!=null">
+		AND doc_name=#{doc_name}
+	</if>
+       group by sch_date
+	</select>
 	
-		<select id="reserveDetail" parameterType="map" resultType="map">
+	
+	<select id="reserveDetail" parameterType="map" resultType="map">
 			select mem.mem_memcode, mem.mem_name, mem.mem_phone, mem.mem_socialnum,
 			 	res.res_memo, res.sch_code, res.doc_name,
 			 	res.doc_code, res.res_time, res.hp_code,
@@ -301,7 +317,7 @@
 	<if test="hp_code!=null">
 		where hp_code=#{hp_code}
 	</if>
-		ORDER BY doc_name
+		ORDER BY dept_name
 	</select>
 	
 	<select id="reserveSchedule" parameterType="map" resultType="map">
@@ -314,6 +330,7 @@
 		</if>
 		ORDER BY sch_date
 	</select>
+	
 	<insert id="reserveINS" parameterType="map">
 	insert into mks_reserve (mem_memcode, sch_code, doc_code, doc_name
 							, dept_code, dept_name, hp_name, hp_code,

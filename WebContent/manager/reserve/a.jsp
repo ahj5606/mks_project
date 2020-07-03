@@ -323,6 +323,8 @@ function r_search(){
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
+    	 height: 500,
+    	 contentHeight: 600,
         plugins: [ 'interaction', 'dayGrid' ]
        ,defaultView: 'dayGridMonth'
        ,selectable: true
