@@ -82,8 +82,49 @@ var sts =new Array();
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
         });
+      share();
       $('#modal_qr').modal('show')
     }
+   
+   function share(){
+	   var url = 'http://192.168.0.237:5000/client/qrCodeCreation.jsp?qr_code='+sch_code;
+		 Kakao.init("265447647e1cb17951a10eb622ba9fbc");
+		 Kakao.Link.createDefaultButton({
+		 	  container: '#kakao-link-btn',
+		 	  objectType: 'feed',
+		 	  content: {
+		 	    title: "mks 코스모 병원",
+		 	    description: "예약 qr 코드",
+		 	    imageUrl:
+		 	      './health_96630.png',
+		 	    link: {
+		 	      mobileWebUrl: url,
+		 	      androidExecParams: 'test'
+		 	    }
+		 	  },
+		 	  buttons: [
+		 	    {
+		 	      title: '웹으로 이동',
+		 	      link: {
+		 		      webUrl: url
+		 	      },
+		 	    }
+		 	    ,
+		 	    {
+		 	      title: '앱으로 이동',
+		 	      link: {
+		 		      mobileWebUrl: url
+		 	      },
+		 	    }, 
+		 	  ],
+		 	  success: function(response) {
+		 	    console.log(response);
+		 	  },
+		 	  fail: function(error) {
+		 	    console.log(error);
+		 	  }
+		 	});
+   }
     
    function res_pageGet(num){
       $.ajax({
@@ -93,32 +134,33 @@ var sts =new Array();
             var res = JSON.parse(imsi);
             var inner = "";
             var inner2 = "";
-            for(var i=0; i<res.length; i++){
-               inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].DEPT_NAME+"</td></tr>";
-                inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC_NAME+"</td></tr>";
-                inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].SCH_DATE+"</td></tr>";
-                inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].RES_TIME+"</td></tr>";
-            }
-            $("#t_my_resevation").html(inner);
-            if(res.length>0){
-               for(var i=0; i<res.length; i++){
-                  inner2 += "<tr>";
-                  inner2 += "<td><a id='qr' href='#' onClick='qr_modal()'></a></td>";
-                  inner2 += "</tr>";
-               }
-               $("#qr_table").html(inner2);
-               //sch_code = Number(res[0].SCH_CODE+"");
-               sch_code = res[0].SCH_CODE+"";
-               alert(sch_code);
-               var qrcode = new QRCode(document.getElementById("qr"), {
-                     text: sch_code,
-                     width: 100,
-                     height: 100,
-                     colorDark : "#000000",
-                     colorLight : "#ffffff",
-                     correctLevel : QRCode.CorrectLevel.H
-                });
-            }
+            if(res.length==0){
+            	inner += "<tr><td style='padding-right:200px;padding-bottom:100px;'></td></tr>";
+         	}else if(res.length>0){
+				for(var i=0; i<res.length; i++){
+					inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].DEPT_NAME+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC_NAME+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].SCH_DATE+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].RES_TIME+"</td></tr>";
+				    inner2 += "<tr>";
+				    inner2 += "<td><a id='qr' href='#' onClick='qr_modal()'></a></td>";
+				    inner2 += "</tr>";
+				}
+         	}
+			$("#t_my_resevation").html(inner);
+			$("#qr_table").html(inner2);
+			if(res.length>0){
+				sch_code = res[0].SCH_CODE+"";
+				alert(sch_code);
+				var qrcode = new QRCode(document.getElementById("qr"), {
+				      text: sch_code,
+				      width: 100,
+				      height: 100,
+				      colorDark : "#000000",
+				      colorLight : "#ffffff",
+				      correctLevel : QRCode.CorrectLevel.H
+				});
+			}
          }
       });
    }
@@ -296,7 +338,7 @@ var sts =new Array();
                         inner += '</div>';
                      }
                   }
-                  if(res.length==1){
+                  if(res.length==1||res.length==0){
                         inner += '<div class="row pt-3 pb-2 px-3"><div class="col-md">&nbsp;&nbsp;';
                         inner += '</div></div>';
                   }else if(res.length==2){
@@ -415,7 +457,7 @@ var sts =new Array();
       style="font-family: 'Do Hyeon', sans-serif; margin-top: 15px;">
       <div class="row pt-4">
          <!-- 지도 검색 -->
-         <div class="col-md">
+         <div class="col-md" style="min-height: 590px">
             <div class="row mb-0">
                <div class="col-md">
                   <label style="font-size: x-large; font-color: #4C4C4C;">병원
@@ -643,7 +685,7 @@ var sts =new Array();
               <!-- footer -->
               <div class="modal-footer">
                  <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="self.close();">닫기</button>
-                 <!-- <button type="button" id="kakao-link-btn" class="btn btn-warning">공유하기</button> -->
+                 <button type="button" id="kakao-link-btn" class="btn btn-warning">공유하기</button>
                </div>
           </div>
         </div>

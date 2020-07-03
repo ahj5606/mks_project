@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.*"%>
 <% 
-	String sch_code = request.getParameter("sch_code");
+	String qr_code = request.getParameter("qr_code");
 %>
 <!DOCTYPE html>
 <html>
@@ -15,12 +15,12 @@
 </style>
 </head>
 <body>
-	<div id="qrcode"></div>
+<div id="qrcode" style="margin:auto;text-align:center;"></div>
 <script type="text/javascript">
     var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "<%=sch_code%>",
-        width: 120,
-        height: 120,
+        text: "<%=qr_code%>",
+        width: 500,
+        height: 500,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
