@@ -96,7 +96,7 @@
 	}
 	 function qr_popup(sch_code){//예약 정보 qr코드 생성 **************************************************
 	      var qrcode = new QRCode(document.getElementById("qr_img"), {
-	         text: sch_code+""
+	         text: sch_code+"", 
 	         width: 128,
 	         height: 128,
 	         colorDark : "#000000",

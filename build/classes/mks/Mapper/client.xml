@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mks.Mapper.clientMapper">
-<<<<<<< HEAD
 
 	<!-- 지도 진료과 카테고리 -->
 	<select id="categori"  parameterType="map" resultType="map">
 	        select dept_name from mks_dept
         group by dept_name
         </select>
-
-=======
-  <select id="categori"  parameterType="map" resultType="map">
-           select dept_name from mks_dept
-        group by dept_name
-        </select>
 <!-- crm_HospitalDao 부분 -->
->>>>>>> refs/heads/jina
 	<select resultType="map" parameterType="map" id="hospitalList">
 		SELECT 
 		    r, hp_code, hp_name , hp_lat, hp_lng, hp_detail, hp_address, hp_open, hp_close, hp_phone, dept_name
@@ -229,22 +221,8 @@ WHERE r BETWEEN #{fnum} AND #{enum}
 		    (mem_memcode, res_memo, sch_code, res_qrcode, doc_name, res_time, doc_code, hp_code, dept_name, dept_code, sch_date, hp_name) 
 		  VAlUES (#{mem_memcode},#{res_memo},#{sch_code},#{res_qrcode},#{doc_name},#{res_time},#{doc_code},#{hp_code},#{dept_name},#{dept_code},#{sch_date},#{hp_name})	
 	</insert>
-<<<<<<< HEAD
-	<!-- crm_MypageDao 부분 -->	
-=======
-	
-<!-- crm_LoginDao 부분 -->
-	<select id="proc_mem_login" parameterType="map" statementType="CALLABLE">
-		{call proc_mem_login (
-			#{u_id, mode=IN, jdbcType=VARCHAR}
-			,#{u_pw, mode=IN, jdbcType=VARCHAR}						
-			,#{msg, mode=OUT, jdbcType=VARCHAR}						
-			,#{msg_id, mode=OUT, jdbcType=VARCHAR}						
-		)}
-	</select>
 	
 <!-- crm_MypageDao 부분 -->
->>>>>>> refs/heads/jina
 	<select id="mypageList" parameterType="map" resultType="map">
 	<!-- 예약목록화면 리스트 -->
 		SELECT rnum, mem_memcode, hp_name, dept_name, doc_name, TO_CHAR(TO_DATE(sch_date),'YYYY-MM-DD') sch_date, res_qrcode, res_time, sch_code
@@ -268,36 +246,6 @@ WHERE r BETWEEN #{fnum} AND #{enum}
          </if>
 	</select>
 	<select id="mypagePassword" parameterType="map" resultType="map">
-<<<<<<< HEAD
-<!-- 비밀번호 입력 화면 - 비밀번호 일치. 불일치. -->
-SELECT NVL(
-(SELECT
-mks_pw
-FROM mks_online
-WHERE mks_id = #{mks_id}
-AND mks_pw = #{mks_pw}
-), ''
-) mks_pw
-FROM dual
-</select>
-<select id="mypageUpd_Member" parameterType="map" resultType="map">
-<!-- 개인 정보 수정. - 맴버테이블 -->
-UPDATE mks_member
-SET
-mem_address = #{mem_address}
-,mem_phone = #{mem_phone}
-WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
-</select>
-<select id="mypageUpd_Online" parameterType="map" resultType="map">
-<!-- 개인 정보 수정. - 온라인테이블 -->
-UPDATE mks_online
-SET
-mks_pw = #{mks_pw}
-,mks_email = #{mks_email}
-WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
-</select>
-	<select id="idCheck" parameterType="map" resultType="String">
-=======
 	<!-- 비밀번호 입력 화면 - 비밀번호 일치. 불일치. -->
 		SELECT NVL(
 		            (SELECT
@@ -336,7 +284,6 @@ WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id}
 		 WHERE mem_memcode = (SELECT mem_memcode FROM mks_online WHERE mks_id = #{mks_id})
 	</select>
 	<select id="idCheck" parameterType="map" resultType="map">
->>>>>>> refs/heads/jina
 	<!-- id중복 검사  -->
 		SELECT NVL(
 		(SELECT
