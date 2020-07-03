@@ -22,6 +22,14 @@
    if( request.getParameter("hp_code")!=null){
 	     hp_code =  request.getParameter("hp_code");
 	   }
+   String b_no = null;
+   if(request.getParameter("board_no") != null){
+	   b_no = request.getParameter("board_no");
+   }
+   String board_title = null;
+   if(request.getParameter("board_title") != null){
+	   board_title = request.getParameter("board_title");
+   } 
 %>
 <!DOCTYPE html>
 <html>
@@ -77,7 +85,7 @@
 	}
 </style>
 <script type="text/javascript">
-var hp_code = '<%=hp_code%>'
+var hp_code = '<%=hp_code%>';
 var dept_name = '<%=dept_name%>';
 var doc_name = "";
 function res_pageGet(num){
@@ -156,7 +164,7 @@ function page_btn(){
 //------------------------진료과 선택--------------------------
 function s_categori(){
 	$.ajax({
-       url:'/reservation/deptCategory.crm?hp_code='+'<%=hp_code%>'+'&num=1'
+       url:'/reservation/deptCategory.crm?hp_code='+'<%=hp_code%>'+'&num=1' 
        ,dataType: 'json'
        ,success:function(data){
           var res = JSON.stringify(data);
@@ -229,10 +237,11 @@ function s_categori(){
 		alert("공지사항목록 팝업!");
 		cmm_window_popup('/client/notice/noticeList.jsp?hp_name='+'<%=hp_name%>','1000','700','공지사항');
 	}
-	function board_detail(b_choice){
+	function popup_notice_second(b_choice){
 		//*** input 태그 안에 공지사항 b_no(pk) 숨겨 놓고 클릭할때 그 값을 가져온다..
 		var b_no = $(b_choice).children("input").val();
 		alert("공지사항번호: "+b_no+" ==> 모달띄워야함!!");
+		cmm_window_popup('/client/notice/noticeDetail.jsp?board_no='+b_no+'&hp_name='+'<%=hp_name%>','1000','700','공지 상세보기');
 	}
 	function waiting(){
 		alert("대기 팝업!");
@@ -259,7 +268,7 @@ function s_categori(){
 		alert(imsi);
 		if(imsi=='doc_yes'){//만약 의사이름이 없다면 == 일반내과 전체
 			alert("의사 코드: "+doc_code);
-			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_code="+'<%=hp_code%>'+"&hp_name="+'<%=hp_name%>'+"&dept_name="+'<%=dept_name%>','1200','950','상세예약');
+			cmm_window_popup('/client/reservation/reservation.jsp?doc_code='+doc_code+"&hp_code="+'<%=hp_name%>'+"&hp_name="+'<%=hp_name%>'+"&dept_name="+'<%=dept_name%>','1200','950','상세예약');
 			/* ****과 코드를 넘겨서 상세예약화면에서 dept_code로 
 					1)해당 과의 전체 의사 목록 뽑아서 카테고리완성, dept_name 전달   2)과전체 의사의 예약가능 날짜 List로 전달
 			*/
@@ -268,6 +277,7 @@ function s_categori(){
 			cmm_window_popup('/client/reservation/reservation.jsp?dept_code='+doc_code+"&hp_code="+'<%=hp_code%>'+"&hp_name="+'<%=hp_name%>'+"&dept_name="+'<%=dept_name%>','1200','950','상세예약');
 			/* ****의사 코드를 넘겨서 상세예약화면에서 doc_code로		
 					1)해당 의사의 dept_code를 뽑아서 의사 카테고리완성, dept_name 전달   2)해당의사의 예약가능날짜  List로 전달
+					
 			}); 
 			*/
 		}
@@ -330,14 +340,16 @@ function s_categori(){
 									** 돔구성이 완료되었을 때 li를 2개 넣어 준다!
 									1) 공지사항 목록 2개 가져오면서 b_no을 input의 value 값으로 박아놓고 hidden으로 숨긴다...
 									2) 클릭하면 "공지사항상세화면 주소?b_no=3"으로 요청을 보낸다...
-								 -->
+								 
 								<li id="board_1"><a href="javascript:board_detail($('#board_1'))">자바라기</a><input type="hidden" value="1"></li>
 								<li id="board_2"><a href="javascript:board_detail($('#board_2'))">프로젝트</a><input type="hidden" value="2"></li>
+								-->
 							</ul>		
 						</div>
 					</div>
 				</div>
 			</div>
+			
 		</div>
 		<!-- 하단 -->
 	  	<div class="row">
@@ -458,11 +470,27 @@ function s_categori(){
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$.ajax({// **** 공지사항 가져오는 아작스
-				/* 
+				/*  
+				** 돔구성이 완료되었을 때 li를 2개 넣어 준다!
+				1) 공지사항 목록 2개 가져오면서 b_no을 input의 value 값으로 박아놓고 hidden으로 숨긴다...
+				2) 클릭하면 "공지사항상세화면 주소?b_no=3"으로 요청을 보낸다...
+				<li id="board_1"><a href="javascript:board_detail($('#board_1'))">자바라기</a><input type="hidden" value="1"></li>
+				<li id="board_2"><a href="javascript:board_detail($('#board_2'))">프로젝트</a><input type="hidden" value="2"></li>
+				
 				#board_list 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
 				<li id="board_1"><a href="javascript:board_detail($('#board_1'))">자바라기</a><input type="hidden" value="1"></li>
 				<li id="board_2"><a href="javascript:board_detail($('#board_2'))">프로젝트</a><input type="hidden" value="2"></li> 
 				*/
+				url: '/notice/noticeList.crm?board_no=1&mode=1'
+				,success: function(data){
+					var res = JSON.parse(data);
+					alert("res: ");
+					var inner = "";
+					for(var i=0; i<res.length; i++) {
+						inner += '<li id="board_1"><a href="#" onClick="popup_notice_second(this)">'+res[i].BOARD_TITLE+'<input type="hidden" value="'+res[i].BOARD_NO+'"></a></li>';
+					}
+					$("#board_list").html(inner);
+				}
 			});
 			 s_categori();
 			 res_pageGet(1);

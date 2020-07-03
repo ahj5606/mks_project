@@ -129,8 +129,9 @@
          ,#{msg_id, mode=OUT, jdbcType=VARCHAR}                  
       )}
    </select>
+   <!-- 
    <select id="noticeNew" parameterType="map" resultType="map">
-	<!-- 예약회면에서 최신 공시사항 2가지 제목 보여주기. -->
+	예약회면에서 최신 공시사항 2가지 제목 보여주기.
 		SELECT 
 		    board_no, board_title, board_date
 		  FROM (
@@ -141,34 +142,35 @@
 		         ORDER BY board_date desc  
 		       ) 
 		 WHERE ROWNUM <![CDATA[<=]]> 2 
-		 <!-- <![CDATA[<=]]> 는 <, > 같은 부등호가 xml에는 올 수 없으므로 단독으로 사용할때는 <![CDATA[여기 안에다 부등호 넣자.]]> --> 	
+		 <![CDATA[<=]]> 는 <, > 같은 부등호가 xml에는 올 수 없으므로 단독으로 사용할때는 <![CDATA[여기 안에다 부등호 넣자.]]> 	
 	</select>
+	 -->
 	<select id="noticeList" parameterType="map" resultType="map">
-<!-- 공지사항 리스트, 조건하에 예약회면에서 최신 공시사항 2가지 제목 보여주기. -->
-SELECT
-r, board_no, board_title, board_date, mks_id
-FROM (
-SELECT
-ROWNUM r, board_no, board_title, board_date, mks_id
-FROM (
-SELECT
-board_no, board_title, board_date, mks_id
-FROM mks_board
-WHERE board_type = 0
-<if test="board_title != null and board_title.length() > 0">
-AND board_title LIKE '%'||#{board_title}||'%'
-</if>
-ORDER BY board_date desc
-)
-<if test="mode == 1">
-WHERE ROWNUM <![CDATA[<=]]> 2
-</if>
-)
-<if test="fnum!=null">
-WHERE r BETWEEN #{fnum} AND #{enum}
-</if>
-<!-- <![CDATA[<=]]> 는 <, > 같은 부등호가 xml에는 올 수 없으므로 단독으로 사용할때는 <![CDATA[여기 안에다 부등호 넣자.]]> -->
-</select>
+	<!-- 공지사항 리스트, 조건하에 예약회면에서 최신 공시사항 2가지 제목 보여주기. -->
+		SELECT
+			r, board_no, board_title, board_date, mks_id
+		  FROM (
+				SELECT
+					ROWNUM r, board_no, board_title, board_date, mks_id
+				  FROM (
+						SELECT
+							board_no, board_title, board_date, mks_id
+						  FROM mks_board
+						 WHERE board_type = 0
+						<if test="board_title != null and board_title.length() > 0">				
+					   	   AND board_title LIKE '%'||#{board_title}||'%'
+						</if>
+						 ORDER BY board_date desc
+					    )
+				<if test="mode == 1">
+					WHERE ROWNUM <![CDATA[<=]]> 2
+				</if>
+			   )
+			<if test="fnum!=null">
+		  		WHERE r BETWEEN #{fnum} AND #{enum}
+			</if>
+	<!-- <![CDATA[<=]]> 는 <, > 같은 부등호가 xml에는 올 수 없으므로 단독으로 사용할때는 <![CDATA[여기 안에다 부등호 넣자.]]> -->
+	</select>
 	<select id="noticeDetail" parameterType="map" resultType="map">
 	<!-- 공지사항 세부사항 보기. -->
 		SELECT 
