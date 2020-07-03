@@ -49,6 +49,7 @@
 	}
 </style>
 <script type="text/javascript">
+var hp_name = '<%=hp_name%>'
 var i_title = "";
 	function res_pageGet(num){ //페이지 네이션 할때 필요.
 		alert("페이지이동: "+num);
@@ -109,7 +110,9 @@ var i_title = "";
 </head>
 <body>
 	<!-- 메뉴바 -->
-	<jsp:include page="../login/menu.jsp"/>
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#007bff;">
+	 					   <a class="navbar-brand" href="#"><%=hp_name%><input type="hidden" value="12345"></a><!-- 병원코드 숨겨두기 -->
+   						</nav>
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:15px;">
 	  	<div class="row pt-4">
@@ -239,7 +242,7 @@ var i_title = "";
 					  var board_no = row.BOARD_NO;
 					  var id = row.MKS_ID;
 					  alert("글쓴이 id: "+id);
-					  location.href="/client/notice/noticeDetail.jsp?board_no="+board_no;
+					  location.href="/client/notice/noticeDetail.jsp?board_no="+board_no+"&hp_name="+hp_name;
 					  alert("상세보기 로 이동하는 중 !")
 				  }
 			});

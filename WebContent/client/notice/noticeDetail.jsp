@@ -8,6 +8,7 @@
 	if(obj != null) {
 		mks_id = (String)obj;
 	}
+	String hp_name = request.getParameter("hp_name");
 %>    
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,19 @@
 		.container{
 			padding:5px;
 		}
+		a.navbar-brand{/*네비바 글자 가운데 정렬*/
+		margin: auto;
+	}
+	.navbar .navbar-brand {
+	  	color: #F6F6F6;
+	  	font-family: 'Do Hyeon', sans-serif;
+	 	font-size: xx-large;
+	}
+	.navbar .navbar-brand:hover,
+	.navbar .navbar-brand:focus {
+	 	color: #FFFFFF;
+	 	font-family: 'Do Hyeon', sans-serif;
+	}
 		h5.card-header a, h6.card-header, .card-body{
 			color:#353535;
 		}
@@ -53,14 +67,13 @@
 </head>
 <body>
 	<!-- 메뉴바 -->
-	<jsp:include page="../login/menu.jsp"/>
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:15px;">
-	  	<div class="row pt-3">
+	  	<div class="row pt-4">
 	  		<div class="col-md">
 				<div class="row mb-0">
 					<div class="col-md">
-						<label style="font-size:x-large;font-color:#4C4C4C;margin-left:0;">공지사항</label>
+						<label style="font-size:x-large;font-color:#4C4C4C;">공지사항 상세보기</label>
 					</div>
 				</div>
 				<hr>
