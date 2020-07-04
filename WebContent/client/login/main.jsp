@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <% 	
-	//추가
    //세션에 저장된 값 꺼냄
    Object parameter = session.getAttribute("mem_name");
    Object obj = session.getAttribute("mks_id");
