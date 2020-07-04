@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <% 	
-	//추가
    //세션에 저장된 값 꺼냄
    Object parameter = session.getAttribute("mem_name");
    Object obj = session.getAttribute("mks_id");
@@ -398,10 +397,9 @@ var sts =new Array();
                         var content =    '<div class="card" style="width: 18rem; font-size:small">';
                         content += '<div class="card-body p-2">';
                         content +=   '<h5 class="card-title"><b>'+jsonDoc[i].HP_NAME;
-                        content += '<a href="#" onClick="star_click(this,'+"'"+jsonDoc[i].HP_NAME+"','"+jsonDoc[i].HP_CODE+"'";
-                        content +=		')" style="color: #353535;">';
-                        
                         <%if(mks_id!=null){%>
+		                        content += '<a href="#" onClick="star_click(this,'+"'"+jsonDoc[i].HP_NAME+"','"+jsonDoc[i].HP_CODE+"'";
+		                        content +=		')" style="color: #353535;">';
                         var ctn = 0;
                         for(var j=0; j<s_list.length; j++){
                         	if(s_list[j]==jsonDoc[i].HP_CODE){
@@ -414,10 +412,8 @@ var sts =new Array();
 		                        content += '<img src="./star_blank.png"class="rounded" style="padding-left:10px;"><input type="hidden" value="blank"></a>';
                         }
                         <%}%>
-                          
-                        
+                        content += '<div class="close" onclick="closeOverlay()" title="닫기" style="display:inline">x</div>' ;
                         content += '</b></h5>';
-                        content += '<div class="close" onclick="closeOverlay()" title="닫기">x</div>' ;
                         content +=   '<p class="card-text">친절한 서비스를 제공합니다.</p>';
                         content += '</div>';
                         content += '<ul class="list-group list-group-flush">';
