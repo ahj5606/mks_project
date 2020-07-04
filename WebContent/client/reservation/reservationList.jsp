@@ -373,31 +373,7 @@ function s_categori(){
 										<th scope="col">대기 및 예약</th>	
 									</tr>
 								</thead>
-						<tbody id="tbody">
-									<!--   <tr>
-										<th scope="row">원무과</th>
-										<td></td>
-										<td>15분</td>
-										<td><button class="btn btn-dark btn-small" onClick="waiting()">대기</button></td>
-									</tr>
-									<tr>
-										<th scope="row">일반내과</th>
-										<td id="doc_1"><a href="javascript:doc_detail($('#doc_1'))"></a><input type="hidden" value="55555"></td>
-										<td></td>
-										<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_1'))">예약</button></td>
-									</tr>
-									<tr>
-										<th scope="row">일반내과</th>
-										<td id="doc_2"><a href="javascript:doc_detail($('#doc_2'))">고길동2</a><input type="hidden" value="122"></td>
-										<td></td>
-										<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_2'))">예약</button></td>
-									</tr>
-									<tr>
-										<th scope="row">일반내과</th>
-										<td id="doc_3"><a href="javascript:doc_detail($('#doc_3'))">고길동3</a><input type="hidden" value="131"></td>
-										<td></td>
-										<td><button class="btn btn-dark btn-small" onClick="reservation_detail($('#doc_3'))">예약</button></td>
-									</tr> -->	 
+						<tbody id="tbody">		
 								</tbody>
 							</table>
 						</div>	
@@ -428,11 +404,6 @@ function s_categori(){
 	  		</div>
 	  	</div>
 	</div>
-	<!-- footer -->
-	<!-- <footer>
-		<div class="row bg-light pt-3">
-		</div>
-	</footer> -->
 	<!-- 의사 모달 -->
 	<div class="modal fade" id="modal_doc" tabindex="-1" role="dialog" aria-hidden="true">
   		<div class="modal-dialog" role="document">
@@ -469,18 +440,7 @@ function s_categori(){
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$.ajax({// **** 공지사항 가져오는 아작스
-				/*  
-				** 돔구성이 완료되었을 때 li를 2개 넣어 준다!
-				1) 공지사항 목록 2개 가져오면서 b_no을 input의 value 값으로 박아놓고 hidden으로 숨긴다...
-				2) 클릭하면 "공지사항상세화면 주소?b_no=3"으로 요청을 보낸다...
-				<li id="board_1"><a href="javascript:board_detail($('#board_1'))">자바라기</a><input type="hidden" value="1"></li>
-				<li id="board_2"><a href="javascript:board_detail($('#board_2'))">프로젝트</a><input type="hidden" value="2"></li>
-				
-				#board_list 에 html() 함수를 써서 아래 식으로 html을 넣어준다.
-				<li id="board_1"><a href="javascript:board_detail($('#board_1'))">자바라기</a><input type="hidden" value="1"></li>
-				<li id="board_2"><a href="javascript:board_detail($('#board_2'))">프로젝트</a><input type="hidden" value="2"></li> 
-				*/
+			$.ajax({
 				url: '/notice/noticeList.crm?board_no=1&mode=1'
 				,success: function(data){
 					var res = JSON.parse(data);

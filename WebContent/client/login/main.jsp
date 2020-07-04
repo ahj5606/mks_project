@@ -37,6 +37,7 @@ th, td {
    height: 5px;
    font-size: small;
    /* padding:2px; ===> 왜 안먹지...?*/
+ 
 }
 a.page-link {
    color: #4C4C4C;
@@ -82,8 +83,49 @@ var sts =new Array();
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
         });
+      share();
       $('#modal_qr').modal('show')
     }
+   
+   function share(){
+	   var url = 'http://192.168.0.237:5000/client/qrCodeCreation.jsp?qr_code='+sch_code;
+		 Kakao.init("265447647e1cb17951a10eb622ba9fbc");
+		 Kakao.Link.createDefaultButton({
+		 	  container: '#kakao-link-btn',
+		 	  objectType: 'feed',
+		 	  content: {
+		 	    title: "mks 코스모 병원",
+		 	    description: "예약 qr 코드",
+		 	    imageUrl:
+		 	      './health_96630.png',
+		 	    link: {
+		 	      mobileWebUrl: url,
+		 	      androidExecParams: 'test'
+		 	    }
+		 	  },
+		 	  buttons: [
+		 	    {
+		 	      title: '웹으로 이동',
+		 	      link: {
+		 		      webUrl: url
+		 	      },
+		 	    }
+		 	    ,
+		 	    {
+		 	      title: '앱으로 이동',
+		 	      link: {
+		 		      mobileWebUrl: url
+		 	      },
+		 	    }, 
+		 	  ],
+		 	  success: function(response) {
+		 	    console.log(response);
+		 	  },
+		 	  fail: function(error) {
+		 	    console.log(error);
+		 	  }
+		 	});
+   }
     
    function res_pageGet(num){
       $.ajax({
@@ -93,32 +135,33 @@ var sts =new Array();
             var res = JSON.parse(imsi);
             var inner = "";
             var inner2 = "";
-            for(var i=0; i<res.length; i++){
-               inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].DEPT_NAME+"</td></tr>";
-                inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC_NAME+"</td></tr>";
-                inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].SCH_DATE+"</td></tr>";
-                inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].RES_TIME+"</td></tr>";
-            }
-            $("#t_my_resevation").html(inner);
-            if(res.length>0){
-               for(var i=0; i<res.length; i++){
-                  inner2 += "<tr>";
-                  inner2 += "<td><a id='qr' href='#' onClick='qr_modal()'></a></td>";
-                  inner2 += "</tr>";
-               }
-               $("#qr_table").html(inner2);
-               //sch_code = Number(res[0].SCH_CODE+"");
-               sch_code = res[0].SCH_CODE+"";
-               alert(sch_code);
-               var qrcode = new QRCode(document.getElementById("qr"), {
-                     text: sch_code,
-                     width: 100,
-                     height: 100,
-                     colorDark : "#000000",
-                     colorLight : "#ffffff",
-                     correctLevel : QRCode.CorrectLevel.H
-                });
-            }
+            if(res.length==0){
+            	inner += "<tr><td style='padding-right:200px;padding-bottom:100px;'></td></tr>";
+         	}else if(res.length>0){
+				for(var i=0; i<res.length; i++){
+					inner += "<tr><th style='padding:2px;'>진료과목</th><td style='padding:2px;'>"+res[i].DEPT_NAME+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>담당의사</th><td style='padding:2px;'>"+res[i].DOC_NAME+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>예약날짜</th><td style='padding:2px;'>"+res[i].SCH_DATE+"</td></tr>";
+				    inner += "<tr><th style='padding:2px;'>예약시간</th><td style='padding:2px;'>"+res[i].RES_TIME+"</td></tr>";
+				    inner2 += "<tr>";
+				    inner2 += "<td><a id='qr' href='#' onClick='qr_modal()'></a></td>";
+				    inner2 += "</tr>";
+				}
+         	}
+			$("#t_my_resevation").html(inner);
+			$("#qr_table").html(inner2);
+			if(res.length>0){
+				sch_code = res[0].SCH_CODE+"";
+				alert(sch_code);
+				var qrcode = new QRCode(document.getElementById("qr"), {
+				      text: sch_code,
+				      width: 100,
+				      height: 100,
+				      colorDark : "#000000",
+				      colorLight : "#ffffff",
+				      correctLevel : QRCode.CorrectLevel.H
+				});
+			}
          }
       });
    }
@@ -197,14 +240,11 @@ var sts =new Array();
          ,success:function(data){
             var result = JSON.stringify(data);
             var jsonDoc = JSON.parse(result);
-            for(var i=0;i<jsonDoc.length;i++){
-             //  var imsi = $("#h_name").val()+"";       
+            for(var i=0;i<jsonDoc.length;i++){      
                var imsi2 = jsonDoc[i].HP_NAME+"";
-             //  if(imsi== imsi2){
                   var coords3 = new daum.maps.LatLng(jsonDoc[i].HP_LAT-0.1,jsonDoc[i].HP_LNG+0.1);
                   map.setCenter(coords3);
-                  map.setLevel(4); 
-              // }         
+                  map.setLevel(4);          
             }
          }
       });
@@ -253,7 +293,6 @@ var sts =new Array();
             	   }
                });
             }else if(star=="full"){
-               alert("해제해야함!");
                /********************************************************************
                * 아작스로 delete => 성공하면! => 즐겨찾기 목록 리프레시!!! star_list()
                */
@@ -262,7 +301,6 @@ var sts =new Array();
             	   ,success: function(data){
             		   var res = data.trim();
             		   if(res=="1"){
-            			   alert("즐겨찾기 해제 성공");
             			   star_list();
             			   $(el).children("img").attr("src","./star_blank.png");
             			   $(el).children("input").val("blank");
@@ -274,40 +312,43 @@ var sts =new Array();
             }
          }
          
-         function star_list(){
-            $.ajax({
-               url: "/hospital/favoriteList.crm"
-               ,data: "mks_id="+mks_id
-               ,success: function(data){
-                  var res = JSON.parse(data);
-                  alert("res:");
-                  var inner = "";
-                  for(var i=0; i<res.length; i++){
-                	  s_list.push(res[i].HP_CODE);
-                     if(i==0||i==2){
-                        inner += '<div class="row">';
-                     }
-                     inner += '<div class="col-md">';
-                     inner += '<a href="#" onClick="popup_star_reservation(this)" style="color: #353535;"><img src="./star.jpg"';
-                     inner += 'class="rounded">&nbsp;&nbsp;'
-                     inner += '<input type="hidden" value="'+res[i].HP_CODE+'">'+res[i].HP_NAME+'</a>';
-                     inner += '</div>';
-                     if(i==1||i==3){
-                        inner += '</div>';
-                     }
-                  }
-                  if(res.length==1){
-                        inner += '<div class="row pt-3 pb-2 px-3"><div class="col-md">&nbsp;&nbsp;';
-                        inner += '</div></div>';
-                  }else if(res.length==2){
-                        inner += '<div class="row pt-0 pb-0 px-3"><div class="col-md">&nbsp;&nbsp;';
-                        inner += '</div></div>';
-                  }
-                  $("#star_table").html(inner);
-               }
-            });    
-         }
-   
+      function star_list(){
+          $.ajax({
+             url: "/hospital/favoriteList.crm"
+             ,data: "mks_id="+mks_id
+             ,success: function(data){
+                var res = JSON.parse(data);
+                alert("res:");
+                var inner = "";
+                for(var i=0; i<res.length; i++){
+                   s_list.push(res[i].HP_CODE);
+                   if(i==0||i==2){
+                      inner += '<div class="row">';
+                   }
+                   inner += '<div class="col-md">';
+                   inner += '<a href="#" onClick="popup_star_reservation(this)" style="color: #353535;"><img src="./star.jpg"';
+                   inner += 'class="rounded">&nbsp;&nbsp;'
+                   inner += '<input type="hidden" value="'+res[i].HP_CODE+'">'+res[i].HP_NAME+'</a>';
+                   inner += '</div>';
+                   if(i==1||i==3){
+                      inner += '</div>';
+                   }
+                }
+                if(res.length==1||res.length==0){
+                      inner += '<div class="row pt-3 pb-2 px-3"><div class="col-md">&nbsp;&nbsp;';
+                      inner += '</div></div>';
+                }else if(res.length==2){
+                      inner += '<div class="row pt-0 pb-0 px-3"><div class="col-md">&nbsp;&nbsp;';
+                      inner += '</div></div>';
+                }
+                $("#star_table").html(inner);
+             }
+          });    
+       }
+     	function closeOverlay() {
+     	   infowindow.close();
+    	}
+      
     function categori_map() {
          var i;//마커 생성시 부여한 인덱스값 0~4   
          $.ajax({
@@ -318,7 +359,7 @@ var sts =new Array();
                //$("#d_map").text(result);
                jsonDoc = JSON.parse(result);//배열로 전환-다시 객체화처리됨.(배열)
 //               alert(jsonDoc.length);
-               
+  
                for (var i = 0; i < mArray.length; i++) {
                   mArray[i].setMap(null);
                   mArray[i] = null;
@@ -350,7 +391,7 @@ var sts =new Array();
                      if (imsi.indexOf(dept_name) == -1) {
                         marker.setMap(null);
                         } else {
-						
+         
                       daum.maps.event.addListener(marker, 'click',(function(marker,i){
                      return function() {
                         var content =    '<div class="card" style="width: 18rem; font-size:small">';
@@ -375,6 +416,7 @@ var sts =new Array();
                           
                         
                         content += '</b></h5>';
+                        content += '<div class="close" onclick="closeOverlay()" title="닫기">x</div>' ;
                         content +=   '<p class="card-text">친절한 서비스를 제공합니다.</p>';
                         content += '</div>';
                         content += '<ul class="list-group list-group-flush">';
@@ -399,12 +441,15 @@ var sts =new Array();
                                        }//end of 반환함수
                                     })(marker, i));////////////end of addLitener
                         //마커를 생성했을때 click이벤트 처리하기
-                        }//indexof else end
-                     }///////////////end of for
-                  }///////////////////end of success
-               });////////////////////end of ajax
+                        }//indexof else end         
+                     }///////////////end of for     
+                  }///////////////////end of success 
+    		// 또는 marker.setMap(null);
+    		});////////////////////end of ajax
          map.relayout();
       }
+
+
 </script>
 </head>
 <body>
@@ -415,11 +460,10 @@ var sts =new Array();
       style="font-family: 'Do Hyeon', sans-serif; margin-top: 15px;">
       <div class="row pt-4">
          <!-- 지도 검색 -->
-         <div class="col-md">
+         <div class="col-md" style="min-height: 590px">
             <div class="row mb-0">
                <div class="col-md">
-                  <label style="font-size: x-large; font-color: #4C4C4C;">병원
-                     검색</label>
+                  <label style="font-size: x-large; font-color: #4C4C4C;">병원검색</label>
                </div>
             </div>
             <hr>
@@ -596,7 +640,6 @@ var sts =new Array();
                         <!-- 컬러 블루로 -->
                          <div class="card-body py-3" id="star_table">
                            <!-- 컬러 노랑이로 -->
-
                         </div>
                      </div>
                   </div>
@@ -643,7 +686,7 @@ var sts =new Array();
               <!-- footer -->
               <div class="modal-footer">
                  <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="self.close();">닫기</button>
-                 <!-- <button type="button" id="kakao-link-btn" class="btn btn-warning">공유하기</button> -->
+                 <button type="button" id="kakao-link-btn" class="btn btn-warning">공유하기</button>
                </div>
           </div>
         </div>
@@ -665,7 +708,34 @@ var sts =new Array();
          alert("dept_name: " + dept_name);
          categori_map();
       });
-      
+     
+      $("#h_name").autocomplete({
+    	    source: [
+    	        "파크사이드재활의학병원",
+    	        "성신고려요양병원",
+    	        "서울대효병원",
+    	        "구로한방병원",
+    	        "녹십자요양병원",
+    	        "부산아동병원",
+    	        "제니스파크요양병원",
+    	        "실버한방병원",
+    	        "아카시아병원",
+    	        "뉴연세여성병원",
+    	        "서울바른세상병원",
+    	        "효메디요양병원",
+    	        "그랜드자연요양병원",
+    	        "성지병원",
+    	        "금천수요양병원",
+    	        "새라새요양병원",
+    	        "우리들40플란트치과병원",
+    	        "부산성소병원",
+    	        "위대항병원",
+    	        "새움병원",
+    	        "희명병원",
+    	        "윌리스요양병원",
+    	        "용당요양병원"
+    	        ]
+    	});
    });
    </script>
    <!-- 지도 API -->

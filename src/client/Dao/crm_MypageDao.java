@@ -69,8 +69,9 @@ public class crm_MypageDao {
 		//회원가입 아이디 중복검사.
 	    logger.info("[crm_MypageDao] idCheck호출 성공");
 	    List<Map<String, Object>> idCheck = new ArrayList<>();
+	    Map<String, Object> rmap = sqlSes.selectOne("idCheck", pMap);
 	    String msg=null;
-	    msg=sqlSes.selectOne("idCheck", pMap);
+	    msg=rmap.get("IDCHECK").toString();
 	    if(!"통과".equals(msg)) {
 	    	msg="중복";
 	    } 

@@ -69,8 +69,8 @@
 	<!-- 메뉴바 -->
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:15px;">
-	  	<div class="row pt-4">
-	  		<div class="col-md">
+	  	<div class="row pt-3">
+	  		<div class="col-md" style="min-height: 590px">
 				<div class="row mb-0">
 					<div class="col-md">
 						<label style="font-size:x-large;font-color:#4C4C4C;">공지사항 상세보기</label>

@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="<%=path.toString()%>css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=path.toString()%>css/bootstrap-grid.css">
 <link rel="stylesheet" href="<%=path.toString()%>css/bootstrap-reboot.css">
+<link rel="stylesheet" href="<%=path.toString()%>js/jquery-ui.css">
 <script src="<%=path.toString()%>js/jquery.min.js"></script>
 <script src="<%=path.toString()%>js/bootstrap.min.js"></script>
 <script src="<%=path.toString()%>js/dist/bootstrap-table.min.js"></script>
@@ -24,4 +25,5 @@
 <script src='<%=path.toString()%>fullcalendar/interaction/main.js'></script>
 <script src='<%=path.toString()%>js/marker_icon.js'></script>
 <script src='<%=path.toString()%>js/kakao_img.js'></script>
+<script src='<%=path.toString()%>js/jquery-ui.js'></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
