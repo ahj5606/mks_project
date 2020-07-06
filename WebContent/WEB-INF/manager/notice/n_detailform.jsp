@@ -16,7 +16,7 @@
 	}
 
 	function notice_update(){
-		alert("수정 확인 버튼 호출 성공");
+		//alert("수정 확인 버튼 호출 성공");
 /* 		var title = $("#notice_title").val();
 		alert("title=>"+title);
 		var no = $("#notice_no").val();
@@ -46,7 +46,7 @@
 		
 	}
 	function notice_delete(){
-		alert("삭제 확인 버튼 호출 성공");
+		//alert("삭제 확인 버튼 호출 성공");
 	/* 	var no = $("#notice_no").val();
 		var param = "no="+no;
 		alert("param=>"+param);
@@ -76,7 +76,7 @@
 </style>
 </head>
 <body>
-<div style="margin:20px;">
+<div style="margin:30px;">
 <h2>상세보기</h2>
 </div>
 <div style="margin-top:30px;margin-bottom:10px;margin-right:10px; margin-left:30px;width:1200px;">
@@ -86,12 +86,12 @@
   <div class="row" style="margin-bottom:30px;">
 	<div class="col-md-8">
 		<input id="notice_no" name="board_no" type="hidden" class="form-control" placeholder="제목" value="<%=nList.get(0).get("BOARD_NO") %>">
-	    <label>제목</label>
-	    <input id="notice_title" name="board_title" type="text" class="form-control" placeholder="제목" value="<%=nList.get(0).get("BOARD_TITLE") %>">
+	    <label >제목</label>
+	    <input id="notice_title" style="margin-top:8px;" name="board_title" type="text" class="form-control" placeholder="제목" value="<%=nList.get(0).get("BOARD_TITLE") %>">
     </div>
 	<div class="col-md-4">
 	    <label>작성자</label>
-	    <input id="notice_writer" name="writer" type="text" class="form-control" value="<%=nList.get(0).get("DEPT_NAME") %>" readonly>
+	    <input id="notice_writer" style="margin-top:8px;" name="writer" type="text" class="form-control" value="<%=nList.get(0).get("DEPT_NAME") %>" readonly>
    </div>
  </div>
   <div  class="row" style="margin-bottom:30px;">
@@ -114,8 +114,10 @@
 		</div> --%>
 		
 		<div class="form-group">
-			<label for="InputSubject1">파일첨부</label>
+			<label for="InputSubject1" >파일첨부</label>
+			<div style="margin-left:3px;">
 			<input id="fileInput" type="file" value="<%=nList.get(0).get("BOARD_FILE") %>" name="board_file" data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+			</div>
 			<div class="bootstrap-filestyle input-group" style="margin-left:-15px;">
 			<div class="col">
 				<table class="table table-bordered" >
@@ -125,31 +127,41 @@
 				<tr><td style="background-color: #ffffff" height="51px">
 				<a  href="downLoad.jsp?board_file=<%=nList.get(0).get("BOARD_FILE") %>"><input id="userfile" style="border:none;"value="<%=nList.get(0).get("BOARD_FILE") %>"></a>
 				</td></tr>
+				</table>
+				</div>
+				<span class="group-span-filestyle input-group-btn" tabindex="0">
+				<label for="fileInput" class="btn btn-default  btn-outline-primary" style="padding:12px;">
+				<span class="glyphicon fa fa-upload"></span>
+				</label>
+				</span>
+			</div>
+		</div>
 				<%
 				}
 				%>
 				<%
 				if(nList.get(0).get("BOARD_FILE")==null){
 				%>
-				<input type="text" id="newfile" class="form-control" style="margin-top:8px;">
-				<%
-				}
-				%>
+				<input type="text" id="newfile" class="form-control" style="margin-top:8px;margin-left:3px;">
 				</table>
 				</div>
 				<span class="group-span-filestyle input-group-btn" tabindex="0">
-				<label for="fileInput" class="btn btn-default  btn-outline-primary" style="padding:12px;border:none;">
+				<label for="fileInput" class="btn btn-default  btn-outline-primary" style="margin-top:8px;">
 				<span class="glyphicon fa fa-upload"></span>
 				</label>
 				</span>
 			</div>
 		</div>
 		
+				<%
+				}
+				%>
+
 	<label>내용</label>
 	<%-- 
     <input id="notice_content" name="content" type="text" class="form-control" value="<%=nList.get(0).get("BOARD_CONTENT") %>" placeholder="     내용을 입력해주세요." style="height:500px;">
      --%>
-     <textarea class="form-control" rows="10" name="board_content" id="board_content" placeholder="내용을 입력해 주세요" ><%=nList.get(0).get("BOARD_CONTENT") %></textarea>
+     <textarea class="form-control" style="margin-top:8px;"rows="10" name="board_content" id="board_content" placeholder="내용을 입력해 주세요" ><%=nList.get(0).get("BOARD_CONTENT") %></textarea>
     </div>
 </div>
 </form>
@@ -222,6 +234,7 @@
 			}
 			$("#newfile").val(filename);
 		});
+		
 	});
 
 </script>

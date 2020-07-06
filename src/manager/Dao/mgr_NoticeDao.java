@@ -19,6 +19,7 @@ public class mgr_NoticeDao {
 	Logger logger = Logger.getLogger(mgr_NoticeDao.class);
 	int result = 0;
 	int board_no = 0;
+	int hitCount = 0;
 
 	public mgr_NoticeDao() {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
@@ -58,6 +59,18 @@ public class mgr_NoticeDao {
 		board_no = sqlSes.selectOne("getBoardNO",nMap);
 		
 		return board_no;
+	}
+	
+	public void hitCount(Map<String,Object> nMap) {
+		logger.info("Dao=>hitCount 호출 성공");
+		logger.info("Dao=>hitCount 호출 성공"+nMap.get("board_no"));
+		//int board_no = Integer.parseInt(nMap.get("board_no").toString());
+		sqlSes.selectOne("hitCount",nMap);
+		
+		sqlSes.commit(true);
+		logger.info("dao에서 update가 되었나?"+hitCount);
+		
+		//return hitCount;
 	}
 	
 	public int noticeINS(Map<String,Object> nMap) {
