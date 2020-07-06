@@ -13,11 +13,7 @@
 <script src='<%=path.toString()%>fullcalendar/daygrid/main.js'></script>
 <script src='<%=path.toString()%>fullcalendar/interaction/main.js'></script>
 <script src="<%=path %>js/jquery.min.js"></script>
-<<<<<<< HEAD
- <script src="<%=path %>js/bootstrap.bundle.min.js"></script> 
-=======
 <script src="<%=path %>js/bootstrap.bundle.min.js"></script> 
->>>>>>> branch 'manager' of https://github.com/ahj5606/mks_project.git
 <script src="<%=path %>js/dist/bootstrap-table.min.js"></script>
 <script src="<%=path %>js/manager.js"></script>
 
