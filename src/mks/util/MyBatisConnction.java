@@ -10,7 +10,7 @@ public class MyBatisConnction {
 	public static SqlSessionFactory sqlSessionFactory = null;
 	public static void init() {
 		try {
-			String resource ="/mks/mybatis/Configuration.xml";
+			String resource ="mks/mybatis/Configuration.xml";
 			Reader reader = Resources.getResourceAsReader(resource);
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, "development");
 		}catch (Exception e) {

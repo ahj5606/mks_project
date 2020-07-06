@@ -9,9 +9,6 @@ public class crm_ModelAndView {
 	private String viewName = null;//이동할 페이지 이름을 정의
 	private boolean isForward = false;
 	private int result =-1;
-	public crm_ModelAndView() {
-		
-	}
 	public crm_ModelAndView(HttpServletRequest req , HttpServletResponse res) {
 		this.req=req;
 		this.res=res;
