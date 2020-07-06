@@ -9,7 +9,7 @@
 	</select>
 	
 	<select id="noticeSEL" parameterType="map" resultType="map">
-		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
+		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id, b.hit
 		 FROM mks_board b, mks_online o
 		 WHERE b.mks_id = o.mks_id
 		  AND o.hp_code=#{hp_code}
@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="noticeSEARCH" parameterType="map" resultType="map">
-		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
+		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id, b.hit
             FROM mks_board b, mks_online o
           WHERE b.mks_id = o.mks_id
            AND o.hp_code=#{hp_code}
@@ -39,6 +39,12 @@
                  ),0)+1 board_no
            FROM dual
 	</select>
+ 	
+	<update id="hitCount" parameterType="map">
+      UPDATE mks_board 
+         SET hit = (SELECT nvl(hit,0) FROM mks_board WHERE board_no=#{board_no})+1
+       WHERE board_no = #{board_no}
+   </update>
 	
 	<update id="noticeUPD" parameterType="map">
 		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}
@@ -58,9 +64,9 @@
 	</delete>
  
 	<insert id="noticeINS" parameterType="map">
-		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title,mks_id,board_file)
- 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), 
- 			        #{board_title},#{mks_id}
+		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title,mks_id,hit,board_file)
+ 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'),
+ 			        #{board_title},#{mks_id} ,0
 	 <choose>
 		 <when test="board_file != null">
 		 ,#{board_file})
