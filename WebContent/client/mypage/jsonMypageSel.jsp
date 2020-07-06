@@ -4,15 +4,12 @@
 <%@ page import="com.google.gson.Gson"%>
 
 <%
-
-Object obj = request.getAttribute("mypageSel");
-List<Map<String,Object>> list = null;
-if(obj!=null){
-	list = (List<Map<String,Object>>)obj;
-	Gson gson = new Gson();
-	String imsi = gson.toJson(list);
-	out.print(imsi);
-}
-
-
+	Object obj = request.getAttribute("mypageSel");
+	List<Map<String,Object>> list = null;
+	if(obj!=null){
+		list = (List<Map<String,Object>>)obj;
+		Gson gson = new Gson();
+		String imsi = gson.toJson(list);
+		out.print(imsi);
+	}
 %>

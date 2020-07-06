@@ -11,21 +11,18 @@ import org.apache.log4j.Logger;
 import mks.util.MyBatisConnction;
 
 public class crm_HospitalDao {
-		Logger logger = Logger.getLogger(crm_HospitalDao.class);
-		SqlSessionFactory sqlMapper = null;
-		SqlSession sqlSes = null;
+	Logger logger = Logger.getLogger(crm_HospitalDao.class);
+	SqlSessionFactory sqlMapper = null;
+	SqlSession sqlSes = null;
+
 	public crm_HospitalDao() {
 		sqlMapper = MyBatisConnction.getSqlsessionFactory();
 		sqlSes = sqlMapper.openSession();
 	}
+	
 	public List<Map<String, Object>> hospitalList(Map<String, Object> pMap) {
-
-		//제휴병원 리스트
 		logger.info("[crm_HospitalDao] hospitalList호출 성공");
-
 		List<Map<String, Object>> hpList = null;
-		//logger.info("sqlMapper: "+sqlMapper);
-		//logger.info("sqlSes: "+sqlSes);
 		hpList =sqlSes.selectList("hospitalList", pMap);
 		logger.info("hospitaldao 사이즈:  "+hpList.size());
 		return hpList;
@@ -55,15 +52,6 @@ public class crm_HospitalDao {
 		return favoriteList;
 	}
 	
-	public static void main(String[] args) {
-		crm_HospitalDao hos = new crm_HospitalDao();
-		Map<String, Object> pMap = new HashMap<>();
-//		pMap.put("u_mks_id", "baboo");
-//		pMap.put("u_hp_code", "280HP");
-//		pMap.put("u_hp_name", "새움병원");
-//		hos.proc_favoriteIns(pMap);
-//		hos.favoriteList(pMap);
-	}
 	public int favoriteDel(Map<String, Object> pMap) {
 		logger.info("[crm_HospitalDao] favoriteDel 호출성공.");
 		int result = 0;

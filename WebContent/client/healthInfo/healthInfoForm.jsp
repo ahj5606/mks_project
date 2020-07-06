@@ -18,10 +18,12 @@
 	if(day.length()==1){
 		day = "0"+day;
 	}
+	
 	String month = Integer.toString(cal.get(Calendar.MONTH)+1);
 	if(month.length()==1){
 		month = "0"+month;
 	}
+	
 	String year = Integer.toString(cal.get(Calendar.YEAR));
 	String today = year+"-"+month+"-"+day;
 	
@@ -35,89 +37,83 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>건강정보 작성 화면</title>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-	.container{
-		padding:5px;
-	}
-	h5.card-header a, h6.card-header, .card-body{
-		color:#353535;
-	}
-	th, td{
-		height:40px;
-		font-size:medium;
-		color:#353535;
-		/* padding:2px; ===> 왜 안먹지...?*/
-	}
-	a.page-link{
-		color:#4C4C4C;
-	}
-	label{
-		margin:8px;
-	}
-	body{
-	  	font-family: 'Do Hyeon', sans-serif;
-	}
-</style>
-<script type="text/javascript">
-	var mks_id = '<%=mks_id%>'
-	var board_no = '<%=board_no%>'
-	function res_pageGet(num){
-		$('#t_hospitalList').bootstrapTable('refreshOptions', {
-			 url: "/client/board/jsonBoardList.jsp?num="+num
-		});
-		$("div.fixed-table-loading").remove(); 
-	}
-	function modal_ins(){
-		$('#modal_ins').modal('show');
-	}
-	function board_ins(){
-		alert("저장");
-		var board_content = $("#content").val();
-		var board_date = $("#board_date").val();
-		var board_title = $("#board_title").val();
-		var param = 'board_content='+board_content+'&board_date='+board_date+'&board_title='+board_title;
-		alert("param: "+param);
-		$.ajax({
-			url: '/health/healthIns.crm'
-			,data: param
-			,success:function(data){
-				var res = data.trim();
-				alert(res);
-				if(res=='실패'){
-					alert('입력실패');
-				}else{
-					alert('입력성공');
-					location.href="/client/healthInfo/healthInfoList.jsp"
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+		.container{
+			padding:5px;
+		}
+		h5.card-header a, h6.card-header, .card-body{
+			color:#353535;
+		}
+		th, td{
+			height:40px;
+			font-size:medium;
+			color:#353535;
+			/* padding:2px; ===> 왜 안먹지...?*/
+		}
+		a.page-link{
+			color:#4C4C4C;
+		}
+		label{
+			margin:8px;
+		}
+		body{
+		  	font-family: 'Do Hyeon', sans-serif;
+		}
+	</style>
+	<script type="text/javascript">
+		var mks_id = '<%=mks_id%>'
+		var board_no = '<%=board_no%>'
+		function res_pageGet(num){
+			$('#t_hospitalList').bootstrapTable('refreshOptions', {
+				 url: "/client/board/jsonBoardList.jsp?num="+num
+			});
+			$("div.fixed-table-loading").remove(); 
+		}
+		function modal_ins(){
+			$('#modal_ins').modal('show');
+		}
+		function board_ins(){
+			var board_content = $("#content").val();
+			var board_date = $("#board_date").val();
+			var board_title = $("#board_title").val();
+			var param = 'board_content='+board_content+'&board_date='+board_date+'&board_title='+board_title;
+			$.ajax({
+				url: '/health/healthIns.crm'
+				,data: param
+				,success:function(data){
+					var res = data.trim();
+					alert(res);
+					if(res=='실패'){
+						alert('입력실패');
+					}else{
+						location.href="/client/healthInfo/healthInfoList.jsp"
+					}
 				}
-			}
-		}); 
-	}
-	function board_upd(){
-		var board_content = $("#content").val();
-		var board_title = $("#board_title").val();
-		var param = 'board_content='+board_content+'&board_title='+board_title+'&board_no='+board_no;
-		alert("param: "+param);
-		$.ajax({
-			url: '/health/healthUpd.crm'
-			,data: param
-			,success:function(data){
-				var res = data.trim();
-				alert(res);
-				if(res=='실패'){
-					alert('수정실패');
-				}else{
-					alert('수정성공');
-					location.href="/client/healthInfo/healthInfoDetail.jsp?board_no="+board_no;
+			}); 
+		}
+		function board_upd(){
+			var board_content = $("#content").val();
+			var board_title = $("#board_title").val();
+			var param = 'board_content='+board_content+'&board_title='+board_title+'&board_no='+board_no;
+			$.ajax({
+				url: '/health/healthUpd.crm'
+				,data: param
+				,success:function(data){
+					var res = data.trim();
+					alert(res);
+					if(res=='실패'){
+						alert('수정실패');
+					}else{
+						location.href="/client/healthInfo/healthInfoDetail.jsp?board_no="+board_no;
+					}
 				}
-			}
-		}); 
-	}
-	function board_list(){
-		alert("목록으로!");
-		location.href="/client/healthInfo/healthInfoList.jsp"
-	}
-</script>
+			}); 
+		}
+		function board_list(){
+			location.href="/client/healthInfo/healthInfoList.jsp"
+		}
+	</script>
 </head>
 <body>
 	<!-- 메뉴바 -->
@@ -173,7 +169,6 @@
 	</div>
 	<!-- footer -->
 	<jsp:include page="../login/footer.jsp"/>
-	
 	<!-- 수정 모달 -->
 	<div class="modal fade bd-example-modal-sm" id="modal_ins" tabindex="-1" role="dialog" aria-hidden="true">
   		<div class="modal-dialog modal-sm" role="document">
@@ -190,33 +185,41 @@
      			</div>
      			<!-- footer -->
      			<div class="modal-footer">
-					<%if(board_no!=null) {%>
+					<%
+						if(board_no!=null) {
+					%>
         				<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_upd();">저장</button>
-					<%}else{ %>
+					<%
+						}else{ 
+					%>
         				<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_ins();">저장</button>
-					<%}%>
+					<%
+						}
+					%>
         			<button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">닫기</button>
       			</div>
     		</div>
   		</div>
 	</div>
-	
 	<!-- 돔구성 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			<%if(board_no!=null) {%>
+			<%
+				if(board_no!=null) {
+			%>
 			$.ajax({
 				url: "/health/healthList.crm?num=1&board_no=+"+board_no
 				,success: function(data){
 					var res = JSON.parse(data);
-					alert("본문사이즈: "+res.length);
 					$("#board_title").val(res[0].BOARD_TITLE);
 					$("#board_writer").val(res[0].MKS_ID);
 					$("#board_date").val(res[0].BOARD_DATE);
 					$("#content").val(res[0].BOARD_CONTENT);
 				}
 			});
-			<%}%>
+			<%
+				}
+			%>
 		});
 	</script>
 </body>

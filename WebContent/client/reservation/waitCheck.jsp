@@ -5,9 +5,9 @@
 <%@ page import="java.util.List" %>  
 <%-- 스크립틀릿 - 자바코드를 쓸수 있는 땅 --%>        
 <%
-	List<Map<String,Object>> categori =(List<Map<String,Object>>)request.getAttribute("categori");
+	List<Map<String,Object>> waitCheck =(List<Map<String,Object>>)request.getAttribute("waitCheck");
 	
 	Gson gson = new Gson();
-	String imsi = gson.toJson(categori);
+	String imsi = gson.toJson(waitCheck);
 	out.print(imsi);
 %>

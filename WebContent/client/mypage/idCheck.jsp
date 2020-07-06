@@ -3,7 +3,7 @@
 <%
 	Object res = request.getAttribute("idCheck");
 	String idCheck = null;
-if(res!=null){
+	if(res!=null){
 	idCheck = (String)res;
 		out.print(idCheck);
 	}

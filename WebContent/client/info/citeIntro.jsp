@@ -9,12 +9,12 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>사이트 소개</title>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-.container {
-	padding: 5px;
-}
-</style>
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+	.container {
+		padding: 5px;
+	}
+	</style>
 </head>
 <body>
 	<!-- 메뉴바 -->

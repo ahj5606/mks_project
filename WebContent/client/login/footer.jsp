@@ -9,24 +9,24 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>푸터</title>
-<style type="text/css">
-   #f_row > ul > li {
-       float: left;
-   }
-   #f_row > ul{
-      list-style:none;
-   }
-   footer {
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      overflow-x:hidden;
-      text-align: center;
-      font-family:'Do Hyeon';
-      margin-top:30px;
-        height: auto;
-   }
-</style>
+	<style type="text/css">
+	   #f_row > ul > li {
+	       float: left;
+	   }
+	   #f_row > ul{
+	      list-style:none;
+	   }
+	   footer {
+	      left: 0;
+	      bottom: 0;
+	      width: 100%;
+	      overflow-x:hidden;
+	      text-align: center;
+	      font-family:'Do Hyeon';
+	      margin-top:30px;
+	        height: auto;
+	   }
+	</style>
 </head>
 <body>
    <footer>

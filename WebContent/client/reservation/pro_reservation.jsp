@@ -5,12 +5,10 @@
 <%@ page import="java.util.List" %>  
 <%-- 스크립틀릿 - 자바코드를 쓸수 있는 땅 --%>        
 <%
-Object obj = request.getAttribute("pro_reservation");
-int result = 0;
-if(obj!=null){
-result =(int)obj; 
-}
-out.print(result);
-        	
-
+	Object obj = request.getAttribute("pro_reservation");
+	int result = 0;
+	if(obj!=null){
+		result =(int)obj; 
+	}
+	out.print(result);
 %>

@@ -26,17 +26,17 @@
 		}
 		a.navbar-brand{/*네비바 글자 가운데 정렬*/
 		margin: auto;
-	}
-	.navbar .navbar-brand {
-	  	color: #F6F6F6;
-	  	font-family: 'Do Hyeon', sans-serif;
-	 	font-size: xx-large;
-	}
-	.navbar .navbar-brand:hover,
-	.navbar .navbar-brand:focus {
-	 	color: #FFFFFF;
-	 	font-family: 'Do Hyeon', sans-serif;
-	}
+		}
+		.navbar .navbar-brand {
+		  	color: #F6F6F6;
+		  	font-family: 'Do Hyeon', sans-serif;
+		 	font-size: xx-large;
+		}
+		.navbar .navbar-brand:hover,
+		.navbar .navbar-brand:focus {
+		 	color: #FFFFFF;
+		 	font-family: 'Do Hyeon', sans-serif;
+		}
 		h5.card-header a, h6.card-header, .card-body{
 			color:#353535;
 		}
@@ -58,15 +58,14 @@
 	</style>
 	<script type="text/javascript">
 		var mks_id = '<%=mks_id %>';
+		var hp_name = '<%=hp_name %>';
 		var board_no = <%=board_no %>; //자바에 있는 변수를 스크립틀릿 변수에 넣겠다.
 		function board_list() {
-			alert("목록");
-			location.href="/client/notice/noticeList.jsp"
+			location.href="/client/notice/noticeList.jsp?hp_name="+hp_name;
 		}
 	</script>
 </head>
 <body>
-	<!-- 메뉴바 -->
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:15px;">
 	  	<div class="row pt-3">
@@ -114,19 +113,17 @@
 	</div>
 	<!-- 돔구성 완료. -->
 	<script type="text/javascript">
-		$(document).ready(function(){
-			alert("board_no: " + board_no);
+		$(document).ready(function() {
 			$.ajax({
 				url: "/notice/noticeDetail.crm?num=1&board_no="+board_no
-			   ,success: function(data) {
-				   var res = JSON.parse(data);
-				   alert("본문사이즈: " + res.length);
-				   $("#board_title").val(res[0].BOARD_TITLE);
-				   $("#mks_id").val(res[0].MKS_ID);
-				   $("#board_date").val(res[0].BOARD_DATE);
-				   $("#board_content").val(res[0].BOARD_CONTENT);
-			   }
-			});
+			    ,success: function(data) {
+				    var res = JSON.parse(data);
+				    $("#board_title").val(res[0].BOARD_TITLE);
+				    $("#mks_id").val(res[0].MKS_ID);
+				    $("#board_date").val(res[0].BOARD_DATE);
+				    $("#board_content").val(res[0].BOARD_CONTENT);
+			     }
+		    });
 		});
 	</script>
 </body>

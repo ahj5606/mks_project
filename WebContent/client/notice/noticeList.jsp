@@ -12,107 +12,107 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>게시판 화면</title>
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-	.container{
-		padding:5px;
-	}
-	a.navbar-brand{/*네비바 글자 가운데 정렬*/
-		margin: auto;
-	}
-	.navbar .navbar-brand {
-	  	color: #F6F6F6;
-	  	font-family: 'Do Hyeon', sans-serif;
-	 	font-size: xx-large;
-	}
-	.navbar .navbar-brand:hover,
-	.navbar .navbar-brand:focus {
-	 	color: #FFFFFF;
-	 	font-family: 'Do Hyeon', sans-serif;
-	}
-	footer {
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		overflow-x:hidden;
-		text-align: center;
-		font-family:'Do Hyeon';
-		margin-top:30px;
-	}
-	body{
-	  	font-family: 'Do Hyeon', sans-serif;
-	}
-	a.page-link{
-		color:#4C4C4C;
-	}
-</style>
-<script type="text/javascript">
-var hp_name = '<%=hp_name%>'
-var i_title = "";
-	function res_pageGet(num){ //페이지 네이션 할때 필요.
-		alert("페이지이동: "+num);
-		$('#t_noticeList').bootstrapTable('refreshOptions', {
-			 url: "/notice/noticeList.crm?num="+num+"&mode=0&title="+i_title
-		});
-		$("div.fixed-table-loading").remove(); 
-	}
-	 function pageMove(click){
-	      var imsi = $(click).children(".sr-only").text();
-	      if(imsi=="Previous"){
-	    	  alert("Previous");
-	         previous();
-	      }else if(imsi=="Next"){
-	         $.ajax({
-	            url: "/notice/noticeList.crm?num=0&mode=0&title="+i_title
-	            ,dataType: "text"
-	            ,success: function(data){
-	               next(data, 5);
-	            }
-	         });
-	      }
-	}
-	   function page_btn(){
-	      $.ajax({
-	         url: "/notice/noticeList.crm?num=0&mode=0&title="+i_title
-	         ,dataType: "text"
-	         ,success: function(data){
-	            var totalSize = Number(data.trim()); 
-	            var mok = Math.ceil(totalSize/5);
-	            alert("page_btn*mok: "+mok);
-	            $("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
-	            $("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
-	            $("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
-	            if(mok<3){
-	               $("#page_3").remove();
-	               if(mok<2){
-	                  $("#page_2").remove();
-	                  if(mok<1){
-	                     $("#page_1").remove();
-	                  }
-	               }
-	            }
-	         }
-	      });
-	   }
-	function search_n_title(){
-		alert("제목검색");
-		i_title = $("#n_title").val();
-		alert("i_title: "+i_title);
-		$('#t_noticeList').bootstrapTable('refreshOptions', {
-			 url: "/notice/noticeList.crm?num=1"+"&mode=0"+"&title="+i_title
-		});
-		page_btn();
-		$("div.fixed-table-loading").remove(); 
-	}
-</script>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+		.container{
+			padding:5px;
+		}
+		a.navbar-brand{/*네비바 글자 가운데 정렬*/
+			margin: auto;
+		}
+		.navbar .navbar-brand {
+		  	color: #F6F6F6;
+		  	font-family: 'Do Hyeon', sans-serif;
+		 	font-size: xx-large;
+		}
+		.navbar .navbar-brand:hover,
+		.navbar .navbar-brand:focus {
+		 	color: #FFFFFF;
+		 	font-family: 'Do Hyeon', sans-serif;
+		}
+		footer {
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			overflow-x:hidden;
+			text-align: center;
+			font-family:'Do Hyeon';
+			margin-top:30px;
+		}
+		body{
+		  	font-family: 'Do Hyeon', sans-serif;
+		}
+		a.page-link{
+			color:#4C4C4C;
+		}
+	</style>
+	<script type="text/javascript">
+		var hp_name = '<%=hp_name%>'
+		var i_title = "";
+		
+		function res_pageGet(num) {
+			$('#t_noticeList').bootstrapTable('refreshOptions', {
+				url: "/notice/noticeList.crm?num="+num+"&mode=0&title="+i_title
+			});
+			$("div.fixed-table-loading").remove(); 
+		}
+		
+		function pageMove(click) {
+		    var imsi = $(click).children(".sr-only").text();
+		    if(imsi=="Previous") {
+		        previous();
+		    }
+		    else if(imsi=="Next") {
+		        $.ajax({
+		            url: "/notice/noticeList.crm?num=0&mode=0&title="+i_title
+		            ,dataType: "text"
+		            ,success: function(data){
+		               next(data, 5);
+		             }
+		        });
+		    }
+		}
+		
+		function page_btn() {
+		    $.ajax({
+		        url: "/notice/noticeList.crm?num=0&mode=0&title="+i_title
+		        ,dataType: "text"
+		        ,success: function(data) {
+		           var totalSize = Number(data.trim());
+		           var mok = Math.ceil(totalSize/5);
+		           $("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+		           $("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+		           $("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+		           if(mok<3) {
+		              $("#page_3").remove();
+			          if(mok<2) {
+			              $("#page_2").remove();
+			              if(mok<1){
+			                 $("#page_1").remove();
+			              }
+			          }
+		           }
+		        }
+		    });
+		}
+		
+		function search_n_title(){
+			i_title = $("#n_title").val();
+			$('#t_noticeList').bootstrapTable('refreshOptions', {
+				url: "/notice/noticeList.crm?num=1"+"&mode=0"+"&title="+i_title
+			});
+			page_btn();
+			$("div.fixed-table-loading").remove(); 
+	    }
+	</script>
 </head>
 <body>
 	<!-- 메뉴바 -->
 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#007bff;">
-	 					   <a class="navbar-brand" href="#"><%=hp_name%><input type="hidden" value="12345"></a><!-- 병원코드 숨겨두기 -->
-   						</nav>
+		<a class="navbar-brand" href="#"><%=hp_name%><input type="hidden" value="12345"></a>
+	</nav>
 	<!-- 본문 -->
 	<div class="container" style="font-family:'Do Hyeon', sans-serif;margin-top:15px;">
 	  	<div class="row pt-4">
@@ -235,15 +235,13 @@ var i_title = "";
 	
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
-		$(document).ready(function(){
+		$(document).ready(function() {
 			$('#t_noticeList').bootstrapTable('refreshOptions', {
 		          url: "/notice/noticeList.crm?num=1&mode=0"
-				  ,onClickRow : function(row,element,field){
+				  ,onClickRow : function(row,element,field) {
 					  var board_no = row.BOARD_NO;
 					  var id = row.MKS_ID;
-					  alert("글쓴이 id: "+id);
 					  location.href="/client/notice/noticeDetail.jsp?board_no="+board_no+"&hp_name="+hp_name;
-					  alert("상세보기 로 이동하는 중 !")
 				  }
 			});
 			page_btn();

@@ -16,20 +16,21 @@ import client.Logic.crm_ReservationLogic;
 import client.pojo.crm_ModelAndView;
 
 public class crm_ReservationController implements crm_Controller {
+
 	String requestName= null;
 	Logger logger = Logger.getLogger(crm_HospitalController.class);
-	 crm_ReservationLogic crm_rsLogic =new crm_ReservationLogic();
-	Map<String,Object> pMap = new HashMap();
+	crm_ReservationLogic crm_rsLogic =new crm_ReservationLogic();
+	
 	public crm_ReservationController(String requestName){
 		this.requestName=requestName;
 	}
+	
 	@Override
-	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res)
-					throws IOException, ServletException
-			 {
+	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		crm_ModelAndView mav = new crm_ModelAndView(req,res);
 		if("proc_reservelist".equals(requestName)) {
 			List<Map<String,Object>> proc_reservelist= null;
+			Map<String,Object> pMap = new HashMap<>();
 			List<Map<String,Object>> nav= null;
 			String hp_code = req.getParameter("hp_code");	//화면에서 넣은값		
 			String dept_name = req.getParameter("dept_name");
@@ -72,8 +73,10 @@ public class crm_ReservationController implements crm_Controller {
 			logger.info(proc_reservelist);
 			mav.setViewName("/reservation/proc_reservelist");
 			
-		}else if("deptCategory".equals(requestName)) {
+		}
+		else if("deptCategory".equals(requestName)) {
 			List<Map<String,Object>> deptCategory= null;
+			Map<String,Object> pMap = new HashMap<>();
 			String hp_code = req.getParameter("hp_code");
 			pMap.put("hp_code", hp_code);
 			deptCategory=crm_rsLogic.deptCategory(pMap);
@@ -83,8 +86,10 @@ public class crm_ReservationController implements crm_Controller {
 			logger.info("deptCategory");
 			mav.setViewName("/reservation/deptCategory");
 			
-		}else if("docCategory".equals(requestName)) {
+		}
+		else if("docCategory".equals(requestName)) {
 			List<Map<String,Object>> docCategory= null;
+			Map<String,Object> pMap = new HashMap<>();
 			String hp_code = req.getParameter("hp_code");
 			String dept_code = req.getParameter("dept_code");
 			String doc_code = req.getParameter("doc_code");
@@ -105,21 +110,14 @@ public class crm_ReservationController implements crm_Controller {
 			mav.IsForward(true);
 			logger.info("docCategory");
 			mav.setViewName("/reservation/docCategory");
-			
-		}else if("noticeSel".equals(requestName)) {
-				
-		} else if("noticeList".equals(requestName)) {
-					
-		}else if("watiCheck".equals(requestName)) {
-			
-		}else if("pro_reservation".equals(requestName)) {
+		}
+		else if("pro_reservation".equals(requestName)) {
+			Map<String,Object> pMap = new HashMap<>();
 			HttpSession session = req.getSession();
-
 			String mks_id = (String)session.getAttribute("mks_id");//?	
 			String res_memo = req.getParameter("res_memo");
 			String sch_code = req.getParameter("sch_code");
 			String res_time = req.getParameter("res_time");
-					
 			pMap.put("res_memo",res_memo);		
 			pMap.put("mks_id",mks_id);				
 			pMap.put("sch_code",sch_code);		
@@ -134,9 +132,10 @@ public class crm_ReservationController implements crm_Controller {
 			mav.IsForward(true);
 			logger.info("pro_reservation"+ pro_reservation);	
 			mav.setViewName("/reservation/pro_reservation");
-			
-		}else if("calender".equals(requestName)) {
+		}
+		else if("calender".equals(requestName)) {
 			List<Map<String,Object>> calender= null;
+			Map<String,Object> pMap = new HashMap<>();
 		    String hp_code = req.getParameter("hp_code");
 			String dept_code = req.getParameter("dept_code");
 			String sch_date = req.getParameter("sch_date");
@@ -172,7 +171,9 @@ public class crm_ReservationController implements crm_Controller {
 			logger.info("calender");
 			mav.setViewName("/reservation/calender");
 			
-		}else if("docSel".equals(requestName)) {
+		}
+		else if("docSel".equals(requestName)) {
+			Map<String,Object> pMap = new HashMap<>();
 			List<Map<String,Object>> docSel= null;
 			String doc_code = req.getParameter("doc_code");
 			pMap.put("doc_code", doc_code);
@@ -183,6 +184,20 @@ public class crm_ReservationController implements crm_Controller {
 			logger.info("docSel");
 			mav.setViewName("/reservation/docSel");
 		}
+		else if("waitCheck".equals(requestName)) {
+			Map<String,Object> pMap = new HashMap<>();
+	         List<Map<String,Object>> waitCheck= null;
+	         String hp_code = req.getParameter("hp_code");
+	         pMap.put("hp_code", hp_code);
+	         pMap.put("dept_name", "원무과");
+	         waitCheck=crm_rsLogic.waitCheck(pMap);
+	         logger.info("reservationcontroller"+waitCheck.size());
+	         mav.addObject("waitCheck", waitCheck);
+	         mav.IsForward(true);
+	         logger.info("waitCheck");
+	         mav.setViewName("/reservation/waitCheck");
+		}
 		return mav;
 	}
 }
+

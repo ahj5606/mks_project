@@ -27,11 +27,8 @@ public class crm_BoardController implements crm_Controller{
 		this.requestName=requestName;
 	}
 	
-	
 	@Override
-	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res)
-					throws IOException, ServletException
-			 {
+	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		crm_ModelAndView mav = new crm_ModelAndView(req,res);
 		if("boardList".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();
@@ -183,29 +180,6 @@ public class crm_BoardController implements crm_Controller{
 			mav.IsForward(true);
 		}
 		return mav;
-	}
-	
-	public static void main(String[] args) {
-		crm_BoardLogic crm_bLogic = new crm_BoardLogic();
-		//1) pMap 셋팅
-		Map<String, Object> pMap = new HashMap<String, Object>();
-		pMap.put("eva_content", "좋은 서비스");
-		pMap.put("mks_id", "test1");
-		pMap.put("eva_title", "위대항병원 후기");
-		pMap.put("eva_date", "2020/06/28");
-		pMap.put("sch_code", 23);
-		pMap.put("group_no", null);
-		if(pMap.get("group_no")==null) {//새글이닷!
-			System.out.println("새글");
-			pMap.put("pos",1);
-		}else {//댓글이닷!
-			System.out.println("댓글");
-			pMap.put("pos",2);
-		}
-		//2) Logic 메소드 호출
-		int result = 0;
-		result = crm_bLogic.boardIns(pMap);
-		System.out.println("result: "+result);
 	}
 }
 

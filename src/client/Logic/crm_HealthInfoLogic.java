@@ -11,7 +11,6 @@ import client.Dao.crm_HospitalDao;
 public class crm_HealthInfoLogic {
 	
 	Logger logger = Logger.getLogger(crm_HealthInfoLogic.class);
-	
 	crm_HealthDao crm_hDao = new crm_HealthDao();
 	
 	public List<Map<String, Object>> healthList(Map<String, Object> pMap) {

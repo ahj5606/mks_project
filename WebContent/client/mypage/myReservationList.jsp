@@ -16,140 +16,141 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>내 정보</title>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-   .container{
-      padding:5px;
-   }
-   footer {
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      overflow-x:hidden;
-      text-align: center;
-      font-family:'Do Hyeon';
-      margin-top:30px;
-   }
-   body{
-        font-family: 'Do Hyeon', sans-serif;
-   }
-   a.page-link{
-      color:#4C4C4C;
-   }
-</style>
-<script type="text/javascript">
-   var mks_id = '<%=mks_id%>'
-   var checkNum1 =0;
-   var checkNum2 =0;
-   var doc_name = "";
-   var sch_code = 0;
-   function res_pageGet(num){
-      $('#t_myReList').bootstrapTable('refreshOptions', {
-             url: "/mypage/mypageList.crm?num="+num+"&mks_id="+mks_id+"&doc_name="+doc_name+"&now="+checkNum1+"&pre="+checkNum2
-      });
-      $("div.fixed-table-loading").remove();
-   }
-   function pageMove(click){
-      var imsi = $(click).children(".sr-only").text();
-      if(imsi=="Previous"){
-         previous();
-      }else if(imsi=="Next"){
-         $.ajax({
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+	   .container{
+	      padding:5px;
+	   }
+	   footer {
+	      left: 0;
+	      bottom: 0;
+	      width: 100%;
+	      overflow-x:hidden;
+	      text-align: center;
+	      font-family:'Do Hyeon';
+	      margin-top:30px;
+	   }
+	   body{
+	        font-family: 'Do Hyeon', sans-serif;
+	   }
+	   a.page-link{
+	      color:#4C4C4C;
+	   }
+	</style>
+	<script type="text/javascript">
+    var mks_id = '<%=mks_id%>'
+    var checkNum1 =0;
+    var checkNum2 =0;
+    var doc_name = "";
+    var sch_code = 0;
+    
+    function res_pageGet(num){
+        $('#t_myReList').bootstrapTable('refreshOptions', {
+            url: "/mypage/mypageList.crm?num="+num+"&mks_id="+mks_id+"&doc_name="+doc_name+"&now="+checkNum1+"&pre="+checkNum2
+        });
+        $("div.fixed-table-loading").remove();
+    }
+    
+    function pageMove(click) {
+        var imsi = $(click).children(".sr-only").text();
+        if(imsi=="Previous"){
+            previous();
+        }
+        else if(imsi=="Next") {
+            $.ajax({
+            	url: "/mypage/mypageList.crm?num=0&mks_id="+mks_id+"&doc_name="+doc_name+"&now="+checkNum1+"&pre="+checkNum2
+            	,dataType: "text"
+            	,success: function(data){
+               		next(data, 5);
+            	}
+         	});
+       }
+    }
+    
+    function page_btn() {
+        $.ajax({
             url: "/mypage/mypageList.crm?num=0&mks_id="+mks_id+"&doc_name="+doc_name+"&now="+checkNum1+"&pre="+checkNum2
-            ,dataType: "text"
-            ,success: function(data){
-               next(data, 5);
-            }
-         });
-      }
-   }
-   function page_btn(){
-      $.ajax({
-         url: "/mypage/mypageList.crm?num=0&mks_id="+mks_id+"&doc_name="+doc_name+"&now="+checkNum1+"&pre="+checkNum2
-         ,dataType: "text"
-         ,success: function(data){
+         	,dataType: "text"
+         	,success: function(data){
             var totalSize = Number(data.trim()); 
             var mok = Math.ceil(totalSize/5);
-            alert("page_btn*mok: "+mok);
             $("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
             $("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
             $("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
             if(mok<3){
-               $("#page_3").remove();
-               if(mok<2){
-                  $("#page_2").remove();
-                  if(mok<1){
-                     $("#page_1").remove();
-                  }
-               }
+                $("#page_3").remove();
+                if(mok<2) {
+                    $("#page_2").remove();
+                    if(mok<1){
+                        $("#page_1").remove();
+                    }
+                }
             }
-         }
-      });
-      $("#page_1").focus();
-   }
-   function search_doc_name(){
-      doc_name = $("#doc_name").val();
-       $('#t_myReList').bootstrapTable('refreshOptions', {
-          url: "/mypage/mypageList.crm?num=1&mks_id="+mks_id+"&doc_name="+doc_name+"&now="+checkNum1+"&pre="+checkNum2
+           }
         });
-        page_btn();
-        $("div.fixed-table-loading").remove(); 
-   }
-    function qr_popup(sch_code){//예약 정보 qr코드 생성 **************************************************
-       $("#qr_img").remove();
-         $("#qr_space").html("<div class='row' id='qr_img'></div>");
-         var qrcode = new QRCode(document.getElementById("qr_img"), {
-            text: sch_code+"",
-            width: 128,
-            height: 128,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-         });
-         share();
-         $('#modal_qr').modal('show')
-      }
-      function share(){
-         var url = 'http://192.168.0.237:5000/client/qrCodeCreation.jsp?qr_code='+sch_code;
-          Kakao.init("265447647e1cb17951a10eb622ba9fbc");
-          Kakao.Link.createDefaultButton({
-               container: '#kakao-link-btn',
-               objectType: 'feed',
-               content: {
-                 title: "mks 코스모 병원",
-                 description: "예약 qr 코드",
-                 imageUrl:
-                   './health_96630.png',
-                 link: {
-                   mobileWebUrl: url,
-                   androidExecParams: 'test'
-                 }
-               },
-               buttons: [
-                 {
-                   title: '웹으로 이동',
-                   link: {
-                      webUrl: url
-                   },
-                 }
-                 ,
-                 {
-                   title: '앱으로 이동',
-                   link: {
-                      mobileWebUrl: url
-                   },
-                 }, 
-               ],
-               success: function(response) {
-                 console.log(response);
-               },
-               fail: function(error) {
-                 console.log(error);
-               }
-             });
-      }
-       
-</script>
+        $("#page_1").focus();
+    }
+    
+	function search_doc_name(){
+	    doc_name = $("#doc_name").val();
+	    $('#t_myReList').bootstrapTable('refreshOptions', {
+	        url: "/mypage/mypageList.crm?num=1&mks_id="+mks_id+"&doc_name="+doc_name+"&now="+checkNum1+"&pre="+checkNum2
+	    });
+	    page_btn();
+	    $("div.fixed-table-loading").remove(); 
+	}
+	
+	function qr_popup(sch_code) {
+	    $("#qr_img").remove();
+	    $("#qr_space").html("<div class='row' id='qr_img'></div>");
+	    var qrcode = new QRCode(document.getElementById("qr_img"), {
+	        text: sch_code+"",
+	        width: 128,
+	        height: 128,
+	        colorDark : "#000000",
+	        colorLight : "#ffffff",
+	        correctLevel : QRCode.CorrectLevel.H
+	     });
+	     share();
+	     $('#modal_qr').modal('show')
+	}
+	
+	function share() {
+	    var url = 'http://192.168.0.237:5000/client/qrCodeCreation.jsp?qr_code='+sch_code;
+	    Kakao.Link.createDefaultButton ({
+	        container: '#kakao-link-btn',
+	        objectType: 'feed',
+	        content: {
+	            title: "mks 코스모 병원",
+	            description: "예약 qr 코드",
+	            imageUrl: './health_96630.png',
+	            link: {
+		            mobileWebUrl: url,
+		            androidExecParams: 'test'
+	            }
+	        },
+	        buttons: [
+	            {
+	                title: '웹으로 이동',
+	                link: {
+	                    webUrl: url
+	                },
+	            }, {
+	                title: '앱으로 이동',
+	                link: {
+	                    mobileWebUrl: url
+	                },
+	            }, 
+	        ],
+	        success: function(response) {
+	            console.log(response);
+	        },
+	        fail: function(error) {
+	            console.log(error);
+	        }
+	    });
+	}
+	</script>
 </head>
 <body>
    <!-- 메뉴바 -->
@@ -258,7 +259,6 @@
    </div>
    <!-- footer -->
    <jsp:include page="../login/footer.jsp"/>
-   
    <!-- qr 모달 -->
    <div class="modal fade bd-example-modal-sm" id="modal_qr" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
@@ -281,27 +281,27 @@
           </div>
         </div>
    </div>
-   
    <!-- 돔 구성이 완료되었을 때 -->
    <script type="text/javascript">
       $(document).ready(function(){
-         $('#t_myReList').bootstrapTable('refreshOptions', {
-                url: "/mypage/mypageList.crm?num=1&mks_id="+mks_id
-               ,onClickRow : function(row,element,field){
-                  sch_code = row.SCH_CODE;
-                  qr_popup(row.SCH_CODE);
-               }
-         });
-         page_btn();
-         $("div.fixed-table-loading").remove();
-         $("#check1").on('click', function(){
-            checkNum1 ++;
+    	  Kakao.init("265447647e1cb17951a10eb622ba9fbc");
+          $('#t_myReList').bootstrapTable('refreshOptions', {
+              url: "/mypage/mypageList.crm?num=1&mks_id="+mks_id
+              ,onClickRow : function(row,element,field) {
+                 sch_code = row.SCH_CODE;
+                 qr_popup(row.SCH_CODE);
+              }
+          });
+          page_btn();
+          $("div.fixed-table-loading").remove();
+          $("#check1").on('click', function(){
+              checkNum1 ++;
               search_doc_name();
-           })
-           $("#check2").on('click', function(){
+          })
+          $("#check2").on('click', function(){
               checkNum2 ++;
               search_doc_name()
-           })
+          })
       });
    </script>
 </body>

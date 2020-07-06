@@ -25,11 +25,9 @@ public class crm_NoticeController implements crm_Controller {
 	}
 	
 	@Override
-	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res)
-			throws IOException, ServletException {
+	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		crm_ModelAndView mav = new crm_ModelAndView(req,res);
 		if("noticeList".equals(requestName)) {
-			//공지사항 리스트, 조건하에 예약회면에서 최신 공시사항 2가지 제목 보여주기.
 			List<Map<String, Object>> noticeList = null;
 			Map<String, Object> pMap = new HashMap<String, Object>();
 			String mode = req.getParameter("mode");
@@ -65,8 +63,8 @@ public class crm_NoticeController implements crm_Controller {
 			mav.IsForward(true);
 			mav.setViewName("/notice/jsonNoticeList");
 			
-		}else if("noticeDetail".equals(requestName)) {
-			//공지사항 세부사항 보기.
+		}
+		else if("noticeDetail".equals(requestName)) {
 			List<Map<String, Object>> noticeDetail = null;
 			Map<String, Object> pMap = new HashMap<>();
 			int board_no = Integer.parseInt(req.getParameter("board_no"));

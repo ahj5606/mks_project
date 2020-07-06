@@ -5,16 +5,15 @@
 <%@ page import="java.util.List" %>  
 <%-- 스크립틀릿 - 자바코드를 쓸수 있는 땅 --%>        
 <%
-Object obj = request.getAttribute("size");
-if(obj==null){
-List<Map<String,Object>> hpList =(List<Map<String,Object>>)request.getAttribute("hpList");
-
-Gson gson = new Gson();
-String imsi = gson.toJson(hpList);
-out.print(imsi);
-}else{
-	int imsi = (int)obj;
+	Object obj = request.getAttribute("size");
+	if(obj==null){
+	List<Map<String,Object>> hpList =(List<Map<String,Object>>)request.getAttribute("hpList");
+	
+	Gson gson = new Gson();
+	String imsi = gson.toJson(hpList);
 	out.print(imsi);
-}
-        	
+	}else{
+		int imsi = (int)obj;
+		out.print(imsi);
+	}
 %>

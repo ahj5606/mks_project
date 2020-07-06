@@ -5,10 +5,9 @@
 <%@ page import="java.util.List" %>  
 <%-- 스크립틀릿 - 자바코드를 쓸수 있는 땅 --%>        
 <%
-List<Map<String,Object>> deptCategory =(List<Map<String,Object>>)request.getAttribute("deptCategory");
-
-Gson gson = new Gson();
-String imsi = gson.toJson(deptCategory);
-out.print(imsi);
-        	
+	List<Map<String,Object>> deptCategory =(List<Map<String,Object>>)request.getAttribute("deptCategory");
+	
+	Gson gson = new Gson();
+	String imsi = gson.toJson(deptCategory);
+	out.print(imsi);
 %>

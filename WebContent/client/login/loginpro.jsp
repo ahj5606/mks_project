@@ -3,8 +3,6 @@
     pageEncoding="UTF-8"%>
     <script>
 <%
-
 	response.sendRedirect("/client/login/main.jsp");
-
 %>
 </script>

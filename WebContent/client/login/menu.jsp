@@ -13,52 +13,54 @@
 <head>
 <meta charset="UTF-8">
 <title>상단메뉴</title>
-<style type="text/css">
-	.container{
-		padding:5px;
-	}
-	.navbar .navbar-brand {
-	  color: #F6F6F6;
-	  font-family: 'Do Hyeon', sans-serif;
-	  font-size: xxx-large;
-	}
-	.navbar .navbar-brand:hover,
-	.navbar .navbar-brand:focus {
-	  color: #FFFFFF;
-	  font-family: 'Do Hyeon', sans-serif;
-	}
-	.navbar .navbar-nav .nav-link {
-	  color: #F6F6F6;
-	  border-radius: .25rem;
-	  margin: 0 0.25em;
-	  font-family: 'Do Hyeon', sans-serif;
-	  font-size: x-large;
-	}
-	.navbar .navbar-nav .nav-link:not(.disabled):hover,
-	.navbar .navbar-nav .nav-link:not(.disabled):focus {
-	  color: #FFFFFF;
-	}
-	.navbar .navbar-nav .nav-item.active .nav-link,
-	.navbar .navbar-nav .nav-item.active .nav-link:hover,
-	.navbar .navbar-nav .nav-item.active .nav-link:focus,
-	.navbar .navbar-nav .nav-item.show .nav-link,
-	.navbar .navbar-nav .nav-item.show .nav-link:hover,
-	.navbar .navbar-nav .nav-item.show .nav-link:focus {
-	  color: #FFFFFF;
-	}
-	.navbar .navbar-nav .nav-item.dropdown .dropdown-menu .dropdown-item{
-		font-family: 'Do Hyeon', sans-serif;
-	 	font-size: large;
-	 	color: #353535;
-	}
-	.navbar .navbar-nav .nav-item.dropdown .dropdown-menu .dropdown-item:hover{
-		background-color:#EAEAEA;
-	}
-</style>
+	<style type="text/css">
+		.container{
+			padding:5px;
+		}
+		.navbar .navbar-brand {
+		  color: #F6F6F6;
+		  font-family: 'Do Hyeon', sans-serif;
+		  font-size: xxx-large;
+		}
+		.navbar .navbar-brand:hover,
+		.navbar .navbar-brand:focus {
+		  color: #FFFFFF;
+		  font-family: 'Do Hyeon', sans-serif;
+		}
+		.navbar .navbar-nav .nav-link {
+		  color: #F6F6F6;
+		  border-radius: .25rem;
+		  margin: 0 0.25em;
+		  font-family: 'Do Hyeon', sans-serif;
+		  font-size: x-large;
+		}
+		.navbar .navbar-nav .nav-link:not(.disabled):hover,
+		.navbar .navbar-nav .nav-link:not(.disabled):focus {
+		  color: #FFFFFF;
+		}
+		.navbar .navbar-nav .nav-item.active .nav-link,
+		.navbar .navbar-nav .nav-item.active .nav-link:hover,
+		.navbar .navbar-nav .nav-item.active .nav-link:focus,
+		.navbar .navbar-nav .nav-item.show .nav-link,
+		.navbar .navbar-nav .nav-item.show .nav-link:hover,
+		.navbar .navbar-nav .nav-item.show .nav-link:focus {
+		  color: #FFFFFF;
+		}
+		.navbar .navbar-nav .nav-item.dropdown .dropdown-menu .dropdown-item{
+			font-family: 'Do Hyeon', sans-serif;
+		 	font-size: large;
+		 	color: #353535;
+		}
+		.navbar .navbar-nav .nav-item.dropdown .dropdown-menu .dropdown-item:hover{
+			background-color:#EAEAEA;
+		}
+	</style>
 </head>
 <body>
 	<!-- 최상단 메뉴 -->
-	<% if(mem_name==null){// 로그인 전이니? ****%>
+	<% 
+		if(mem_name==null){// 로그인 전이니? ****
+	%>
 	<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #007bff;">
 		<div class="container">
 	    	<div class="collapse navbar-collapse" id="navbarsExample04" >
@@ -73,7 +75,9 @@
 			</div>
 		</div>
     </nav>
-    <%}else {// 로그인 되었니? ****%>
+    <%
+    	}else {// 로그인 되었니? ****
+    %>
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #007bff;">
 		<div class="container">
 	    	<div class="collapse navbar-collapse" id="navbarsExample04">
@@ -88,7 +92,9 @@
 			</div>
 		</div>
     </nav>
-    <%} %>
+    <%
+    	} 
+    %>
 	<!-- 상단 메뉴 -->
     <nav class="navbar navbar-expand-md navbar-light" style="background-color: #007bff;">
     <div class="container">

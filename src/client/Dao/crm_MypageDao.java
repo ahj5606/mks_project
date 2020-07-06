@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import mks.util.MyBatisConnction;
 
 public class crm_MypageDao {
-	static Logger logger = Logger.getLogger(crm_MypageDao.class);
+	Logger logger = Logger.getLogger(crm_MypageDao.class);
 	SqlSessionFactory sqlMapper = null;
 	SqlSession sqlSes = null;
 	
@@ -25,7 +25,6 @@ public class crm_MypageDao {
 		//예약목록 확인 리스트.
 		logger.info("[crm_MypageDao] mypageList 호출성공");
 		List<Map<String, Object>> mypageList = null;
-		pMap.put("mem_memcode", 95);
 		mypageList = sqlSes.selectList("mypageList", pMap);
 		return mypageList;
 	}
@@ -89,7 +88,6 @@ public class crm_MypageDao {
 	    if(!"통과".equals(msg)) {
 	    	msg="중복";
 	    } 
-	    //idCheck.add(msg);
 	    logger.info(msg);
 	    sqlSes.commit();
 	    return msg;
@@ -105,28 +103,5 @@ public class crm_MypageDao {
 		sqlSes.commit(true);
 		return msg;
 	}
-	
-	public static void main(String[] args) {
-		crm_MypageDao my = new crm_MypageDao();
-		Map<String, Object> pMap = new HashMap<String, Object>();
-		int result  = 0;
-//		my.mypageList(pMap);
-//		my.mypagePassword(pMap);
-//		pMap.put("mem_socialnum", "1211212-123123");
-//		pMap.put("u_soc","910685-1129561");
-//		pMap.put("u_mem_address","경기도");
-//		pMap.put("u_mem_phone","010-2222-2222");
-//		pMap.put("u_mks_id","test1");
-//		pMap.put("u_mks_pw","1234");
-//		pMap.put("u_name","회원1");
-//		pMap.put("u_mks_email","test1@naver.com");
-//		result = my.mypageUpd_Member(pMap);
-//		result = my.mypageUpd_Online(pMap);
-//		result = my.proc_mem_Add(pMap);
-//		result = my.idCheck(pMap);
-//		result = my.socialnumCheck(pMap);
-//		logger.info("result: "+result);
-	}
-
     
 }

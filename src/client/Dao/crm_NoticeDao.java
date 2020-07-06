@@ -33,18 +33,8 @@ public class crm_NoticeDao {
 		//공지사항 세부사항 보기.
 		logger.info("[crm_ReservationDao] noticeDetail 호출성공");
 		List<Map<String, Object>> noticeDetail = null;
-//		pMap.put("board_no", 1);
 		noticeDetail = sqlSes.selectList("noticeDetail", pMap);
 		return noticeDetail;
 	}
 	
-	public static void main(String[] args) {
-		crm_NoticeDao no = new crm_NoticeDao();
-		Map<String, Object> pMap = new HashMap<String, Object>();
-//		pMap.put("mode", "1");
-//		pMap.put("fnum", "1");
-//		pMap.put("enum", "5");
-//		no.noticeList(pMap);
-		no.noticeDetail(pMap);
-	}
 }

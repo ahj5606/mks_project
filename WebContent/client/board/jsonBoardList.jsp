@@ -5,20 +5,20 @@
 <%
 
 
-Object obj = request.getAttribute("bList_size");
-
-if(obj!=null){//사이즈를 넘겨야한다면!
-	int bList_size = (int)obj;
-	out.print(bList_size);
-}else{
-	Object obj2 = request.getAttribute("bList");
-	List<Map<String, Object>> boardList = null;
-	if(obj2!=null){
-		boardList = (List<Map<String, Object>>)obj2;
+	Object obj = request.getAttribute("bList_size");
+	
+	if(obj!=null){//사이즈를 넘겨야한다면!
+		int bList_size = (int)obj;
+		out.print(bList_size);
+	}else{
+		Object obj2 = request.getAttribute("bList");
+		List<Map<String, Object>> boardList = null;
+		if(obj2!=null){
+			boardList = (List<Map<String, Object>>)obj2;
+		}
+		Gson gson = new Gson();
+		String imsi = gson.toJson(boardList);
+		out.print(imsi);
 	}
-	Gson gson = new Gson();
-	String imsi = gson.toJson(boardList);
-	out.print(imsi);
-}
 
 %>

@@ -6,7 +6,6 @@
 	String id = request.getParameter("mks_id");//선택한 글의 아이디
 	String eva_code = request.getParameter("eva_code");//선택한 글의 번호
 	String sch_code = request.getParameter("sch_code");//선택한 글의 스케줄코드
-	
 	String u_eva_code = request.getParameter("u_eva_code");//댓글 수정모드
 	
 	Object parmeter = session.getAttribute("mks_id");//회원의 아이디
@@ -25,149 +24,147 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>게시판 상세 화면</title>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-	.container{
-		padding:5px;
-	}
-	h5.card-header a, h6.card-header, .card-body{
-		color:#353535;
-	}
-	th, td{
-		height:40px;
-		font-size:medium;
-		color:#353535;
-		/* padding:2px; ===> 왜 안먹지...?*/
-	}
-	a.page-link{
-		color:#4C4C4C;
-	}
-	label{
-		margin:8px;
-	}
-	body{
-	  	font-family: 'Do Hyeon', sans-serif;
-	}
-	a.click_yes, span.split_yes{
-		color:#353535;
-	}
-	a.click_no, a.click_no:hover, span.split_no{
-		color:#D5D5D5;
-	}
-</style>
-<script type="text/javascript">
-	var eva_code = '<%=eva_code%>';
-	var u_eva_code = '<%=u_eva_code%>';
-	var d_eva_code;
-	var mks_id = '<%=mks_id%>';
-	var id = '<%=id%>';
-	var sch_code = '<%=sch_code%>';
-	function modal_del(){
-		$("#modal_del").modal('show');
-	}
-	function board_del(){
-		var i_pw = $("#i_pw").val();
-		alert("입력한 비번: "+i_pw);
-		var param = "mks_id="+mks_id+"&mks_pw="+i_pw+"&eva_code="+eva_code;
-		$.ajax({
-			url: '/board/boardDel.crm'
-			,data: param
-			,success:function(data){
-				var res = data.trim();
-				if(res=='불일치'){
-					alert('비밀번호가 일치하지 않습니다.');
-				}else if(res=='실패'){
-					alert('삭제실패');
-				}else{
-					alert('삭제성공');
-					location.href="/client/board/boardList.jsp"
-				}
-			}
-		});
-	}
-	function board_upd(){
-		alert("수정모드로!");
-		location.href = "/client/board/boardForm.jsp?eva_code="+eva_code;
-	}
-	function board_list(){
-		alert("목록으로!");
-		location.href="/client/board/boardList.jsp"
-	}
-	function reply_ins(){
-		var eva_content = $("#reply_content").val();
-		if(eva_content==0){
-			alert("내용이 비어있습니다.");
-		}else{
-			var param = 'eva_content='+eva_content+'&mks_id='+mks_id+'&sch_code='+sch_code+'&group_no='+eva_code+"&eva_code="+eva_code;
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+		.container{
+			padding:5px;
+		}
+		h5.card-header a, h6.card-header, .card-body{
+			color:#353535;
+		}
+		th, td{
+			height:40px;
+			font-size:medium;
+			color:#353535;
+			/* padding:2px; ===> 왜 안먹지...?*/
+		}
+		a.page-link{
+			color:#4C4C4C;
+		}
+		label{
+			margin:8px;
+		}
+		body{
+		  	font-family: 'Do Hyeon', sans-serif;
+		}
+		a.click_yes, span.split_yes{
+			color:#353535;
+		}
+		a.click_no, a.click_no:hover, span.split_no{
+			color:#D5D5D5;
+		}
+	</style>
+	<script type="text/javascript">
+		var eva_code = '<%=eva_code%>';
+		var u_eva_code = '<%=u_eva_code%>';
+		var d_eva_code;
+		var mks_id = '<%=mks_id%>';
+		var id = '<%=id%>';
+		var sch_code = '<%=sch_code%>';
+			
+		function modal_del(){
+			$("#modal_del").modal('show');
+		}
+		
+		function board_del(){
+			var i_pw = $("#i_pw").val();
+			var param = "mks_id="+mks_id+"&mks_pw="+i_pw+"&eva_code="+eva_code;
 			$.ajax({
-				url: '/board/boardIns.crm'
+				url: '/board/boardDel.crm'
 				,data: param
 				,success:function(data){
 					var res = data.trim();
-					if(res=='실패'){
-						alert('입력실패');
+					if(res=='불일치'){
+						alert('비밀번호가 일치하지 않습니다.');
+					}else if(res=='실패'){
+						alert('삭제실패');
 					}else{
-						alert('입력성공');
+						location.href="/client/board/boardList.jsp"
+					}
+				}
+			});
+		}
+		
+		function board_upd(){
+			location.href = "/client/board/boardForm.jsp?eva_code="+eva_code;
+		}
+		
+		function board_list(){
+			location.href="/client/board/boardList.jsp?";
+		}
+		
+		function reply_ins(){
+			var eva_content = $("#reply_content").val();
+			if(eva_content==0){
+				alert("내용이 비어있습니다.");
+			}else{
+				var param = 'eva_content='+eva_content+'&mks_id='+mks_id+'&sch_code='+sch_code+'&group_no='+eva_code+"&eva_code="+eva_code;
+				$.ajax({
+					url: '/board/boardIns.crm'
+					,data: param
+					,success:function(data){
+						var res = data.trim();
+						if(res=='실패'){
+							alert('입력실패');
+						}else{
+							location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+id+"&sch_code="+sch_code;
+						}
+					}
+				});
+			}
+		}
+		
+		function reply_upd_mode(el){
+			var u_eva_code = $(el).children("input").val();
+			location.href = location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code
+												+'&mks_id='+id+"&sch_code="+sch_code+"&u_eva_code="+u_eva_code;
+		}
+		
+		function reply_upd(){
+			var eva_content = $("#reply_content").val();
+			if(eva_content==0){
+				alert("내용이 비어있습니다.");
+			}else{
+				var param = 'eva_content='+eva_content+'&eva_code='+u_eva_code+"&eva_title=''"
+				$.ajax({
+					url: '/board/boardUpd.crm'
+					,data: param
+					,success:function(data){
+						var res = data.trim();
+						if(res=='실패'){
+							alert('댓글수정실패');
+						}else{
+							location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+id+"&sch_code="+sch_code;
+						}
+					}
+				});
+			}
+		}
+		
+		function reply_del(){
+			var i_pw = $("#i_rpw").val();
+			var param = "mks_id="+mks_id+"&mks_pw="+i_pw+"&eva_code="+d_eva_code;
+			$.ajax({
+				url: '/board/boardDel.crm'
+				,data: param
+				,success:function(data){
+					var res = data.trim();
+					if(res=='불일치'){
+						alert('비밀번호가 일치하지 않습니다.');
+					}else if(res=='실패'){
+						alert('댓글삭제실패');
+					}else{
 						location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+id+"&sch_code="+sch_code;
 					}
 				}
 			});
 		}
-	}
-	function reply_upd_mode(el){
-		alert("수정모드로!");
-		var u_eva_code = $(el).children("input").val();
-		location.href = location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code
-											+'&mks_id='+id+"&sch_code="+sch_code+"&u_eva_code="+u_eva_code;
-	}
-	function reply_upd(){
-		alert("수정!");
-		var eva_content = $("#reply_content").val();
-		if(eva_content==0){
-			alert("내용이 비어있습니다.");
-		}else{
-			var param = 'eva_content='+eva_content+'&eva_code='+u_eva_code+"&eva_title=''"
-			alert("param: "+param);
-			$.ajax({
-				url: '/board/boardUpd.crm'
-				,data: param
-				,success:function(data){
-					var res = data.trim();
-					if(res=='실패'){
-						alert('댓글수정실패');
-					}else{
-						alert('댓글수정성공');
-						location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+id+"&sch_code="+sch_code;
-					}
-				}
-			});
+		
+		function modal_rdel(el){
+			d_eva_code = $(el).children("input").val();
+			$("#modal_rdel").modal('show');
 		}
-	}
-	function reply_del(){
-		var i_pw = $("#i_rpw").val();
-		alert("입력한 비번: "+i_pw);
-		var param = "mks_id="+mks_id+"&mks_pw="+i_pw+"&eva_code="+d_eva_code;
-		$.ajax({
-			url: '/board/boardDel.crm'
-			,data: param
-			,success:function(data){
-				var res = data.trim();
-				if(res=='불일치'){
-					alert('비밀번호가 일치하지 않습니다.');
-				}else if(res=='실패'){
-					alert('댓글삭제실패');
-				}else{
-					alert('댓글삭제성공');
-					location.href= '/client/board/boardDetail.jsp?eva_code='+eva_code+'&mks_id='+id+"&sch_code="+sch_code;
-				}
-			}
-		});
-	}
-	function modal_rdel(el){
-		d_eva_code = $(el).children("input").val();
-		$("#modal_rdel").modal('show');
-	}
-</script>
+	</script>
 </head>
 <body>
 	<!-- 메뉴바 -->
@@ -217,10 +214,14 @@
 				<!-- 버튼 -->
 				<div class="row mb-2">
 					<div class="col-md" style="text-align:right">
-						<%if(id.equals(mks_id)){ //자신의 글일때만 삭제, 수정 가능!!!%>
+						<%
+							if(id.equals(mks_id)){ //자신의 글일때만 삭제, 수정 가능!!!
+						%>
 							<button class="btn btn-md btn-dark" onClick="modal_del()">삭제</button>
 							<button class="btn btn-md btn-dark" onClick="board_upd()">수정</button>
-						<%}%>
+						<%
+							}
+						%>
 							<button class="btn btn-md btn-dark" onClick="board_list()">목록</button>
 					</div>
 				</div>
@@ -232,11 +233,17 @@
 	    				</div>
 	    				<div class="row mb-2">
 							<div class="col-md pt-2 pb-0 pr-0" style="text-align:right">
-							<%if(u_eva_code!=null){ %>
+							<%
+								if(u_eva_code!=null){ 
+							%>
 								<button class="btn btn-md btn-dark" onClick="reply_upd()">댓글수정</button>
-							<%}else{ %>
+							<%
+								}else{ 
+							%>
 								<button class="btn btn-md btn-dark" onClick="reply_ins()">댓글등록</button>
-							<%}%>
+							<%
+								}
+							%>
 							</div>
 						</div>
 					</div>
@@ -320,7 +327,6 @@
 				url: '/board/boardList.crm?num=1&eva_code='+eva_code
 				,success: function(data){
 					var res = JSON.parse(data);
-					alert("본문사이즈: "+res.length);
 					$("#hp_name").val(res[0].HP_NAME);
 					$("#eva_title").val(res[0].EVA_TITLE);
 					$("#eva_writer").val(res[0].MKS_ID);
@@ -332,7 +338,6 @@
 				url:'/board/boardReplyList.crm?eva_code='+eva_code
 				,success: function(data){
 					var res = JSON.parse(data);
-					alert("댓글사이즈: "+res.length);
 					$("#reply_size").html(res.length);
 					var imsi = "";
 					if(res.length>0){
@@ -367,16 +372,19 @@
 					}
 				}
 			});
-			<%if(u_eva_code!=null){ %>
+			<%
+				if(u_eva_code!=null) { 
+			%>
 			$.ajax({
 				url:'/board/boardReplyList.crm?eva_code='+u_eva_code
 				,success: function(data){
 					var res = JSON.parse(data);
-					alert("댓글수정: "+res.length);
 					$("#reply_content").val(res[0].EVA_CONTENT);
 				}
 			});
-			<%}%>
+			<%
+				}
+			%>
 		});
 	</script>
 </body>

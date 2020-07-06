@@ -11,7 +11,6 @@ import client.Dao.crm_HospitalDao;
 public class crm_BoardLogic {
 	
 	Logger logger = Logger.getLogger(crm_HospitalLogic.class);
-	
 	crm_BoardDao crm_hpDao = new crm_BoardDao();
 	
 	public List<Map<String,Object>> boardList(Map<String, Object> pMap) {
@@ -73,7 +72,6 @@ public class crm_BoardLogic {
 		}
 		return result;
 	}
-
 
 }
 

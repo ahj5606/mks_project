@@ -16,8 +16,8 @@ import client.pojo.crm_ModelAndView;
 
 
 public class crm_HealthController implements crm_Controller{
-	Logger logger = Logger.getLogger(crm_HealthController.class);
 
+	Logger logger = Logger.getLogger(crm_HealthController.class);
 	String requestName= null;
 	crm_HealthInfoLogic crm_hiLogic = new crm_HealthInfoLogic();
 	
@@ -26,9 +26,7 @@ public class crm_HealthController implements crm_Controller{
 	}
 	
 	@Override
-	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res)
-					throws IOException, ServletException
-			 {
+	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		crm_ModelAndView mav = new crm_ModelAndView(req,res);
 		if("healthList".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();

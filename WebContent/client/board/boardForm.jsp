@@ -33,100 +33,103 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>게시판 작성 화면</title>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-	.container{
-		padding:5px;
-	}
-	h5.card-header a, h6.card-header, .card-body{
-		color:#353535;
-	}
-	th, td{
-		height:40px;
-		font-size:medium;
-		color:#353535;
-		/* padding:2px; ===> 왜 안먹지...?*/
-	}
-	a.page-link{
-		color:#4C4C4C;
-	}
-	label{
-		margin:8px;
-	}
-	body{
-	  	font-family: 'Do Hyeon', sans-serif;
-	}
-</style>
-<script type="text/javascript">
-	var mks_id = '<%=mks_id%>'
-	function modal_ins(){
-		var sch_code;
-		var u_sch_code;
-		var eva_title = $("#eva_title").val().length;
-		var eva_content = $("#eva_content").val().length;
-		<%if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?%>
-			sch_code = $("#res_list").val();
-		<%}else{%>
-			sch_code ="unnecessary";
-		<%}%>
-		if(sch_code==0){
-			alert("예약 정보를 선택해주세요.");
-		}else if(eva_title==0||eva_content==0){
-			alert("제목 혹은 내용이 비어있습니다.");
-		}else{
-			$('#modal_ins').modal('show');
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+		.container{
+			padding:5px;
 		}
-	}
-	function board_ins(){
-		alert("입력 저장");
-		var sch_code = $("#res_list").val();
-		var eva_content = $("#eva_content").val();
-		var eva_title = $("#eva_title").val();
-		var eva_date = $("#eva_date").val();
-		var param = 'eva_content='+eva_content+'&mks_id='+mks_id+'&sch_code='+sch_code+'&eva_title='+eva_title+'&eva_date='+eva_date;
-		alert("param: "+param);
-		$.ajax({
-			url: '/board/boardIns.crm'
-			,data: param
-			,success:function(data){
-				var res = data.trim();
-				alert(res);
-				if(res=='실패'){
-					alert('입력실패');
+		h5.card-header a, h6.card-header, .card-body{
+			color:#353535;
+		}
+		th, td{
+			height:40px;
+			font-size:medium;
+			color:#353535;
+			/* padding:2px; ===> 왜 안먹지...?*/
+		}
+		a.page-link{
+			color:#4C4C4C;
+		}
+		label{
+			margin:8px;
+		}
+		body{
+		  	font-family: 'Do Hyeon', sans-serif;
+		}
+	</style>
+	<script type="text/javascript">
+		var mks_id = '<%=mks_id%>'
+		
+		function modal_ins(){
+			var sch_code;
+			var u_sch_code;
+			var eva_title = $("#eva_title").val().length;
+			var eva_content = $("#eva_content").val().length;
+			<%
+				if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?
+			%>
+				sch_code = $("#res_list").val();
+			<%
 				}else{
-					alert('입력성공');
-					location.href="/client/board/boardList.jsp"
+			%>
+				sch_code ="unnecessary";
+			<%
 				}
+			%>
+			if(sch_code==0){
+				alert("예약 정보를 선택해주세요.");
+			}else if(eva_title==0||eva_content==0){
+				alert("제목 혹은 내용이 비어있습니다.");
+			}else{
+				$('#modal_ins').modal('show');
 			}
-		});
-	}
-	function board_upd(){
-		alert("수정 저장");
-		var eva_code = '<%=eva_code%>'
-		var eva_content = $("#eva_content").val();
-		var eva_title = $("#eva_title").val();
-		var param = 'eva_content='+eva_content+'&eva_title='+eva_title+'&eva_code='+eva_code
-		alert("param: "+param);
-		$.ajax({
-			url: '/board/boardUpd.crm'
-			,data: param
-			,success:function(data){
-				var res = data.trim();
-				alert(res);
-				if(res=='실패'){
-					alert('수정실패');
-				}else{
-					alert('수정성공');
-					location.href="/client/board/boardDetail.jsp?mks_id="+mks_id+"&eva_code="+eva_code+"&sch_code="+u_sch_code;
+		}
+		
+		function board_ins(){
+			var sch_code = $("#res_list").val();
+			var eva_content = $("#eva_content").val();
+			var eva_title = $("#eva_title").val();
+			var eva_date = $("#eva_date").val();
+			var param = 'eva_content='+eva_content+'&mks_id='+mks_id+'&sch_code='+sch_code+'&eva_title='+eva_title+'&eva_date='+eva_date;
+			$.ajax({
+				url: '/board/boardIns.crm'
+				,data: param
+				,success:function(data){
+					var res = data.trim();
+					alert(res);
+					if(res=='실패'){
+						alert('입력실패');
+					}else{
+						location.href="/client/board/boardList.jsp"
+					}
 				}
-			}
-		});
-	}
-	function board_list(){
-		alert("목록으로!");
-		location.href="/client/board/boardList.jsp"
-	}
-</script>
+			});
+		}
+		
+		function board_upd(){
+			var eva_code = '<%=eva_code%>'
+			var eva_content = $("#eva_content").val();
+			var eva_title = $("#eva_title").val();
+			var param = 'eva_content='+eva_content+'&eva_title='+eva_title+'&eva_code='+eva_code
+			$.ajax({
+				url: '/board/boardUpd.crm'
+				,data: param
+				,success:function(data){
+					var res = data.trim();
+					alert(res);
+					if(res=='실패'){
+						alert('수정실패');
+					}else{
+						location.href="/client/board/boardDetail.jsp?mks_id="+mks_id+"&eva_code="+eva_code+"&sch_code="+u_sch_code;
+					}
+				}
+			});
+		}
+		
+		function board_list(){
+			location.href="/client/board/boardList.jsp"
+		}
+	</script>
 </head>
 <body>
 	<!-- 메뉴바 -->
@@ -144,7 +147,9 @@
 				<!-- 내용 -->
 				<div class="row m-2" style="justify-content:center;">
 					<form id="f_board">
-					<%if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?%>
+					<%
+						if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?
+					%>
 						<div class="form-group row mb-2 mt-3">
 							<label for="board_title" style="width:50px;margin-left:12px;">예약정보</label>
 	    					<div class="col-md">
@@ -152,14 +157,18 @@
 								</select>
 	    					</div>
 	    				</div>
-	    			<%}else{//수정버튼을 누르고 들어왔지?%>
+	    			<%
+	    				}else{//수정버튼을 누르고 들어왔지?
+	    			%>
 	    				<div class="form-group row mb-2 mt-3">
 							<label for="board_title" style="width:50px;margin-left:12px;">후기병원</label>
 	    					<div class="col-md">
 	      						<input type="text" readonly class="form-control" id="hp_name" style="width:400px;">
 	    					</div>
 	    				</div>
-	    			<%}%>
+	    			<%
+	    				}
+	    			%>
 						<div class="form-group row mb-2">
 							<label for="board_title" style="width:50px;margin-left:12px;">제목</label>
 	    					<div class="col-md">
@@ -212,11 +221,17 @@
      			</div>
      			<!-- footer -->
      			<div class="modal-footer">
-     				<%if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?%>
+     				<%
+     					if(eva_code==null){//글쓰기 버튼을 누르고 들어왔니?
+     				%>
         				<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_ins()">저장</button>
-        			<%}else{//수정 버튼을 누르고 들어왔니?%>
+        			<%
+        				} else {//수정 버튼을 누르고 들어왔니? 
+        			%>
         				<button type="button" class="btn btn-primary" data-dismiss="modal" onClick="board_upd()">저장</button>
-        			<%}%>
+        			<%
+        				}
+        			%>
         			<button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">닫기</button>
       			</div>
     		</div>
@@ -225,13 +240,13 @@
 	<!-- 돔구성 완료되었을 때 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
-			<%if(eva_code==null){%>//글쓰기 버튼을 누르고 들어왔니?
+			<% 
+				if(eva_code==null) { 
+			%>//글쓰기 버튼을 누르고 들어왔니?
 				$.ajax({
 					url: '/board/boardResList.crm?mks_id='+mks_id
 					,success:function(data){
 						var res = JSON.parse(data);
-						alert(res);
-						alert("사이즈: "+res.length);
 						var imsi = '<option value="">선택</option>';
 						for(var i=0; i<res.length; i++){
 							var res_list = "["+res[i].SCH_DATE+"] "+res[i].HP_NAME+", "+res[i].DEPT_NAME+", "+res[i].DOC_NAME
@@ -241,16 +256,16 @@
 					}
 				});
 				$("#res_list").change(function() {
-					alert(this.value);
 					var res_choice = $('#res_list').val();
 				});
-			<%}else{%>//수정버튼을 누르고 들어왔니?
+			<%
+				}else{ 
+			%>//수정버튼을 누르고 들어왔니?
 				var eva_code = '<%=eva_code%>'
 				$.ajax({
 					url: '/board/boardList.crm?num=1&eva_code='+eva_code
 					,success: function(data){
 						var res = JSON.parse(data);
-						alert(res);
 						alert("사이즈: "+res.length);
 						$("#hp_name").val(res[0].HP_NAME);
 						$("#eva_title").val(res[0].EVA_TITLE);
@@ -263,7 +278,9 @@
 					}
 				});
 				
-			<%}%>
+			<% 
+				}
+			%>
 		});
 	</script>
 </body>

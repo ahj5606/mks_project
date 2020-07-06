@@ -17,24 +17,21 @@ import client.pojo.crm_ModelAndView;
 
 
 public class crm_HospitalController implements crm_Controller{
+
 	Logger logger = Logger.getLogger(crm_HospitalController.class);
 	String requestName= null;
 	crm_HospitalLogic crm_hpLogic =new crm_HospitalLogic();
-	Map<String,Object> pMap = new HashMap();
+	
 	public crm_HospitalController(String requestName){
 		this.requestName=requestName;
 	}
 	
 	@Override
-	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res)
-					throws IOException, ServletException
-			 {
+	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		crm_ModelAndView mav = new crm_ModelAndView(req,res);
-		if("hospitalList".equals(requestName)) { //로그인 요청을 보냇을때 처리 쿠키와 세션도 저장해 주세요 ~~
+		if("hospitalList".equals(requestName)) {
+			Map<String,Object> pMap = new HashMap<>();
 			String hp_name = req.getParameter("hp_name");				
-			/* sql ************************************
-			 * where rownum between fNum and eNum 
-			 */
 			List<Map<String,Object>> hpList= null;
 			List<Map<String,Object>> nav= null;
 			String imsi = req.getParameter("num");
@@ -80,6 +77,7 @@ public class crm_HospitalController implements crm_Controller{
 			mav.setViewName("/hospital/hospitalList");
 		}
 		else if("categori".equals(requestName)) {
+			Map<String,Object> pMap = new HashMap<>();
 			List<Map<String,Object>> categori= null;
 			categori=crm_hpLogic.categori(pMap);
 			logger.info("hospitalcontroller"+categori.size());
@@ -134,6 +132,5 @@ public class crm_HospitalController implements crm_Controller{
 			mav.setViewName("/hospital/jsonFavoriteList");
 		}
 		return mav;
-		
 	}
 }

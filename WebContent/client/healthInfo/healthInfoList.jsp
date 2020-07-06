@@ -6,7 +6,6 @@
 	if(parameter!=null){
 		mks_id = (String)parameter;
 	}
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -19,97 +18,94 @@
 <title>건강정보 화면</title>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9c4b678674e7c8512ebf2cadc156977&libraries=services"></script>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-	.container{
-		padding:5px;
-	}
-	h5.card-header a, h6.card-header, .card-body{
-		color:#353535;
-	}
-	th, td{
-		height:40px;
-		font-size:medium;
-		color:#353535;
-		/* padding:2px; ===> 왜 안먹지...?*/
-	}
-	a.page-link{
-		color:#4C4C4C;
-	}
-</style>
-<script type="text/javascript">
-	var h_order ="날짜별";
-	var i_title = "";
-	function res_pageGet(num){
-		if(h_order=="날짜별"){
-			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
-				 url: "/health/healthList.crm?num="+num+"&i_title="+i_title
-			});
-		}else{
-			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
-				url: "/health/healthList.crm?num="+num+"&h_order="+h_order+"&i_title="+i_title
-			});
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+		.container{
+			padding:5px;
 		}
-		$("div.fixed-table-loading").remove(); 
-	}
-	function pageMove(click){
-		var imsi = $(click).children(".sr-only").text();
-		if(imsi=="Previous"){
-			previous();
-		}else if(imsi=="Next"){
+		h5.card-header a, h6.card-header, .card-body{
+			color:#353535;
+		}
+		th, td{
+			height:40px;
+			font-size:medium;
+			color:#353535;
+			/* padding:2px; ===> 왜 안먹지...?*/
+		}
+		a.page-link{
+			color:#4C4C4C;
+		}
+	</style>
+	<script type="text/javascript">
+		var h_order ="날짜별";
+		var i_title = "";
+		function res_pageGet(num){
+			if(h_order=="날짜별"){
+				$('#t_healthInfoList').bootstrapTable('refreshOptions', {
+					 url: "/health/healthList.crm?num="+num+"&i_title="+i_title
+				});
+			}else{
+				$('#t_healthInfoList').bootstrapTable('refreshOptions', {
+					url: "/health/healthList.crm?num="+num+"&h_order="+h_order+"&i_title="+i_title
+				});
+			}
+			$("div.fixed-table-loading").remove(); 
+		}
+		function pageMove(click){
+			var imsi = $(click).children(".sr-only").text();
+			if(imsi=="Previous"){
+				previous();
+			}else if(imsi=="Next"){
+				$.ajax({
+					url: "/health/healthList.crm?num=0"
+					,dataType: "text"
+					,success: function(data){
+						next(data, 5);
+					}
+				});
+			}
+		}
+		function page_btn(){
 			$.ajax({
-				url: "/health/healthList.crm?num=0"
+				url: "/health/healthList.crm?num=0&i_title="+i_title
 				,dataType: "text"
 				,success: function(data){
-					next(data, 5);
-				}
-			});
-		}
-	}
-	function page_btn(){
-		$.ajax({
-			url: "/health/healthList.crm?num=0&i_title="+i_title
-			,dataType: "text"
-			,success: function(data){
-				var totalSize = Number(data.trim()); 
-				var mok = Math.ceil(totalSize/5);
-				alert("page_btn*mok: "+mok);
-				$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
-				$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
-				$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
-				if(mok<3){
-					$("#page_3").remove();
-					if(mok<2){
-						$("#page_2").remove();
-						if(mok<1){
-							$("#page_1").remove();
+					var totalSize = Number(data.trim()); 
+					var mok = Math.ceil(totalSize/5);
+					$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+					$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+					$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+					if(mok<3){
+						$("#page_3").remove();
+						if(mok<2){
+							$("#page_2").remove();
+							if(mok<1){
+								$("#page_1").remove();
+							}
 						}
 					}
 				}
-			}
-		});
-		$("#page_1").focus();
-	}
-	function info_write(){
-		 location.href= '/client/healthInfo/healthInfoForm.jsp';
-	}
-	function search_h_title(){
-		alert("제목 검색");
-		i_title = $("#h_title").val();
-		alert("i_title: "+i_title+", h_order: "+h_order);
-		if(h_order=="날짜별"){
-			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
-				 url: "/health/healthList.crm?num=1&i_title="+i_title
 			});
-		}else{
-			$('#t_healthInfoList').bootstrapTable('refreshOptions', {
-				 url: "/health/healthList.crm?num=1&h_order="+h_order+"&i_title="+i_title
-			});
+			$("#page_1").focus();
 		}
-		page_btn();
-		$("div.fixed-table-loading").remove(); 
-	}
-</script>
+		function info_write(){
+			 location.href= '/client/healthInfo/healthInfoForm.jsp';
+		}
+		function search_h_title(){
+			i_title = $("#h_title").val();
+			if(h_order=="날짜별"){
+				$('#t_healthInfoList').bootstrapTable('refreshOptions', {
+					 url: "/health/healthList.crm?num=1&i_title="+i_title
+				});
+			}else{
+				$('#t_healthInfoList').bootstrapTable('refreshOptions', {
+					 url: "/health/healthList.crm?num=1&h_order="+h_order+"&i_title="+i_title
+				});
+			}
+			page_btn();
+			$("div.fixed-table-loading").remove(); 
+		}
+	</script>
 </head>
 <body>
 	<!-- 메뉴바 -->
@@ -169,11 +165,17 @@
 				<!-- 버튼 -->
 				<div class="row mb-2">
 					<div class="col-md" style="text-align:right">
-					<%if(mks_id!=null&&"jinaseebabo".equals(mks_id)) {//로그인이 된 상태에서만 글쓰기 가능!!%>
+					<%
+						if(mks_id!=null&&"jinaseebabo".equals(mks_id)) {//로그인이 된 상태에서만 글쓰기 가능!!
+					%>
 						<button class="btn btn-md btn-dark" onClick="info_write()">글쓰기</button>
-					<%}else{%>
+					<%
+						}else {
+					%>
 						<div class="container"></div>
-					<%} %>
+					<%
+						}
+					%>
 					</div>
 				</div>
 				<!-- 페이지네이션 -->
@@ -214,11 +216,9 @@
 							url: '/health/healthHit.crm?board_no='+board_no
 							,success: function(data){
 								var res = data.trim();
-								alert(res);
 								if(res=='실패'){
 									alert('조회수 올리기 실패');
 								}else{
-									alert('조회수 올리기 성공');
 									location.href= '/client/healthInfo/healthInfoDetail.jsp?board_no='+board_no;
 								}
 							}
@@ -228,7 +228,6 @@
 			$("div.fixed-table-loading").remove();
 			page_btn();
 			$("#h_order").change(function() {
-				alert(this.value);
 				h_order = this.value;
 				search_h_title();
 			});

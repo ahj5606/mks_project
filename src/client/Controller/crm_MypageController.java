@@ -18,7 +18,6 @@ import client.pojo.crm_ModelAndView;
 public class crm_MypageController implements crm_Controller{
 	
 	Logger logger = Logger.getLogger(crm_HospitalController.class);
-	
 	crm_MyPageLogic crm_MyPageLogic=new crm_MyPageLogic();
 	String requestName= null;
 	
@@ -27,9 +26,7 @@ public class crm_MypageController implements crm_Controller{
 	}
 	
 	@Override
-	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res)
-					throws IOException, ServletException
-			 {
+	public crm_ModelAndView process(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		crm_ModelAndView mav = new crm_ModelAndView(req,res);
 		if("mypageList".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();
@@ -82,7 +79,8 @@ public class crm_MypageController implements crm_Controller{
 			}
 			mav.setViewName("/mypage/jsonMypageList");
 			mav.IsForward(true);
-	    } else if("mypageSel".equals(requestName)) {
+	    }
+		else if("mypageSel".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();
 			String mks_id = req.getParameter("mks_id");
 			pMap.put("mks_id", mks_id);
@@ -95,7 +93,8 @@ public class crm_MypageController implements crm_Controller{
 			mav.addObject("mypageSel", mypageSel);
 			mav.setViewName("/mypage/jsonMypageSel");
 			mav.IsForward(true);
-		} else if("mypagePassword".equals(requestName)) {
+		}
+	    else if("mypagePassword".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();
 			String mks_pw = req.getParameter("mks_pw");
 			String mks_id = req.getParameter("mks_id");
@@ -111,7 +110,8 @@ public class crm_MypageController implements crm_Controller{
 			mav.addObject("result", result);
 			mav.setViewName("/mypage/jsonMypageResult");
 			mav.IsForward(true);	
-		} else if("mypageUpd".equals(requestName)) {
+		}
+		else if("mypageUpd".equals(requestName)) {
 			//1) pMap 셋팅
 			Map<String, Object> pMap = new HashMap<String, Object>();
 			String mem_address = req.getParameter("mem_address");
@@ -137,7 +137,8 @@ public class crm_MypageController implements crm_Controller{
 			mav.addObject("result", result);
 			mav.setViewName("/mypage/jsonMypageResult");
 			mav.IsForward(true);			
-		}else if("proc_mem_Add".equals(requestName)) {
+		}
+		else if("proc_mem_Add".equals(requestName)) {
 			Map<String, Object> pMap = new HashMap<String, Object>();
 			String u_id = req.getParameter("i_id");
 			String u_pw = req.getParameter("i_pw");
@@ -159,8 +160,8 @@ public class crm_MypageController implements crm_Controller{
 			mav.IsForward(true);
 			logger.info("mypage proc_mem_Add"+ proc_mem_Add);	
 			mav.setViewName("/mypage/proc_mem_Add");
-			
-		}else if("socialnumCheck".equals(requestName)) {
+		}
+		else if("socialnumCheck".equals(requestName)) {
 			Map<String,Object> pMap = new HashMap();
 			String regcheck = req.getParameter("i_reg");
 			pMap.put("mem_socialnum",regcheck);		
@@ -170,8 +171,8 @@ public class crm_MypageController implements crm_Controller{
 			mav.IsForward(true);
 			logger.info("mypage socialnumCheck"+ socialnumCheck);
 			mav.setViewName("/mypage/socialnumCheck");
-			
-		}else if("idCheck".equals(requestName)) {
+		}
+		else if("idCheck".equals(requestName)) {
 			Map<String,Object> pMap = new HashMap();
 			String mks_id = req.getParameter("i_id");
 			//String test = "test1";

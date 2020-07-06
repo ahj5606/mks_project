@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
-Object parmeter = session.getAttribute("mks_id");
-String mks_id = null;
-if(parmeter!=null){
-	mks_id = (String)parmeter;
-} 
-
+	Object parmeter = session.getAttribute("mks_id");
+	String mks_id = null;
+	if(parmeter!=null){
+		mks_id = (String)parmeter;
+	} 
 %>  
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,48 +16,46 @@ if(parmeter!=null){
 <meta name="description" content="">
 <meta name="author" content="">
 <title>내 정보</title>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-	.container{
-		padding:5px;
-	}
-	footer {
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		overflow-x:hidden;
-		text-align: center;
-		font-family:'Do Hyeon';
-		margin-top:30px;
-	}
-	body{
-	  	font-family: 'Do Hyeon', sans-serif;
-	}
-</style>
-<script type="text/javascript">
-	var mks_id = '<%=mks_id%>';
-	function pw_input(){
-		alert("비밀번호 확인!");
-		var i_pw = $("#i_pw").val();
-		alert("i_pw: "+i_pw);
-		$.ajax({
-			url: "/mypage/mypagePassword.crm"
-			,data: "mks_pw="+i_pw+"&mks_id="+mks_id
-			,success: function(data){
-				var res = data.trim();
-				alert(res);
-				if(res=='실패'){
-					 alert('불일치');
-					 $("#emailFail").html("비밀번호가 일치하지 않습니다.");
-			         $("#emailFail").attr('class','text-danger');
-				}else{
-					alert('일치!');
-					location.href="/client/mypage/myInfo.jsp"
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+		.container{
+			padding:5px;
+		}
+		footer {
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			overflow-x:hidden;
+			text-align: center;
+			font-family:'Do Hyeon';
+			margin-top:30px;
+		}
+		body{
+		  	font-family: 'Do Hyeon', sans-serif;
+		}
+	</style>
+	<script type="text/javascript">
+		var mks_id = '<%=mks_id%>';
+		function pw_input() {
+			var i_pw = $("#i_pw").val();
+			$.ajax({
+				url: "/mypage/mypagePassword.crm"
+				,data: "mks_pw="+i_pw+"&mks_id="+mks_id
+				,success: function(data){
+					var res = data.trim();
+					alert(res);
+					if(res=='실패') {
+						 alert('불일치');
+						 $("#emailFail").html("비밀번호가 일치하지 않습니다.");
+				         $("#emailFail").attr('class','text-danger');
+					}
+					else {
+						location.href="/client/mypage/myInfo.jsp"
+					}
 				}
-			}
-		});
-	}
-</script>
+			});
+		}
+	</script>
 </head>
 <body>
 	<!-- 메뉴바 -->
@@ -112,13 +107,13 @@ if(parmeter!=null){
 	</div>
 	<!-- footer -->
 	<jsp:include page="../login/footer.jsp"/>
-	
 	<!-- 돔 구성이 완료되었을 때 -->
 	<script type="text/javascript">
-		$(document).ready(function(){
+		$(document).ready(function() {
 			$('#t_myReList').bootstrapTable('refreshOptions', {
 		          url: "/client/mypage/jsonMyReservationList.jsp?num="+1
 				  ,onClickRow : function(row,element,field){
+					  
 				  }
 			});
 			$("div.fixed-table-loading").remove();

@@ -5,19 +5,19 @@
 
 <%
 
-Object obj = request.getAttribute("mList_size");
-if(obj!=null){
-	int size = (int)obj;
-	out.print(size);
-}else{
-	Object obj2 = request.getAttribute("mList");
-	if(obj2!=null){
-		List<Map<String,Object>> list = (List<Map<String,Object>>)obj2;
-		Gson gson = new Gson();
-		String imsi = gson.toJson(list);
-		out.print(imsi);
+	Object obj = request.getAttribute("mList_size");
+	if(obj!=null){
+		int size = (int)obj;
+		out.print(size);
+	}else{
+		Object obj2 = request.getAttribute("mList");
+		if(obj2!=null){
+			List<Map<String,Object>> list = (List<Map<String,Object>>)obj2;
+			Gson gson = new Gson();
+			String imsi = gson.toJson(list);
+			out.print(imsi);
+		}
 	}
-}
 
 
 %>

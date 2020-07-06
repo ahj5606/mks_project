@@ -9,88 +9,83 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>제휴병원</title>
-<%@ include file="/common/bootStrap4UI.jsp"%>
-<style type="text/css">
-	.container{
-		padding:5px;
-	}
-   th, td{
-      height:40px;
-      font-size: medium;
-      color:#353535;
-      /* padding:2px; ===> 왜 안먹지...?*/
-   }
-   a.page-link{
-      color:#4C4C4C;
-   }
-   .thead-light > tr > th.width1{
-		width:150px;
-   }
-   .thead-light > tr > th.width2{
-		width:350px;
-   }
-</style>
-<script type="text/javascript">
-	var hp_name = "";
-	var timeNum1 = 0;
-	var timeNum2 = 0;
-   function res_pageGet(num){
-      $('#t_hospitalList').bootstrapTable('refreshOptions', {
-    	  url: "/hospital/hospitalList.crm?num="+num+"&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
-      });
-      $("div.fixed-table-loading").remove();
-   }
-   function pageMove(click){
-		var imsi = $(click).children(".sr-only").text();
-		if(imsi=="Previous"){
-			previous();
-		}else if(imsi=="Next"){
+	<%@ include file="/common/bootStrap4UI.jsp"%>
+	<style type="text/css">
+		.container{
+			padding:5px;
+		}
+	   th, td{
+	      height:40px;
+	      font-size: medium;
+	      color:#353535;
+	      /* padding:2px; ===> 왜 안먹지...?*/
+	   }
+	   a.page-link{
+	      color:#4C4C4C;
+	   }
+	   .thead-light > tr > th.width1{
+			width:150px;
+	   }
+	   .thead-light > tr > th.width2{
+			width:350px;
+	   }
+	</style>
+	<script type="text/javascript">
+		var hp_name = "";
+		var timeNum1 = 0;
+		var timeNum2 = 0;
+	   function res_pageGet(num){
+	      $('#t_hospitalList').bootstrapTable('refreshOptions', {
+	    	  url: "/hospital/hospitalList.crm?num="+num+"&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
+	      });
+	      $("div.fixed-table-loading").remove();
+	   }
+	   function pageMove(click){
+			var imsi = $(click).children(".sr-only").text();
+			if(imsi=="Previous"){
+				previous();
+			}else if(imsi=="Next"){
+				$.ajax({
+					url: "/hospital/hospitalList.crm?num=0"
+					,dataType: "text"
+					,success: function(data){
+						next(data, 5);
+					}
+				});
+			}
+		}
+	   function page_btn(){
 			$.ajax({
-				url: "/hospital/hospitalList.crm?num=0"
+				url: "/hospital/hospitalList.crm?num=0&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
 				,dataType: "text"
 				,success: function(data){
-					next(data, 5);
-				}
-			});
-		}
-	}
-   function page_btn(){
-		$.ajax({
-			url: "/hospital/hospitalList.crm?num=0&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
-			,dataType: "text"
-			,success: function(data){
-				var totalSize = Number(data.trim()); 
-				var mok = Math.ceil(totalSize/5);
-				alert("page_btn*mok: "+mok);
-				$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
-				$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
-				$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
-				if(mok<3){
-					$("#page_3").remove();
-					if(mok<2){
-						$("#page_2").remove();
-						if(mok<1){
-							$("#page_1").remove();
+					var totalSize = Number(data.trim()); 
+					var mok = Math.ceil(totalSize/5);
+					$("#p_1").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_1" onClick="page(this)" >1</a>');
+					$("#p_2").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_2" onClick="page(this)" >2</a>');
+					$("#p_3").html('<a class="page-link p-1 px-2 my-1" href="#" id="page_3" onClick="page(this)" >3</a>');
+					if(mok<3){
+						$("#page_3").remove();
+						if(mok<2){
+							$("#page_2").remove();
+							if(mok<1){
+								$("#page_1").remove();
+							}
 						}
 					}
 				}
-			}
-		});
-		$("#page_1").focus();
-	}
-   
-   function search_h_name(){
-      alert("입력한 병원이름: "+$("#h_name").val());
-      hp_name = $("#h_name").val();
-      $('#t_hospitalList').bootstrapTable('refreshOptions', {
-              url:  "/hospital/hospitalList.crm?num=1&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
-      });
-      page_btn();
-      $("div.fixed-table-loading").remove(); 
-     
-   }
-
-</script>
+			});
+			$("#page_1").focus();
+		}
+	   function search_h_name(){
+	      hp_name = $("#h_name").val();
+	      $('#t_hospitalList').bootstrapTable('refreshOptions', {
+	              url:  "/hospital/hospitalList.crm?num=1&hp_name="+hp_name+"&hp_open="+timeNum1+"&hp_close="+timeNum2
+	      });
+	      page_btn();
+	      $("div.fixed-table-loading").remove(); 
+	   }
+	</script>
 </head>
 <body>
    <!-- 메뉴바 -->
