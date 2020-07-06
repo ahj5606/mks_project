@@ -16,8 +16,6 @@
 		$("#f_doctor").attr("action","./doctorINS.mgr");
 		$("#f_doctor").submit();
 	}
-	
-	
 	function docClose() {
 		//alert("닫기");
 		location.href="./doctorList.mgr";
@@ -43,36 +41,11 @@
 	})
 	
 	function d_search(){
-		//var hp_code= "280HP";
 		$("#d_list").bootstrapTable('refreshOptions', {
 			    url:'/manager/doctor/deptSearch.mgr'
 		  })
 	}
 	
-	
-	/* $(document).ready(function(data){
-		$("#res_day").bootstrapTable({
-			onDblClickRow:function(row, $element, field)
-		     { 
-				var jo = JSON.stringify(row);
-				var d = JSON.parse(jo);
-				var SCH_TIME = d.SCH_TIME;
-				var SCH_DATE = d.SCH_DATE;
-				var HP_CODE = d.HP_CODE;
-				$("#sch_time").val(SCH_TIME);
-				$("#sch_date").val(SCH_DATE);
-				$("#hp_code").val(HP_CODE);
-				$("#reserveDay").modal('hide');
-		     }
-		})
-		$("#res_day").bootstrapTable('hideLoading');
-	})
-	function reserveSearch(){
-		var hp_code= "280HP";
-		$("#res_day").bootstrapTable('refreshOptions', {
-			    url:'/manager/doctor/reserveDay.mgr?hp_code='+hp_code
-		  })
-	} */
 	
 	
 	
@@ -88,6 +61,8 @@
 				<div style="position: absolute; left: 10px; top: 1px;">
 	  				<div style="position: absolute; left: 400px; top: 197px;">
 					        <button style="margin-bottom: 15px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
+					        <!-- <button style="margin-bottom: 15px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#getSchCode">예약코드</button> -->
+					        
 					    <div class="form-group">
 					    	<label>부서코드</label>
 					        <input type="text" class="form-control" id="dept_code" name="dept_code" placeholder="부서코드" style="width: 245px"readonly>
@@ -136,7 +111,7 @@
 					    	<label>상태</label>
 					       <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
 					    </div>
-				    	<div class="form-group">
+				    	<!-- <div class="form-group">
 				    		<label>예약날짜</label>
 				    	   <input type="text" class="form-control" id="sch_date" name="sch_date" placeholder="예약날짜"style="width: 245px">
 					    </div>
@@ -146,62 +121,8 @@
 					    </div>
 					    <div class="form-group">
 					    	<label>예약코드</label>
-					       <input type="text" class="form-control" id="sch_code" name="sch_code" placeholder="예약코드" style="width: 245px" readonly>
-					    </div>
-					
-				    
-		    
-		    
-		    <!--버튼시작  -->
-		    
-		    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal">
-					수정
-				</button>
-				
-				Modal
-				<div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				  <div class="modal-dialog" role="document">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <h5 class="modal-title" id="exampleModalLabel">확인</h5>
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      <div class="modal-body">
-				       			수정 하시겠습니까?
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docUpd()">저장</button>
-				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DeleteModal">
-					삭제
-				</button>
-				Modal
-				<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				  <div class="modal-dialog" role="document">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <h5 class="modal-title" id="exampleModalLabel">확인</h5>
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      <div class="modal-body">
-				       			삭제 하시겠습니까?
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docDel()">확인</button>
-				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-				      </div>
-				    </div>
-				  </div>
-				</div> -->
+					       <input type="text" class="form-control" id="sch_code" name="sch_code" placeholder="예약코드" style="width: 245px">
+					    </div> -->
 				
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
 					저장
@@ -252,7 +173,7 @@
 					 			 <th scope="col" data-field="DEPT_NAME">부서 이름</th> 
 								 <th scope="col" data-field="HP_NAME">병원 이름</th>
 								 <th scope="col" data-field="HP_CODE">병원 코드</th>
-				  			</tr>
+							</tr>
 						</thead>
 					 </table>
 				      </div>
@@ -263,7 +184,35 @@
 				    </div>
 				  </div>
 				</div> 
-			 
+		<div class="modal" id="getSchCode" aria-hidden="true" style="display: none; z-index: 1060;">
+				  <div class="modal-dialog modal-lg">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="Search">예약코드</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				      </div>
+				      <div class="modal-body">
+				      <div>
+				      <div class='text-center'>
+							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="sch_code()">코드검색</button>
+					</div>
+					<br>
+				      <table class="table table-hover" id="sch_code" data-page-size="10" data-search="true"  data-pagination="true" data-pagination-loop="false">
+						<thead>
+						 	<tr>
+								 <th scope="col" data-field="SCH_CODE">부서 코드</th>
+					 		</tr>
+						</thead>
+					 </table>
+				      </div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+				
 	</div>
 </body>
 </html>
