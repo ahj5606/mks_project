@@ -6,7 +6,7 @@
 <%@page import="mks.util.PageBarManager"%>
 
 <%
-	String hp_code = "280HP";
+	//String hp_code = "280HP";
 	List<Map<String,Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 		if(docList==null){
 			docList = new ArrayList();
@@ -16,25 +16,9 @@
 		if(deptList==null){
 			deptList = new ArrayList();
 		}
-		/* String dept = request.getParameter("dept_name");
-		String mem_name = request.getParameter("mem_name");
-		String mem_memcode = request.getParameter("mem_memcode");
-		//String doc_name = request.getParameter("doc_name");
-		String sch_code = request.getParameter("sch_code");
-		if(mem_name==null){
-			mem_name="";
-		}
-		if(doc_name==null){
-			doc_name="";
-		}
-		if(sch_code==null){
-			sch_code="";
-		}
-		if(dept==null){
-			dept="";
-		} */ 
+		 
 		int tot=docList.size();
-		int numPerPage =10;
+		int numPerPage =15;
 		int nowPage =0;
 		if(request.getParameter("nowPage")!=null){
 			nowPage =Integer.parseInt(request.getParameter("nowPage"));
@@ -53,11 +37,7 @@
 <head>
 <meta charset="UTF-8">
 <title>의사 페이지 </title>
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script> -->
+  
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
@@ -78,7 +58,6 @@
 									
 							<%
 								for(int i=0;i<deptList.size();i++){
-									
 							%>
 									<li><a href="javascript:void(0)"><%=deptList.get(i).get("DEPT_NAME") %></a></li>
 							<%
@@ -162,28 +141,29 @@ $(document).ready(function(data){
 			var d = JSON.parse(jo);
 			var doc_code = d.DOC_CODE;
 			location.href="/manager/doctor/doctorDetail.mgr?doc_code="+doc_code;
-			alert("클릭"+doc_code);
+			//alert("클릭"+doc_code);
 	     }
 	})
 	$("#doc_list").bootstrapTable('hideLoading');
 	})
 	var dept_name =null;
 	$('#deptDrop .dropdown-menu li > a').bind('click',function (e) {
-		alert("dept_name");
+		//alert("dept_name");
 	    dept_name = $(this).html();
 	    $('#deptDrop button.dropdown-toggle').html(dept_name);
-	    alert("진료과:"+dept_name);
-	    location.href='./doctorSEL.mgr?hp_code=<%=hp_code%>&dept_name='+dept_name
+	    //alert("진료과:"+dept_name);
+	    location.href='./doctorSEL.mgr?dept_name='+dept_name
 	});
 	function docSearch(){
-		alert("의사검색");
+		//alert("의사검색");
 		var d_name = $("#d_name").val();
 		var d_code =$("#d_code").val();
-		location.href='./doctorSEL.mgr?hp_code=<%=hp_code%>'+'&doc_name='+d_name+'&doc_code='+d_code
+		location.href='./doctorSEL.mgr?doc_name='+d_name+'&doc_code='+d_code
 	}
 	function docIns(){
-		alert("의사추가");
+		//alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
+		
 	}
 	
 	
