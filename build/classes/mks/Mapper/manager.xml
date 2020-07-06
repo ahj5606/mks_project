@@ -237,13 +237,16 @@
 	</update>
 	
 	<select id="reserveList" parameterType="map" resultType="map">
-			select mem.mem_memcode, mem.mem_name, mem.mem_phone, res.*
-			from  mks_member mem, mks_reserve res
-			where mem.mem_memcode=res.mem_memcode
+			SELECT mem.mem_memcode, mem.mem_name, mem.mem_phone,
+			 res.mem_memcode, res.sch_code, res.doc_code, res.doc_name,
+			 res.dept_code, res.dept_name, res.hp_name, res.hp_code,
+			 res.sch_date,  substr(res.res_time,0,2)||':'||substr(res.res_time,3,2) res_time , res.res_memo, res.res_qrcode
+			FROM  mks_member mem, mks_reserve res
+			WHERE mem.mem_memcode=res.mem_memcode
 		<if test="hp_code!=null">
 			AND res.hp_code=#{hp_code}
 		</if>
-		ORDER BY res.sch_date
+		ORDER BY res.sch_date asc, res.res_time
 	</select>	
 	
 	<select id="reserveDEPT" parameterType="map" resultType="map">
@@ -259,7 +262,7 @@
 			select mem.mem_memcode, mem.mem_name,  mem.mem_phone
 			, res.mem_memcode, res.sch_code, res.doc_code, res.doc_name
 							, res.dept_code, res.dept_name, res.hp_name, res.hp_code,
-							 res.sch_date, res.res_time, res.res_memo, res.res_qrcode
+							 res.sch_date,  substr(res.res_time,0,2)||':'||substr(res.res_time,3,2) res_time , res.res_memo, res.res_qrcode
 			from  mks_member mem, mks_reserve res
 			where mem.mem_memcode=res.mem_memcode
 		<if test="hp_code!=null">
@@ -277,7 +280,7 @@
 		<if test="startDate!=null and endDate!=null">
 			AND res.sch_date between #{startDate} and #{endDate}
 		</if>
-		ORDER BY res.sch_date
+		ORDER BY res.sch_date asc, res.res_time
 	</select>
 	
 	<select id="transDate" parameterType="map" resultType="map">
@@ -366,7 +369,8 @@
 	<update id="reserveUPD" parameterType="map">
            UPDATE mks_reserve
                set
-              mem_memcode= #{mem_memcode}
+              mem_memcode= #{mem_memcode},
+              res_memo= #{res_memo}
               WHERE sch_code= #{sch_code}
 	</update>
 	

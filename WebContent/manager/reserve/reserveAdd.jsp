@@ -82,10 +82,10 @@
 			url:"/manager/reserve/reserveINS.mgr?"+param
 			,success:function(data){
 				if(data.trim()=="성공"){
-					alert("입력에 성공했습니다.");
+					alert("예약 정보를 등록했습니다.");
 					location.href="/manager/reserve/reserveList.mgr";
 				}else{
-					alert("입력에 실패했습니다.");
+					alert("등록에 실패했습니다.");
 					$("#UpdateModal").modal('hide');
 					location.href="/manager/reserve/mgr_reserveAdd.jsp";
 				}
@@ -167,10 +167,14 @@
 				 <input type="text" id="resTime" class="form-control" placeholder="00:00" readonly>
 					<!-- 	<input type="text" id="resTime" class="form-control mb-2" placeholder="time input">  -->
 				</div>
+				
 				<div class="form-group align-self-end mr-2">
 					<label for="patientEditButton"></label>
-					<button  type="button" class="btn btn-secondary" style="margin-bottom:12px;" onClick="d_search()" data-toggle="modal" data-target="#doctorSearch">예약 상세 입력</button>
+					<button  type="button" class="btn btn-secondary" style="margin-bottom:12px;" onClick="d_search()" data-toggle="modal" data-target="#doctorSearch">예약 정보 입력</button>
 				</div>
+				</div>
+				<div class="row">
+				<span class="text-secondary" style="font-size: 0.8em;"> 예약 일정은  <a href="/manager/doctor/doctorList.mgr" class="alert-link">의사 상세</a>에서 추가할 수 있습니다.</span>
 				</div>
 				<div class="alert alert-danger alert-dismissible fade show" id="alert" style="display: none;" role="alert">
 				  <strong>환자 정보</strong>와 <strong>예약 일정</strong>이 모두 입력되어야합니다.
@@ -183,7 +187,9 @@
 				 <div class="row">
 				<div class="form-group">
 					<label for="memo">증상</label>
-					<input type="text" class="form-control" style="text-align: left;" id="memo" placeholder="">
+					<!-- <input type="text" class="form-control" style="text-align: left;" id="memo" placeholder=""> -->
+					<textarea id="memo" style="height:200px; width:300px; resize:none; text-align:left;"
+							 class="form-control mb-2" id="memo" placeholder="MEMO" ></textarea>
 				</div>
 				
 				</div>
@@ -202,16 +208,17 @@
 </div>
 <!-- 수정 모달 -->
    <div class="modal fade bd-example-modal-sm" id="modal_ins" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width: auto;">
                <!-- head -->
                <div class="modal-header">
-                 <h5 class="modal-title">저장 확인창</h5>
+                 <h5 class="modal-title">저장</h5>
                </div>
                <!-- body -->
                <div class="modal-body">
                   <div class="row" style="justify-content: center">
-                    <h5 class="modal-title">다음 글을 저장하시겠습니까?</h5>
+                    <h5 class="modal-title">입력한 정보를 저장하시겠습니까?</h5>
+                   
                  </div>
               </div>
               <!-- footer -->
