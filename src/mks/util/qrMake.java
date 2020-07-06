@@ -70,7 +70,7 @@ public class qrMake {
 			
 		String password = getSha1("1");
 		System.out.println(password);
-		QR_make(password);
+		QR_make("1");
 	}
 	
 	

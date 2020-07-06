@@ -11,6 +11,7 @@
    String mem_name="";
    String mem_code="";
    String res_num ="";
+   String hp_code ="";
    
    StringBuffer sql = new StringBuffer();
    sql.append("SELECT m.mem_name,m.mem_memcode FROM mks_member m, mks_online o");
@@ -31,17 +32,41 @@
       rs.next();
       mem_name = rs.getString("mem_name");    
       mem_code = rs.getString("mem_memcode");    
+     
+  /*     RequestDispatcher view = request.getRequestDispatcher("./reserve.jsp");
+      request.setAttribute("mem_code", mem_code);
+      view.forward(request, response) */;
       out.print(mem_name+"님의 마이페이지/");
 
 
       StringBuffer sql2 = new StringBuffer();
-      sql2.append("SELECT res_qrcode FROM mks_reserve WHERE mem_memcode='"+mem_code+"'");
+      sql2.append("SELECT res_qrcode, hp_code FROM mks_reserve WHERE mem_memcode='"+mem_code+"'");
       stmt = con.createStatement();
       rs = stmt.executeQuery(sql2.toString());
       rs.next();
       res_num = rs.getString("res_qrcode");
+      hp_code = rs.getString("hp_code");
       System.out.print(res_num);
-      out.print(res_num);
+      out.print(res_num+"/");
+
+      StringBuffer sql3 = new StringBuffer();
+      sql3.append("SELECT hp_name, hp_lat, hp_lng, hp_address FROM mks_hospital");
+      sql3.append("	 WHERE hp_code='"+hp_code+"'");
+      stmt = con.createStatement();
+      rs = stmt.executeQuery(sql3.toString());
+      rs.next();
+      
+      String hp_name = rs.getString("hp_name");
+      Double hp_lat = rs.getDouble("hp_lat");
+      Double hp_lng = rs.getDouble("hp_lng");
+      String hp_address = rs.getString("hp_address");
+     
+      System.out.print(res_num);
+      out.print(hp_name+"/");
+      out.print(hp_lat+"/");
+      out.print(hp_lng+"/");
+      out.print(hp_address+"/");
+      
       
    
    }catch(SQLException se){

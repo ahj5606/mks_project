@@ -9,7 +9,7 @@
 	</select>
 	
 	<select id="noticeSEL" parameterType="map" resultType="map">
-		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
+		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id, b.hit
 		 FROM mks_board b, mks_online o
 		 WHERE b.mks_id = o.mks_id
 		  AND o.hp_code=#{hp_code}
@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="noticeSEARCH" parameterType="map" resultType="map">
-		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id
+		SELECT b.board_no, b.board_content, b.board_date, b.board_title, b.board_file, o.dept_name,b.mks_id, b.hit
             FROM mks_board b, mks_online o
           WHERE b.mks_id = o.mks_id
            AND o.hp_code=#{hp_code}
@@ -39,6 +39,12 @@
                  ),0)+1 board_no
            FROM dual
 	</select>
+ 	
+	<update id="hitCount" parameterType="map">
+      UPDATE mks_board 
+         SET hit = (SELECT nvl(hit,0) FROM mks_board WHERE board_no=#{board_no})+1
+       WHERE board_no = #{board_no}
+   </update>
 	
 	<update id="noticeUPD" parameterType="map">
 		UPDATE mks_board SET board_title=#{board_title}, board_content=#{board_content}
@@ -58,9 +64,9 @@
 	</delete>
  
 	<insert id="noticeINS" parameterType="map">
-		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title,mks_id,board_file)
- 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'), 
- 			        #{board_title},#{mks_id}
+		INSERT INTO mks_board (board_type,board_no, board_content, board_date, board_title,mks_id,hit,board_file)
+ 			VALUES (0,#{board_no}, #{board_content}, TO_CHAR(sysdate,'YYYY-MM-DD'),
+ 			        #{board_title},#{mks_id} ,0
 	 <choose>
 		 <when test="board_file != null">
 		 ,#{board_file})
@@ -220,9 +226,12 @@
 	</select>
 	
 	<select id="getMemCode" parameterType="map" resultType="int">
-          SELECT  mem_memcode+1
-        		 FROM mks_member where rownum=1 
-        	 ORDER BY mem_memcode DESC
+        SELECT NVL((
+                     SELECT /*+index_desc(MKS_MEMBER XPK회원)*/ mem_memcode
+                          FROM MKS_MEMBER 
+                       WHERE rownum = 1
+                 ),0)+1 mem_memcode
+           FROM dual
 	</select>
 	
 	<delete id="patientDEL" parameterType="map">
@@ -240,7 +249,10 @@
 		INSERT INTO MKS_HISTORY(HIS_DATE,HIS_CONTENT,MEM_MEMCODE,DOC_CODE,DOC_NAME,HP_CODE,DEPT_NAME,DEPT_CODE,HP_NAME)
 		VALUES(#{his_date},#{his_content},#{mem_code},#{doc_code},#{doc_name},#{hp_code},#{dept_name},#{dept_code},#{hp_name})		
 	</insert>	
-
+	
+	<select id="memberSearch" parameterType="map" resultType="int">
+	    SELECT mem_memcode from mks_member where mem_name = #{mem_name} and mem_socialnum = #{mem_social}
+	</select>
 
 	<update id="patientUPD" parameterType="map">
 		UPDATE MKS_MEMBER 
