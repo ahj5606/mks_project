@@ -45,7 +45,7 @@ if(sch_code==null){
 	}
 	function reserve_remove(){
 		//alert("삭제");
-		var pCode = $("#patientCode").val();
+		var pCode = $("#mem_memcode").val();
 		var p_code = parseInt(pCode);
 		var r_Code =$("#sch_code").val();
 		var resCode = parseInt(r_Code);
@@ -69,16 +69,14 @@ if(sch_code==null){
 		var pCode = $("#mem_memcode").val();
 		var p_code = parseInt(pCode);
 		var r_Code =$("#sch_code").val();
+		var r_memo =$("#res_memo").val();
 		var resCode = parseInt(r_Code);
 		var mem_memcode=<%=mem_memcode%>//변경전
-		//alert("변경전 회원코드:"+mem_memcode+", 변경된 회원코드:"+p_code);
-		/* var hp_name="새움병원";
-		var hp_code="280HP"; */
 		var param= "mem_memcode="+p_code+
-				   "&sch_code="+resCode;
-		//alert("param : "+param);
+				   "&sch_code="+resCode+"&res_memo="+r_memo;
+	//alert("param : "+param);
 	//alert("원래 회원번호:"+mem_memcode+", 바뀔 회원번호"+p_code);
-		
+	 	
 	$.ajax({
 			url:"/manager/reserve/reserveUPD.mgr?"+param
 			,success:function(data){
@@ -131,9 +129,6 @@ if(sch_code==null){
 				</div>
 				</div>
 				
-				<!-- <button type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#doctorSearch" style="margin-bottom:10px;">
-					예약 담당의 변경
-				</button> -->
 				<div class="row">
 				<div class="form-group mr-2">
 					<label for="dept">진료과</label>
@@ -147,8 +142,6 @@ if(sch_code==null){
 				<label for="reserveDate">예약 날짜</label> 
 						<input type="text" id="sch_date" readonly value="<%=rList.get(0).get("SCH_DATE")%> "
 							class="form-control mb-2 res" placeholder="date input"> 
-<%-- 						<input type="date" id="resDate" value="<%=rList.get(0).get("SCH_DATE")%>"
-							class="form-control mb-2" placeholder="date input">  --%>
 				</div>
 				<div class="form-group mr-2">
 				<label for="reserveDate">예약 시간</label> 
@@ -156,7 +149,7 @@ if(sch_code==null){
 				</div>
 				</div>
 				<div class="alert alert-danger alert-dismissible fade show" id="alert" style="display: none;" role="alert">
-				  <strong>환자 정보만 수정 할 수 있습니다. </strong> 예약 일정 추가는 <a href="/manager/doctor/doctorDetail.mgr?doc_code=<%=rList.get(0).get("DOC_CODE")%>" class="alert-link">해당 의사정보 페이지</a>에서 할 수 있습니다.
+				  <strong>환자 정보만 수정 할 수 있습니다. </strong> 예약 일정을 변경하려면 예약정보를 먼저 <strong>삭제</strong>한 후 다시 작성하여야 합니다.
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				    <span aria-hidden="true">&times;</span>
 				  </button>
@@ -165,7 +158,7 @@ if(sch_code==null){
 				<div class="row">
 				<div class="form-group">
 					<label for="memo">증상</label>
-					<input type="text" style="width:170px; text-align:left;" class="form-control mb-2" id="res_memo" value="<%=rList.get(0).get("RES_MEMO")%>" placeholder="Enter memo" >
+					<textarea id="res_memo" style="height:200px; width:400px; resize:none; text-align:left;" class="form-control mb-2" id="res_memo"  placeholder="MEMO" ><%=rList.get(0).get("RES_MEMO")%></textarea>
 				</div>
 				</div>
 				

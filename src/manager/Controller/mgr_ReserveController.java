@@ -183,6 +183,7 @@ public class mgr_ReserveController implements mgr_Controller {
 			int result = 0;
 			logger.info("환자번호 :"+pMap.get("mem_memcode"));
 			logger.info("예약번호 :"+pMap.get("sch_code"));
+			logger.info("예약번호 :"+pMap.get("res_memo"));
 			result = rlogic.reserveUPD(pMap);
 			logger.info("result : "+result);
 			mav.cudResult(result);			

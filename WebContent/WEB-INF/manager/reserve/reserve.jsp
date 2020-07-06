@@ -74,7 +74,7 @@
 						<!-- 	<button class="btn btn-primary m-3" onclick="testFun()">
 									확인용 함수 버튼</button> -->
 							<div style="text-align:center;">
-							<button  class="btn btn-outline-success text-center" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">날짜 구간 입력</button>
+							<button  class="btn btn-outline-success text-center" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">날짜 구간 검색</button>
 							</div>
 								<div style="text-align:center;">
 							<div style="border: 0px solid green;">
@@ -161,7 +161,7 @@
 							</div>	
 						</div>
 						<!-- 테이블 위쪽 검색바 끝 -->
-						
+					
 						<!-- 테이블 -->
 						<div class="row">
 						<div class="tab-pane fade show active" id="list-reserve"
@@ -171,11 +171,12 @@
 									<tr>
 										<th scope="col" data-field="SCH_CODE">예약번호</th>
 										<th scope="col" data-field="DEPT_NAME">진료과</th>
-										<th scope="col" data-field="MEM_MEMCODE">환자코드</th>
+										<th scope="col" data-field="DOC_NAME">담당의</th>
+										<th scope="col" data-field="MEM_MEMCODE">환자번호</th>
 										<th scope="col" data-field="MEM_NAME">환자이름</th>
 										<th scope="col" data-field="MEM_PHONE">연락처</th>
-										<th scope="col" data-field="DOC_NAME">담당의</th>
 										<th scope="col" data-field="SCH_DATE">예약 일자</th>
+										<th scope="col" data-field="RES_TIME">예약 시간</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -186,11 +187,13 @@
 	<tr>
 					<td><%=rList.get(i).get("SCH_CODE") %></td>
 					<td><%=rList.get(i).get("DEPT_NAME") %></td>
+					<td><%=rList.get(i).get("DOC_NAME") %></td>
 					<td><%=rList.get(i).get("MEM_MEMCODE") %></td>
 					<td><%=rList.get(i).get("MEM_NAME") %></td>
 					<td><%=rList.get(i).get("MEM_PHONE") %></td>
-					<td><%=rList.get(i).get("DOC_NAME") %></td>
 					<td id="schdate"><%=rList.get(i).get("SCH_DATE") %></td>
+					<td><%=rList.get(i).get("RES_TIME") %></td>
+					
 	</tr>
 <%
 		}

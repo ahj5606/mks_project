@@ -133,7 +133,7 @@ display: block;
         <!-- end of Topbar -->
         </nav>
         <!--====================================== 여기에 코드를 메인 코드를 넣어야 함  -->
-        <%@include file="a.jsp" %>
+        <%@include file="reserve.jsp" %>
         <!--======================================  -->
         <!-- end of Main Content -->
         </div>
