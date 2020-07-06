@@ -7,8 +7,6 @@
 
 <%
 	//String hp_code = "280HP";
-	
-	
 	List<Map<String,Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 		if(docList==null){
 			docList = new ArrayList();

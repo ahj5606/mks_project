@@ -121,8 +121,6 @@ public class mgr_DoctorDao {
 		sch_code=sqlSes.selectOne("getSchCode",pMap);
 		return sch_code;
 	}
-	
-	
 	public int doctorUPD(Map<String, Object> pMap) {
 		logger.info("doctorUPD호출 성공");
 		int result = 0;

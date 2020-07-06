@@ -37,6 +37,7 @@ public class mgr_DoctorLogic {
 		resDay=mgr_dDao.reserveDay(pMap);
 		return resDay;
 	}
+	
 	public List<Map<String, Object>> doctorDetail(Map<String, Object> pMap) {
 		List<Map<String,Object>> dList=null;
 		dList=mgr_dDao.doctorDetail(pMap);
@@ -45,20 +46,6 @@ public class mgr_DoctorLogic {
 	public int doctorINS(Map<String, Object> pMap) {
 		logger.info("Logic doctorINS");
 		int result = 0;
-		result = mgr_dDao.doctorINS(pMap);
-		
-		if(result==1 && pMap.get("sch_code")!=null) {
-			
-			result=mgr_dDao.resINS(pMap);
-			if(result==1) {
-				return result;
-			}else {
-				return -1;
-			}
-		}else if(result!=1&&pMap.get("sch_code")==null) {
-			return -1;
-		}
-		
 		return result;
 	}
 	
