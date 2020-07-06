@@ -1,5 +1,4 @@
 package manager.pojo;
-
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -27,9 +26,11 @@ public class manager extends HttpServlet {
 		String commands[] = imsi.split("/");
 		mgr_Controller controller = null;
 		
-		if(commands.length==2) {
+		if(commands.length==3) {
+			logger.info("1+++++++++++++++++++++++++");
 			controller = mgr_ControllerMapper.getController(commands);
-			logger.info(controller);
+			logger.info("1+++++++++++++++++++++++++");
+			logger.info("doService controller:"+controller);
 			
 		}
 		

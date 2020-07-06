@@ -1,48 +1,236 @@
 package manager.Controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
+import manager.Logic.mgr_NoticeLogic;
 import manager.pojo.mgr_ModelAndView;
+import mks.util.HashMapBinder;
 
 public class mgr_NoticeController implements mgr_Controller {
 	String requestName= null;
+	Logger logger = Logger.getLogger(mgr_NoticeController.class);
 	public mgr_NoticeController(String requestName){
+		
 		this.requestName=requestName;
 	}
 	@Override
 	public mgr_ModelAndView mgrProcess(HttpServletRequest req, HttpServletResponse res)
 			throws IOException, ServletException {
-		mgr_ModelAndView mav = new mgr_ModelAndView();
+		
+		mgr_ModelAndView mav = new mgr_ModelAndView(req,res);
+		mgr_NoticeLogic mnl = new mgr_NoticeLogic();
+		List<Map<String, Object>> nList = null;
+		Map<String, Object> nMap = null;
+		int result = 0;
+		
+		String hp_code = "";
+		String hp_name = "";
+		String dept_name = "";
+		String dept_code="";
+		String mks_id = "";
+		String no 		= req.getParameter("no");
+		String title 	= req.getParameter("title");
+		String content 	= req.getParameter("content");
+		String writer 	= req.getParameter("writer");
+		String board_file	= req.getParameter("board_file");
+		String id		= req.getParameter("id");
+		String search 	= req.getParameter("search");
+		int board_hit = 0;
+		
+		HttpSession sess = req.getSession();
+
+		if(sess!=null) {
+			Cookie[] cookies = req.getCookies();
+			if(cookies!=null && cookies.length>0){
+				for(int i =0;i<cookies.length;i++){
+					String name = cookies[i].getName();
+					if(name.equals("hp_name")){
+						hp_name = cookies[i].getValue();
+					}
+					if(name.equals("dept_name")){
+						dept_name = cookies[i].getValue();
+					}
+					if(name.equals("dept_code")){
+						dept_code = cookies[i].getValue();
+					}
+					if(name.equals("mks_id")){
+						mks_id = cookies[i].getValue();
+					}
+					
+				}
+			}
+			
+			
+			hp_code = (String)sess.getAttribute("hp_code");
+		}
+		
 		if("noticeSEL".equals(requestName)) {
 			//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
-
+			nMap = new HashMap<String, Object>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.binder(nMap);			
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
+			logger.info("mgr_NoticController=>noticeSEL=>nMap=>"+nMap);
+			nList = mnl.noticeSEL(nMap);
+			logger.info("mgr_NoticController=>noticeSEL=>nList=>"+nList);
+			mav.setViewName("/notice/s_table");
+			logger.info("mgr_NoticController=>mav.getViewName=>"+mav.getViewName());
+			mav.addObject("nList", nList);
+			mav.IsForward(true);
+			
+		}else if("noticeSEARCH".equals(requestName)) {
+				//조회 처음 시작할때 보여줄 전체조회 / 드롭다운 값 &검색창값 if문으로
+				nMap = new HashMap<String, Object>();
+				HashMapBinder hmb = new HashMapBinder(req);
+				hmb.binder(nMap);			
+				nMap.put("dept_name", search);
+				nMap.put("dept_code", dept_code);
+				nMap.put("mks_id", mks_id);
+				nMap.put("hp_code", hp_code);
+				nMap.put("board_title", search);
+				logger.info("mgr_NoticController=>noticeSEARCH=>nMap=>"+nMap);
+				nList = mnl.noticeSEARCH(nMap);
+				logger.info("mgr_NoticController=>noticeSEARCH=>nList=>"+nList);
+				mav.setViewName("/notice/s_table");
+				logger.info("mgr_NoticController=>mav.getViewName=>"+mav.getViewName());
+				mav.addObject("nList", nList);
+				mav.IsForward(true);
+				
+				
+		}else if("noticeDetail".equals(requestName)) {
+			//글 row를 클릭하여 상세보기 페이지로 넘어갈 때 req.getParameter 글번호
+			logger.info("controller=>detail");
+			nMap = new HashMap<String, Object>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.binder(nMap);	
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
+			nMap.put("board_no", no);
+			mnl.hitCount(nMap);
+			logger.info("hit 다음");
 			
 			
+			/*
+			 * nMap = new HashMap<String, Object>(); HashMapBinder hmb = new
+			 * HashMapBinder(req); hmb.multiBind(nMap);
+			 */
+	
+			logger.info("controller=>board_no=>"+nMap.get("board_no"));
+			nList = mnl.noticeSEL(nMap);
+			logger.info("mgr_NoticController=>noticeDetail=>nList=>"+nList);
+			mav.setViewName("/notice/s_detailform");
+			mav.addObject("nList", nList);
+			mav.IsForward(true);
 			
 			
 		}else if("noticeINS".equals(requestName)) {
-			//공지사항을 입력할 때
+			//공지사항을 입력할 때 
+			logger.info("controller=>ins호출 성공");
 			
+			logger.info("controller=>board_file=>"+board_file);
+			nMap = new HashMap<String, Object>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.multiBind(nMap);
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
+			/*
+			 * nMap.put("mks_id", mks_id); nMap.put("hp_code", hp_code);
+			 * nMap.put("board_content", content); nMap.put("board_title", title);
+			 * nMap.put("board_file", board_file);
+			 */
+
+			/*
+			 * HashMapBinder hmb = new HashMapBinder(req); hmb.multiBind(nMap);
+			 */
+			result = mnl.noticeINS(nMap);
 			
-			
-			
-		}else if("noticeDetail".equals(requestName)) {
-			//글 row를 클릭하여 상세보기 페이지로 넘어갈 때 req.getParameter 글번호
-			
-			
+			if(result==1) {
+				 mav.IsForward(false); 
+				 //mav.addObject("nMap", nMap);
+				 mav.setViewName("/notice/noticeSEL.mgr?");
+				 
+				//res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
+			}
+			else {
+				logger.info("INS실패");
+			}
 			
 			
 			
 		}else if("noticeUPD".equals(requestName)) {
 			//수정확인을 눌럿을 때
+			logger.info("controller=>upd호출 성공");
+
+			/*
+			 * nMap = new HashMap<String, Object>(); nMap.put("hp_code", hp_code);
+			 * nMap.put("board_file", board_file); nMap.put("board_content", content);
+			 * nMap.put("board_title", title); nMap.put("board_no", no);
+			 */
+
+			nMap = new HashMap<String, Object>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.multiBind(nMap);
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
+			
+			result = mnl.noticeUPD(nMap);
+			
+			//mav.cudResult(result);
+			if(result==1) {
+				mav.IsForward(false);
+				mav.setViewName("/notice/noticeSEL.mgr?");
+				/*
+				 * res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
+				 */				
+			}
 			
 			
+		}else if("noticeDEL".equals(requestName)) {
+			//삭제확인을 눌럿을 때
+			logger.info("controller=>del호출 성공");
 			
+			/*
+			 * nMap = new HashMap<String, Object>(); nMap.put("hp_code", hp_code);
+			 * nMap.put("board_no", no);
+			 */
 			
+			nMap = new HashMap<String, Object>();
+			HashMapBinder hmb = new HashMapBinder(req);
+			hmb.binder(nMap);
+			nMap.put("dept_name", dept_name);
+			nMap.put("dept_code", dept_code);
+			nMap.put("mks_id", mks_id);
+			nMap.put("hp_code", hp_code);
+			
+			result = mnl.noticeDEL(nMap);
+			
+			if(result==1) {
+				mav.IsForward(false);
+				mav.setViewName("/notice/noticeSEL.mgr?");
+				/*
+				 * res.sendRedirect("/manager/notice/noticeSEL.mgr?hp_code="+hp_code);
+				 */				
+			}
 			
 		}
 		return mav;
