@@ -79,7 +79,7 @@ public class mgr_PatientController implements mgr_Controller {
 			result = mgr_pLogic.patientDEL(pMap);
 			String path = null;
 			mav.IsForward(false);
-			if(result==1) {
+			if(result!=-1) {
 				path = "/patient/patientList.mgr?";
 			}else {
 				path = "/patient/patientDetail.mgr?hp_code="+hp_code+"&mem_code="+req.getParameter("mem_code")+"&";

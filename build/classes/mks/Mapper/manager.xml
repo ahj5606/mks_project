@@ -196,9 +196,12 @@
 	</select>
 	
 	<select id="getMemCode" parameterType="map" resultType="int">
-          SELECT  mem_memcode+1
-        		 FROM mks_member where rownum=1 
-        	 ORDER BY mem_memcode DESC
+        SELECT NVL((
+                     SELECT /*+index_desc(MKS_MEMBER XPK회원)*/ mem_memcode
+                          FROM MKS_MEMBER 
+                       WHERE rownum = 1
+                 ),0)+1 mem_memcode
+           FROM dual
 	</select>
 	
 	<delete id="patientDEL" parameterType="map">
@@ -216,7 +219,10 @@
 		INSERT INTO MKS_HISTORY(HIS_DATE,HIS_CONTENT,MEM_MEMCODE,DOC_CODE,DOC_NAME,HP_CODE,DEPT_NAME,DEPT_CODE,HP_NAME)
 		VALUES(#{his_date},#{his_content},#{mem_code},#{doc_code},#{doc_name},#{hp_code},#{dept_name},#{dept_code},#{hp_name})		
 	</insert>	
-
+	
+	<select id="memberSearch" parameterType="map" resultType="int">
+	    SELECT mem_memcode from mks_member where mem_name = #{mem_name} and mem_socialnum = #{mem_social}
+	</select>
 
 	<update id="patientUPD" parameterType="map">
 		UPDATE MKS_MEMBER 
