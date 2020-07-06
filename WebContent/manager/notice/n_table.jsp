@@ -19,30 +19,30 @@
 		location.href="./s_writeform.jsp?dept=<%=h_dept%>"
 	}
 	function search(){
-		alert("검색 버튼 호출 성공");
-		alert("셀렉트박스값=>"+select_val);
-		alert("검색창에 입력한 값=>"+$("#notice_input").val());
+		//alert("검색 버튼 호출 성공");
+		//alert("셀렉트박스값=>"+select_val);
+		//alert("검색창에 입력한 값=>"+$("#notice_input").val());
 		
 		if(select_val=="제목"){
-			alert("제목선택");
+			//alert("제목선택");
 			$.ajax({
 				url:'./memList.jsp'
 				,datatype:'json'
 				,method:'get'
 				,data:"param="+title
 				,success:function(data){
-					alert("제목 검색으로 나온 data=>"+data);
+					//alert("제목 검색으로 나온 data=>"+data);
 				}
 			});
 		}else if(select_val=="작성자"){
-			alert("작성자선택");
+			//alert("작성자선택");
 			$.ajax({
 				url:'./memList.jsp'
 				,datatype:'json'
 				,method:'get'
 				,data:"param="+writer
 				,success:function(data){
-					alert("작성자 검색으로 나온 data=>"+data);
+					//alert("작성자 검색으로 나온 data=>"+data);
 				}
 			});
 			

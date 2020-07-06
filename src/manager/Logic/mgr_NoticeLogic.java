@@ -13,6 +13,7 @@ public class mgr_NoticeLogic {
 	mgr_NoticeDao mnd = null;
 	int result = 0;
 	int board_no = 0;
+	int hitCount = 0;
 
 	public mgr_NoticeLogic() {
 		mnd = new mgr_NoticeDao();
@@ -21,13 +22,21 @@ public class mgr_NoticeLogic {
 	public List<Map<String, Object>> noticeSEL(Map<String, Object> nMap){
 		List<Map<String, Object>> nList = new ArrayList<>();
 		logger.info("Logic=>board_no=>"+nMap.get("board_no"));
+		
+		
 		nList = mnd.noticeSEL(nMap);
 
 		logger.info("mgr_NoticLogic=>noticeSEL=>nList=>"+nList);
 
 		return nList;
 	}
-	
+	public void hitCount(Map<String,Object> nMap) {
+		logger.info("Logic=>hitCount 호출 성공");
+		
+		mnd.hitCount(nMap);
+		
+		//return hitCount;
+	}
 	public List<Map<String, Object>> noticeSEARCH(Map<String, Object> nMap){
 		List<Map<String, Object>> nList = new ArrayList<>();
 		nList = mnd.noticeSEARCH(nMap);

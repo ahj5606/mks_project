@@ -22,7 +22,6 @@
 <style type="text/css">
 	.table{
 		text-align:center;
-		table-layout: fixed;
 	}
 
 </style>
@@ -38,9 +37,9 @@
 		location.href="./s_writeform.jsp?dept=<%=dept_name%>"
 	}
 	function search(){
-		alert("검색 버튼 호출 성공");
+		//alert("검색 버튼 호출 성공");
 		//alert("셀렉트박스값=>"+select_val);
-		alert("검색창에 입력한 값=>"+$("#notice_input").val());
+		//alert("검색창에 입력한 값=>"+$("#notice_input").val());
 		
 		var search = $("#notice_input").val();
 		
@@ -90,14 +89,15 @@
 	<div class="row">
 	<div class="col-md-11">
 		<div class="table-responsive-md">
-			<table id="notice_board" class="table table-striped table-bordered" >
+			<table id="notice_board" class="table table-bordered" >
 				<thead>
-				<tr style="text-align:center;">
-					<th class="sortable "data-sortable="true">번호</th>
+				<tr class="d-flex" style="text-align:center;">
+					<th class="sortable"data-sortable="true">번호</th>
 					<th data-field="BOARD_NO"data-visible="false">번호</th>
 					<th data-field="BOARD_TITLE">제목</th>
 					<th data-field="DEPT_NAME">작성자</th>
 					<th data-field="BOARD_DATE">게시일</th>
+					<th data-field="HIT">조회수</th>
 					<th data-field="BOARD_CONTENT" data-visible="false">내용</th>
 					<th data-field="MKS_ID" data-visible="false">아이디</th>
 					<th data-field="BOARD_FILE" data-visible="false">파일</th>
@@ -114,6 +114,7 @@
 						<td><%=nList.get(i).get("BOARD_TITLE") %></td>
 						<td><%=nList.get(i).get("DEPT_NAME") %></td>
 						<td><%=nList.get(i).get("BOARD_DATE") %></td>
+						<td><%=nList.get(i).get("HIT") %></td>
 						<td><%=nList.get(i).get("BOARD_CONTENT") %></td>
 						<td><%=nList.get(i).get("MKS_ID") %></td>
 						<td><%=nList.get(i).get("BOARD_FILE") %></td>
@@ -208,11 +209,11 @@
 					var imsi = JSON.stringify(row.BOARD_FILE)
 					board_file = JSON.parse(imsi);
 					
-					alert(select_no); 
+					/* alert(select_no); 
 					alert(select_title); 
 					alert(select_content); 
 					alert(select_id); 
-					alert(board_file); 
+					alert(board_file);  */
 					
 					location.href="./noticeDetail.mgr?no="+select_no;
 			     }

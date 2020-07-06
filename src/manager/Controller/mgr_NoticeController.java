@@ -46,6 +46,7 @@ public class mgr_NoticeController implements mgr_Controller {
 		String board_file	= req.getParameter("board_file");
 		String id		= req.getParameter("id");
 		String search 	= req.getParameter("search");
+		int board_hit = 0;
 		
 		HttpSession sess = req.getSession();
 
@@ -113,7 +114,6 @@ public class mgr_NoticeController implements mgr_Controller {
 		}else if("noticeDetail".equals(requestName)) {
 			//글 row를 클릭하여 상세보기 페이지로 넘어갈 때 req.getParameter 글번호
 			logger.info("controller=>detail");
-			
 			nMap = new HashMap<String, Object>();
 			HashMapBinder hmb = new HashMapBinder(req);
 			hmb.binder(nMap);	
@@ -122,6 +122,8 @@ public class mgr_NoticeController implements mgr_Controller {
 			nMap.put("mks_id", mks_id);
 			nMap.put("hp_code", hp_code);
 			nMap.put("board_no", no);
+			mnl.hitCount(nMap);
+			logger.info("hit 다음");
 			
 			
 			/*

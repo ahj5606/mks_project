@@ -65,5 +65,10 @@ public class mgr_PatientDao {
 		result=sqlSes.insert("patientINS",pMap);
 		return result;
 	}
+	public int memberSearch(Map<String, Object> pMap) {
+		int result =-1;
+		result=sqlSes.selectOne("memberSearch",pMap);
+		return result;
+	}
 
 }

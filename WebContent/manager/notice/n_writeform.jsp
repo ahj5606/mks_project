@@ -13,7 +13,7 @@
 		location.href="/manager/notice/noticeSEL.mgr";
 	}
 	function notice_save(){
-		alert("저장 버튼 호출 성공"+$("#userfile").val());
+		//alert("저장 버튼 호출 성공"+$("#userfile").val());
 		//$("#modalBox").modal("show");
  		//var title = $("#notice_title").val();
 		//var writer = $("#notice_writer").val();
@@ -34,7 +34,7 @@
 </script>
 </head>
 <body>
-<div style="margin:20px;">
+<div style="margin:30px;">
 <h2>글쓰기</h2>
 </div>
 <form id="notice_write_form" enctype="multipart/form-data" action="/manager/notice/noticeINS.mgr" method="post">
@@ -42,11 +42,11 @@
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-8">
 		    <label>제목</label>
-		    <input id="notice_title" name="board_title" type="text" class="form-control" placeholder="제목">
+		    <input id="notice_title" style="margin-top:8px;" name="board_title" type="text" class="form-control" placeholder="제목">
 	    </div>
 		<div class="col-md-4">
 		    <label>작성자</label>
-		    <input id="notice_writer" name="writer" type="text" class="form-control" value="<%=dept_name %>" readonly>
+		    <input id="notice_writer" style="margin-top:8px;" name="writer" type="text" class="form-control" value="<%=dept_name %>" readonly>
 	   </div>
 	 </div>
 	  
@@ -76,7 +76,9 @@
 		
 		<div class="form-group">
 			<label for="InputSubject1">파일첨부</label>
-			<input id="fileInput" filestyle="" type="file" name="board_file"data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+			<div style="margin-top:8px;">
+			<input id="fileInput" filestyle=""  type="file" name="board_file"data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+			</div>
 			<div class="bootstrap-filestyle input-group">
 				<input type="text" id="userfile" class="form-control"  disabled="" >
 				<span class="group-span-filestyle input-group-btn" tabindex="0">
@@ -87,11 +89,13 @@
 			</div>
 		</div>
 
-		<label>내용</label>
+		<label style="margin-top:8px;">내용</label>
 		<!-- 
 	    <input id="notice_content" name="board_content" multiline=true type="text" class="form-control" placeholder="     내용을 입력해주세요." style="height:500px; ">
 	     -->
-	     <textarea class="form-control ml-1" rows="10" name="board_content" id="notice_content" placeholder="내용을 입력해 주세요" ></textarea>
+	     <div style="margin-left:-4px;">
+	     <textarea class="form-control ml-1" rows="10" style="margin-top:8px;" name="board_content" id="notice_content" placeholder="내용을 입력해 주세요" ></textarea>
+	    </div>
 	    </div>
 	</div>
 	<div class="row">
