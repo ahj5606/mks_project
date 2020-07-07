@@ -189,7 +189,12 @@
 		insert into MKS_SCHEDULE(doc_code, hp_name, doc_name, hp_code
 						,dept_name, dept_code, sch_date,sch_code, sch_time)
 			values(#{doc_code},#{hp_name},#{doc_name},#{hp_code},#{dept_name}
-					,#{dept_code},#{sch_date},#{sch_code},#{dept_name})
+					,#{dept_code},#{sch_date},(SELECT NVL((
+                     							SELECT /*+index_desc(mks_schedule XPK예약일정)*/ sch_code
+                         						 FROM mks_schedule
+                       								WHERE rownum = 1
+                 								),0)+1 sch_code
+           										FROM dual),#{sch_time})
 	</insert>
 	
 	<update id="doctorUPD" parameterType="map">

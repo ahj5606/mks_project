@@ -116,11 +116,6 @@ public class mgr_DoctorDao {
 		return result;
 	}
 	
-	public int getSchCode(Map<String, Object> pMap) {
-		int sch_code=0;
-		sch_code=sqlSes.selectOne("getSchCode",pMap);
-		return sch_code;
-	}
 	public int doctorUPD(Map<String, Object> pMap) {
 		logger.info("doctorUPD호출 성공");
 		int result = 0;

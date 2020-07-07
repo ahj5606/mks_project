@@ -157,6 +157,15 @@ public class mgr_DoctorController implements mgr_Controller {
 			mav.IsForward(true);
 			mav.setViewName("/doctor/resJson");
 			
+		}else if("reserveIns".equals(requestName)) {
+			logger.info("reserveIns 호출");
+			int result =0;
+			result = mgr_dLogic.reserveIns(pMap);
+			logger.info("result"+result);
+			mav.addObject("resINS", result);
+			mav.IsForward(false);
+			mav.setViewName("/doctor/doctorList.mgr?");
+			
 		} else if("doctorDEL".equals(requestName)) {
 			logger.info("doctorDEL호출성공");
 			logger.info(pMap.get("doc_code"));
