@@ -223,6 +223,10 @@
 	<delete id="doctorDEL" parameterType="map">
 		DELETE FROM mks_doctor WHERE doc_code=#{doc_code}
 	</delete>
+	
+	<delete id="resDEL" parameterType="map">
+		DELETE FROM MKS_SCHEDULE  WHERE doc_code=#{doc_code}
+	</delete>
 
 	<select id="patientDoctor" parameterType="map" resultType="map">
      SELECT DOC_CODE,DOC_NAME,DEPT_NAME,DEPT_CODE,HP_NAME

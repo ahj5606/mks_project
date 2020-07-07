@@ -90,9 +90,7 @@
 
         <a class="nav-link" href="/manager/doctor/doctorList.mgr">
 
-        <a class="nav-link" href="/doctor/doctorList.mgr">
-
-          <i class="fa fa-stethoscope"></i>
+        	<i class="fa fa-stethoscope"></i>
           <span>의사</span>
         </a>
         

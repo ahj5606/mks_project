@@ -189,6 +189,28 @@ public class mgr_DoctorController implements mgr_Controller {
 			mav.setViewName(path);
 		}  
 		
+//		else if("resDEL".equals(requestName)) {
+//			logger.info("resDEL호출성공");
+//			logger.info(pMap.get("doc_code"));
+//			int result =0;
+//			result = mgr_dLogic.resDEL(pMap);
+//			mav.IsForward(false);
+//			if(result==1) {
+//				path = "/doctor/doctorList.mgr?";
+//			}else {
+//				path = "/doctor/doctorDetail.mgr?hp_code="+hp_code+"&doc_code="+req.getParameter("doc_code")+"&"
+//																  +"&hp_name="+req.getParameter("doc_name")+"&"
+//																  +"&doc_name="+req.getParameter("doc_name")+"&"
+//																  +"&dept_code="+req.getParameter("dept_code")+"&"
+//																  +"&dept_name="+req.getParameter("dept_name")+"&"
+//																  +"&sch_code="+req.getParameter("sch_code")+"&"
+//																  +"&sch_time="+req.getParameter("sch_time")+"&"
+//																  +"&sch_date="+req.getParameter("sch_date")+"&"
+//																  ;
+//																		
+//			}
+//			mav.setViewName(path);
+//		} 
 		return mav;
 	}
 

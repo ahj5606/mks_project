@@ -143,9 +143,14 @@ public class mgr_DoctorDao {
 	public int doctorDEL(Map<String, Object> pMap) {
 		logger.info("doctorDEL Dao 호출 성공");
 		int result = 0;
-		result = sqlSes.delete("doctorDEL",pMap);
+		result = sqlSes.delete("resDEL",pMap);
+		if(result==1) {
+			result = sqlSes.delete("doctorDEL",pMap);
+		}
 		logger.info("result:"+result);
 		sqlSes.commit(true);
 		return result;
 	}
+
+
 }

@@ -52,13 +52,20 @@
 			  })
 		}
 
-		function docDel() {
+	    function docDel() {
 			alert("삭제함");
 			var doc_code = $("#doc_code").val();
 			//alert(doc_code);
 			location.href="/manger/doctor/doctorDEL.mgr?doc_code="+doc_code
 					
-		}
+		} 
+		/* function resDel() {
+			alert("삭제함");
+			var doc_code = $("#doc_code").val();
+			//alert(doc_code);
+			location.href="/manger/doctor/resDEL?doc_code="+doc_code
+		} */ 
+		
 		function docClose() {
 			//alert("닫기");
 			location.href="./doctorList.mgr";
