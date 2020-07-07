@@ -61,7 +61,7 @@
 				<div style="position: absolute; left: 10px; top: 1px;">
 	  				<div style="position: absolute; left: 400px; top: 197px;">
 					        <button style="margin-bottom: 15px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#deptSearch">부서코드</button>
-					        <!-- <button style="margin-bottom: 15px" type="button" class="btn btn-default btn-light btn-outline-secondary" data-toggle="modal" data-target="#getSchCode">예약코드</button> -->
+					        
 					        
 					    <div class="form-group">
 					    	<label>부서코드</label>
@@ -111,18 +111,7 @@
 					    	<label>상태</label>
 					       <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
 					    </div>
-				    	<!-- <div class="form-group">
-				    		<label>예약날짜</label>
-				    	   <input type="text" class="form-control" id="sch_date" name="sch_date" placeholder="예약날짜"style="width: 245px">
-					    </div>
-					    <div class="form-group">
-					    	<label>예약시간</label>
-					       <input type="text" class="form-control" id="sch_time" name="sch_time" placeholder="예약시간" style="width: 245px">
-					    </div>
-					    <div class="form-group">
-					    	<label>예약코드</label>
-					       <input type="text" class="form-control" id="sch_code" name="sch_code" placeholder="예약코드" style="width: 245px">
-					    </div> -->
+				    	
 				
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
 					저장

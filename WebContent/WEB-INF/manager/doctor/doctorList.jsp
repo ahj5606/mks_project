@@ -6,7 +6,7 @@
 <%@page import="mks.util.PageBarManager"%>
 
 <%
-	//String hp_code = "280HP";
+	
 	List<Map<String,Object>> docList = (List<Map<String, Object>>)request.getAttribute("docList");
 		if(docList==null){
 			docList = new ArrayList();
@@ -141,27 +141,22 @@ $(document).ready(function(data){
 			var d = JSON.parse(jo);
 			var doc_code = d.DOC_CODE;
 			location.href="/manager/doctor/doctorDetail.mgr?doc_code="+doc_code;
-			//alert("클릭"+doc_code);
-	     }
+		 }
 	})
 	$("#doc_list").bootstrapTable('hideLoading');
 	})
 	var dept_name =null;
 	$('#deptDrop .dropdown-menu li > a').bind('click',function (e) {
-		//alert("dept_name");
-	    dept_name = $(this).html();
+		dept_name = $(this).html();
 	    $('#deptDrop button.dropdown-toggle').html(dept_name);
-	    //alert("진료과:"+dept_name);
 	    location.href='./doctorSEL.mgr?dept_name='+dept_name
 	});
 	function docSearch(){
-		//alert("의사검색");
 		var d_name = $("#d_name").val();
 		var d_code =$("#d_code").val();
 		location.href='./doctorSEL.mgr?doc_name='+d_name+'&doc_code='+d_code
 	}
 	function docIns(){
-		//alert("의사추가");
 		location.href="./mgr_doctorDetail.jsp"
 		
 	}

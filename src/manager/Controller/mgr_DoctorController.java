@@ -54,7 +54,7 @@ public class mgr_DoctorController implements mgr_Controller {
 				}
 			}
 	 
-	 ////////
+	 
 		   HttpSession sess = req.getSession(); 
 		   hp_code = (String)sess.getAttribute("hp_code"); 
 		   logger.info("hp_code:"+ hp_code);
@@ -68,15 +68,10 @@ public class mgr_DoctorController implements mgr_Controller {
 				  return mav;
 					  
 		   }
-	///////	 
-		
-		
+		 
 		if("doctorList".equals(requestName)) {
 			logger.info("requestName: "+requestName);
-//			List<Map<String,Object>> dList = null;
 			List<Map<String,Object>> deptList = null;//진료과
-//			Map<String, Object> pMap = new HashMap<>();
-			//pMap.put("hp_code", hp_code);
 			dList = mgr_dLogic.doctorList(pMap);
 			deptList = mgr_dLogic.doctorDEPT(pMap);//드롭다운
 			logger.info("docList: "+dList.size());
@@ -188,29 +183,7 @@ public class mgr_DoctorController implements mgr_Controller {
 			}
 			mav.setViewName(path);
 		}  
-		
-//		else if("resDEL".equals(requestName)) {
-//			logger.info("resDEL호출성공");
-//			logger.info(pMap.get("doc_code"));
-//			int result =0;
-//			result = mgr_dLogic.resDEL(pMap);
-//			mav.IsForward(false);
-//			if(result==1) {
-//				path = "/doctor/doctorList.mgr?";
-//			}else {
-//				path = "/doctor/doctorDetail.mgr?hp_code="+hp_code+"&doc_code="+req.getParameter("doc_code")+"&"
-//																  +"&hp_name="+req.getParameter("doc_name")+"&"
-//																  +"&doc_name="+req.getParameter("doc_name")+"&"
-//																  +"&dept_code="+req.getParameter("dept_code")+"&"
-//																  +"&dept_name="+req.getParameter("dept_name")+"&"
-//																  +"&sch_code="+req.getParameter("sch_code")+"&"
-//																  +"&sch_time="+req.getParameter("sch_time")+"&"
-//																  +"&sch_date="+req.getParameter("sch_date")+"&"
-//																  ;
-//																		
-//			}
-//			mav.setViewName(path);
-//		} 
+				 
 		return mav;
 	}
 

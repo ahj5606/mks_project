@@ -24,13 +24,11 @@
 	<%@include file="/common/ManagerCommon.jsp" %>
 	<script type="text/javascript">
 		function resIns() {
-			//alert("예약추가");
 			$("#f_upd").attr("method","get");
 			$("#f_upd").attr("action","./reserveIns.mgr");
 			$("#f_upd").submit();
 		}
 		function d_search(){
-			//var hp_code= "280HP";
 			$("#d_list").bootstrapTable('refreshOptions', {
 				    url:'/manager/doctor/deptSearch.mgr'
 			  })
@@ -53,25 +51,15 @@
 		}
 
 	    function docDel() {
-			alert("삭제함");
 			var doc_code = $("#doc_code").val();
-			//alert(doc_code);
 			location.href="/manger/doctor/doctorDEL.mgr?doc_code="+doc_code
 					
-		} 
-		/* function resDel() {
-			alert("삭제함");
-			var doc_code = $("#doc_code").val();
-			//alert(doc_code);
-			location.href="/manger/doctor/resDEL?doc_code="+doc_code
-		} */ 
+		}  
 		
 		function docClose() {
-			//alert("닫기");
 			location.href="./doctorList.mgr";
 		}
 		function docUpd(){
-			//alert("수정");
 			$("#f_upd").attr("method","get");
 			$("#f_upd").attr("action","./doctorUPD.mgr");
 			$("#f_upd").submit();
@@ -263,7 +251,8 @@
 							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="reserveSearch()">일정검색</button>
 					</div>
 					<br>
-				      <table class="table table-hover" id="res_day" data-page-size="10" data-search="true"  data-pagination="true" data-pagination-loop="false">
+				      <table class="table table-hover" id="res_day" data-page-size="10" data-search="true"  
+				      data-pagination="true" data-pagination-loop="false">
 						<thead>
 						 	<tr>
 								 <th scope="col" data-field="SCH_TIME">예약시간</th>
