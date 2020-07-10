@@ -12,12 +12,12 @@
 <%@ page import="com.google.gson.Gson" %>    
 <%@ page trimDirectiveWhitespaces="true" %>
 <%
-	String url = "jdbc:oracle:thin:@127.0.0.1:1521:orcl11";
-	//String mem_code = (String)request.getAttribute("mem_code");
+   String url = "jdbc:oracle:thin:@192.168.0.234:1521:orcl11";
+   //String mem_code = (String)request.getAttribute("mem_code");
    String mem_code = request.getParameter("mem_code");
    System.out.print(mem_code);
 
-	Connection con = null;
+   Connection con = null;
    Statement stmt = null;
    ResultSet rs = null;
    StringBuffer sql = new StringBuffer();
@@ -35,13 +35,13 @@
       List<Map<String,Object>> ptList = new ArrayList<>();
       Map<String,Object> rMap = null;
      while(rs.next()){
-    	 rMap = new HashMap<>();
-    	 rMap.put("hp_name",rs.getString("hp_name"));
-    	 rMap.put("dept_name",rs.getString("dept_name"));
-    	 rMap.put("sch_date",rs.getString("sch_date"));
-    	 rMap.put("res_time",rs.getString("res_time"));
-    	 rMap.put("res_qrcode",rs.getString("res_qrcode"));
-    	 ptList.add(rMap);
+        rMap = new HashMap<>();
+        rMap.put("hp_name",rs.getString("hp_name"));
+        rMap.put("dept_name",rs.getString("dept_name"));
+        rMap.put("sch_date",rs.getString("sch_date"));
+        rMap.put("res_time",rs.getString("res_time"));
+        rMap.put("res_qrcode",rs.getString("res_qrcode"));
+        ptList.add(rMap);
      }
      Gson g = new Gson();
      System.out.print(ptList);

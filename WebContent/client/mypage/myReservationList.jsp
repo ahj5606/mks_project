@@ -42,7 +42,7 @@
     var checkNum1 =0;
     var checkNum2 =0;
     var doc_name = "";
-    var sch_code = 0;
+    var res_qrcode = 0;
     
     function res_pageGet(num){
         $('#t_myReList').bootstrapTable('refreshOptions', {
@@ -100,11 +100,11 @@
 	    $("div.fixed-table-loading").remove(); 
 	}
 	
-	function qr_popup(sch_code) {
+	function qr_popup(res_qrcode) {
 	    $("#qr_img").remove();
 	    $("#qr_space").html("<div class='row' id='qr_img'></div>");
 	    var qrcode = new QRCode(document.getElementById("qr_img"), {
-	        text: sch_code+"",
+	        text: res_qrcode+"",
 	        width: 128,
 	        height: 128,
 	        colorDark : "#000000",
@@ -116,7 +116,7 @@
 	}
 	
 	function share() {
-	    var url = 'http://192.168.0.237:5000/client/qrCodeCreation.jsp?qr_code='+sch_code;
+	    var url = 'http://192.168.0.245:5000/client/qrCodeCreation.jsp?qr_code='+res_qrcode;
 	    Kakao.Link.createDefaultButton ({
 	        container: '#kakao-link-btn',
 	        objectType: 'feed',
@@ -222,8 +222,8 @@
                                     <th data-field="DOC_NAME">담당의</th>
                                     <th data-field="SCH_DATE">날짜</th>
                                     <th data-field="RES_TIME">시간</th>
-                                    <th data-field="SCH_CODE">예약코드</th>
-                                    <th class="d-none" data-field="SCH_CODE">예약코드</th>
+                                    <!-- <th data-field="SCH_CODE">예약코드</th> -->
+                                    <th class="d-none" data-field="RES_QRCODE">예약코드</th>
                                  </tr>
                               </thead>
                            </table>
@@ -288,8 +288,8 @@
           $('#t_myReList').bootstrapTable('refreshOptions', {
               url: "/mypage/mypageList.crm?num=1&mks_id="+mks_id
               ,onClickRow : function(row,element,field) {
-                 sch_code = row.SCH_CODE;
-                 qr_popup(row.SCH_CODE);
+                 res_qrcode = row.RES_QRCODE;
+                 qr_popup(row.RES_QRCODE);
               }
           });
           page_btn();

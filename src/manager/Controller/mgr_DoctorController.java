@@ -54,7 +54,7 @@ public class mgr_DoctorController implements mgr_Controller {
 				}
 			}
 	 
-	 ////////
+	 
 		   HttpSession sess = req.getSession(); 
 		   hp_code = (String)sess.getAttribute("hp_code"); 
 		   logger.info("hp_code:"+ hp_code);
@@ -68,15 +68,10 @@ public class mgr_DoctorController implements mgr_Controller {
 				  return mav;
 					  
 		   }
-	///////	 
-		
-		
+		 
 		if("doctorList".equals(requestName)) {
 			logger.info("requestName: "+requestName);
-//			List<Map<String,Object>> dList = null;
 			List<Map<String,Object>> deptList = null;//진료과
-//			Map<String, Object> pMap = new HashMap<>();
-			//pMap.put("hp_code", hp_code);
 			dList = mgr_dLogic.doctorList(pMap);
 			deptList = mgr_dLogic.doctorDEPT(pMap);//드롭다운
 			logger.info("docList: "+dList.size());
@@ -157,6 +152,15 @@ public class mgr_DoctorController implements mgr_Controller {
 			mav.IsForward(true);
 			mav.setViewName("/doctor/resJson");
 			
+		}else if("reserveIns".equals(requestName)) {
+			logger.info("reserveIns 호출");
+			int result =0;
+			result = mgr_dLogic.reserveIns(pMap);
+			logger.info("result"+result);
+			mav.addObject("resINS", result);
+			mav.IsForward(false);
+			mav.setViewName("/doctor/doctorList.mgr?");
+			
 		} else if("doctorDEL".equals(requestName)) {
 			logger.info("doctorDEL호출성공");
 			logger.info(pMap.get("doc_code"));
@@ -164,22 +168,13 @@ public class mgr_DoctorController implements mgr_Controller {
 			result = mgr_dLogic.doctorDEL(pMap);
 			mav.IsForward(false);
 			if(result==1) {
-				path = "/doctor/doctorList.mgr?";
+				path = "/success";
 			}else {
-				path = "/doctor/doctorDetail.mgr?hp_code="+hp_code+"&doc_code="+req.getParameter("doc_code")+"&"
-																  +"&hp_name="+req.getParameter("doc_name")+"&"
-																  +"&doc_name="+req.getParameter("doc_name")+"&"
-																  +"&dept_code="+req.getParameter("dept_code")+"&"
-																  +"&dept_name="+req.getParameter("dept_name")+"&"
-																  +"&doc_position="+req.getParameter("doc_position")+"&"
-																  +"&doc_education="+req.getParameter("doc_education")+"&"
-																  +"&doc_phone="+req.getParameter("doc_phone")+"&"
-																  +"&doc_offday="+req.getParameter("doc_offday")+"&"
-																  +"&doc_state="+req.getParameter("doc_state")+"&";
+				path = "/fail";
 			}
 			mav.setViewName(path);
 		}  
-		
+			logger.info("어디로간"+path);	 
 		return mav;
 	}
 

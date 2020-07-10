@@ -58,7 +58,7 @@
 			      			<button type="button" class="btn btn-outline-success" onclick="docIns()">의사추가</button>
 			      		</div>
 				
-			      	<table id="doc_list" class="table table-sm">
+			      	<table id="doc_list" class="table">
 					  <thead>
 					    <tr>
 						  <th scope="col" data-field="DEPT_NAME">부서</th>

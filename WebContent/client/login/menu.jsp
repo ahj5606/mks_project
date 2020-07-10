@@ -98,7 +98,7 @@
 	<!-- 상단 메뉴 -->
     <nav class="navbar navbar-expand-md navbar-light" style="background-color: #007bff;">
     <div class="container">
-		<a class="navbar-brand" href="/client/login/main.jsp" style="margin-right:100px">KSM 코스모 메디컬</a>
+		<a class="navbar-brand" href="/client/login/main.jsp" style="margin-right:100px">KO:MEDI&nbsp;&nbsp;&nbsp;</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" 
 							aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>

@@ -45,7 +45,7 @@
 		<ul class="navbar_nav bg-gradient-primary sidebar sidebar-dark accordion" style="list-style:none;padding-left:0px;">
 		
 		<!-- 통합정보예약시스템 -->
-			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="s_sidebar.jsp">
+			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/manager/notice/noticeSEL.mgr">
 				<div class="sidebar-brand-icon icon-hospital">
 					<i class="fas fa-hospital"></i>
 				</div>
@@ -81,13 +81,24 @@
 				<span>의사</span>
 			</a>
 		</li>		
-		<li class="nav-item">
-			<a class="nav-link" href="sidebar.jsp">
-				<i class="fas fa-clock"></i>
-				<span>대기시간</span>
-			</a>
-		</li>		
-		
+      <li class="nav-item">
+         <a class="nav-link" href="javascript:waittime()">
+            <i class="fas fa-clock"></i>
+            <span>대기시간</span>
+         </a>
+      </li>      
+      <li class="nav-item">
+         <a class="nav-link" href="javascript:kiosk()">
+            <i class="fa fa-link"></i>
+            <span>키오스크</span>
+         </a>
+      </li>	
+		      <li class="nav-item">
+         <a class="nav-link" href="javascript:logout()">
+            <i class="fa fa-unlink"></i>
+            <span>로그아웃</span>
+         </a>
+      </li>
 		<!-- 메뉴구분선 -->
 		<hr class="sidebar-divider my-0">
 

@@ -38,10 +38,8 @@
  <div class="container">
 	<div class="col-md-8" >
         <h2 class="form-signin-heading"style="margin-bottom:40px;margin-left:10px;margin-top:50px;">로그인</h2>
-        <label class="sr-only" style="margin:10px;">아이디</label>
-        <input type="text" id="inputid" style="margin-left:10px;margin-bottom:20px;" class="form-control" placeholder="아이디" required autofocus>
-        <label for="inputPassword" style="margin-left:10px;margin-bottom:20px;" class="sr-only">비밀번호</label>
-        <input type="password" id="inputpw" style="margin-left:10px;margin-bottom:20px;" class="form-control" placeholder="비밀번호" required>
+        <input type="text" id="inputid" style="margin-left:10px;margin-bottom:20px;" class="form-control" placeholder="아이디" value="seaum" required autofocus>
+        <input type="password" id="inputpw" style="margin-left:10px;margin-bottom:20px;" value="123" class="form-control" placeholder="비밀번호" required>
         <button class="btn btn-lg btn-primary btn-block" style="margin-left:10px;margin-bottom:20px;" onclick="login()">로그인</button>
 		<%if(msg!=null){ %>
 		<span class="text-danger" style="margin:10px;font-weight: bold;font-size: 1em;">아이디 또는 비밀번호가 맞지 않습니다.</span>

@@ -46,9 +46,14 @@ public class mgr_DoctorLogic {
 	public int doctorINS(Map<String, Object> pMap) {
 		logger.info("Logic doctorINS");
 		int result = 0;
+		result = mgr_dDao.doctorINS(pMap);
 		return result;
 	}
-	
+	public int resIns(Map<String, Object> pMap) {
+		logger.info("resIns");
+		int result = 0;
+		return result;
+	}
 	
 	public int doctorUPD(Map<String, Object> pMap) {
 		logger.info("Logic doctorUPD");
@@ -71,6 +76,13 @@ public class mgr_DoctorLogic {
 		logger.info("Logic doctorDEL 호출성공");
 		int result =0;
 		result=mgr_dDao.doctorDEL(pMap);
+		logger.info(result);
+		return result;
+	}
+
+	public int reserveIns(Map<String, Object> pMap) {
+		int result =0;
+		result=mgr_dDao.resINS(pMap);
 		return result;
 	}
 	

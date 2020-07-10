@@ -18,7 +18,7 @@
 		}
 		 
 		int tot=docList.size();
-		int numPerPage =15;
+		int numPerPage =10;
 		int nowPage =0;
 		if(request.getParameter("nowPage")!=null){
 			nowPage =Integer.parseInt(request.getParameter("nowPage"));
@@ -37,7 +37,12 @@
 <head>
 <meta charset="UTF-8">
 <title>의사 페이지 </title>
-  
+  <style type="text/css">
+	.table{
+		text-align:center;
+	}
+
+</style>
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">
@@ -79,7 +84,7 @@
 			      			<button type="button" class="btn btn-outline-success" onclick="docIns()">의사관리</button>
 			      		</div>
 				
-			      	<table id="doc_list" class="table table-sm">
+			      	<table id="doc_list" class="table">
 					  <thead>
 					    <tr>
 						  <th scope="col" data-field="DEPT_NAME">부서</th>

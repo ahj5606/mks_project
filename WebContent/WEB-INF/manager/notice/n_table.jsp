@@ -22,6 +22,7 @@
 <style type="text/css">
 	.table{
 		text-align:center;
+		
 	}
 
 </style>
@@ -89,7 +90,7 @@
 	<div class="row">
 	<div class="col-md-11">
 		<div class="table-responsive-md">
-			<table id="notice_board" class="table table-bordered" >
+			<table id="notice_board" class="table table-bordered  table-white" >
 				<thead>
 				<tr class="d-flex" style="text-align:center;">
 					<th class="sortable"data-sortable="true">번호</th>

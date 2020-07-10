@@ -43,10 +43,11 @@
 	       new daum.Postcode({
 	           oncomplete: function(data) {
 	               var zip = data.zonecode;
-	               var addr = data.sigungu;
-	               var addr1 = data.sido;
-	               var addr2 = data.bname;
-	               document.getElementById("i_addr").value = addr+" "+addr1+" "+addr2;
+	               var addr = data.address;
+	               /* var addr1 = data.sido;
+	               var addr2 = data.bname; */
+	               //document.getElementById("i_addr").value = addr+" "+addr1+" "+addr2;
+	               document.getElementById("i_addr").value = addr;
 	               document.getElementById("i_zipcode").value = zip;
 	           }
 	       }).open();
@@ -54,7 +55,7 @@
 	   
 	   function acc_check(){
 	       var imsi = $("#i_reg1").val()+"-"+$("#i_reg2").val();
-	       if((name_check+pw_check+id_check+email_check+reg_check1+reg_check2)==6) {
+	       //if((name_check+pw_check+id_check+email_check+reg_check1+reg_check2)==6) {
 	           if(id==$("#i_id").val() && email==$("#i_email").val() && reg==imsi ){
 	               var addr=$("#i_addr").val()+","+$("#i_addr2").val()
 	               $.ajax({
@@ -72,9 +73,9 @@
 	          }else{
 	    	      alert("기준미달");
 	          }
-	      }else{
-	    	  alert("기준미달");
-	      }
+	      //}else{
+	      //  alert("기준미달");
+	      //}
 	   }
 	   
 	   function check_id(){
@@ -105,7 +106,7 @@
 	   
 	   function check_reg() {
 		   reg = null;
-		   if(reg_check2==1&&reg_check1==1){//주민번호 기준 통과시
+		   //if(reg_check2==1&&reg_check1==1){//주민번호 기준 통과시
 		       reg = $("#i_reg1").val()+"-"+$("#i_reg2").val();
  	           $.ajax({
 		           url:'/mypage/socialnumCheck.crm?i_reg='+reg
@@ -125,11 +126,11 @@
 					   }
 		            }//succseefunction
 		       });//ajax	
-		   }else {
-		       alert("주민번호가 형식에 맞지 않습니다.");
-		       reg_check2=0;
-		       reg_check1=0;
-		   }
+		   //}else {
+		   //    alert("주민번호가 형식에 맞지 않습니다.");
+		   //    reg_check2=0;
+		   //    reg_check1=0;
+		   //}
 	   }
 	   
 	   function send_mail() {
@@ -146,7 +147,7 @@
 	               ,success: function(data) {
 	                   var res = data.trim();
 	                   email_num = res;
-	                   alert("인증번호: "+email_num); //마지막날 지우기.
+	                   //alert("인증번호: "+email_num); //마지막날 지우기.
 	                }
 	           });
 	      }
@@ -202,7 +203,7 @@
                          <label for="i_name" style="width:80px;">이름</label>
                          <div class="col-md">
                               <div class="input-group">
-                                 <input type="text" class="form-control" id="i_name">
+                                 <input type="text" class="form-control" id="i_name" value="여찬양">
                               </div>
                               <small id="loginFail" class="text-muted">1~7자이어야 하며 특수문자는 입력불가합니다.</small>
                            </div>
@@ -224,9 +225,9 @@
                          <label for="i_pw" style="width:80px;">비밀번호</label>
                          <div class="col-md">
                              <div class="input-group">
-                                 <input type="password" class="form-control" id="i_pw">
+                                 <input type="password" class="form-control" id="i_pw" value="123">
                              </div>
-                             <small id="pwFail" class="text-muted">7~12자이어야 하며 공백은 불가합니다.</small>
+                             <small id="pwFail" class="text-muted">3~12자이어야 하며 공백은 불가합니다.</small>
                          </div>
                        </div>
                        <!-- 주민번호 -->
@@ -234,9 +235,9 @@
                          <label for="i_reg" style="width:80px;">주민번호</label>
                          <div class="col-md">
                               <div class="input-group">
-                                 <input type="text" class="form-control" id="i_reg1">
+                                 <input type="text" class="form-control" id="i_reg1" value="940206">
                                  <label>&nbsp;-&nbsp;</label>
-                                 <input type="password" class="form-control" id="i_reg2">
+                                 <input type="password" class="form-control" id="i_reg2" value="1234567">
                                  <label></label>
                                  <input type="button" onclick="check_reg()" value="가입 확인" 
                                                 style="background-color:#353535;color:#F6F6F6;"><br>
@@ -249,7 +250,7 @@
                          <label style="width:80px;">우편번호</label>
                          <div class="col-md">
                             <div class="input-group">
-                                 <input type="text" readonly class="form-control" id="i_zipcode">
+                                 <input type="text" readonly class="form-control" id="i_zipcode" value="62353">
                                  <input type="button" onclick="addrSearch()" value="우편번호 찾기" 
                                                 style="background-color:#353535;color:#F6F6F6;"><br>
                               </div>
@@ -259,21 +260,21 @@
                        <div class="form-group row mb-1" >
                          <label style="width:80px;">주소</label>
                          <div class="col-md">
-                              <input type="text" readonly class="form-control" id="i_addr">
+                              <input type="text" readonly class="form-control" id="i_addr" value="광주 광산구 ">
                          </div>
                        </div>
                        <!-- 상세주소 -->
                        <div class="form-group row mb-1">
                          <label for="i_addr2" style="width:80px;">상세주소</label>
                          <div class="col-md">
-                              <input type="text" class="form-control" id="i_addr2">
+                              <input type="text" class="form-control" id="i_addr2" value="중흥 105동 1701호">
                          </div>
                        </div>
                        <!-- 전화번호 -->
                        <div class="form-group row mb-1">
                          <label for="i_tel" style="width:80px;">전화번호</label>
                          <div class="col-md">
-                              <input type="text" class="form-control" id="i_tel">
+                              <input type="text" class="form-control" id="i_tel" value="010-9441-9271">
                          </div>
                        </div>
                        <!-- 이메일 -->
@@ -281,7 +282,7 @@
                          <label for="i_email" style="width:80px;">이메일</label>
                          <div class="col-md">
                             <div class="input-group">
-                                 <input type="text" class="form-control" id="i_email">
+                                 <input type="text" class="form-control" id="i_email" value="ycy0457@naver.com">
                                  <input type="button" onclick="send_mail()" value="인증번호 받기" 
                                                 style="background-color:#353535;color:#F6F6F6;"><br>
                               </div>
@@ -322,7 +323,7 @@
          });
          $("#i_pw").keyup(function(){
             var input = $("#i_pw").val();
-            checkPw(input,7,12);
+            checkPw(input,3,12);
          });
          $("#i_id").keyup(function(){
             var input = $("#i_id").val();

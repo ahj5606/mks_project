@@ -19,34 +19,63 @@ public class mgr_PatientDao {
 	}
 	public List<Map<String,Object>> patientList(Map<String, Object> pMap) {
 		List<Map<String,Object>> pList = null;
-		pList=sqlSes.selectList("patientList",pMap);
+		try {
+			pList=sqlSes.selectList("patientList",pMap);
+			
+		} catch (Exception e) {
+			e.toString();
+		}
 		return pList;
 	}
 	public List<Map<String, Object>> patientSEL(Map<String, Object> pMap) {
 		List<Map<String,Object>> pList = null;
-		pList=sqlSes.selectList("patientSEL",pMap);
+		try {
+			
+			pList=sqlSes.selectList("patientSEL",pMap);
+		} catch (Exception e) {
+			e.toString();
+		}
 		return pList;
 	}
 	public List<Map<String, Object>> patientDetail(Map<String, Object> pMap) {
 		List<Map<String,Object>> pList = null;
-		pList=sqlSes.selectList("patientDetail",pMap);
+		try {
+			
+			pList=sqlSes.selectList("patientDetail",pMap);
+		} catch (Exception e) {
+			e.toString();
+		}
 		return pList;
 	}
 	public List<Map<String, Object>> patientDoctor(Map<String, Object> pMap) {
 		List<Map<String,Object>> pList = null;
-		pList=sqlSes.selectList("patientDoctor",pMap);
+		try {
+			
+			pList=sqlSes.selectList("patientDoctor",pMap);
+		} catch (Exception e) {
+			e.toString();
+		}
 		return pList;
 	}
 	public int patientHISINS(Map<String, Object> pMap) {
 		int result =-1;
-		result=sqlSes.insert("patientHIS",pMap);
-		sqlSes.commit();
+		try {
+			
+			result=sqlSes.insert("patientHIS",pMap);
+			sqlSes.commit();
+		} catch (Exception e) {
+			e.toString();
+		}
 		return result;
 	}
 	public int patientDEL(Map<String, Object> pMap) {
 		int result =-1;
-		result=sqlSes.insert("patientDEL",pMap);
-		sqlSes.commit();
+		try {
+			result=sqlSes.insert("patientDEL",pMap);
+			sqlSes.commit();
+		} catch (Exception e) {
+			e.toString();
+		}
 		return result;
 	}
 	public int patientUPD(Map<String, Object> pMap) {
@@ -57,17 +86,39 @@ public class mgr_PatientDao {
 	}
 	public int getMemNo(Map<String, Object> pMap) {
 		int mem_code=-1;
-		mem_code=sqlSes.selectOne("getMemCode");
+		try {
+			
+			mem_code=sqlSes.selectOne("getMemCode");
+		} catch (Exception e) {
+			e.toString();
+		}
 		return mem_code;
 	}
 	public int patientINS(Map<String, Object> pMap) {
 		int result =-1;
-		result=sqlSes.insert("patientINS",pMap);
+		try {
+			
+			result=sqlSes.insert("patientINS",pMap);
+		} catch (Exception e) {
+			e.toString();
+		}
 		return result;
 	}
 	public int memberSearch(Map<String, Object> pMap) {
 		int result =-1;
-		result=sqlSes.selectOne("memberSearch",pMap);
+		String strResult = null;
+		try {
+			strResult=sqlSes.selectOne("memberSearch",pMap);
+			if(null==strResult) {
+				
+			}else {
+				result = Integer.parseInt(strResult);
+			}
+			logger.info(result);
+			
+		} catch (Exception e) {
+			e.toString();
+		}
 		return result;
 	}
 

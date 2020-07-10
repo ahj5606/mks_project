@@ -61,7 +61,7 @@ display: block;
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.jsp">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/manager/notice/noticeSEL.mgr">
         <div class="sidebar-brand-icon icon-hospital">
           <i class="fas fa-hospital"></i>
         </div>
@@ -107,14 +107,24 @@ display: block;
         
       </li>
 	
-      <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="sidebar.jsp">
-          <i class="fas fa-clock"></i>
-          <span>대기시간</span></a>
+         <a class="nav-link" href="javascript:waittime()">
+            <i class="fas fa-clock"></i>
+            <span>대기시간</span>
+         </a>
+      </li>      
+      <li class="nav-item">
+         <a class="nav-link" href="javascript:kiosk()">
+            <i class="fa fa-link"></i>
+            <span>키오스크</span>
+         </a>
       </li>
-
-
+      <li class="nav-item">
+         <a class="nav-link" href="javascript:logout()">
+            <i class="fa fa-unlink"></i>
+            <span>로그아웃</span>
+         </a>
+      </li>
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 

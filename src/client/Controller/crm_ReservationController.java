@@ -196,7 +196,31 @@ public class crm_ReservationController implements crm_Controller {
 	         mav.IsForward(true);
 	         logger.info("waitCheck");
 	         mav.setViewName("/reservation/waitCheck");
-		}
+		}      
+		else if("waitReset".equals(requestName)) {
+	         Map<String, Object> pMap = new HashMap<>();
+	         String hp_code = req.getParameter("hp_code");
+	         pMap.put("hp_code", hp_code);
+	         pMap.put("dept_name", "원무과");
+	         int result = 0;
+	         result = crm_rsLogic.waitReset(pMap);
+	         logger.info("result: " + result);
+	         mav.addObject("result", result);
+	         mav.IsForward(true);
+	         mav.setViewName("/reservation/jsonWaitReset");
+	      }
+	      else if("waitUpd".equals(requestName)) {
+	         Map<String, Object> pMap = new HashMap<>();
+	         String hp_code = req.getParameter("hp_code");
+	         pMap.put("hp_code", hp_code);
+	         pMap.put("dept_name", "원무과");
+	         int result = 0;
+	         result = crm_rsLogic.waitUpd(pMap);
+	         logger.info("result: " + result);
+	         mav.addObject("result", result);
+	         mav.IsForward(true);
+	         mav.setViewName("/reservation/jsonWaitUpd");
+	      }
 		return mav;
 	}
 }

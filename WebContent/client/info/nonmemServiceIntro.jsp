@@ -45,9 +45,35 @@
 				<div class="border mb-0 mt-0">
 					<div class="row mx-2" style="height:420px;">
 						<div class="col">
+							<!-- 병원위치 서비스 -->
+							<div class="row my-4 ml-2">
+								<div class="col-md-1 mr-5 pr-2">
+									<img src="./loc.png" style="width:100px;">
+								</div>
+								<div class="col-md mt-3">
+									<b>병원위치 서비스</b><br>
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												병원 위치지도로 손쉬운 병원위치 확인<br>
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												방문 전에 진료시간, 병원소재, 의료진, 진료내용 등 병원에 대한 정보 미리확인<br>
+								</div>
+							</div>
+							<!-- 건강정보 서비스 -->
+							<div class="row my-4 ml-2">
+								<div class="col-md-1 mr-5 pr-2">
+									<img src="./article.png" style="width:90px;padding-left:7px;">
+								</div>
+								<div class="col-md mt-2">
+									<b>건강정보 제공</b><br>
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												매주 연제되는 건강정보 칼럼<br>
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												카카오톡을 통해 공유가능<br>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				</div><!-- 내용 끝 -->
 			</div>
 		</div>
 	</div>

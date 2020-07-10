@@ -43,11 +43,48 @@
 				</div>
 				<!-- 내용 -->
 				<div class="border mb-0 mt-0">
-					<div class="row mx-2" style="height:420px;">
+					<div class="row mx-2 mt-2" style="height:420px;">
 						<div class="col">
+							<!-- 설명1 -->
+							<div class="row mt-4 mb-3 ml-2">
+								<div class="col-md-1 mr-5 pr-2">
+									<img src="./hp.png" style="width:120px;">
+								</div>
+								<div class="col-md mt-3">
+									<b style="font-size:xx-large">KO:MEDI</b><br>
+									<p>
+										코메디(Korean Medical Reservation Service)는 국내 병원의 진료예약 서비스를 제공합니다.<br>
+										쉽고 간편한 온라인 예약을 통해 시간과 비용을 절약하세요.
+									</p>
+								</div>
+							</div>
+							<!-- 설명2 -->
+							<div class="row my-2 ml-2">
+								<div class="col-md">
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												진료예약 정보 qr코드로 발급<br>
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												qr코드 지갑 모바일 앱 서비스 제공<br>
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												실제 진료 예약을 한 회원들의 후기 공유<br>
+								</div>
+							</div>
+							<!-- 설명3 -->
+							<div class="row mb-2 mt-4 ml-2">
+								<div class="col-md-1 mr-5 pr-2">
+									<img src="./admin.png" style="width:90px;padding-left:7px;">
+								</div>
+								<div class="col-md mt-2">
+									<b>병원 관리 시스템</b><br>
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												의사, 환자 정보 관리 서비스<br>
+									<img src="./pin.png" style="width:20px;">&nbsp;
+												진료예약 관리 서비스<br>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				</div><!-- 내용 끝-->
 			</div>
 		</div>
 	</div>

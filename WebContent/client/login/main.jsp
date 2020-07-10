@@ -43,7 +43,7 @@
 	</style>
 	<script type="text/javascript">
 	var mks_id = '<%=mks_id%>';
-	var sch_code = 0;
+	var res_qrcode = 0;
 	var marker;
 	var mArray=new Array();
 	var dept_name="";
@@ -68,7 +68,7 @@
 	      $("#qr_img").remove();
 	      $("#qr_space").html("<div class='row' id='qr_img'></div>");
 	      var qrcode = new QRCode(document.getElementById("qr_img"), {
-	            text: sch_code,
+	            text: res_qrcode,
 	            width: 128,
 	            height: 128,
 	            colorDark : "#000000",
@@ -80,7 +80,7 @@
 	    }
 	   
 	   function share(){
-		   var url = 'http://192.168.0.237:5000/client/qrCodeCreation.jsp?qr_code='+sch_code;
+		   var url = 'http://192.168.0.245:5000/client/qrCodeCreation.jsp?qr_code='+res_qrcode;
 			 Kakao.Link.createDefaultButton({
 			 	  container: '#kakao-link-btn',
 			 	  objectType: 'feed',
@@ -142,9 +142,9 @@
 				$("#t_my_resevation").html(inner);
 				$("#qr_table").html(inner2);
 				if(res.length>0){
-					sch_code = res[0].SCH_CODE+"";
+					res_qrcode = res[0].RES_QRCODE+"";
 					var qrcode = new QRCode(document.getElementById("qr"), {
-					      text: sch_code,
+					      text: res_qrcode,
 					      width: 100,
 					      height: 100,
 					      colorDark : "#000000",
@@ -337,12 +337,16 @@
 	                  mArray[i].setMap(null);
 	                  mArray[i] = null;
 	               }
+	               
 	               var imageSrc = img_src, // 마커이미지의 주소입니다
 	               imageSize = new kakao.maps.Size(54, 57), // 마커이미지의 크기입니다
 	               imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 	               // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 	               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-	               for(var i=0;i<jsonDoc.length;i++) { 
+	               for(var i=0;i<jsonDoc.length;i++) {
+	            		if(dept_name=="전체"){
+							dept_name = "";
+						}
 	                  var imsi = jsonDoc[i].DEPT_NAME.toString();
 	                  sts[i] =imsi.indexOf(dept_name);//-1이면 없는거 밑에 마커 없애기. 카테고리정한걸 예약리스트에  보내기
 	                  marker = new daum.maps.Marker({
@@ -419,7 +423,7 @@
 	         map.relayout();
 	      }
 		function hospital(){
-			location.href="/manager/login/s_login.jsp";
+			window.open("/manager/login/s_login.jsp");
 			
 		}
 	</script>

@@ -116,7 +116,6 @@
 				,data: param
 				,success:function(data){
 					var res = data.trim();
-					alert(res);
 					if(res=='실패'){
 						alert('수정실패');
 					}else{
@@ -266,7 +265,6 @@
 					url: '/board/boardList.crm?num=1&eva_code='+eva_code
 					,success: function(data){
 						var res = JSON.parse(data);
-						alert("사이즈: "+res.length);
 						$("#hp_name").val(res[0].HP_NAME);
 						$("#eva_title").val(res[0].EVA_TITLE);
 						$("#eva_writer").val(res[0].MKS_ID);

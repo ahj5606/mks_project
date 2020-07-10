@@ -16,8 +16,32 @@
 <script src="<%=path %>js/bootstrap.bundle.min.js"></script> 
 <script src="<%=path %>js/dist/bootstrap-table.min.js"></script>
 <script src="<%=path %>js/manager.js"></script>
+<script src="<%=path.toString()%>js/commons.js"></script>
 
-
+<script>
+function waittime(){
+   cmm_window_popup('/manager/waiting/wait.jsp','400','400','원무과 대기 정보');
+   
+   
+}
+</script>
+<script>
+function kiosk(){
+   cmm_window_popup('https://192.168.0.247:7000/msg/managerLogin.jsp','600','600','키오스크');
+   
+   
+}
+function logout(){
+	$.ajax({
+		url:'/manager/login/logout.mgr'
+		,success:function(data){
+			location.href="/manager/login/s_login.jsp"
+		}
+	
+	})
+	
+}
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 

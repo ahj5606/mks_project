@@ -54,7 +54,7 @@
          			var res = JSON.parse(data);  
          			wait_number=res[0].DEPT_LASTWAIT;
          			wait_time =res[0].WAIT_TIME;
-   					document.getElementById("dept_lastwait").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+wait_number+" 번";
+   					document.getElementById("dept_lastwait").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+wait_number+" 명";
    					document.getElementById("wait_time").innerHTML = "&nbsp;&nbsp;약 "+wait_time+" 분 ";
                }
       		}); 
@@ -71,21 +71,63 @@
 		});
 
 		function btn_qr(){//qr코드 생성 **************************************************
-   			alert("QR코드 DB에 저장하고 전송해야함!");    
-   			var imsi = document.getElementById("dept_lastwait").innerHTML;
-   			imsi = imsi.substring(imsi.lastIndexOf(";")+1);
-   			var qrcode = new QRCode(document.getElementById("qr_img"), {
-       			text: imsi,
-      			width: 128,
-      			height: 128,
-      			colorDark : "#000000",
-      			colorLight : "#ffffff",
-      			correctLevel : QRCode.CorrectLevel.H
-   			});
+			$("#wait_num").html(wait_number+1);
    			clearTimeout(time);
    			$('#qr').attr('disabled', true);
    			$('#modal_qr').modal('show');
+            $.ajax({
+                url: '/reservation/waitUpd.crm'
+                ,data: 'hp_code='+hp_code
+                ,success: function(data) {
+                   var res = data.trim();
+                   if(res == '실패') {
+                      alert('대기인원  +1 실패');
+                   }
+                   else {
+                	   share(wait_number+1);
+                   }
+                }
+             });
+            
 		}
+		
+		function share(wait) {
+			var url = 'http://192.168.0.245:5000/client/waitNum.jsp?wait='+wait;
+			Kakao.Link.createDefaultButton({
+				container: '#kakao-link-btn',
+				objectType: 'feed',
+				content: {
+					title: "mks 코스모 병원",
+					description: "대기번호 발급",
+					imageUrl: './health_96630.png',
+					link: {
+						mobileWebUrl: url,
+						androidExecParams: 'test'
+					}
+				},
+				buttons: [
+					{
+						title: '웹으로 이동',
+						link: {
+							webUrl: url
+						},
+					},
+					{
+						title: '앱으로 이동',
+						link: {
+							mobileWebUrl: url
+						},
+					}, 
+				],
+				success: function(response) {
+					console.log(response);
+				},
+				fail: function(error) {
+					console.log(error);
+				}
+			});
+		}
+		
 	</script>
 </head>
 <body>
@@ -102,7 +144,7 @@
          </table>
         </div>
         <div class="row mb-3 mt-5" style="justify-content: center">
-           <button type="button" class="btn btn-success" id="qr" onClick="btn_qr()">QR코드 받기</button>
+           <button type="button" class="btn btn-success" id="qr" onClick="btn_qr()">대기번호 받기</button>
         </div>
    </div>
    
@@ -117,15 +159,22 @@
                <!-- body -->
                <div class="modal-body">
                   <div class="row" style="justify-content: center">
-                     <div class="row" id="qr_img"></div>
+                     <div class="row" id="wait_num"></div>
                  </div>
               </div>
               <!-- footer -->
               <div class="modal-footer">
                  <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="self.close();">닫기</button>
+                 <button type="button" id="kakao-link-btn" class="btn btn-warning">공유하기</button>
                </div>
           </div>
         </div>
    </div>
+	<!-- 돔구성 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			Kakao.init("265447647e1cb17951a10eb622ba9fbc");
+		});
+	</script>
 </body>
 </html>

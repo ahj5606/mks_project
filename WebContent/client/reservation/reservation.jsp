@@ -143,20 +143,19 @@
 			$("#qr_img").remove();
 			$("#qr_space").html("<div class='row' id='qr_img'></div>");
 			var qrcode = new QRCode(document.getElementById("qr_img"), {
-				text: qr_code,
+				text: qr_code+"",
 				width: 128,
 				height: 128,
 				colorDark : "#000000",
 				colorLight : "#ffffff",
 				correctLevel : QRCode.CorrectLevel.H
 			});
-			share();
+			share(qr_code);
 			$('#modal_qr').modal('show')
 		}
 	   
 		function share(qr_code) {
-			var url = 'http://192.168.0.237:5000/client/qrCodeCreation.jsp?qr_code='+qr_code;
-			Kakao.init("265447647e1cb17951a10eb622ba9fbc");
+			var url = 'http://192.168.0.245:5000/client/qrCodeCreation.jsp?qr_code='+qr_code;
 			Kakao.Link.createDefaultButton({
 				container: '#kakao-link-btn',
 				objectType: 'feed',
@@ -358,13 +357,12 @@
             <!-- 안내문구 -->
             <div class="row pt-2 mt-4" style="height:250px;">
                <div class="col-md">
-			                  어떤 경제변량이 다른 경제변량의 변화에 따라 바뀔 때 그 변화가 한 번에 끝나지 않고 연달아 변화를 불러일으켜서 
-			                  마지막에 가서는 최초의 변화량의 몇 배에 이르는 변화를 하는 경우가 있는데 이러한 변화의 파급관계를 분석하고 
-			                  최초의 경제변량의 변화에 따라 최종적으로 빚어낸 총효과의 크기가 어떻게 결정되는가를 규명하는 것이 승수이론이다. 
-			                  최종적으로 산출된 총효과를 승수효과라고 하며 어느 독립변수의 변화에 대해 다른 모든 변수가 어떤 비율로 변화하는가를 
-			                  나타내는 것을 승수라고 한다.승수효과에 관한 정식화는 R.F. 칸에서 시작되었다. 칸은 고용량의 제1차적 변화는 제2차, 
-			                  제3차 등의 고용증가로 파급된다는 사실에서 고용승수를 정식화하였다.
-			                  그러나 이론체계의 중추부분에 승수이론을 도입한 것은 J.M. 케인즈다. 케인즈의 승수는 투자증가와 그 결과인 소득증가 사이의 투자승수였다. 
+				※ 예약후 미내원시/ 예약시간에서 9분이상 경과시(기존동일)/ 예약시간에서 최소 1시간전까지 취소 안할시 <span style="color:red">자동불이행처리</span>됩니다.<br>
+				※ 실제 진료 받을 분으로안하면 <span style="color:red">예약 불이행처리</span>됩니다. 이름이 없으면 개인정보수정에서 등록하시면 됩니다.<br>
+				※ 보이지않는 시간은 예약완료입니다. 현재 선택가능한 시간이 예약 할수있는 시간입니다.<br>
+				※ 개인정보가 변경된 경우 병원에 연락바랍니다.<br>
+				※ <span style="color:red">주의!!! </span>반드시 아래쪽에 예약하기 버튼을 클릭하셔야 예약이 됩니다. 클릭후 예약 정보가 담기 QR코드가 발급됩니다.<br>
+				※ <span style="color:red">마스크</span> 착용하고 내원해주세요~<br>
                </div>
             </div>
            </div>
@@ -496,6 +494,7 @@
 			});
 		});     
 		document.addEventListener('DOMContentLoaded', cal_paint); 
+		Kakao.init("265447647e1cb17951a10eb622ba9fbc");
    </script>
 </body>
 </html>

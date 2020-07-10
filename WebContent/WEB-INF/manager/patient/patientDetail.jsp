@@ -78,7 +78,6 @@
 				<input type="text" id="address" class="form-control" placeholder="주소" value="<%=mem_address[0]%>" >
 				<input type="text" id="detailAddress" class="form-control" placeholder="상세주소" value="<%=mem_address[1]%>" >
 				<%}else{
-				
 				%>
 				<input type="text" id="address" class="form-control" placeholder="주소" value="<%=pList.get(0).get("MEM_ADDRESS")%>" >
 				<input type="text" id="detailAddress" class="form-control" placeholder="상세주소" value="" >
@@ -101,17 +100,17 @@
 		    <input id="h_his_content" type="hidden" />
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-12">
-		    <label>지난진료내역</label>
+		    <label>접수내역</label>
 		    	<div class="float-right">
 		    	<!-- 내용 추가 모달  -->
 				<button type="button" class="btn btn-default btn-light btn-outline-success" data-toggle="modal" data-target="#his_add_modal">
-					내역 추가
+					접수 내역 추가
 				</button>
 				<div class="modal fade" id="his_add_modal" tabindex="-1" role="dialog" aria-hidden="true">
 				  <div class="modal-dialog modal-lg" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="Search">내역추가</h5>
+				        <h5 class="modal-title" id="Search">접수 내역 추가</h5>
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				          <span aria-hidden="true">&times;</span>
 				        </button>
@@ -341,7 +340,9 @@
 		var mem_code =$("#mem_code").val();
 		var mem_name =$("#mem_name").val();
 		var mem_phone =$("#mem_phone").val();
-		var mem_address =$("#mem_address").val();
+		var address =$("#address").val();
+		var detailAddress =$("#detailAddress").val();
+		var mem_address = address+","+detailAddress;
 		var param ="mem_code="+mem_code+"&mem_name="+mem_name+"&mem_phone="+mem_phone+"&mem_address="+mem_address;
 		$.ajax({
 			url:"/manager/patient/patientUPD.mgr?"+param

@@ -116,11 +116,6 @@ public class mgr_DoctorDao {
 		return result;
 	}
 	
-	public int getSchCode(Map<String, Object> pMap) {
-		int sch_code=0;
-		sch_code=sqlSes.selectOne("getSchCode",pMap);
-		return sch_code;
-	}
 	public int doctorUPD(Map<String, Object> pMap) {
 		logger.info("doctorUPD호출 성공");
 		int result = 0;
@@ -147,10 +142,23 @@ public class mgr_DoctorDao {
 	}
 	public int doctorDEL(Map<String, Object> pMap) {
 		logger.info("doctorDEL Dao 호출 성공");
-		int result = 0;
-		result = sqlSes.delete("doctorDEL",pMap);
-		logger.info("result:"+result);
-		sqlSes.commit(true);
-		return result;
+		int result = -1;
+		result = sqlSes.delete("resDEL",pMap);
+		if(result!=-1) {
+			int r2 =-1;
+			r2 = sqlSes.delete("doctorDEL",pMap);
+			logger.info(r2);
+			if(r2!=-1) {
+				sqlSes.commit(true);
+				return r2;
+			}else {
+				return -1;
+			}
+		}else {
+			return -1;
+		}
+		
 	}
+
+
 }

@@ -22,7 +22,71 @@
 <meta charset="UTF-8">
 <title>의사 상세</title>
 	<%@include file="/common/ManagerCommon.jsp" %>
+	<script type="text/javascript">
+		function resIns() {
+			$("#f_upd").attr("method","get");
+			$("#f_upd").attr("action","./reserveIns.mgr");
+			$("#f_upd").submit();
+		}
+		function d_search(){
+			$("#d_list").bootstrapTable('refreshOptions', {
+				    url:'/manager/doctor/deptSearch.mgr'
+			  })
+		}
+		
+		function reserveSearch(){
+			var doc_code = $("#doc_code").val();
+			$("#res_day").bootstrapTable('refreshOptions', {
+				    url:'/manager/doctor/reserveDay.mgr?doc_code='+doc_code
+			  })
+		}
+		
+		
+		
+		function reserveIns(){
+			var doc_code = $("#sch_code").val();
+			$("#res_Ins").bootstrapTable('refreshOptions', {
+				    url:'/manager/doctor/reserveIns.mgr?doc_code='+doc_code
+			  })
+		}
 
+	    function docDel() {
+			var doc_code = $("#doc_code").val();
+			$.ajax({
+				url:'/manager/doctor/doctorDEL.mgr?doc_code='+doc_code
+				,success:function(data){
+					if(data.trim()=="성공"){
+						alert("삭제에 성공하였습니다.");
+						location.href="/manager/doctor/doctorList.mgr";		
+					}else{
+						alert("삭제에 실패하였습니다");	
+						location.href="/manager/doctor/doctorList.mgr";
+					}
+				}
+				
+				
+			})
+		}  
+		
+		function docClose() {
+			location.href="./doctorList.mgr";
+		}
+		function docUpd(){
+			$("#f_upd").attr("method","get");
+			$("#f_upd").attr("action","./doctorUPD.mgr");
+			$("#f_upd").submit();
+			
+		}
+		function dept_code() {
+			$("#d_list").bootstrapTable('refreshOptions', {
+			    url:'/manager/doctor/doctor.mgr'
+		  })
+		
+		}
+		
+		
+	</script>
+</head>
 <body>
 <div style="margin:20px;">
 <h2>의사관리</h2>
@@ -56,7 +120,7 @@
 			    <div style="position: absolute; left: 700px; top: 226px;">	
 				    <div class="form-group">
 			   		  <label>이름</label>
-				      <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" value="<%=docList.get(0).get("DOC_NAME")%>" style="width: 245px">
+				      <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" value="<%=docList.get(0).get("DOC_NAME")%>" style="width: 245px" readonly>
 				    </div>
 				    <div class="form-group">
 				      <label>직급</label>
@@ -93,33 +157,12 @@
 				      <label>예약번호</label>
 				      <input type="text" class="form-control" id="sch_code" name="sch_code" placeholder="예약번호" style="width: 245px" readonly>
 				    </div>
-			    
 		    </form>
+			    
+		   
 		    <div> <!-- =====================================버튼 시작 div====================================================== -->
-		    <!--버튼시작  -->
-		     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#InsertModal">
-					저장
-				</button> 
-				Modal
-				<div class="modal fade" id="InsertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				  <div class="modal-dialog" role="document">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <h5 class="modal-title" id="exampleModalLabel">확인</h5>
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				          <span aria-hidden="true">&times;</span>
-				        </button>
-				      </div>
-				      <div class="modal-body">
-				       			 저장 하시겠습니까?
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docIns()">저장</button>
-				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-				      </div>
-				    </div>
-				  </div>
-				</div> -->
+		    
+		    <button type="button" class="btn btn-primary" onClick="resIns()">예약추가</button>
 		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal">
 					수정
 				</button>
@@ -144,6 +187,8 @@
 				    </div>
 				  </div>
 				</div>
+				
+				
 		    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DeleteModal">
 					삭제
 				</button>
@@ -162,12 +207,14 @@
 				       			삭제 하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
-				        <button type="button" class="btn btn-primary" onclick="docDel()">확인</button>
+				        <button type="button" class="btn btn-primary" onClick="docDel()">확인</button>
 				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				      </div>
 				    </div>
 				  </div>
 				</div>
+				
+				
 		    <button type="button" class="btn btn-primary" onclick="docClose()">닫기</button>
 		    <!--버튼 끝 -->
 		    </div><!-- ==================================버튼끝 div========================================================= -->
@@ -206,7 +253,7 @@
 				  </div>
 				</div>	
 				
-				<!-- 예약일정 모달창 -->	
+				<!-- 일정검색 모달창 -->	
 				 <div class="modal" id="reserveDay" aria-hidden="true" style="display: none; z-index: 1060;">
 				  <div class="modal-dialog modal-lg">
 				    <div class="modal-content">
@@ -217,16 +264,47 @@
 				      <div class="modal-body">
 				      <div>
 				      <div class='text-center'>
-							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="reserveSearch()">일정 검색</button>
+							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="reserveSearch()">일정검색</button>
 					</div>
 					<br>
-				      <table class="table table-hover" id="res_day" data-page-size="10" data-search="true"  data-pagination="true" data-pagination-loop="false">
+				      <table class="table table-hover" id="res_day" data-page-size="10" data-search="true"  
+				      data-pagination="true" data-pagination-loop="false">
 						<thead>
 						 	<tr>
 								 <th scope="col" data-field="SCH_TIME">예약시간</th>
 					 			 <th scope="col" data-field="SCH_DATE">예약일</th> 
 								 <th scope="col" data-field="HP_CODE">병원 코드</th>
 								 <th scope="col" data-field="HP_NAME">병원 이름</th>
+								 <th scope="col" data-field="SCH_CODE">예약 번호</th>
+				  			</tr>
+						</thead>
+					 </table>
+				      </div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				
+				<!-- 일정추가 모달창 -->	
+				 <div class="modal" id="reserveIns" aria-hidden="true" style="display: none; z-index: 1060;">
+				  <div class="modal-dialog modal-lg">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="Search">일정 추가</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				      </div>
+				      <div class="modal-body">
+				      <div>
+				      <div class='text-center'>
+							 <button class="btn btn-outline-primary btn-lg" type="button" onClick="reserveIns()">일정 추가</button>
+					</div>
+					<br>
+				      <table class="table table-hover" id="res_Ins" data-page-size="10" data-search="true"  data-pagination="true" data-pagination-loop="false">
+						<thead>
+						 	<tr>
 								 <th scope="col" data-field="SCH_CODE">예약 번호</th>
 				  			</tr>
 						</thead>
@@ -263,12 +341,7 @@
 		$("#d_list").bootstrapTable('hideLoading');
 	})
 	
-	function d_search(){
-		//var hp_code= "280HP";
-		$("#d_list").bootstrapTable('refreshOptions', {
-			    url:'/manager/doctor/deptSearch.mgr'
-		  })
-	}
+	
 	
 	$(document).ready(function(data){
 		$("#res_day").bootstrapTable({
@@ -290,37 +363,7 @@
 		})
 		$("#res_day").bootstrapTable('hideLoading');
 	})
-	function reserveSearch(){
-		var doc_code = $("#doc_code").val();
-		$("#res_day").bootstrapTable('refreshOptions', {
-			    url:'/manager/doctor/reserveDay.mgr?doc_code='+doc_code
-		  })
-	}
-
-	function docDel() {
-		//alert("삭제함");
-		var doc_code = $("#doc_code").val();
-		//alert(doc_code);
-		location.href="/manger/doctor/doctorDEL.mgr?doc_code="+doc_code
-				
-	}
-	function docClose() {
-		//alert("닫기");
-		location.href="./doctorList.mgr";
-	}
-	function docUpd(){
-		//alert("수정");
-		$("#f_upd").attr("method","get");
-		$("#f_upd").attr("action","./doctorUPD.mgr");
-		$("#f_upd").submit();
-		
-	}
-	function dept_code() {
-		$("#d_list").bootstrapTable('refreshOptions', {
-		    url:'/manager/doctor/doctor.mgr'
-	  })
 	
-	}
 	
 </script>
 </body>

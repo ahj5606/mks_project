@@ -87,17 +87,17 @@
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-8">
 		    <label>환자이름</label>
-		    <input id="mem_name" name="mem_name" type="text" class="form-control" placeholder="환자이름">
+		    <input id="mem_name" name="mem_name" type="text" class="form-control" placeholder="환자이름" value="안형재">
 	   </div>
 	 </div>
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-6">
 		    <label>주민번호</label>
-		    <input id="mem_social" name="mem_social" type="text" class="form-control" placeholder="주민번호">
+		    <input id="mem_social" name="mem_social" type="text" class="form-control" placeholder="주민번호" value="950330-1234567">
 	    </div>
 		<div class="col-md-6">
 		    <label>전화번호</label>
-		    <input id="mem_phone" name="mem_phone" type="text" class="form-control" placeholder="전화번호" >
+		    <input id="mem_phone" name="mem_phone" type="text" class="form-control" placeholder="전화번호" value="010-6644-7888" >
 	   </div>
 	 </div>
 	  <div class="row" style="margin-bottom:30px;">
@@ -110,14 +110,14 @@
 			<button class="btn btn-secondary" onclick="sample6_execDaumPostcode()" style="margin-bottom: 10px;">주소 찾기</button>
 		     </div>
 			<input type="text" id="address" class="form-control" placeholder="주소">
-			<input type="text" id="detailAddress" class="form-control" placeholder="상세주소">
+			<input type="text" id="detailAddress" class="form-control" placeholder="상세주소" value="3동501호">
 	    </div>
 	 </div>
 	 
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-12">
 		    <label>접수내역</label>
-		    <input id="his_content" name="his_content" type="text" class="form-control" placeholder="접수내역 입력" style="height:200px;">
+		    <input id="his_content" name="his_content" type="text" class="form-control" placeholder="접수내역 입력" style="height:200px;" value="두통이 있어서 접수합니다.">
 	    </div>
 	 </div>
 	 

@@ -187,7 +187,7 @@ if(parmeter!=null){
                              		<div class="input-group">
                                  		<input type="password" class="form-control" id="i_pw">
                              		</div>
-                             		<small id="pwFail" class="text-muted">7~12자이어야 하며 공백은 불가합니다.</small>
+                             		<small id="pwFail" class="text-muted">3~12자이어야 하며 공백은 불가합니다.</small>
                         		</div>
   							</div>
   							<!-- 주민번호 -->
@@ -301,7 +301,7 @@ if(parmeter!=null){
 		$(document).ready(function(){
 		   $("#i_pw").keyup(function(){
 		      var input = $("#i_pw").val();
-		      checkPw(input,7,12);
+		      checkPw(input,3,12);
 		   });
 		   $.ajax({
 			   url: "/mypage/mypageSel.crm?mks_id="+mks_id
@@ -311,16 +311,16 @@ if(parmeter!=null){
 					$("#i_id").val(res[0].MKS_ID);
 					var reg = ""+res[0].MEM_SOCIALNUM;
 					reg = reg.split("-");
-					alert("주민번호: "+reg[0]+"-"+reg[1]);////
+					//alert("주민번호: "+reg[0]+"-"+reg[1]);////
 					$("#i_reg1").val(reg[0]);
 					$("#i_reg2").val(reg[1]);
 					var addr = ""+res[0].MEM_ADDRESS;
 					addr = addr.split(",");
-					alert("주소: "+addr[0]+","+addr[1]);////
+					//alert("주소: "+addr[0]+","+addr[1]);////
 					$("#i_addr").val(addr[0]);
 					$("#i_addr2").val(addr[1]);
 					$("#i_tel").val(res[0].MEM_PHONE);
-					alert("이메일: "+res[0].MKS_EMAIL);
+					//alert("이메일: "+res[0].MKS_EMAIL);
 					$("#i_email").val(res[0].MKS_EMAIL);
 			   }
 		   });

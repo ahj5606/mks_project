@@ -166,7 +166,7 @@
 				<div class="row mb-2">
 					<div class="col-md" style="text-align:right">
 					<%
-						if(mks_id!=null&&"jinaseebabo".equals(mks_id)) {//로그인이 된 상태에서만 글쓰기 가능!!
+						if(mks_id!=null&&"kosmo".equals(mks_id)) {//로그인이 된 상태에서만 글쓰기 가능!!
 					%>
 						<button class="btn btn-md btn-dark" onClick="info_write()">글쓰기</button>
 					<%

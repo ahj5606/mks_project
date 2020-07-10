@@ -38,7 +38,7 @@ public class HashMapBinder {
 	
 	public HashMapBinder(HttpServletRequest req) {
 		this.req = req;
-		realFolder = "C:\\Users\\kosmo_02\\git\\mks_project\\WebContent\\pds";
+		realFolder = "C:\\Users\\kosmo_29\\git\\mks_project\\WebContent\\pds";
 		HttpSession sess = req.getSession();
 		hp_code = (String)sess.getAttribute("hp_code");
 		

@@ -41,12 +41,7 @@ public class mgr_ReserveLogic {
 		return rList;
 	}
 
-
-
-
-
-
-
+	
 	public int reserveINS(Map<String, Object> pMap) {
 		logger.info("reserveINS 호출 성공");
 		int result =-1;
@@ -89,5 +84,7 @@ public class mgr_ReserveLogic {
 		transList=rDao.transDate(pMap);
 		return transList;
 	}
+	
+	
 
 }

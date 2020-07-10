@@ -91,10 +91,16 @@
 	      						<input type="text" readonly class="form-control" id="mks_id" value='<%=mks_id%>' style="width:400px;">
 	    					</div>
 	    				</div>
-	    				<div class="form-group row mb-4">
+	    				<div class="form-group row mb-2">
 							<label for="board_date" style="width:50px;margin-left:12px;">작성날짜</label>
 	    					<div class="col-md">
 	      						<input type="text" readonly class="form-control" id="board_date" style="width:400px;">
+	    					</div>
+	    				</div>
+	    				<div class="form-group row mb-4">
+							<label for="board_file" style="width:50px;margin-left:12px;">첨부파일</label>
+	    					<div class="col-md" id="board_file">
+	      						<!-- <input type="text" readonly class="form-control" id="board_file" style="width:400px;"> -->
 	    					</div>
 	    				</div>
 	    				<div class="form-group row">
@@ -122,6 +128,17 @@
 				    $("#mks_id").val(res[0].MKS_ID);
 				    $("#board_date").val(res[0].BOARD_DATE);
 				    $("#board_content").val(res[0].BOARD_CONTENT);
+				    var imsi = '<a  href="downLoad.jsp?board_file=';
+				    imsi += res[0].BOARD_FILE;
+				    imsi += '">';
+				    imsi += '<input id="userfile" style="border:none;"value=';
+					if(res[0].BOARD_FILE==null){
+				    	imsi += "' '";
+					}else{
+					    imsi += "'"+res[0].BOARD_FILE+"'";
+					}
+				    imsi += '></a>';
+				    $("#board_file").html(imsi);
 			     }
 		    });
 		});

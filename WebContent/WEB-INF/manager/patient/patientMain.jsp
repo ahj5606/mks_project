@@ -29,6 +29,12 @@
 <head>
 <meta charset="UTF-8">
 <title>환자 페이지 </title>
+<style type="text/css">
+	.table{
+		text-align:center;
+	}
+
+</style>
 </head>
 <body>  
 	<div class="container-fluid" id="sidebar">

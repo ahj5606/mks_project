@@ -42,7 +42,7 @@
 	  <div class="row" style="margin-bottom:30px;">
 		<div class="col-md-8">
 		    <label>제목</label>
-		    <input id="notice_title" style="margin-top:8px;" name="board_title" type="text" class="form-control" placeholder="제목">
+		    <input id="notice_title" style="margin-top:8px;" value="새움병원 도수치료 이전 안내"name="board_title" type="text" class="form-control" placeholder="제목">
 	    </div>
 		<div class="col-md-4">
 		    <label>작성자</label>
@@ -77,7 +77,7 @@
 		<div class="form-group">
 			<label for="InputSubject1">파일첨부</label>
 			<div style="margin-top:8px;">
-			<input id="fileInput" filestyle=""  type="file" name="board_file"data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
+			<input id="fileInput" filestyle=""  value="" type="file" name="board_file"data-class-button="btn btn-default" data-class-input="form-control" data-button-text="" data-icon-name="fa fa-upload" tabindex="-1" style="position:absolute;clip:rect(0px 0px 0px 0px);">
 			</div>
 			<div class="bootstrap-filestyle input-group">
 				<input type="text" id="userfile" class="form-control"  disabled="" >
@@ -94,7 +94,16 @@
 	    <input id="notice_content" name="board_content" multiline=true type="text" class="form-control" placeholder="     내용을 입력해주세요." style="height:500px; ">
 	     -->
 	     <div style="margin-left:-4px;">
-	     <textarea class="form-control ml-1" rows="10" style="margin-top:8px;" name="board_content" id="notice_content" placeholder="내용을 입력해 주세요" ></textarea>
+	     <textarea class="form-control ml-1" rows="10" style="margin-top:8px;" name="board_content" id="notice_content" placeholder="내용을 입력해 주세요" >
+새움병원 도수치료가 보다 넓고 쾌적한 환경에서 환자분들께 더욱 높은 만족도를 드리기 위해 장소를 이전하였습니다!
+
+	[기존] 별관 3층 
+			▼
+	[이전] 별관 4층
+	
+도수치료를 받는 분들은 혼동하지 마시고!!
+
+새움병원 별관 4층을 찾아주세요^^</textarea>
 	    </div>
 	    </div>
 	</div>

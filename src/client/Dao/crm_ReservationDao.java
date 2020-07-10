@@ -102,5 +102,22 @@ public class crm_ReservationDao {
 		docCategory = sqlSes.selectList("docCategory", pMap);
 		return docCategory;
 	}
+	   public int waitReset(Map<String, Object> pMap) {
+		      logger.info("[crm_ReservationDao] waitReset 호출성공");
+		      int result = 0;
+		      result = sqlSes.update("waitReset", pMap);
+		      logger.info("result: " + result);
+		      sqlSes.commit(true);
+		      return result;
+		   }
+
+		   public int waitUpd(Map<String, Object> pMap) {
+		      logger.info("[crm_ReservationDao] waitUpd 호출성공");
+		      int result = 0;
+		      result = sqlSes.update("waitUpd", pMap);
+		      logger.info("result: " + result);
+		      sqlSes.commit(true);
+		      return result;
+		   }
 	
 }

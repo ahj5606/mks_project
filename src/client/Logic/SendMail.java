@@ -50,8 +50,8 @@ public class SendMail {
 		//Session 클래스의 인스턴스를 생성
 		String smtpServer = "smtp.naver.com"; 
 		int smtpPort = 465;
-		final String sendId = ""; //naver ID
-		final String sendPass = ""; //naver PW
+		final String sendId = "ljina0218"; //naver ID
+		final String sendPass = "ksm5310fec01$"; //naver PW
 		String sendEmailAddress =  "ljina0218@naver.com";
 		Session session = Session.getDefaultInstance(props, new Authenticator(){
 			protected PasswordAuthentication getPasswordAuthentication(){

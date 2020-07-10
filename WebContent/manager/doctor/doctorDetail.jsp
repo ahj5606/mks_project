@@ -81,35 +81,35 @@
 					    </div>
 					    <div class="form-group">
 					    	<label>의사코드</label>
-				      	    <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" style="width: 245px">
+				      	    <input type="text" class="form-control" id="doc_code" name="doc_code" placeholder="의사코드" value ="10-4578-5541" style="width: 245px">
 				    	</div>
 			    	</div>
 		    		<div style="position: absolute; left: 700px; top: 250px;">
 					    <div class="form-group">
 					    	<label>이름</label>
-					        <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" style="width: 245px">
+					        <input type="text" class="form-control" id="doc_name" name="doc_name" placeholder="이름" value ="김진아" style="width: 245px">
 					    </div>
 					    <div class="form-group">
 					    	<label>직급</label>
-					       <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" style="width: 245px">
+					       <input type="text" class="form-control" id="doc_position" name="doc_position" placeholder="직급" value ="부교수" style="width: 245px">
 					    </div>
 					    <div class="form-group">
 					    	<label>학력</label>
-				    	   <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="학력" style="width: 245px">
+				    	   <input type="text" class="form-control" id="doc_education" name="doc_education" placeholder="학력" value ="서울대학교 의예과" style="width: 245px">
 					    </div>
 				    	<div class="form-group">
 				    		<label>전화</label>
-				    	   <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화"style="width: 245px">
+				    	   <input type="text" class="form-control" id="doc_phone" name="doc_phone" placeholder="전화" value ="010-4578-5541" style="width: 245px">
 					    </div>
 					    <div class="form-group">
 					    	<label>휴무일</label>
-					       <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" style="width: 245px">
+					       <input type="text" class="form-control" id="doc_offday" name="doc_offday" placeholder="휴무일" value ="수" style="width: 245px">
 					    </div>
 					</div>
 					<div style="position: absolute; left: 1000px; top: 250px;">
 					    <div class="form-group">
 					    	<label>상태</label>
-					       <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" style="width: 245px">
+					       <input type="text" class="form-control" id="doc_state" name="doc_state" placeholder="상태" value ="재직" style="width: 245px">
 					    </div>
 				    	<!-- <div class="form-group">
 				    		<label>예약날짜</label>

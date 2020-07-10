@@ -95,7 +95,7 @@
 						</div>
 						<div class="tab-pane fade show active" id="list-patient"
 							role="tabpanel" aria-labelledby="list-patient-list">
-							<table id="res_list" class="table table-sm col text-center"
+							<table id="res_list" class="table col text-center"
 								style="width: 800px;">
 								<thead>
 									<tr>

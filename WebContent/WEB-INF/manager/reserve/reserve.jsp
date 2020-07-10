@@ -166,7 +166,7 @@
 						<div class="row">
 						<div class="tab-pane fade show active" id="list-reserve"
 							role="tabpanel" aria-labelledby="list-reserve-list" style="width: 100%;">
-							<table id="res_list" class="table table-sm col text-center table-hover" data-page-size="10">
+							<table id="res_list" class="table col text-center table-hover" data-page-size="10">
 								<thead>
 									<tr>
 										<th scope="col" data-field="SCH_CODE">예약번호</th>

@@ -43,7 +43,7 @@
 				,data: "mks_pw="+i_pw+"&mks_id="+mks_id
 				,success: function(data){
 					var res = data.trim();
-					alert(res);
+					//alert(res);
 					if(res=='실패') {
 						 alert('불일치');
 						 $("#emailFail").html("비밀번호가 일치하지 않습니다.");

@@ -318,7 +318,6 @@ if(sch_code==null){
 	
 $(document).ready(function(data){
 
-	$("#res_memo").focus();
 	$(".res").dblclick(function() {
 		$("#alert").show();
 	});

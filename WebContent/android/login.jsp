@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>    
 <%
-   String url = "jdbc:oracle:thin:@192.168.0.218:1521:orcl11";
+   String url = "jdbc:oracle:thin:@192.168.0.234:1521:orcl11";
    Connection con = null;
    Statement stmt = null;
    ResultSet rs = null;

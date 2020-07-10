@@ -62,9 +62,14 @@ public class mgr_LoginController implements mgr_Controller {
 			hp_code.setAttribute("hp_code", lList.get(0).get("HP_CODE").toString());
 			
 			mav.IsForward(false);
-			mav.setViewName("/notice/s_sidebar");
+			mav.setViewName("/notice/noticeSEL.mgr?");
 		}
 		
+		}else if("logout".equals(requestName)) {
+			HttpSession hp_code = req.getSession();
+			hp_code.invalidate();
+			mav.IsForward(false);
+			mav.setViewName("/success");
 		}
 		return mav;
 	}

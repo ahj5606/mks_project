@@ -70,5 +70,18 @@ public class crm_ReservationLogic {
 	      //logger.info(hpList.size());
 	      return waitCheck;
 	   }
+	   public int waitReset(Map<String, Object> pMap) {
+		      logger.info("[crm_ReservationLogic] waitReset 호출성공");
+		      int result = 0;
+		      result = crm_rsDao.waitReset(pMap);
+		      return result;
+		   }
+
+		   public int waitUpd(Map<String, Object> pMap) {
+		      logger.info("[crm_ReservationLogic] waitUpd 호출성공");
+		      int result = 0;
+		      result = crm_rsDao.waitUpd(pMap);
+		      return result;
+		   }
 
 }
